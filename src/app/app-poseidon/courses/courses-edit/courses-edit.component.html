@@ -1,0 +1,209 @@
+<div class="general-container">
+    <div class="container">
+        <div class="row mb-4">
+            <h1>{{'Actualización de información' | translate}}</h1>
+        </div>
+
+        <div class="row mb-3" *ngIf="course">
+            <div class="col-lg-6 p-3 box1" cdkDropList #ordersList1="cdkDropList" [cdkDropListData]="course.orders"
+                [cdkDropListConnectedTo]="[ordersList2]" (cdkDropListDropped)="drop($event)">
+                <label for="operator" class="form-label">-- {{'Derrotero' | translate}}</label>
+
+                <div class="mb-3 aditional-info" *ngIf="course">
+                    <textarea class="form-control" id="info" rows="3" readonly>
+                        {{'Vehículo' | translate}}: {{course.propane_truck.plate}} - {{course.propane_truck.capacity}}kg
+                        {{'Operario' | translate}}: {{course.operator.firstName}} {{course.operator.lastName}}  - {{'Identificación' | translate}}: {{course.operator.idNumber}}
+                        {{'E-mail' | translate}}: {{course.operator.email}}
+                        {{'Pedidos' | translate}}: {{course.orders.length}}
+                        ______________________________________
+                        {{'Fecha de creación' | translate}}: {{course.create | date: 'dd - MMMM - y H:mm'}}
+                        {{'Fecha de programación' | translate}}: {{course.fecha | date: 'fullDate'}}
+                    </textarea>
+                </div>
+
+                <label for="info" class="form-label">-- {{'Fecha de programación' | translate}}:</label>
+                <div class="col-md-4 date-picker" [formGroup]="courseForm">
+                    <mat-form-field color="accent" class="calendar">
+                        <input matInput [matDatepicker]="campaignOnePicker" placeholder="date" formControlName="fecha" />
+                        <mat-datepicker-toggle [for]="campaignOnePicker" matIconSuffix></mat-datepicker-toggle>
+                        <mat-datepicker #campaignOnePicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <label for="info" class="form-label">-- {{'Pedidos' | translate}}:</label>
+
+                <div class="content" *ngIf="course">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="custom-header">{{'Folio' | translate}}</th>
+                                <th class="custom-header">{{'Fecha' | translate}}</th>
+                                <th class="custom-header">{{'Establecimiento' | translate}}</th>
+                                <th class="custom-header">{{'Estado' | translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let order of course.orders">
+                                <td class="custom-td">{{ order.folio }}</td>
+                                <td class="custom-td">{{ order.create | date: 'dd - MMMM - y H:mm' }}</td>
+                                <td class="custom-td">{{ order.branch_office.name }}</td>
+                                <td class="custom-td">{{ order.branch_office.status }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-lg-6 p-3 box2" cdkDropList #ordersList2="cdkDropList" [cdkDropListData]="orders"
+                [cdkDropListConnectedTo]="[ordersList1]" (cdkDropListDropped)="drop($event)">
+                
+                <div class="row mb-2 search">
+                    <label for="info" class="form-label">-- {{'Pedidos disponibles' | translate}}:</label>
+                    <div class="input-group">
+                        <input class="form-control" #myInput type="text" placeholder="{{'Buscar..' | translate}}"
+                        (input)="initializeSearchFilter()">
+                        <button type="button" class="btn btn-outline-secondary" (click)="toCreateOrders()">
+                            +
+                        </button>
+                    </div>
+                </div>
+
+                <div class="content">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="custom-header">{{'Folio' | translate}}</th>
+                                <th class="custom-header">{{'Fecha' | translate}}</th>
+                                <th class="custom-header">{{'Establecimiento' | translate}}</th>
+                                <th class="custom-header">{{'Estado' | translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody id="myTable">
+                            <tr *ngFor="let order of orders" cdkDrag>
+                                <td class="custom-td">{{ order.folio }}</td>
+                                <td class="custom-td">{{ order.create | date: 'dd - MMMM - y H:mm'}}</td>
+                                <td class="custom-td">{{ order.branch_office.name }}</td>
+                                <td class="custom-td">{{ order.branch_office.status }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="col-md-8"></div>
+                <div class="col-sm-4 float-end">
+                    <button class="btn btn-success mx-1" (click)="onSubmit()" style="float: right;">{{'Aplicar cambios' | translate}}</button>
+                    <button class="btn btn-secondary" (click)="reset()" style="float: right;">{{'Reestablecer' | translate}}</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="general-container-mobile">
+    <div class="container">
+        <div class="row mb-4">
+            <h1>{{'Actualización de información' | translate}}</h1>
+        </div>
+
+        <div class="row mb-3" *ngIf="course">
+            <div class="col-lg-6 p-3 box1" cdkDropList #ordersList1="cdkDropList" [cdkDropListData]="course.orders"
+                [cdkDropListConnectedTo]="[ordersList2]" (cdkDropListDropped)="drop($event)">
+                <label for="operator" class="form-label">-- {{'Derrotero' | translate}}</label>
+
+                <div class="mb-3 aditional-info" *ngIf="course">
+                    <textarea class="form-control" id="info" rows="3" readonly>
+                        {{'Vehículo' | translate}}: {{course.propane_truck.plate}} - {{course.propane_truck.capacity}}kg
+                        {{'Operario' | translate}}: {{course.operator.firstName}} {{course.operator.lastName}}  - {{'Identificación' | translate}}: {{course.operator.idNumber}}
+                        {{'E-mail' | translate}}: {{course.operator.email}}
+                        {{'Pedidos' | translate}}: {{course.orders.length}}
+                        ______________________________________
+                        {{'Fecha de creación' | translate}}: {{course.create | date: 'dd - MMMM - y H:mm'}}
+                        {{'Fecha de programación' | translate}}: {{course.fecha | date: 'fullDate'}}
+                    </textarea>
+                </div>
+
+                <label for="info" class="form-label">-- {{'Fecha de programación' | translate}}:</label>
+                <div class="col-md-4 date-picker" [formGroup]="courseForm">
+                    <mat-form-field color="accent" class="calendar" style="font-size: 11px !important;">
+                        <input matInput [matDatepicker]="campaignOnePicker" placeholder="date" formControlName="fecha" />
+                        <mat-datepicker-toggle [for]="campaignOnePicker" matIconSuffix></mat-datepicker-toggle>
+                        <mat-datepicker #campaignOnePicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <label for="info" class="form-label">-- {{'Pedidos' | translate}}:</label>
+
+                <div class="content" *ngIf="course">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="custom-header">{{'Folio' | translate}}</th>
+                                <th class="custom-header">{{'Fecha' | translate}}</th>
+                                <th class="custom-header">{{'Establecimiento' | translate}}</th>
+                                <th class="custom-header">{{'Estado' | translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let order of course.orders">
+                                <td class="custom-td">{{ order.folio }}</td>
+                                <td class="custom-td">{{ order.create | date: 'dd - MMMM - y H:mm' }}</td>
+                                <td class="custom-td">{{ order.branch_office.name }}</td>
+                                <td class="custom-td">{{ order.branch_office.status }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-lg-6 p-3 box2" cdkDropList #ordersList2="cdkDropList" [cdkDropListData]="orders"
+                [cdkDropListConnectedTo]="[ordersList1]" (cdkDropListDropped)="drop($event)">
+                
+                <div class="row mb-2 search">
+                    <label for="info" class="form-label">-- {{'Pedidos disponibles' | translate}}:</label>
+                    <div class="input-group">
+                        <input class="form-control" #myInput2 type="text" placeholder="{{'Buscar..' | translate}}"
+                        (input)="initializeSearchFilter2()" style="font-size: 11px !important;">
+                        <button type="button" class="btn btn-outline-secondary" (click)="toCreateOrders()">
+                            +
+                        </button>
+                    </div>
+                </div>
+
+                <div class="content">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="custom-header">{{'Folio' | translate}}</th>
+                                <th class="custom-header">{{'Fecha' | translate}}</th>
+                                <th class="custom-header">{{'Establecimiento' | translate}}</th>
+                                <th class="custom-header">{{'Estado' | translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody id="myTable2">
+                            <tr *ngFor="let order of orders">
+                                <td class="custom-td">{{ order.folio }}</td>
+                                <td class="custom-td">{{ order.create | date: 'dd - MMMM - y H:mm'}}</td>
+                                <td class="custom-td">{{ order.branch_office.name }}</td>
+                                <td class="custom-td buttons">
+                                    <span class="btn">{{ order.branch_office.status }}</span>
+                                    <button class="btn btn-sm btn-info" (click)="moveOrder(order)">Añadir</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button class="btn btn-sm btn-success" (click)="onSubmit()" style="float: right;">{{'Aplicar cambios' | translate}}</button>
+            <button class="btn btn-sm btn-secondary" (click)="reset()" style="float: right;">{{'Reestablecer' | translate}}</button>
+        </div>
+
+    </div>
+</div>

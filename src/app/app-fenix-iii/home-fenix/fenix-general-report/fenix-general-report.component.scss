@@ -1,0 +1,243 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    //min-height: 50vh;
+
+    margin-top: 7.5rem;
+    //padding-bottom: 2rem;
+
+    flex: 1;
+    overflow-y: auto;
+
+    .container {
+        margin: 0 auto;
+
+        .header {
+            background-color: #103C5D;
+            padding-top: 3%;
+            border-radius: 100px;
+
+            box-shadow: 0px 8px 0px 0px rgba(47, 96, 134, 0.52);
+            -webkit-box-shadow: 0px 8px 0px 0px rgba(47, 96, 134, 0.52);
+            -moz-box-shadow: 0px 8px 0px 0px rgba(47, 96, 134, 0.52);
+
+            .text-content {
+                margin: 0;
+            }
+
+            .col-sm-1 {
+                padding-top: 0.5rem;
+
+                lucide-icon {
+                    cursor: pointer;
+                    color: #fff;
+                    transition: color 0.2s ease;
+                }
+
+                lucide-icon:hover {
+                    animation: cards 0.2s ease 0s 1 normal forwards;
+                    color: rgb(208, 208, 208);
+                }
+
+            }
+
+
+            .text-title {
+                -webkit-box-sizing: content-box;
+                -moz-box-sizing: content-box;
+                box-sizing: content-box;
+                float: left;
+                border: none;
+                font-size: 32px;
+                color: #fff;
+                text-align: center;
+                -o-text-overflow: ellipsis;
+                text-overflow: ellipsis;
+                letter-spacing: -2px;
+                text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
+                padding: 0 1rem 0 0;
+            }
+        }
+
+        .period-picker {
+            border: 1px dashed #8d8d8d;
+            padding: 3%;
+            border-radius: 10px;
+            margin-top: 11%;
+
+            .title {
+                color: #8d8d8d;
+                font-weight: bold;
+                margin: 0;
+            }
+
+            .date {
+                color: #8d8d8d;
+                font-weight: bold;
+            }
+        }
+
+        .table {
+            font-size: 10px;
+            max-height: 380px;
+            overflow-y: auto;
+
+            .custom-header {
+                background-color: #134368;
+                color: white;
+            }
+
+            .custom-td {
+                padding-left: 10px;
+            }
+        }
+
+        .table-general {
+            h2 {
+                background: #134368;
+                margin: 0 auto;
+                color: #fff;
+                font-size: 12px;
+                font-weight: bold;
+                width: 99.8%;
+            }
+        }
+
+        .time-picker {
+            text-align: center;
+        }
+
+        .section2 {
+            //margin-bottom: 2%;
+            //padding: 0;
+            background-color: #dbdbdb;
+            width: 98%;
+            padding: 10px 0 5px 0;
+
+            .search {
+                input {
+                    font-size: 12px;
+                    width: 400px;
+                }
+            }
+
+            .button1 {
+                float: end;
+
+                p {
+                    cursor: pointer;
+                    font-size: 14px;
+                    color: #a6a6a6;
+                    font-weight: bold;
+                    float: inline-end;
+                }
+
+                p:hover {
+                    color: #134368;
+                    font-weight: bold;
+                }
+            }
+        }
+
+        .section3 {
+
+            padding: 2%;
+
+            h3 {
+                font-size: 16px;
+                color: #8b8b8b;
+                margin: 0;
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+            }
+
+            hr {
+                width: 75%;
+                margin: 0 auto;
+            }
+
+            .title {
+                font-size: 14px;
+                color: #8b8b8b;
+                margin: 0;
+                font-weight: bold;
+            }
+
+            .body {
+                font-size: 12px;
+                color: #8b8b8b;
+            }
+        }
+
+        .charts {
+
+            .section {
+                background: #dddddd;
+                border-radius: 10px;
+
+                .button1 {
+                    float: end;
+    
+                    p {
+                        cursor: pointer;
+                        font-size: 14px;
+                        color: #a6a6a6;
+                        //font-weight: bold;
+                        float: inline-end;
+                    }
+    
+                    p:hover {
+                        color: #134368;
+                        font-weight: bold;
+                    }
+                }
+
+                .information {
+
+                    background-color: #fff;
+                    margin: 1.5rem auto 3rem auto;
+                    padding: 0.8%;
+                    border-radius: 15px;
+
+                    .text {
+                        font-size: 14px;
+                        color: #8b8b8b;
+                        font-weight: bold;
+                        margin: 0;
+                        text-align: center;
+                    }
+
+                }
+
+            }
+
+            .chartBar2 {
+                background-color: #fff;
+                width: 45%;
+                display: flex;
+                justify-content: center;
+                text-align: center;
+                margin: 0 auto;
+            }
+
+            .chartBar {
+                background-color: #fff;
+                width: 49%;
+                display: flex;
+                margin: 0 auto;
+            }
+
+            .chartLine {
+                .configuration{
+                    select{
+                        font-size: 12px;
+                    }
+                }
+                padding-top: 1rem;
+            }
+
+        }
+
+    }
+
+}

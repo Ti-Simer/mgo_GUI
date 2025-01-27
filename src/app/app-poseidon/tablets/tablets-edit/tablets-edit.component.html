@@ -1,0 +1,37 @@
+<div class="general-container">
+    <div class="container mt-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <h3>{{'Dispositivos de control' | translate}}</h3>
+                <h2>{{'Actualización de información' | translate}}</h2>
+                <div class="col-12 mt-4">
+                    <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+                        <div class="mb-3">
+                            <label for="mac" class="form-label">-- {{'Dirección Mac' | translate}}</label>
+                            <input type="text" id="mac" class="form-control" formControlName="mac"
+                                placeholder="{{'Digite aqui la Dirección Mac' | translate}}">
+                        </div>
+    
+                        <div class="mb-3">
+                            <div class="input-group" *ngIf="operators.length != 0">
+                                <select *ngIf="!operatorInput" id="client" class="form-select" formControlName="operator">
+                                    <option value="" disabled selected>{{'Seleccione el cliente' | translate}}</option>
+                                    <option *ngFor="let operator of operators" [value]="operator.id">{{ operator.firstName }}
+                                        {{operator.lastName}}</option>
+                                </select>
+                                <input *ngIf="operatorInput" type="text" id="client" class="form-control" formControlName="operator"
+                                placeholder="{{'Identificación' | translate}}">
+                                <button type="button" class="btn btn-outline-secondary" (click)="toCreateOperators()">
+                                    +
+                                </button>
+                            </div>
+                        </div>
+    
+                        <!-- Puedes agregar más campos aquí según los atributos de la entidad Roles -->
+                        <button type="submit" class="btn btn-success m-1" [disabled]="!updateForm.valid">{{'Guardar cambios' | translate}}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

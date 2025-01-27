@@ -1,0 +1,64 @@
+.container {
+    margin-top: 2rem;
+    margin-bottom: 6rem;
+
+    h3 {
+        margin-bottom: 0;
+        color: #014e87;
+        font-weight: bold;
+    }
+
+    h2 {
+        color: #9c9c9c;
+        font-weight: bold;
+    }
+
+    label {
+        //font-weight: bold;
+        color: #9c9c9c;
+    }
+
+    .visible-on-landscape {
+        margin-top: 3%;
+    }
+}
+
+/* Estilo para todo el cuerpo de la página */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Estilo para el contenedor principal */
+.wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilo para el contenido principal */
+.content {
+    flex: 1;
+}
+
+/* Estilos para la imagen de la marca en portrait */
+@media (orientation: portrait) {
+    .container{
+        margin-top: 4rem;
+        .content {
+            flex: 1;
+            margin-bottom: 13rem !important;
+        }
+    
+        .visible-on-landscape {
+            display: none !important;
+        }
+    }
+
+    .hide-on-mobile {
+        display: none !important;
+    }
+}

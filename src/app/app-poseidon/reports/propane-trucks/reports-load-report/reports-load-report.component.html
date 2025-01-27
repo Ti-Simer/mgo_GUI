@@ -1,0 +1,306 @@
+<app-menu-home></app-menu-home>
+<div class="home-container">
+    <div class="row container d-flex justify-content-center">
+
+        <div class="row header mb-4" *ngIf="records.length > 0">
+            <div class="row">
+                <div class="col-sm-1">
+                </div>
+                <div class="col-sm-10 d-flex justify-content-center">
+                    <h2 class="text-title"><lucide-icon name="pie-chart" [size]="60"></lucide-icon>
+                        {{'Reporte general, Auto-Tanque' | translate}}: {{plate}}
+                        <br>({{reportXlsMonthForm.value.start}} - {{reportXlsMonthForm.value.end}})
+                    </h2>
+                </div>
+                <div class="col-sm-1">                
+                </div>
+            </div>
+            <div class="row text-content text-center mb-2">
+                <div class="col-md-12">
+                    <p style="font-size: 12px; color: #b9b9b9; width: 70%; margin: 0 auto">{{'El reporte general muestra la información de los procesos de cargue referente a una fecha en específico (recuerde que los cambios de información con una cantidad de datos considerables puede generar tiempos de ejecución prolongados).' | translate}}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-10 period-picker text-center" *ngIf="records.length == 0">
+            <h2 class="title">{{'Seleccione un periodo de tiempo' | translate}}</h2>
+            <p style="font-size: 12px; color: #b9b9b9;">({{'Se mostrara únicamente la información realizada en el periodo seleccionado' | translate}})</p>
+            <div class="row" [formGroup]="reportXlsMonthForm">
+
+                <div class="col-md-4 date-picker">
+                    <mat-form-field color="accent" class="calendar">
+                        <mat-label>{{'Rango de tiempo' | translate}}</mat-label>
+                        <mat-date-range-input [rangePicker]="campaignOnePicker" [comparisonStart]="selectedStart"
+                            [comparisonEnd]="selectedEnd">
+                            <input matStartDate placeholder="selectedStart" formControlName="start" />
+                            <input matEndDate placeholder="selectedEnd" formControlName="end" />
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle [for]="campaignOnePicker" matIconSuffix></mat-datepicker-toggle>
+                        <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-5 time-picker">
+                    <div class="time-start mb-2">
+                        <input matInput [ngxTimepicker]="picker3" placeholder="{{'Hora/Inicio' | translate}}"
+                            formControlName="time_start" />
+                        <ngx-material-timepicker #picker3></ngx-material-timepicker>
+                    </div>
+
+                    <div class="time-end">
+                        <input matInput [ngxTimepicker]="picker4" placeholder="Hora/Fin" formControlName="time_end" />
+                        <ngx-material-timepicker #picker4></ngx-material-timepicker>
+                    </div>
+                </div>
+
+                <div class="col-md-3 date text-center"
+                    *ngIf="reportXlsMonthForm.value.start && reportXlsMonthForm.value.end">
+                    <button class="btn btn-success" (click)="fetchData()">
+                        {{'Realizar consulta' | translate}}
+                    </button>
+                </div>
+
+                <div class="col-md-3 date text-center"
+                    *ngIf="!reportXlsMonthForm.value.start || !reportXlsMonthForm.value.end">
+                    <button class="btn btn-success" [disabled]="true">
+                        {{'Seleccione una fecha' | translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row charts mt-4 d-flex justify-content-center" *ngIf="records.length > 0" [formGroup]="chartForm">
+            <div class="col-lg-12 section chartLine" *ngIf="records.length > 0">
+                <div class="row section1" *ngIf="chartOptions">
+                    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+                        [title]="chartOptions.title" [stroke]="chartOptions.stroke"
+                        [yaxis]="chartOptions.yaxis"></apx-chart>
+                </div>
+                <div class="row configuration p-3">
+                    <div class="col-sm-2 item text-center d-flex">
+                        <lucide-icon name="tags" color="#8b8b8b" [size]="30" class="p-1"></lucide-icon>
+                        <select id="labels" class="form-select" formControlName="labels">
+                            <option value="" disabled selected>{{'Cantidad de etiquetas' | translate}}</option>
+                            <option *ngFor="let item of labels" [value]="item.name">
+                                {{item.name}} {{'datos' | translate}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-12 section information" *ngIf="records.length > 0">
+                        <div class="row section3" *ngIf="records.length > 0">
+                            <div class="row mb-3">
+
+                                <div class="col-md-6 text-center justify-content-center">
+                                    <h3>{{'Registros encontrados' | translate}} ({{records.length}})</h3>
+                                    <hr>
+                                </div>
+                            </div>
+
+                            <div class="row text-center d-flex justify-content-center information">
+                                <div class="col-sm-3">
+                                    <p class="text">
+                                        {{'Promedio de masa aplicada' | translate}}: <br>{{masaPromedio |
+                                        number:'1.2-2'}}kg
+                                    </p>
+                                </div>
+                                <div class="col-sm-3">
+                                    <p class="text">
+                                        {{'Total de masa aplicada' | translate}}: <br>{{masaTotal | number:'1.2-2'}}kg
+                                    </p>
+                                </div>
+                                <div class="col-sm-3">
+                                    <p class="text">
+                                        {{'Promedio total venta' | translate}}: <br>{{promedioTotal | currency:'USD':'symbol':'1.0-0'}}
+                                    </p>
+                                </div>
+                                <div class="col-sm-3">
+                                    <p class="text">
+                                        {{'Total ventas' | translate}}: <br>{{sumaTotal | currency:'USD':'symbol':'1.0-0'}}
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row charts mt-4 mb-4" id="contentToConvert">
+            <div class="col-lg-12 section information" *ngIf="records.length > 0">
+                <div class="row section3" *ngIf="records.length > 0">
+                    <div class="row mb-3">
+
+                        <div class="col-md-6 text-center justify-content-center">
+                            <h3>{{'Estadísticas generales' | translate}} ({{reportXlsMonthForm.value.start}} -
+                                {{reportXlsMonthForm.value.end}})</h3>
+                            <hr>
+                        </div>
+
+                        <div class="col-md-6 button1">
+                            <p>
+                                <lucide-icon name="file-down" (click)="exportToPDF()"
+                                    data-toggle="Descargar información general" data-placement="top"
+                                    title="Descargar información general"></lucide-icon>
+                            </p>
+                            <p style="margin-right: 10px;">
+                                <lucide-icon name="arrow-big-left-dash" (click)="toHome()" data-toggle="Regresar"
+                                    data-placement="top" title="Regresar"></lucide-icon>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row text-center d-flex justify-content-center information">
+                        <div class="col-sm-3">
+                            <p class="text">
+                                {{'Operarios en actividad' | translate}}: <br>{{operators.length}}
+                            </p>
+                        </div>
+                        <div class="col-sm-3">
+                            <p class="text">
+                                {{'Servicios' | translate}}: <br>{{records.length}}
+                            </p>
+                        </div>
+                        <div class="col-sm-3">
+                            <p class="text">
+                                {{'Tiempo de servicio' | translate}}: <br>{{service_time}}
+                            </p>
+                        </div>
+                        <div class="col-sm-3">
+                            <p class="text">
+                                {{'Promedio T/Servicio' | translate}}: <br>{{avg_service_time}}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 table-general" *ngFor="let branch_office of getKeys(groupedRecords)">
+                        <h2 class="text-center">{{branch_office}}</h2>
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="custom-header text-center">{{'Estado' | translate}}</th>
+                                    <th class="custom-header text-center">{{'Total Cargues' | translate}}</th>
+                                    <th class="custom-header text-center">{{'Total Kilos' | translate}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="custom-td">{{'Efectivo' | translate}}</td>
+                                    <td class="custom-td">{{groupedRecords[branch_office].efectivo.count}}</td>
+                                    <td class="custom-td">{{groupedRecords[branch_office].efectivo.kilos | number:'1.2-2'}} Kg
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="custom-td">{{'Pendiente' | translate}}</td>
+                                    <td class="custom-td">{{groupedRecords[branch_office].pendiente.count}}</td>
+                                    <td class="custom-td">{{groupedRecords[branch_office].pendiente.kilos | number:'1.2-2'}}
+                                        Kg</td>
+                                </tr>
+                                <tr>
+                                    <td class="custom-td">{{'Error' | translate}}</td>
+                                    <td class="custom-td">{{groupedRecords[branch_office].error.count}}</td>
+                                    <td class="custom-td">{{groupedRecords[branch_office].error.kilos |
+                                        number:'1.2-2'}} Kg</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row charts mt-4 mb-4 d-flex justify-content-center">
+                        <div class="col-lg-6 section chartBar" *ngIf="records.length > 0">
+                            <canvas #chartBar></canvas>
+                        </div>
+
+                        <div class="col-lg-6 section chartBar2" *ngIf="records.length > 0">
+                            <canvas #chartBar2></canvas>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row section2" *ngIf="records.length > 0">
+            <div class="col-md-6 float-left search d-flex">
+                <input class="form-control float-left" #myInput type="text" placeholder="{{'Palabras clave...' | translate}}"
+                    (input)="initializeSearchFilter()">
+            </div>
+
+            <div class="col-md-6 button1">
+                <p>
+                    <lucide-icon name="file-down" (click)="exportToExcelPaginator()"
+                        data-toggle="Descargar página actual" data-placement="top"
+                        title="Descargar página actual"></lucide-icon>
+                </p>
+                <p style="margin-right: 10px;">
+                    <lucide-icon name="download" (click)="exportToExcelAll()" data-toggle="Descargar reporte completo"
+                        data-placement="top" title="Descargar reporte completo"></lucide-icon>
+                </p>
+                <p style="margin-right: 10px;">
+                    <lucide-icon name="arrow-big-left-dash" (click)="toHome()" data-toggle="Regresar"
+                        data-placement="top" title="Regresar"></lucide-icon>
+                </p>
+                <p *ngIf="column" style="font-size: 12px; margin-right: 1rem;">({{'Ordenado por' | translate}} {{column}})</p>
+            </div>
+        </div>
+
+        <div class="col-md-12 table" *ngIf="records.length > 0">
+            <table class="table table-striped table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th class="custom-header text-center" style="cursor: pointer;"
+                            data-toggle="Ordenar por Remision" data-placement="top" title="Ordenar por Remision"
+                            (click)="sortData('bill_code')">{{'Remision' | translate}}</th>
+                        <th class="custom-header text-center" style="cursor: pointer;" data-toggle="Ordenar por Fecha"
+                            data-placement="top" title="Ordenar por Fecha" (click)="sortData('fecha')">{{'Fecha' | translate}}</th>
+                        <th class="custom-header text-center" style="cursor: pointer;" data-toggle="Ordenar por Establecimiento"
+                            data-placement="top" title="Ordenar por Establecimiento" (click)="sortData('branch_office_name')">{{'Establecimiento' | translate}}</th>
+                        <th class="custom-header text-center" style="cursor: pointer;"
+                            data-toggle="Ordenar por Operador" data-placement="top" title="Ordenar por Operador"
+                            (click)="sortData('operator')">{{'Operador' | translate}}</th>
+                        <th class="custom-header text-center" style="cursor: pointer;"
+                            data-toggle="Ordenar por Auto Tanque" data-placement="top" title="Ordenar por Auto Tanque"
+                            (click)="sortData('propane_truck')">{{'Auto Tanque' | translate}}</th>
+                        <th class="custom-header text-center" style="cursor: pointer;" data-toggle="Ordenar por Estado"
+                            data-placement="top" title="Ordenar por Estado" (click)="sortData('status')">{{'Estado' | translate}}</th>
+                        <th class="custom-header text-center" style="cursor: pointer;"
+                            data-toggle="Ordenar por Densidad" data-placement="top" title="Ordenar por Densidad"
+                            (click)="sortData('densidad')">{{'Densidad' | translate}}</th>
+                        <th class="custom-header text-center" style="cursor: pointer;"
+                            data-toggle="Ordenar por Temperatura" data-placement="top" title="Ordenar por Temperatura"
+                            (click)="sortData('temperatura')">{{'Temperatura' | translate}}</th>
+                        <th class="custom-header text-center" style="cursor: pointer;"
+                            data-toggle="Ordenar por Masa aplicada" data-placement="top"
+                            title="Ordenar por Masa aplicada" (click)="sortData('masaTotal')">{{'Masa aplicada' | translate}}</th>
+                        <th class="custom-header text-center" style="cursor: pointer;" data-toggle="Ordenar por Volúmen"
+                            data-placement="top" title="Ordenar por Volúmen" (click)="sortData('volumen')">{{'Volúmen' | translate}}</th>
+                        <th class="custom-header text-center" style="cursor: pointer;" data-toggle="Ordenar por Total"
+                            data-placement="top" title="Ordenar por Total" (click)="sortData('total')">{{'Total' | translate}}</th>
+                    </tr>
+                </thead>
+                <tbody id="myTable">
+                    <tr *ngFor="let data of records.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)">
+                        <td class="custom-td">{{data.bill_code}}</td>
+                        <td class="custom-td">{{data.fecha}}</td>
+                        <td class="custom-td">{{data.branch_office_name}}</td>
+                        <td class="custom-td">{{data.operator}}</td>
+                        <td class="custom-td">{{data.plate}}</td>
+                        <td class="custom-td">{{data.status}}</td>
+                        <td class="custom-td">{{data.densidad | number:'1.2-2'}}</td>
+                        <td class="custom-td">{{data.temperatura | number:'1.2-2'}}</td>
+                        <td class="custom-td">{{data.masaTotal | number:'1.2-2'}}</td>
+                        <td class="custom-td">{{data.volumenTotal | number:'1.2-2'}}</td>
+                        <td class="custom-td">{{data.total | number:'1.2-2'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <mat-paginator [length]="records.length" [pageSizeOptions]="[100, 500, 1000, 2500]"
+            showFirstLastButtons></mat-paginator>
+
+    </div>
+</div>

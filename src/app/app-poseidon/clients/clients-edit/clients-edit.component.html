@@ -1,0 +1,69 @@
+<div class="general-container">
+    <div class="container mt-2">
+        <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+            <div class="row justify-content-center">
+                <h3>{{'Clientes' | translate}}</h3>
+                <h2>{{'Actualización de información' | translate}}</h2>
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">-- {{'Nombre del cliente' | translate}}</label>
+                        <input type="text" id="firstName" class="form-control" formControlName="firstName"
+                            placeholder="{{'Escriba aquí el nombre' | translate}}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">-- {{'Apellido del cliente' | translate}}</label>
+                        <input type="text" id="lastName" class="form-control" formControlName="lastName"
+                            placeholder="{{'Escriba aquí el apellido' | translate}}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">-- {{'Número de teléfono' | translate}}</label>
+                        <input type="text" id="phone" class="form-control" formControlName="phone"
+                            placeholder="{{'Escriba aquí el número de teléfono' | translate}}">
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">-- {{'E-mail' | translate}}</label>
+                        <input type="email" id="email" class="form-control" formControlName="email"
+                            placeholder="{{'Escriba su correo electrónico' | translate}}">
+                    </div>
+
+                    <div class="mb-3" *ngIf="updateForm.value.firstName && updateForm.value.lastName">
+                        <label for="cc" class="form-label">-- {{'Número de documento' | translate}}</label>
+                        <input type="text" id="cc" class="form-control" formControlName="cc"
+                            placeholder="{{'Escriba aquí el número de documento' | translate}}">
+                    </div>
+
+                    <!-- <div class="mb-3" *ngIf="updateForm.value.cc">
+                        <label for="occupation" class="form-label">-- {{'Cargo' | translate}}</label>
+                        <select id="occupation" class="form-select" formControlName="occupation">
+                            <option value="" disabled selected>{{'Seleccione un cargo' | translate}}</option>
+                            <option *ngFor="let occupation of occupations" [value]="occupation.id">{{
+                                occupation.name }}</option>
+                        </select>
+                    </div> -->
+
+                    <div class="mb-3">
+                        <label for="occupation" class="form-label">-- {{'Cargo' | translate}}</label>
+                        <div class="input-group" *ngIf="occupations.length != 0">
+                            <select id="occupation" class="form-select" formControlName="occupation" *ngIf="occupations.length != 0">
+                                <option value="" disabled selected>{{'Seleccione un cargo' | translate}}</option>
+                                <option *ngFor="let occupation of occupations" [value]="occupation.id">{{
+                                    occupation.name }}</option>
+                            </select>
+                            <button type="button" class="btn btn-outline-secondary" (click)="toCreateOccupations()">
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Puedes agregar más campos aquí según los atributos de la entidad Roles -->
+                    <button type="submit" class="btn btn-success m-1" [disabled]="!updateForm.valid" style="float: right;">{{'Guardar cambios' | translate}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

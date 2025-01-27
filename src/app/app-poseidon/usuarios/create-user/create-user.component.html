@@ -1,0 +1,67 @@
+<div class="general-container">
+    <div class="container mt-2">
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+            <div class="row justify-content-center">
+                <h1>{{'Registrar Usuario' | translate}}</h1>
+                <div class="col-lg-6">
+
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">-- {{'Nombre' | translate}}</label>
+                        <input type="text" id="firstName" class="form-control" formControlName="firstName"
+                            placeholder="{{'Escriba aquí su nombre' | translate}}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">-- {{'Apellido' | translate}}</label>
+                        <input type="text" id="lastName" class="form-control" formControlName="lastName"
+                            placeholder="{{'Escriba aquí su apellido' | translate}}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="idNumber" class="form-label">-- {{'Número de identificación' | translate}}</label>
+                        <input type="text" id="idNumber" class="form-control" formControlName="idNumber"
+                            placeholder="{{'Escriba aquí su numero de identificación' | translate}}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="confirmIdNumber" class="form-label">-- {{'Número de identificación' | translate}}</label>
+                        <input type="text" id="confirmIdNumber" class="form-control" formControlName="confirmIdNumber"
+                            placeholder="{{'Confirme su numero de identificación' | translate}}">
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    
+                    <div class="mb-3">
+                        <label for="role" class="form-label">-- {{'Rol' | translate}}</label>
+                        <select id="role" class="form-select" formControlName="role">
+                            <option value="" disabled selected>{{'Seleccione un rol' | translate}}</option>
+                            <option *ngFor="let role of roles" [value]="role.id"
+                                (ngValueChange)="onRoleSelectionChange(role.id)">{{ role.name }}</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">-- {{'Correo Electrónico' | translate}}</label>
+                        <input type="email" id="email" class="form-control" formControlName="email"
+                            placeholder="{{'ejemplo@gmail.com' | translate}}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">-- {{'Contraseña' | translate}}</label>
+                        <input type="password" id="password" class="form-control" formControlName="password"
+                            placeholder="{{'Escriba aquí su contraseña' | translate}}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">-- {{'Confirmar Contraseña' | translate}}</label>
+                        <input type="password" id="confirmPassword" class="form-control"
+                            formControlName="confirmPassword" placeholder="{{'Confirme su contraseña' | translate}}">
+                    </div>
+
+                    <button type="submit" class="btn btn-success" style="float: right;" [disabled]="!signupForm.valid">{{'Registrar Usuario' | translate}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

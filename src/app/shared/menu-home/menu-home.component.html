@@ -1,0 +1,118 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <img class="navbar-brand" src="assets/images/poseidon-logo.svg" alt="Simer Electronic" class="img-fluid"
+            (click)="redirectToLandingPage()">
+        <p (click)="redirectToLandingPage()" style="cursor: pointer">{{'Sistema Poseidon' | translate}}</p>
+
+        <button (click)="toggleMenu()" class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item">
+                    <button class="matbutton" mat-button [matMenuTriggerFor]="ctrlNotify" style="margin-right: -20px;">
+                        <img *ngIf="!notifications" class="visible-in-landscape" src="assets/images/icons/bell.svg"
+                            alt="" style="margin-right: 15px; width: 20px;">
+                        <img *ngIf="notifications" class="visible-in-landscape" src="assets/images/icons/bell-fill.svg"
+                            alt="" style="margin-right: 15px; width: 20px;">
+                        <span *ngIf="notifications && notifications.length < 49"
+                            style="position: absolute; top: -6px; right: 25px; color: #fff; font-size: 8px;">
+                            {{notifications.length}} </span>
+                        <span *ngIf="notifications && notifications.length > 49"
+                            style="position: absolute; top: -6px; right: 25px; color: #fff; font-size: 8px;">
+                            49+ </span>
+                    </button>
+
+                    <mat-menu #ctrlNotify="matMenu">
+                        <app-notifications *ngIf="notifications"></app-notifications>
+                        <p style="width: 250px; text-align: center; padding-top: 15px;" *ngIf="!notifications"> {{'No tiene notificaciones' | translate}}
+                        </p>
+                    </mat-menu>
+                </li>
+
+                <li class="nav-item">
+                    <button class="matbutton" mat-button (click)="redirectToLandingPage()">
+                        {{'Inicio' | translate}}
+                    </button>
+                </li>
+
+                <li class="nav-item">
+                    <button class="matbutton" mat-button [matMenuTriggerFor]="ctrlConfig">
+                        <span>&blacktriangledown;</span>
+                        <span class="ml-2">{{'Administración' | translate}}</span>
+                    </button>
+
+                    <mat-menu #ctrlConfig="matMenu">
+                        <button mat-menu-item [matMenuTriggerFor]="ctrlUsers">{{'Control usuarios' | translate}}</button>
+                        <button mat-menu-item [matMenuTriggerFor]="ctrlUbication">{{'Control ubicación' | translate}}</button>
+                        <button mat-menu-item [matMenuTriggerFor]="ctrlClients">{{'Control clientes' | translate}}</button>
+                        <button mat-menu-item [matMenuTriggerFor]="ctrlMaquinaria">{{'Control parque vehicular' | translate}}</button>
+                    </mat-menu>
+
+                    <mat-menu #ctrlUsers="matMenu">
+                        <a (click)="toUsers()" class="dropdown-item" style="cursor: pointer;">{{'Usuarios' | translate}}</a>
+                        <a (click)="toRoles()" class="dropdown-item" style="cursor: pointer;">{{'Roles' | translate}}</a>
+                        <a (click)="toPermissions()" class="dropdown-item" style="cursor: pointer;">{{'Permisos' | translate}}</a>
+                    </mat-menu>
+
+                    <mat-menu #ctrlUbication="matMenu">
+                        <a (click)="toDepartments()" class="dropdown-item" style="cursor: pointer;">{{'Estados' | translate}}</a>
+                        <a (click)="toCities()" class="dropdown-item" style="cursor: pointer;">{{'Ciudades' | translate}}</a>
+                        <a (click)="toZones()" class="dropdown-item" style="cursor: pointer;">{{'Zonas' | translate}}</a>
+                    </mat-menu>
+
+                    <mat-menu #ctrlClients="matMenu">
+                        <a (click)="toBranchOffices()" class="dropdown-item"
+                            style="cursor: pointer;">{{'Establecimientos' | translate}}</a>
+                        <a (click)="toClients()" class="dropdown-item" style="cursor: pointer;">{{'Clientes' | translate}}</a>
+                        <a (click)="toOccupations()" class="dropdown-item" style="cursor: pointer;">{{'Cargos' | translate}}</a>
+                        <a (click)="toCourses()" class="dropdown-item" style="cursor: pointer;">{{'Derroteros' | translate}}</a>
+                    </mat-menu>
+
+                    <mat-menu #ctrlMaquinaria="matMenu">
+                        <a (click)="toPropaneTrucks()" class="dropdown-item" style="cursor: pointer;">{{'Auto Tanques' | translate}}</a>
+                        <a (click)="toStationaryTanks()" class="dropdown-item" style="cursor: pointer;">{{'Tanques Estacionarios' | translate}}</a>
+                        <a (click)="toTablets()" class="dropdown-item" style="cursor: pointer;">{{'Dispositivos de control' | translate}}</a>
+                    </mat-menu>
+                </li>
+
+                <li class="nav-item">
+                    <button class="matbutton" mat-button [matMenuTriggerFor]="ctrlAccount">
+                        <span>&blacktriangledown;</span>
+                        <span class="ml-2">{{'Cuenta' | translate}}</span>
+                    </button>
+
+                    <mat-menu #ctrlAccount="matMenu">
+                        <a (click)="toProfile()" class="dropdown-item" style="cursor: pointer;"><lucide-icon name="user"
+                                [size]=13></lucide-icon> {{'Perfil' | translate}}</a>
+                        <a (click)="toNotifications()" class="dropdown-item" style="cursor: pointer;"><lucide-icon
+                                name="bell" [size]=13></lucide-icon> {{'Notificaciones' | translate}}</a>
+                        <a (click)="logout()" class="dropdown-item"
+                            style="cursor: pointer; color: #e13411;"><lucide-icon name="log-out"
+                                [size]=13></lucide-icon> {{'Cerrar sesión' | translate}}</a>
+                    </mat-menu>
+                </li>
+                <li class="nav-item">
+                    <button class="matbutton" mat-button [matMenuTriggerFor]="ctrlConfigLanguage">
+                        <span>&blacktriangledown;</span>
+                        <span class="ml-2"><lucide-icon name="globe" [size]="15"></lucide-icon> {{language |
+                            uppercase}}</span>
+                    </button>
+
+                    <mat-menu #ctrlConfigLanguage="matMenu">
+                        <a class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"
+                            (click)="switchLanguage('es')">{{'Español' | translate}}</a>
+                        <a class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"
+                            (click)="switchLanguage('en')">{{'Inglés' | translate}}</a>
+                        <a class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"
+                            (click)="switchLanguage('pt')">{{'Portugues' | translate}}</a>
+                    </mat-menu>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>

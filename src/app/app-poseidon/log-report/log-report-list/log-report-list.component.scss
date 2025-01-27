@@ -1,0 +1,65 @@
+.criticality-box {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-left: 10px;
+  border-radius: 3px;
+}
+
+.sticky-element {
+  position: -webkit-sticky;
+  /* For Safari */
+  position: sticky;
+  height: 14.8rem;
+  top: 0;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  .card-body {
+    .text-secondary {
+      cursor: pointer;
+    }
+
+    .text-info {
+      cursor: pointer;
+    }
+  }
+}
+
+.no_data {
+  padding-top: 4.5rem;
+
+  .col-lg-12 {
+    border: dashed 1px #014e87;
+    border-radius: 10px;
+
+    .col-md-8 {
+      p {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+@media (orientation: portrait) {
+  #content-landscape {
+    display: none;
+  }
+
+  #content-portrait {
+    display: flex;
+    flex-wrap: wrap;
+
+    .box {
+      flex-grow: 1;
+      flex-basis: 200;
+      float: right;
+    }
+  }
+}
+
+@media (orientation: landscape) {
+  #content-portrait {
+    display: none;
+  }
+}

@@ -1,0 +1,85 @@
+<div class="general-container">
+    <div class="container mt-2">
+        <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+
+            <div class="row justify-content-center">
+                <h1>{{'Registrar Pedido' | translate}}</h1>
+                <label for="name" class="form-label" style="margin: 0; font-weight: bold;"
+                    *ngIf="branch_office">{{branch_office.name}}</label>
+
+                <div class="col-lg-6">
+                    <label *ngIf="!branch_office && !branchOfficeInput" id="client-label" class="form-label" (click)="toggleInputClient()"style="cursor: pointer">{{'Listado (click para cambiar)' | translate}}</label>
+                    <label *ngIf="!branch_office && branchOfficeInput" id="client-label" class="form-label" (click)="toggleInputClient()"style="cursor: pointer">{{'Manual (click para cambiar)' | translate}}</label>
+                    <div class="mb-3" *ngIf="!branch_office && branchOfficeInput">
+                        <label for="name" class="form-label">-- {{'Código de establecimiento' | translate}}</label>
+                        <div class="input-group" *ngIf="branch_offices.length != 0">
+                            <input type="number" id="branch_office_code" class="form-control"
+                                formControlName="branch_office_code" placeholder="{{'Digite el código del establecimiento' | translate}}">
+                            <button type="button" class="btn btn-outline-secondary" (click)="toCreateBranchOffices()">
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3" *ngIf="!branch_office && !branchOfficeInput">
+                        <label for="branch_office_code" class="form-label">-- {{'Establecimiento' | translate}}</label>
+                        <div class="input-group" *ngIf="branch_offices.length != 0">
+                            <input type="text" id="branch_office_code" class="form-control" formControlName="branch_office_code" [matAutocomplete]="auto" placeholder="{{'Establecimientos' | translate}}">
+                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                            <mat-option *ngFor="let branch_office of filteredBranchOffices | async" [value]="branch_office">
+                                {{ branch_office.name }} - {{ branch_office.nit }}
+                            </mat-option>
+                            </mat-autocomplete>
+                            <button type="button" class="btn btn-outline-secondary" (click)="toCreateBranchOffices()">
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3" *ngIf="!branch_office">
+                        <button class="btn btn-success m-1" [disabled]="!orderForm.value.branch_office_code"
+                            (click)="getBranchOfficeById()" *ngIf="!branch_office">{{'Buscar' | translate}}</button>
+                    </div>
+
+                    <div class="mb-3 aditional-info" *ngIf="branch_office">
+                        <label for="info" class="form-label">-- {{'Información adicional' | translate}}</label>
+                        <textarea class="form-control" id="info" rows="3" readonly>
+                            {{branch_office.name}}
+                            {{'NIT' | translate}}: {{branch_office.nit}}
+                            {{'Teléfono' | translate}}: {{branch_office.phone}}
+                            ______________________________________
+                            {{'Cliente' | translate}}: {{branch_office.client[0].firstName}} {{branch_office.client[0].lastName}}
+                            {{'Contacto' | translate}}: {{branch_office.client[0].phone}} / {{branch_office.client[0].email}}
+                            {{'Dirección' | translate}}: {{branch_office.address}} - {{branch_office.zone[0].name}}
+                            {{'Ciudad' | translate}}: {{branch_office.city[0].name}}, {{branch_office.city[0].department[0].name}}
+                        </textarea>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="mb-3" *ngIf="branch_office">
+
+                        <div class="mb-3">
+                            <label for="city" class="form-label">-- {{'Tipo de pago' | translate}}</label>
+                            <select id="city" class="form-select" formControlName="payment_type">
+                                <option value="" disabled selected>{{'Seleccione una tipo de pago' | translate}}</option>
+                                <option *ngFor="let item of payment_type" [value]="item.name">{{ item.name }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <button class="btn btn-info m-1" [disabled]="!orderForm.value.branch_office_code"
+                                (click)="getBranchOfficeById()" *ngIf="!branch_office">{{'Buscar' | translate}}</button>
+                            <button (click)="toOrders()" class="btn btn-secondary"
+                                *ngIf="!branch_office">Cancelar</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success m-1" [disabled]="!orderForm.valid"
+                        *ngIf="branch_office" style="float: right;">{{'Registrar Pedido' | translate}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

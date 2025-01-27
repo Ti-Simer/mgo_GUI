@@ -1,0 +1,22 @@
+<div class="general-container">
+    <div class="container mt-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <h1>{{'Registrar Zona' | translate}}</h1>
+                <div class="col-12 mt-4">
+                    <form [formGroup]="zoneForm" (ngSubmit)="onSubmit()">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">-- {{'Nombre de la zona' | translate}}</label>
+                            <input type="text" id="name" class="form-control" formControlName="name"
+                                placeholder="{{'Escriba aquí el nombre de la zona' | translate}}">
+                        </div>
+    
+                        <!-- Puedes agregar más campos aquí según los atributos de la entidad Roles -->
+                        <button type="submit" class="btn btn-success m-1" [disabled]="!zoneForm.valid">{{'Registrar zona' | translate}}</button>
+                        <button (click)="toZones()" class="btn btn-secondary">{{'Cancelar' | translate}}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>

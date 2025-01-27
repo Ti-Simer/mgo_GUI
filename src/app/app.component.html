@@ -1,0 +1,130 @@
+<div class="general-container" style="height: 100%;">
+    <mat-toolbar color="primary" [ngStyle]="{'background-color': getMenuColor()}">
+        <mat-toolbar-row class="col-lg-12">
+
+            <!-- Botón de acción -->
+            <div class="col-sm-2">
+                <button class="mat-icon-button" mat-icon-button *ngIf="isMobile" (click)="sidenav.toggle()">
+                    <mat-icon class="mat-icon">menu</mat-icon>
+                </button>
+            </div>
+
+            <div class="col-sm-4">
+                <!-- Banner con login -->
+                <p class="logo" *ngIf="isLogged === true" (click)="redirectToHome()" style="cursor: pointer">
+                    <img class="navbar-brand" [src]='logoSrc' class="img-fluid"
+                        style="width: 4rem; margin-right: 1rem; cursor: pointer">
+                    <span *ngIf="configuration" id="text-company-portrait">{{system | translate}} |
+                        {{configuration.company | truncate: 12}}
+                    </span>
+                    <span *ngIf="configuration" id="text-company-landscape">{{system | translate}} |
+                        {{configuration.company}}
+                    </span>
+                    <span *ngIf="!configuration">
+                        {{'Sistema' | translate}} {{system | translate}}
+                    </span>
+                </p>
+    
+                <!-- Banner sin login -->
+                <p class="logo" *ngIf="isLogged === false" (click)="redirectToLandingPage()" style="cursor: pointer">
+                    <img class="navbar-brand" src="assets/images/logonav.png" class="img-fluid"
+                    style="width: 2.8rem; margin-right: 1rem; cursor: pointer"> 
+                    <span>Simer Electronic</span>
+                </p>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="menu-items" *ngIf="!isMobile && isLogged === true">
+
+                    <app-menu-poseidon *ngIf="system === 'Poseidon'"></app-menu-poseidon>
+                    <app-menu-hercules *ngIf="system === 'Hercules'"></app-menu-hercules>
+
+                </div>
+
+                <div class="menu-items" *ngIf="!isMobile && isLogged === false">
+    
+                    <button class="matbutton" mat-button (click)="redirectToLandingPage()">
+                        {{'Inicio' | translate}}
+                    </button>
+                    <button class="matbutton" mat-button (click)="toUs()">
+                        {{'Nosotros' | translate}}
+                    </button>
+                    <button class="matbutton" mat-button (click)="toLegalWarning()">
+                        {{'Aviso legal' | translate}}
+                    </button>
+                    <button class="matbutton" mat-button (click)="toContact()">
+                        {{'Contacto' | translate}}
+                    </button>
+    
+                    <button class="matbutton" mat-button [matMenuTriggerFor]="ctrlConfigLanguage">
+                        <span>&blacktriangledown;</span>
+                        <span class="ml-2"><i-lucide [img]="Languages" [size]="12" class="Languages-icon"></i-lucide>
+                            {{language |
+                            uppercase}}</span>
+                    </button>
+    
+                    <mat-menu #ctrlConfigLanguage="matMenu" style="display: block;">
+                        <a class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"
+                            (click)="switchLanguage('es')">{{'Spanish' | translate}}</a>
+                        <a class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"
+                            (click)="switchLanguage('en')">{{'English' | translate}}</a>
+                        <a class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"
+                            (click)="switchLanguage('pt')">{{'Portuguese' | translate}}</a>
+                    </mat-menu>
+                </div>
+            </div>
+
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <mat-sidenav-container class="side-menu-container" style="height: calc(100% - 64px);">
+        <mat-sidenav class="side-menu" #sidenav mode="over">
+            <mat-nav-list class="side-menu-list">
+
+                <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                    <!-- This is the tree node template for leaf nodes -->
+                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding style="color: #fff !important;">
+                        <!-- use a disabled button to provide padding for tree leaf -->
+                        <button mat-icon-button (click)="navigate(node.path)">
+                            <lucide-icon *ngIf="node.icon" [name]="node.icon" [size]="10"
+                                [color]="node.color"></lucide-icon>
+                        </button>
+                        <span (click)="navigate(node.path)">{{node.name | translate}}</span>
+                    </mat-tree-node>
+                    <!-- This is the tree node template for expandable nodes -->
+                    <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodeToggle
+                        style="color: #fff !important;">
+                        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+                            <lucide-icon *ngIf="node.icon" [name]="node.icon" [size]="10"
+                                [color]="node.color"></lucide-icon>
+                        </button>
+                        {{node.name | translate}}
+                    </mat-tree-node>
+                </mat-tree>
+
+                <p>_________</p>
+
+                <button class="matbutton" mat-button [matMenuTriggerFor]="ctrlConfigLanguage">
+                    <span>&blacktriangledown;</span>
+                    <span class="ml-2"><i-lucide [img]="Languages" [size]="12" class="Languages-icon"></i-lucide>
+                        {{language | uppercase}}</span>
+                </button>
+
+                <mat-menu #ctrlConfigLanguage="matMenu" style="display: block;">
+                    <a class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"
+                        (click)="switchLanguage('es')">{{'Spanish' | translate}}</a>
+                    <a class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"
+                        (click)="switchLanguage('en')">{{'English' | translate}}</a>
+                    <a class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"
+                        (click)="switchLanguage('pt')">{{'Portuguese' | translate}}</a>
+                </mat-menu>
+            </mat-nav-list>
+        </mat-sidenav>
+
+        <!-- Contenido principal -->
+        <mat-sidenav-content>
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+        
+    </mat-sidenav-container>
+</div> 

@@ -1,0 +1,51 @@
+.loading-dialog {
+  text-align: center;
+  padding: 20px;
+
+  .mat-dialog-title {
+      font-size: 14px;
+      padding: 5px 0;
+      border-bottom: 1px solid #ccc;
+      text-align: center;
+  }
+
+  .mat-dialog-content {
+      padding: 15px 0;
+
+      p{
+          font-size: 14px !important;
+          color: #929292;
+      }
+  }
+
+  .mat-dialog-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      /* Centrar verticalmente los botones */
+      margin-top: 20px;
+  }
+
+  button {
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 0 auto;
+  }
+
+  .primary-button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+  }
+
+  .secondary-button {
+      background-color: #ccc;
+      color: #333;
+      border: none;
+  }
+
+  button:hover {
+      opacity: 0.9;
+  }
+}

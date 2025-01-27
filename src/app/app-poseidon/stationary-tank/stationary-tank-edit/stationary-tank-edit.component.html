@@ -1,0 +1,41 @@
+<div class="general-container">
+    <div class="container mt-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <h3>{{'Tanques Estacionarios' | translate}}</h3>
+                <h2>{{'Actualización de información' | translate}}</h2>
+                <div class="col-12 mt-4">
+                    <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+                        <div class="mb-3">
+                            <label for="serial" class="form-label">--{{'Placa del Auto Tanque' | translate}}</label>
+                            <input type="text" inputmode="upperCase" id="serial"
+                                class="form-control" formControlName="serial"
+                                placeholder="{{'Escriba aquí la placa del Auto Tanque' | translate}}">
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="capacity" class="form-label">--{{'Capacidad' | translate}}</label>
+                            <input type="number" id="capacity" class="form-control" formControlName="capacity"
+                                placeholder="{{'Digite aqui la capacidad del Auto Tanque' | translate}}">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-6 p-4 aditional-info">
+                <label style="font-weight: bold; font-size: 18px;">Asignación</label>
+                <br>
+                <br>
+                <div class="mb-3" *ngIf="stationaryTank">
+                        <label for="" style="font-size: 16px;">{{'Establecimiento' | translate}}: {{stationaryTank.branchOffices[0].name}}</label> <br>
+                        <label for="" style="font-size: 16px;">{{'Estado' | translate}}: {{stationaryTank.branchOffices[0].state}}</label> <br>
+                </div>
+            </div>
+
+            <div class="col-sm-4 mt-2">
+                <!-- Puedes agregar más campos aquí según los atributos de la entidad Roles -->
+                <button type="submit" class="btn btn-success m-1" [disabled]="!updateForm.valid">{{'Guardar cambios' | translate}}</button>
+            </div>
+        </div>
+    </div>
+</div>

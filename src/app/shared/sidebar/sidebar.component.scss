@@ -1,0 +1,31 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 10rem;
+    padding: 20px;
+    background-color: #343a40;
+    color: white;
+    margin-top: 5.6em;
+}
+
+.sidebar ul.nav {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar .nav-item {
+    margin-bottom: 10px;
+}
+
+.sidebar .nav-link {
+    color: white;
+    text-decoration: none;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar .nav-link.active {
+    background-color: #007bff;
+}

@@ -1,0 +1,52 @@
+<div class="row container d-flex">
+    <div class="col-md-7 line-chart mb-3" *ngIf="chartOptions" [formGroup]="chartForm">
+        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+            [title]="chartOptions.title" [stroke]="chartOptions.stroke" [yaxis]="chartOptions.yaxis" id="chartLandscape"></apx-chart>
+
+        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+             [stroke]="chartOptions.stroke" [yaxis]="chartOptions.yaxis" id="chartPortrait"></apx-chart>
+
+        <div class="col-sm-2 item text-center d-flex">
+            <lucide-icon name="tags" color="#8b8b8b" [size]="30" class="p-1"></lucide-icon>
+            <select id="labels" class="form-select" formControlName="labels">
+                <option value="" disabled selected>{{'Cantidad de etiquetas' | translate}}</option>
+                <option *ngFor="let item of labels" [value]="item.name">
+                    {{item.name}} datos
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <div class="col-md-5 p-2 d-flex justify-content-center information" *ngIf="sensor_data && device">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header">
+                <h3>{{device.observacion}} ({{sensorData.sensor}})</h3>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    {{'Imei' | translate}}: <br>
+                    {{device.imei}}
+                </li>
+                <li class="list-group-item">
+                    {{'Promedio de días entre recarga' | translate}}: <br>
+                    {{sensor_data.resume_info.average_days_between_recharges}} (Dias:Horas)
+                </li>
+                <li class="list-group-item">
+                    {{'Promedio de nivel bajo (-50%)' | translate}}: <br>
+                    {{sensor_data.resume_info.average_below_50}}
+                </li>
+                <li class="list-group-item">
+                    {{'Promedio de nivel alto (+50%)' | translate}}: <br>
+                    {{sensor_data.resume_info.average_above_50}}
+                </li>
+                <li class="list-group-item">
+                    {{'Promedio de nivel' | translate}}: <br>
+                    {{sensor_data.resume_info.average_nivel}}
+                </li>
+                <li class="list-group-item d-flex justify-content-center">
+                    <button class="btn btn-sm btn-success" (click)="downloadCourse()">Descargar Información</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,120 @@
+<div class="general-container d-flex justify-content-center p-4">
+    <div class="box-container w-100 d-flex">
+        <div class="col-lg-3 p-3 list-tree" id="container">
+            <div class="col title">
+                <h2>{{'Lista de tanques' | translate}}</h2>
+            </div>
+
+            <div class="col content">
+                <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                    <!-- This is the tree node template for leaf nodes -->
+                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding
+                        style="color: #5e5e5e !important; cursor: pointer;">
+                        <!-- use a disabled button to provide padding for tree leaf -->
+                        <button mat-icon-button (click)="navigate(node)">
+                            <lucide-icon *ngIf="node.icon" [name]="node.icon" [size]="10"
+                                [color]="node.color"></lucide-icon>
+                        </button>
+                        <span (click)="navigate(node)">{{node.name | translate}}</span>
+                    </mat-tree-node>
+                    <!-- This is the tree node template for expandable nodes -->
+                    <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodeToggle
+                        style="color: #5e5e5e !important; cursor: pointer;">
+                        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+                            <lucide-icon *ngIf="node.icon" [name]="node.icon" [size]="10"
+                                [color]="node.color"></lucide-icon>
+                        </button>
+                        {{node.name | translate}}
+                    </mat-tree-node>
+                </mat-tree>
+            </div>
+        </div>
+
+        <div class="col-lg-9 p-3 mx-1 tank-boxes" id="container">
+            <div class="col title text-center">
+                <h2>{{'Lista de dispositivos' | translate}}</h2>
+            </div>
+            <div class="row d-flex">
+                <div class="col-sm-6 mb-2 d-flex justify-content-center" *ngFor="let device of devices">
+                    <div class="card align-items-center p-2">
+                        <div class="card-body text-left">
+                            <h2 class="card-title" title={{device.observacion}}>{{ device.observacion | truncate: 27 }}</h2>
+                            <p class="card-text" style="color: #9e9e9e; font-size: 11px;">
+                                {{'Imei' | translate}}: {{ device.imei }} <br>
+                                <span class="card-text" *ngIf="device?.conexion == '3'">
+                                    {{'Señal en dispositivo' | translate}}: <lucide-icon name="tally-4" [size]="15"></lucide-icon>
+                                </span>
+                                <span class="card-text" *ngIf="device?.conexion == '2'">
+                                    {{'Señal en dispositivo' | translate}}: <lucide-icon name="tally-3" [size]="15"></lucide-icon>
+                                </span>
+                                <span class="card-text" *ngIf="device?.conexion == '1'">
+                                    {{'Señal en dispositivo' | translate}}: <lucide-icon name="tally-2" [size]="15"></lucide-icon>
+                                </span>
+                                <span class="card-text" *ngIf="device?.conexion == 'y'">
+                                    {{'Señal en dispositivo' | translate}}: <lucide-icon name="tally-1" [size]="15"></lucide-icon>
+                                </span>
+                                <span class="card-text" *ngIf="device?.conexion == '0'">
+                                    {{'No señal' | translate}}
+                                </span>
+                            </p>
+
+                            <div class="sensors">
+                                <div class="sensor bg-light p-2" *ngFor="let sensor of device.sensors" (click)="toResumeData(sensor)">
+
+                                    <div class="tanque-glp mb-2" *ngIf="sensor.res_data">
+                                        <div class="top-container">
+                                            <p class="card-text" *ngIf="sensor.res_data?.senal == '3'">
+                                                <lucide-icon name="signal-high" color="#00aa00"></lucide-icon>
+                                            </p>
+                                            <p class="card-text" *ngIf="sensor.res_data?.senal == '2'">
+                                                <lucide-icon name="signal-medium" color="#aa7106"></lucide-icon>
+                                            </p>
+                                            <p class="card-text" *ngIf="sensor.res_data?.senal == '1'">
+                                                <lucide-icon name="signal-low" color="#d82121"></lucide-icon>
+                                            </p>
+                                            <p class="card-text" *ngIf="sensor.res_data?.senal == 'y'">
+                                                <lucide-icon name="signal-zero" color="gray"></lucide-icon>
+                                            </p>
+                                            <p class="card-text" *ngIf="sensor.res_data?.senal == 0">
+                                                <lucide-icon name="signal-zero" color="gray"></lucide-icon>
+                                            </p>
+                                            <p class="card-text" *ngIf="!sensor.res_data">
+                                                <lucide-icon name="signal-zero" color="gray"></lucide-icon>
+                                            </p>
+                                        </div>
+                                        <div class="contenido" [style.--porcentaje]="(sensor.res_data?.nivel || 0) + '%'">
+                                            <span class="porcentaje">{{ sensor.res_data?.nivel || 0 }}%</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="tanque-glp mb-2" *ngIf="!sensor.res_data">
+                                        <p class="card-text">{{'Sin Datos' | translate}}</p>
+                                    </div>
+
+                                    <p class="card-text text-secondary" *ngIf="sensor?.sensor && sensor?.observacion && sensor?.cap_tanque">
+                                        {{'Tanque' | translate}}: <br>
+                                        {{sensor.observacion}} | {{ sensor.sensor }} <br>
+                                        {{'Capacidad' | translate}}: {{ sensor.cap_tanque }} gl
+                                    </p>
+
+                                    <p class="card-text m-0" style="color: #9e9e9e; font-size: 10px;" *ngIf="sensor.res_data">
+                                        {{'Ultima conexión' | translate}}: <br>
+                                        {{ sensor.res_data.fecha | date: 'medium' }}
+                                    </p>
+                                    <p class="card-text m-0" style="color: #9e9e9e; font-size: 10px;" *ngIf="!sensor.res_data">
+                                        {{'Ultima conexión' | translate}}: <br>
+                                        {{'Sin datos de conexión' | translate}}
+                                    </p>
+                                </div>
+                                <div class="sensor bg-light p-2" *ngIf="device.sensors.length == 1" style="align-content: center; text-align: center;">
+                                    <span class="card-text text-secondary">{{'Sin Sensores' | translate}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

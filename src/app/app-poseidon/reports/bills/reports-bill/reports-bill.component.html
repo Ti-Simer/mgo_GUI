@@ -1,0 +1,64 @@
+<div class="general-container d-flex justify-content-center">
+    <div class="container">
+        <div class="invoice" *ngIf="bill" id="htmlData">
+            <div class="header">{{'Remisión' | translate}}</div>
+            <p class="text-center">{{'recibo' | translate}} {{bill.bill_code}}</p>
+            <hr> <!-- Línea de separación -->
+            <div class="details">
+                <div class="address" *ngIf="bill">
+                    <p>{{'Sucursal' | translate}}: {{bill.branch_office_name}}</p>
+                    <p>{{'NIT' | translate}}: {{ bill.branch_office_nit }}</p>
+                    <p>{{'Código' | translate}}: {{ bill.branch_office_code }}</p>
+                    <p>{{'Dirección' | translate}}: {{ bill.branch_office_address }}</p>
+                </div>
+                <div class="date" *ngIf="bill">
+                    <p>{{'Fecha' | translate}}: {{ bill.charge.fechaInicial}} | {{ bill.charge.horaInicial}}</p>
+                    <p>{{'Estado' | translate}}: {{ bill.status }}</p>
+                    <p>{{'Cliente' | translate}}: {{ bill.client_firstName }} {{ bill.client_lastName }}</p>
+                    <p>{{'CC' | translate}}: {{ bill.client_cc }}</p>
+                </div>
+            </div>
+            <hr> <!-- Línea de separación -->
+            <div class="operator" *ngIf="bill">
+                <p>{{'Operario' | translate}}: {{ bill.operator_firstName }} {{ bill.operator_lastName }}</p>
+            </div>
+            <hr> <!-- Línea de separación -->
+            <div class="observations" *ngIf="bill.charge.observations">
+                <p>{{'Observaciones' | translate}}: {{bill.charge.observations}}</p>
+                <hr> <!-- Línea de separación -->
+            </div>
+            <div class="infoCharge" *ngIf="bill">
+                <p>{{'Fecha Inicio/Fin' | translate}}: {{ bill.charge.fechaInicial}} __ {{ bill.charge.fechaFinal}}</p>
+                <p>{{'Hora Inicio/Fin' | translate}}: {{ bill.charge.horaInicial}} __ {{ bill.charge.horaFinal}}</p>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>{{'Volumen' | translate}}</th>
+                        <th>{{'Densidad' | translate}}</th>
+                        <th>{{'Masa' | translate}}</th>
+                        <th>{{'Temperatura' | translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ bill.charge.volumenTotal }}</td>
+                        <td>{{ bill.charge.densidad }}</td>
+                        <td>{{ bill.charge.masaTotal }}</td>
+                        <td>{{ bill.charge.temperatura }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr> <!-- Línea de separación -->
+            <div class="total">
+                <p>{{'Total' | translate}}: {{ bill.total | currency:'USD':'symbol':'1.0-0'}}</p>
+            </div>
+        </div>
+    </div>   
+    <div class="row text-center mt-2">
+        <div class="col-md-12">
+            <button class="btn btn-sm btn-danger" id="download-button-landscape" (click)="printBill()">{{'Descargar' | translate}}</button>
+            <button class="btn btn-sm btn-danger" id="download-button-portrait" (click)="printMobileBill()">{{'Descargar' | translate}}</button>
+        </div>
+    </div>
+</div>

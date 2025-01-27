@@ -1,0 +1,132 @@
+<div class="general-container d-flex justify-content-center">
+    <div class="container">
+        <div class="row section1 d-flex justify-content-center mb-2">
+            <div class="col-sm-5 box1">
+                <div class="row title">
+                    <h4>{{nameText}}</h4>
+                </div>
+                <div class="row subtitle">
+                    <h3>-- {{roleText}}</h3>
+                </div>
+    
+                <div class="row d-flex justify-content-center">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-6">
+                            <a (click)="toCourses(roleText)" class="text-decoration-none" style="cursor: pointer;">
+                                <div class="bg-primary text-white p-4 text-center mb-4"
+                                    style="background-color: #014e87 !important;">
+                                    {{'Derroteros' | translate}}
+                                </div>
+                            </a>
+                        </div>
+    
+                        <div class="col-md-6">
+                            <a (click)="toReports()" class="text-decoration-none" style="cursor: pointer;">
+                                <div class="text-white p-4 text-center mb-4" style="background-color: #0267B5;">
+                                    {{'Reportes' | translate}}
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-6">
+                            <a (click)="toOrders()" class="text-decoration-none" style="cursor: pointer;">
+                                <div class="text-white p-4 text-center mb-4" style="background-color: #027FDE;">
+                                    {{'Pedidos' | translate}}
+                                </div>
+                            </a>
+                        </div>
+    
+                        <div class="col-md-6">
+                            <a (click)="toRequest()" class="text-decoration-none" style="cursor: pointer;">
+                                <div class="text-white p-4 text-center" style="background-color: #01213B;">
+                                    {{'Servicios' | translate}}
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 box2">
+                <div class="row title">
+                    <h4>{{'Informe de registro' | translate}}</h4>
+                </div>
+                <div class="row p-1">
+                    <div class="col-md-12">
+                        <app-log-report-list></app-log-report-list>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row section2 d-flex justify-content-center">
+            <div class="col-sm-11 box1">
+                <div class="row title">
+                    <h4>{{'Derroteros en curso' | translate}} (2024)</h4>
+                </div>
+                <div class="row d-flex justify-content-center p-2">
+                    <div class="col-md-12">
+                        <app-home-trackingmap></app-home-trackingmap>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="row section3 d-flex justify-content-center">
+    
+            <div class="col-sm-3 card1" id="card" (click)="toReports()">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <span class="text1" *ngIf="billing">
+                            {{billing | number}}
+                        </span>
+                        <span class="text1" *ngIf="!billing">
+                            0
+                        </span>
+                    </div>
+                    <div class="row">
+                        <span class="text2">
+                            {{'Facturación' | translate}} (2024)
+                        </span>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-sm-3 card2" *ngIf="operators" id="card" (click)="toUsers()">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <span class="text1">
+                            {{operators.length}}
+                        </span>
+                    </div>
+                    <div class="row">
+                        <span class="text2">
+                            {{'Operadores activos' | translate}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-sm-3 card3" id="card" (click)="toNotifications()">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <span class="text1">
+                            {{notifications.length}}
+                        </span>
+                    </div>
+                    <div class="row">
+                        <span class="text2">
+                            {{'Cargues confirmados' | translate}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+
+    </div>
+
+    <app-footer class="hide-on-mobile"></app-footer>
+
+</div>

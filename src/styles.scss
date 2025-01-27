@@ -1,0 +1,71 @@
+/* src/styles.css */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import 'ngx-toastr/toastr';
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-image: url('../src/assets/images/backgroundapp.png');
+    background-size: cover;
+    /* Ajusta la imagen al tamaño del contenedor */
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Ajusta la opacidad del color de fondo del contenedor */
+}
+
+html,
+body {
+    height: 100%;
+    // background-image: url('../src/assets/images/background2.png');
+    // background-size: cover;
+    // /* Ajusta la imagen al tamaño del contenedor */
+    // background-color: rgba(255, 255, 255, 0.1);
+    // /* Ajusta la opacidad del color de fondo del contenedor */
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    // background-image: url('../src/assets/images/background2.png');
+    // background-size: cover;
+    // /* Ajusta la imagen al tamaño del contenedor */
+    // background-color: rgba(255, 255, 255, 0.1);
+    // /* Ajusta la opacidad del color de fondo del contenedor */
+}
+
+#custom-titlebar {
+    -webkit-app-region: drag;
+    /* Hace que la ventana sea arrastrable desde esta área */
+}
+
+/* styles.css o styles.scss */
+
+/* Cambia el color y el tamaño de la barra de desplazamiento */
+::-webkit-scrollbar {
+    width: 7px;
+    height: 8px;
+}
+
+/* Cambia el color de fondo de la barra de desplazamiento */
+::-webkit-scrollbar-track {
+    background: #fff;
+}
+
+/* Cambia el color del pulgar (la parte móvil) de la barra de desplazamiento */
+::-webkit-scrollbar-thumb {
+    background: #606060;
+}
+
+/* Cambia el color del pulgar de la barra de desplazamiento al pasar el mouse */
+::-webkit-scrollbar-thumb:hover {
+    background: #8b8b8b;
+}
+
+.transparent-dialog .mat-dialog-container {
+    background: transparent;
+    box-shadow: none;
+}

@@ -1,0 +1,40 @@
+<div class="row container">
+
+    <div class="row section1" *ngIf="chartOptions">
+        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+            [title]="chartOptions.title" [stroke]="chartOptions.stroke"></apx-chart>
+    </div>
+
+    <div class="row section2 d-flex justify-content-center" [formGroup]="chartForm">
+        <h3>-- Configuraciones de gráfico estadistico --</h3>
+
+        <div class="col-sm-2 item text-center">
+            <lucide-icon name="tags" color="#014e87" [size]="30"></lucide-icon>
+            <select id="labels" class="form-select" formControlName="labels">
+                <option value="" disabled selected>Cantidad de etiquetas</option>
+                <option *ngFor="let item of labels" [value]="item.name">
+                    {{item.name}}
+                </option>
+            </select>
+        </div>
+
+        <div class="col-sm-2 item text-center">
+            <lucide-icon name="BetweenHorizontalStart" color="#014e87" [size]="30"></lucide-icon>
+            <select id="text" class="form-select" formControlName="text">
+                <option value="" disabled selected>Datos del gráfico</option>
+                <option *ngFor="let item of text" [value]="item.name">
+                    {{item.name}}
+                </option>
+            </select>
+        </div>
+
+        <div class="col-sm-2 item text-center">
+            <lucide-icon name="PieChart" color="#014e87" [size]="30"></lucide-icon>
+            <select id="types" class="form-select" formControlName="types">
+                <option value="" disabled selected>Datos del gráfico</option>
+                <option *ngFor="let item of types" [value]="item.name">
+                    {{item.name}}
+                </option>
+            </select>
+        </div>
+    </div>

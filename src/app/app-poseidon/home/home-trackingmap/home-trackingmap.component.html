@@ -1,0 +1,7 @@
+<div class="row d-flex justify-content-center">
+    <div class="col-md-9 d-flex justify-content-center">
+        <google-map [zoom]="zoom" [width]="width" [height]="height" [center]="mapCenter">
+            <map-marker *ngFor="let marker of markers" [position]="marker.position" [label]="marker.label"></map-marker>
+        </google-map>
+    </div>
+</div>

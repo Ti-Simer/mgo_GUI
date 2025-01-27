@@ -1,0 +1,22 @@
+.general-container{
+    display: flex;
+    flex-direction: column;
+    max-height: 800px;
+
+    .container{
+        label {
+            //font-weight: bold;
+            color: #9c9c9c;
+        }
+        
+        .form-check-label:hover {
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        h1 {
+            color: #014e87;
+            font-weight: bold;
+        }
+    }
+}

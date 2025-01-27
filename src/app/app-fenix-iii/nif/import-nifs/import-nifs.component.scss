@@ -1,0 +1,97 @@
+.general-container {
+    display: flex;
+    flex-direction: column;
+    //min-height: 50vh;
+
+    margin-top: 7.5rem;
+    //padding-bottom: 2rem;
+
+    flex: 1;
+    overflow-y: auto;
+
+    .container {
+        margin: 0 auto;
+        
+        h1 {
+            color: #014e87;
+            font-weight: bold;
+        }
+
+        .table {
+            font-size: 10px;
+            max-height: 380px;
+            overflow-y: auto;
+
+            .custom-header {
+                background-color: #134368;
+                color: white;
+            }
+
+            .custom-td {
+                padding-left: 10px;
+            }
+        }
+
+        .table-general {
+            h2 {
+                background: #134368;
+                margin: 0 auto;
+                color: #fff;
+                font-size: 12px;
+                font-weight: bold;
+                width: 99.8%;
+            }
+        }
+
+        .period-picker {
+            border: 1px dashed #8d8d8d;
+            padding: 3%;
+            border-radius: 10px;
+            margin: 0 auto;
+            margin-top: 11%;
+
+            .title {
+                color: #8d8d8d;
+                font-weight: bold;
+                margin: 0;
+            }
+
+            .date {
+                color: #8d8d8d;
+                font-weight: bold;
+            }
+        }
+
+        .section2 {
+            //margin-bottom: 2%;
+            //padding: 0;
+            background-color: #dbdbdb;
+            padding: 10px 0 5px 0;
+            margin: 0 auto;
+
+            .search {
+                input {
+                    font-size: 12px;
+                    width: 400px;
+                }
+            }
+
+            .button1 {
+                float: end;
+
+                p {
+                    cursor: pointer;
+                    font-size: 14px;
+                    color: #a6a6a6;
+                    font-weight: bold;
+                    float: inline-end;
+                }
+
+                p:hover {
+                    color: #134368;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+}

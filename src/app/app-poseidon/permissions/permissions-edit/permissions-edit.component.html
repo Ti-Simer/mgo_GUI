@@ -1,0 +1,25 @@
+<app-menu-home></app-menu-home>
+
+<div class="general-container">
+    <div class="container mt-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <h2>{{'Actualización de información' | translate}}</h2>
+                <div class="col-12 mt-4">
+                    <form [formGroup]="updateForm" (ngSubmit)="updatePermission()">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">{{'Nombre' | translate}}</label>
+                            <input type="text" id="name" class="form-control" formControlName="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="accessCode" class="form-label">{{'Código' | translate}}</label>
+                            <input type="text" id="accessCode" class="form-control" formControlName="accessCode" required>
+                        </div>
+                        <button type="submit" class="btn btn-success" [disabled]="!updateForm.valid">{{'Guardar cambios' | translate}}</button>
+                        <button (click)="toPermissions()" class="btn btn-secondary m-2">{{'Cancelar' | translate}}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>

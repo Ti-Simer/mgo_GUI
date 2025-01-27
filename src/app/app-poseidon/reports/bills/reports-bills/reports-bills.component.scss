@@ -1,0 +1,120 @@
+.general-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 70vh;
+
+    margin-top: 7rem;
+
+    .container {
+        padding-bottom: 100px;
+
+        .header {
+            background-color: #014e87;
+            padding-top: 3%;
+            border-radius: 100px;
+
+            box-shadow: 0px 8px 0px 0px rgba(47, 96, 134, 0.52);
+            -webkit-box-shadow: 0px 8px 0px 0px rgba(47, 96, 134, 0.52);
+            -moz-box-shadow: 0px 8px 0px 0px rgba(47, 96, 134, 0.52);
+
+            .text-content {
+                margin: 0;
+            }
+
+            .col-sm-1 {
+                padding-top: 0.5rem;
+
+                lucide-icon {
+                    cursor: pointer;
+                    color: #fff;
+                    transition: color 0.2s ease;
+                }
+
+                lucide-icon:hover {
+                    animation: cards 0.2s ease 0s 1 normal forwards;
+                    color: rgb(208, 208, 208);
+                }
+
+            }
+
+
+            .text-title {
+                -webkit-box-sizing: content-box;
+                -moz-box-sizing: content-box;
+                box-sizing: content-box;
+                float: left;
+                border: none;
+                font-size: 32px;
+                color: #fff;
+                text-align: center;
+                -o-text-overflow: ellipsis;
+                text-overflow: ellipsis;
+                letter-spacing: -2px;
+                text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
+                padding: 0 1rem 0 0;
+            }
+        }
+
+        /* app-home.component.css */
+        .container-derroteros {
+            /* Cambia el fondo */
+            color: #333;
+            /* Cambia el color del texto */
+        }
+
+        /* Cambia los colores de los botones */
+        .btn-derrotero {
+            background-color: #007bff;
+            /* Color de fondo */
+            color: #fff;
+            /* Color del texto */
+        }
+
+        .custom-header {
+            background-color: #014e87;
+            color: white;
+        }
+
+        .custom-td {
+            padding-left: 10px;
+        }
+
+        .col-md-8 {
+            padding-top: 1rem;
+        }
+
+        h2 {
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+            float: left;
+            border: none;
+            font-size: 32px;
+            color: #014e87;
+            text-align: center;
+            -o-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            letter-spacing: -2px;
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
+        }
+
+        .col-md-4 {
+            padding-top: 2rem;
+            padding-right: 2rem;
+        }
+
+        td {
+            vertical-align: middle;
+        }
+
+        td:hover {
+            background-color: #b5b5b5 !important;
+            cursor: pointer;
+        }
+
+        mat-paginator {
+            background-color: transparent !important;
+        }
+    }
+
+}

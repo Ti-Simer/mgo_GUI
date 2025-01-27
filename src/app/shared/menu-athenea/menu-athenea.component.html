@@ -1,0 +1,54 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+      <img class="navbar-brand" src="assets/images/athenea-logo.svg" alt="Simer Electronic" class="img-fluid"
+          (click)="redirectToHome()">
+      <p (click)="redirectToHome()" style="cursor: pointer">Sistema Athenea</p>
+
+      <button (click)="toggleMenu()" class="navbar-toggler" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+
+              <li class="nav-item">
+                  <button class="matbutton" mat-button [matMenuTriggerFor]="ctrlNotify" style="margin-right: -20px;">
+                      <img *ngIf="!notifications && isAdmin" class="visible-in-landscape"
+                          src="../../../assets/images/icons/bell.svg" alt="" style="margin-right: 15px; width: 20px;">
+                      <img *ngIf="notifications && isAdmin" class="visible-in-landscape"
+                          src="../../../assets/images/icons/bell-fill.svg" alt=""
+                          style="margin-right: 15px; width: 20px;">
+                      <span *ngIf="notifications && isAdmin"
+                          style="position: absolute; top: -6px; right: 25px; color: #fff; font-size: 8px;"> {{notifications.length}} </span>
+                  </button>
+
+                  <mat-menu #ctrlNotify="matMenu">
+                      <app-notifications *ngIf="notifications"></app-notifications>
+                      <p style="width: 250px; text-align: center; padding-top: 15px;" *ngIf="!notifications"> No tiene notificaciones
+                      </p>
+                  </mat-menu>
+              </li>
+
+              <li class="nav-item">
+                  <button class="matbutton" mat-button (click)="redirectToHome()">
+                      Inicio
+                  </button>
+              </li>
+
+              <li class="nav-item">
+                  <button class="matbutton" mat-button [matMenuTriggerFor]="ctrlAccount">
+                      <span>&blacktriangledown;</span>
+                      <span class="ml-2">Cuenta</span>
+                  </button>
+
+                  <mat-menu #ctrlAccount="matMenu">
+                      <a (click)="logout()" class="dropdown-item" style="cursor: pointer; color: #e13411;"><img
+                              [src]="imgLogout" alt=""> Cerrar sesión</a>
+                  </mat-menu>
+              </li>
+
+          </ul>
+      </div>
+  </div>
+</nav>

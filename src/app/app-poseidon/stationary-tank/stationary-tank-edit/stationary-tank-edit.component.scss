@@ -1,0 +1,34 @@
+.general-container{
+    display: flex;
+    flex-direction: column;
+
+    .container{
+        h3{
+            margin-bottom: 0;
+            color: #014e87;
+            font-weight: bold;
+        }
+        
+        h2{
+            color: #9c9c9c;
+            font-weight: bold;
+        }
+
+        .aditional-info{
+            border: 1px dashed #014e87;
+            border-radius: 10px;
+            max-height: 544px;
+            overflow: overlay;
+        }
+    }
+
+    label {
+        color: #9c9c9c;
+    }
+}
+
+@media (orientation: portrait) {
+    .general-container{
+        font-size: 11px !important;
+    }
+}

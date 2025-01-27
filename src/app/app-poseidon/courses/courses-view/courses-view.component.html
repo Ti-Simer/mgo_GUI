@@ -1,0 +1,164 @@
+<div class="general-container">
+    <div class="container">
+        <h2 *ngIf="course">{{'Derrotero' | translate}} | {{course.operator.firstName}} {{course.operator.lastName}}</h2>
+        <p *ngIf="course" class="text-secondary">
+            <strong>{{'Auto Tanque' | translate}}:</strong>
+            {{ course.propane_truck.plate }} - ({{ course.propane_truck.state }}) | {{
+            course.propane_truck.capacity }}kg
+        </p>
+        <div class="row center">
+            <div class="col-md-8">
+                <google-map [zoom]="zoom" [width]="'100%'" [height]="'500px'" [center]="mapCenter">
+                    <map-marker *ngFor="let marker of markers" [position]="marker.position" [label]="marker.label"
+                        [options]="{ icon: marker.icon }">
+                    </map-marker>
+                </google-map>
+            </div>
+
+            <div class="col-md-4">
+
+                <!-- Lista de waypoints -->
+                <div *ngIf="course">
+                    <div class="card">
+                        <div class="card-header bg-success text-white">
+                            <strong>{{'Pedidos' | translate}}: {{course.orders.length}}</strong>
+                        </div>
+                        <mat-accordion>
+                            <ul class="list-group list-group-flush">
+                                <li (click)='getMarkerPosition(order.branch_office)' class="list-group-item"
+                                    *ngFor="let order of course.orders; let i = index" style="cursor:pointer;">
+                                    <mat-expansion-panel (opened)="order.panelOpenState = true"
+                                        (closed)="order.panelOpenState = false">
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title>
+                                                <p title="{{ order.branch_office.name }}" >{{ order.branch_office.name | truncate: 27}}</p>
+                                            </mat-panel-title>
+                                            <mat-panel-description class="panel-description">
+                                                {{getPanelText()}}
+                                            </mat-panel-description>
+                                        </mat-expansion-panel-header>
+                                        <p class="label">{{'Folio' | translate}}: {{ order.folio }}</p>
+                                        <p class="label">{{'Tipo pago' | translate}}: {{ order.payment_type }}</p>
+                                        <p class="label">{{'NIT' | translate}}: {{ order.branch_office.nit }}</p>
+                                        <p class="label">{{ order.branch_office.client[0].occupation[0].name }}: {{
+                                            order.branch_office.client[0].firstName
+                                            }} {{ order.branch_office.client[0].lastName }}</p>
+                                        <p class="label">{{'Dirección' | translate}}: {{ order.branch_office.address }}</p>
+                                        <p class="label">{{'Ciudad' | translate}}: {{ order.branch_office.city[0].name }}, {{
+                                            order.branch_office.city[0].department[0].name
+                                            }}, {{ order.branch_office.zone[0].name }}</p>
+                                        <p class="label text-secondary"><strong>{{'Fecha' | translate}}:</strong> {{ order.create | date:
+                                            'dd - MMMM - y H:mm'}}</p>
+                                        <p class="label text-warning"><strong>{{'Estado' | translate}}:</strong> {{
+                                            order.branch_office.status }} | Token: {{ order.token}}</p>
+                                    </mat-expansion-panel>
+                                </li>
+                            </ul>
+                        </mat-accordion>
+                    </div>
+
+                    <div class="row mt-3 mb-2">
+                        <div class="col-sm-12">
+                            <!-- Fecha de creación -->
+                            <p *ngIf="course" class="text-success">
+                                <strong>{{'Fecha de Creación' | translate}}:</strong>
+                                {{ course.create | date: 'dd - MMMM - y H:mm' }}
+                            </p>
+                            <p *ngIf="course" class="text-success">
+                                <strong>{{'Estado' | translate}}:</strong>
+                                {{ course.state }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-sm btn-secondary m-2" (click)="downloadCourse()"style="float: right">{{'Descargar' | translate}} XLS</button>
+                    <button class="btn btn-sm btn-secondary m-2" (click)="toEditCourse()"style="float: right">{{'Editar' | translate}}</button>
+                    <button class="btn btn-sm btn-danger m-2" (click)="deleteCourse()"style="float: right">{{'Borrar' | translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="general-container-mobile">
+    <div class="container">
+        <h2 *ngIf="course">{{course.operator.firstName}} {{course.operator.lastName}}</h2>
+        <p *ngIf="course" class="text-secondary">
+            <strong>{{'Auto Tanque' | translate}}:</strong>
+            {{ course.propane_truck.plate }} - ({{ course.propane_truck.state }}) | {{
+            course.propane_truck.capacity }}kg
+        </p>
+        <div class="row center">
+            <div class="col-md-8 mb-1">
+                <google-map [zoom]="zoom" [width]="'100%'" [height]="'250px'" [center]="mapCenter">
+                    <map-marker *ngFor="let marker of markers" [position]="marker.position" [label]="marker.label"
+                        [options]="{ icon: marker.icon }">
+                    </map-marker>
+                </google-map>
+            </div>
+
+            <div class="col-md-4">
+                <!-- Lista de waypoints -->
+                <div *ngIf="course">
+                    <div class="card">
+                        <div class="card-header bg-success text-white">
+                            <strong>{{'Pedidos' | translate}}: {{course.orders.length}}</strong>
+                        </div>
+                        <mat-accordion>
+                            <ul class="list-group list-group-flush">
+                                <li (click)='getMarkerPosition(order.branch_office)' class="list-group-item"
+                                    *ngFor="let order of course.orders; let i = index" style="cursor:pointer;">
+                                    <mat-expansion-panel (opened)="order.panelOpenState = true"
+                                        (closed)="order.panelOpenState = false">
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title>
+                                                <p title="{{ order.branch_office.name }}">{{ order.branch_office.name | truncate:27 }}</p>
+                                            </mat-panel-title>
+                                            <mat-panel-description class="panel-description">
+                                                {{getPanelText()}}
+                                            </mat-panel-description>
+                                        </mat-expansion-panel-header>
+                                        <p class="label">{{'Establecimiento' | translate}}: {{ order.branch_office.name }}</p>
+                                        <p class="label">{{'Folio' | translate}}: {{ order.folio }}</p>
+                                        <p class="label">{{'Tipo pago' | translate}}: {{ order.payment_type }}</p>
+                                        <p class="label">{{'NIT' | translate}}: {{ order.branch_office.nit }}</p>
+                                        <p class="label">{{ order.branch_office.client[0].occupation[0].name }}: {{
+                                            order.branch_office.client[0].firstName
+                                            }} {{ order.branch_office.client[0].lastName }}</p>
+                                        <p class="label">{{'Dirección' | translate}}: {{ order.branch_office.address }}</p>
+                                        <p class="label">{{'Ciudad' | translate}}: {{ order.branch_office.city[0].name }}, {{
+                                            order.branch_office.city[0].department[0].name
+                                            }}, {{ order.branch_office.zone[0].name }}</p>
+                                        <p class="label text-secondary"><strong>{{'Fecha' | translate}}:</strong> {{ order.create | date:
+                                            'dd - MMMM - y H:mm'}}</p>
+                                        <p class="label text-warning"><strong>{{'Estado' | translate}}:</strong> {{
+                                            order.branch_office.status }} | Token: {{ order.token}}</p>
+                                    </mat-expansion-panel>
+                                </li>
+                            </ul>
+                        </mat-accordion>
+                    </div>
+
+                    <div class="row mt-3 mb-2">
+                        <div class="col-sm-12">
+                            <!-- Fecha de creación -->
+                            <p *ngIf="course" class="text-success">
+                                <strong>{{'Fecha de Creación' | translate}}:</strong>
+                                {{ course.create | date: 'dd - MMMM - y H:mm' }}
+                            </p>
+                            <p *ngIf="course" class="text-success">
+                                <strong>{{'Estado' | translate}}:</strong>
+                                {{ course.state }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <button class="btn btn-sm btn-secondary" (click)="downloadCourse()">{{'Descargar' | translate}} XLS</button>
+                        <button class="btn btn-sm btn-secondary" (click)="toEditCourse()">{{'Editar' | translate}}</button>
+                        <button class="btn btn-sm btn-danger" (click)="deleteCourse()">{{'Borrar' | translate}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

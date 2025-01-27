@@ -1,0 +1,68 @@
+<app-menu-home></app-menu-home>
+
+<div class="general-container">
+    <div class="container">
+        <div class="row text-center mb-4">
+            <div class="col-md-12">
+                <button class="btn btn-sm btn-info m-2" (click)="toReports()">{{'Volver' | translate}}</button>
+                <button class="btn btn-sm btn-danger" (click)="printGraph()">{{'Imprimir' | translate}}</button>
+                <p style="font-size: 12px; color: #b9b9b9;">({{'Presione Error, Satisfactorias o Pendientes dos veces para mostrar la información' | translate}})</p>
+            </div>
+        </div>
+    
+    
+        <div class="row d-flex justify-content-center text-center" id="htmlData">
+            <h2 *ngIf="operator" style="color: #8d8d8d; font-weight: bold;">Historial: {{operator.firstName}}
+                {{operator.lastName}} </h2>
+            <div class="col-md-10 d-flex justify-content-center">
+                <canvas class="graph" baseChart [type]="'pie'" [datasets]="pieChartDatasets" [labels]="pieChartLabels"
+                    [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
+                </canvas>
+            </div>
+        </div>
+    
+        <div class="row d-flex justify-content-center mb-4 mt-4">
+            <div class="col-md-8">
+                <mat-expansion-panel (opened)="bills.panelOpenState = true" (closed)="bills.panelOpenState = false">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <div class="col-sm-8" style="margin-right: 15px;">
+                                <h2 style="color: #8d8d8d;">{{'Datos de la gráfica' | translate}} </h2>
+                            </div>
+                            <div class="col-sm-4">
+                                <p *ngIf="bills" style="font-size: 12px; color: #979797;">({{ bills.length}} {{'Registros' | translate}})</p>
+                            </div>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+    
+                    <mat-card class="mat-elevation-z4">
+                        <mat-card-content>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>{{'Fecha' | translate}}</th>
+                                        <th>{{'Sucursal' | translate}}</th>
+                                        <th>{{'Cliente' | translate}}</th>
+                                        <th>{{'Cargue' | translate}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let bill of bills.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)">
+                                        <td>{{ bill.create | date: 'dd - MMMM - y'}}</td>
+                                        <td>{{ bill.branch_office[0].name}}</td>
+                                        <td>{{ bill.client[0].firstName}} {{ bill.client[0].lastName}}</td>
+                                        <td>
+                                            {{bill.charge.total | currency:'USD':'symbol':'1.0-0'}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <mat-paginator [length]="bills.length" [pageSizeOptions]="[25, 50, 100, bills.length]" showFirstLastButtons></mat-paginator>
+                        </mat-card-content>
+                    </mat-card>
+                </mat-expansion-panel>
+            </div>
+        </div>
+    
+    </div>
+</div>

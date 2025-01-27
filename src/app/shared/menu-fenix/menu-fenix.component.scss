@@ -1,0 +1,125 @@
+.navbar {
+    margin-bottom: 4rem;
+    -webkit-box-shadow: -2px 7px 17px 2px rgba(0, 0, 0, 0.27);
+    -moz-box-shadow: -2px 7px 17px 2px rgba(0, 0, 0, 0.27);
+    box-shadow: -2px 7px 17px 2px rgba(0, 0, 0, 0.27);
+
+    background-color: #103C5D !important;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+
+    .container {
+        padding-right: 100px;
+
+        .navbar-brand {
+            width: 5%;
+        }
+
+        img {
+            cursor: pointer;
+            width: 6%;
+            margin-right: 0.5rem;
+        }
+
+        p {
+            color: white;
+            font-size: 18px;
+            margin: 0;
+            margin-right: 66%;
+        }
+
+        .visible-in-portrait {
+            display: none;
+            /* Oculta el elemento por defecto */
+        }
+
+        .collapse {
+            .visible-in-landscape {
+                display: block;
+            }
+        }
+    }
+}
+
+li {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+    button {
+        text-align: left !important;
+        display: inherit;
+    }
+}
+
+.dropdown-item {
+    padding-left: 10px !important;
+    padding-right: 5px !important;
+}
+
+.matbutton {
+    text-align: left !important;
+    color: #ced5da !important;
+}
+
+/* Estilos para la imagen de la marca en portrait */
+@media (orientation: portrait) {
+    .navbar .container p {
+        margin-right: 0;
+        /* Desactiva el margen derecho en portrait */
+    }
+
+    .navbar .container img {
+        width: 10%;
+    }
+
+    .container {
+        padding: 0 !important;
+
+        .visible-in-portrait {
+            display: block !important;
+        }
+
+
+        .visible-in-landscape {
+            display: none !important;
+        }
+
+        .collapse {
+            border-radius: 10px;
+            margin: 10px;
+            background-color: #014172 !important;
+            padding: 10px !important;
+        }
+
+    }
+}
+
+.matbutton1 {
+    width: 200px;
+    color: #ced5da !important;
+}
+
+a:hover {
+    font-weight: bold;
+}
+
+/* Agrega estilos personalizados para el menú desplegable de configuración */
+.custom-dropdown-menu {
+    background-color: #014e87;
+    /* Cambia el color de fondo */
+    border: none;
+    /* Elimina el borde */
+}
+
+.custom-dropdown-menu .dropdown-item {
+    color: white;
+    /* Cambia el color del texto */
+}
+
+.custom-dropdown-menu .dropdown-item:hover {
+    background-color: #292b2c;
+    /* Cambia el color de fondo al pasar el mouse */
+}

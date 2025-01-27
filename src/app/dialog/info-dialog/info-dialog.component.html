@@ -1,0 +1,9 @@
+<div class="confirm-dialog">
+    <h2 class="mat-dialog-title text-danger">{{data.title}}</h2>
+    <div class="mat-dialog-content">
+        <p [innerHTML]="data.message"></p>
+    </div>
+    <div class="mat-dialog-actions">
+        <button class="btn btn-primary" (click)="onConfirm()">{{'Aceptar' | translate}}</button>
+    </div>
+</div>

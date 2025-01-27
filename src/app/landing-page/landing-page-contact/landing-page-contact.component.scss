@@ -1,0 +1,107 @@
+.container {
+    padding: 0rem 0rem 4.5rem 0rem;
+
+    .content1 {
+        margin-bottom: 3rem;
+
+        .section1 {
+            .img {
+                float: left;
+                margin-left: -80px;
+                width: 80%;
+            }
+        }
+
+        .section2 {
+            padding-top: 6rem;
+
+            lucide-icon {
+                float: right;
+            }
+
+            .title {
+                font-weight: bold;
+                font-size: 25px;
+                color: #026ec1;
+            }
+
+            .paragraph {
+                text-align: right;
+                color: #026ec1;
+            }
+
+            .btn {
+                float: right;
+                background-color: #026ec1;
+                color: #fff;
+                font-weight: bold;
+            }
+
+            .btn:hover {
+                background-color: #0282e4;
+                color: #fff;
+            }
+
+        }
+
+    }
+
+    .content2 {
+        color: #026ec1;
+
+        .box {
+            .title {
+                font-weight: bold;
+                margin-top: 0.5rem;
+            }
+
+            hr {
+                width: 8rem;
+                margin: 1rem auto;
+            }
+
+        }
+    }
+
+
+}
+
+@media (orientation:portrait) {
+
+    .container {
+        .content1 {
+            .section1 {
+                padding: 0;
+
+                .img {
+                    margin-left: 0;
+                }
+            }
+
+            .section2 {
+                padding: 0rem 2rem 0rem 2rem;
+            }
+        }
+
+        .content2 {
+            display: block;
+
+            .box {
+                padding: 0;
+                margin-bottom: 2rem;
+            }
+
+        }
+    }
+}
+
+/* Estilos para ocultar el footer en vista móvil */
+@media (max-width: 768px) {
+    .hide-on-mobile {
+        display: none !important;
+    }
+
+    .container {
+        margin-top: 5rem;
+    }
+}

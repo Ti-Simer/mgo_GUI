@@ -1,0 +1,33 @@
+.container {
+    padding-bottom: 2rem;
+
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+
+    .section1{
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .section2 {
+        h3 {
+            text-align: center;
+            font-weight: bold;
+            color: #636363;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        .item {
+            select {
+                margin-top: 0.5rem;
+            }
+        }
+
+    }
+
+
+}

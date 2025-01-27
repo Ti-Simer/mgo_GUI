@@ -1,0 +1,43 @@
+<app-menu-home></app-menu-home>
+<div class="general-container">
+    <div class="container mt-4 container-derroteros">
+        <h2 *ngIf="user">{{user.firstName}} {{user.lastName}}</h2>
+        <h3 *ngIf="user">-- {{user.role.name}}</h3>
+        <div class="row">
+            <div class="row mt-4">
+                <div class="col-md">
+                    <table class="table table-bordered" *ngIf="course">
+                        <thead>
+                            <tr>
+                                <th class="custom-header">{{'Pedidos' | translate}}</th>
+                                <th class="custom-header">{{'Fecha' | translate}}</th>
+                                <th class="custom-header">{{'Estado' | translate}}</th>
+                                <th class="custom-header">{{'Acciones' | translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td *ngIf="course" class="custom-td">
+                                    <ul class="list-group-item list-group-item-success"
+                                        *ngFor="let location of course.locations">
+                                        <li class="list-group-item">{{ location.name }}</li>
+                                    </ul>
+                                </td>
+                                <td *ngIf="course" class="custom-td">{{ course.create | date: 'dd - MMMM - y H:mm' }}
+                                </td>
+                                <td *ngIf="course" class="custom-td">{{ course.state }}</td>
+                                <td class="custom-td">
+                                    <button class="btn btn-sm btn-derrotero m-2"
+                                        (click)="toView(course.id)">{{'Ver' | translate}}</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <app-footer></app-footer>
+</div>

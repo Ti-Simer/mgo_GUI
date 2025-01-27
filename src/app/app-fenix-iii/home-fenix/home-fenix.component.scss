@@ -1,0 +1,86 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 80vh;
+
+    margin-top: 7.5rem;
+    padding-bottom: 2rem;
+
+    flex: 1;
+    overflow-y: auto;
+
+    .title{
+        margin: 1rem auto;
+        text-align: center;
+    }
+
+    .container{
+        padding-bottom: 100px;
+
+        .box1 {
+            border: 0.5px dotted #103C5D;
+            border-radius: 15px;
+            margin-right: 1rem;
+            text-align: left;
+            width: 95%;
+            margin: 0 auto;
+
+            .col-md-6 {
+                a {
+                    div {
+                        border-radius: 15px;
+                        -webkit-animation: swing-top-fwd 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+                        animation: swing-top-fwd 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+                    }
+                }
+            }
+
+            .col-md-6:hover {
+                a {
+                    div {
+                        animation: cards 0.2s ease 0s 1 normal forwards;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .title2 {
+                padding-top: 1rem;
+                background-color: #103C5D;
+                color: #ffffff;
+                vertical-align: middle;
+                margin-bottom: 1rem;
+                border-radius: 14px 14px 0 0;
+
+                h4 {
+                    color: #ffffff;
+                    font-weight: bold;
+                }
+            }
+
+            .subtitle {
+                h3 {
+                    font-style: italic;
+                    font-size: 12px;
+                    margin-bottom: 2.5rem;
+                }
+            }
+        }
+
+
+        .carousel{
+            .carousel-inner{
+                border-radius: 20px;
+                .carousel-item{
+                    h3{
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+
+        .validator{
+            margin-top: 6rem;
+        }
+    }
+}

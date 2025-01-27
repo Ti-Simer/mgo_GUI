@@ -1,0 +1,91 @@
+<div class="general-container">
+    <div class="container justify-content-center">
+        <h1 class="mb-4">{{'Importación de Establecimientos' | translate}}</h1>
+
+        <div class="row p-1 buttons-group-landscape">
+            <div class="col-sm-12 d-flex">
+                <div class="col-md-1 float-end">
+                    <button class="btn btn-secondary" (click)="toBranchOffices()">{{'Cancelar' | translate}}</button>
+                </div>
+                <div class="col-md-2 float-end">
+                    <button class="btn btn-success" (click)="confirmDownloadTemplate()"
+                    style="align-content: center;"><lucide-icon name="sheet"></lucide-icon> {{'Generar Formato' | translate}}</button>
+                </div>
+                <div class="col-md-2 float-end">
+                    <button class="btn btn-success" (click)="confirmDownloadConsolidateData()"
+                    style="align-content: center;"><lucide-icon name="file-down"></lucide-icon> {{'Exportar datos' | translate}}</button>
+                </div>
+                <div class="col-md-1 float-end">
+                    <lucide-icon name="help-circle" color="#838383" [size]="16" style="cursor:pointer"
+                    (click)="infoImport()"></lucide-icon>
+                </div>
+            </div>
+        </div>
+
+        <div class="buttons-group-portrait">
+            <button class="btn btn-secondary" (click)="toBranchOffices()">{{'Cancelar' | translate}}</button>
+            <button class="btn btn-success" (click)="confirmDownloadTemplate()"
+            style="align-content: center;"><lucide-icon name="sheet"></lucide-icon> {{'Generar Formato' | translate}}</button>
+            <button class="btn btn-success" (click)="confirmDownloadConsolidateData()"
+            style="align-content: center;"><lucide-icon name="file-down"></lucide-icon> {{'Exportar datos' | translate}}</button>
+            <lucide-icon name="help-circle" color="#838383" [size]="16" style="cursor:pointer"
+            (click)="infoImport()"></lucide-icon>
+        </div> 
+
+        <div class="col-lg-8 period-picker text-center mb-4">
+            <h2 class="title">{{'Seleccione un archivo csv o xls' | translate}}</h2>
+            <p style="font-size: 12px; color: #b9b9b9;">({{'Tenga en cuenta que los datos ingresados en el archivo xls o csv son estrictos, debe coincidir en su totalidad con los nombres, ids, seriales de los registros reales solicitados.' | translate}})</p>
+            <div class="buttons-group-import">
+                <input type="file" (change)="handleFileInput($event)">
+                <button class="btn btn-success" (click)="import()" *ngIf="csv.length > 0">
+                    {{'Importar' | translate}}
+                </button>
+            </div>
+        </div>
+
+        <div class="row section2" *ngIf="csv.length > 0">
+            <div class="col-md-4 float-left search d-flex">
+                <input class="form-control float-left" #myInput type="text" placeholder="{{'Palabras clave...' | translate}}"
+                    (input)="initializeSearchFilter()">
+            </div>
+            <div class="col-md-3">
+                <p style="font-size: 12px; color: #a8a8a8;">({{csv.length}} {{'registros' | translate}})</p>
+            </div>
+        </div>
+
+        <div class="col-md-12 table" *ngIf="csv.length != 0">
+            <table class="table table-striped table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th class="custom-header text-center" *ngIf="csv[0].name">{{'Nombre' | translate}}</th>
+                        <th class="custom-header text-center" *ngIf="csv[0].address">{{'Dirección' | translate}}</th>
+                        <th class="custom-header text-center" *ngIf="csv[0].phone && csv[0].email">{{'Contacto' | translate}}</th>
+                        <th class="custom-header text-center" *ngIf="csv[0].nit">{{'NIT' | translate}}</th>
+                        <th class="custom-header text-center" *ngIf="csv[0].client">{{'Id Cliente' | translate}}</th>
+                        <th class="custom-header text-center" *ngIf="csv[0].city && csv[0].zone">{{'Ciudad' | translate}}</th>
+                        <th class="custom-header text-center" *ngIf="csv[0].latitude && csv[0].longitude">{{'Ubicación' | translate}}</th>
+                        <th class="custom-header text-center" *ngIf="csv[0].stationary_tanks">{{'Tanques Estacionarios' | translate}}</th>
+                        <th class="custom-header text-center" *ngIf="csv[0].kilogramValue">{{'Valor por kilo' | translate}}</th>
+                    </tr>
+                </thead>
+                <tbody id="myTable">
+                    <tr *ngFor="let data of csv.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)">
+                        <th scope="row" *ngIf="csv[0].name">{{data.name}}</th>
+                        <td class="custom-td" *ngIf="csv[0].address">{{data.address}}</td>
+                        <td class="custom-td" *ngIf="csv[0].phone && csv[0].email">{{data.phone}} <br> {{data.email}}</td>
+                        <td class="custom-td" *ngIf="csv[0].nit">{{data.nit}}</td>
+                        <td class="custom-td" *ngIf="csv[0].client">{{data.client}}</td>
+                        <td class="custom-td" *ngIf="csv[0].city && csv[0].zone">{{data.city}}, {{data.zone}}</td>
+                        <td class="custom-td" *ngIf="csv[0].latitude && csv[0].longitude">{{data.latitude}}, {{data.longitude}}</td>
+                        <td class="custom-td" *ngIf="csv[0].stationary_tanks">{{data.stationary_tanks.join(', ')}}</td>
+                        <td class="custom-td" *ngIf="csv[0].kilogramValue">{{data.kilogramValue}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <mat-paginator [length]="csv.length" [pageSizeOptions]="[100, 500, 1000, 2500]"
+            showFirstLastButtons></mat-paginator>
+    </div>
+</div>
+
+<app-footer class="hide-on-mobile"></app-footer>

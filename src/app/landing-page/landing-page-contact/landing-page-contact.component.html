@@ -1,0 +1,43 @@
+<div class="col-lg-12 container">
+    <div class="row content1">
+        <div class="col-lg-8 section1">
+            <img class="img" src="assets/images/contact.png">
+        </div>
+
+        <div class="col-lg-4 section2">
+            <lucide-icon name="send" [size]="48" color="#026ec1" [strokeWidth]="2"></lucide-icon>
+            <p class="title">{{'Contacte con nosotros!' | translate}}</p>
+            <p class="paragraph">{{'CONTACT-INFO' | translate}}</p>
+            <button class="btn btn-md btn-info" (click)="toContactForm()">{{'Contacto' | translate}}</button>
+        </div>
+    </div>
+
+    <div class="row d-flex justify-content-center content2">
+        <div class="col-md-3 text-center box">
+            <lucide-icon name="map-pinned" [size]="18" color="#026ec1" [strokeWidth]="3"></lucide-icon>
+            <p class="title">{{'DIRECCIÓN' | translate}}</p>
+            <hr>
+            <p class="body">Pasto (Nariño), Colombia</p>
+        </div>
+        <div class="col-md-3 text-center box">
+            <lucide-icon name="mail" [size]="18" color="#026ec1" [strokeWidth]="3"></lucide-icon>
+            <p class="title">{{'E-MAIL' | translate}}</p>
+            <hr>
+            <p class="body">{{'contacto@simerelectronics.com'}}</p>
+            <lucide-icon name="facebook" [size]="18" color="#026ec1" [strokeWidth]="2"></lucide-icon>
+            <lucide-icon name="twitter" [size]="18" color="#026ec1" [strokeWidth]="2"></lucide-icon>
+            <lucide-icon name="linkedin" [size]="18" color="#026ec1" [strokeWidth]="2"></lucide-icon>
+            <lucide-icon name="instagram" [size]="18" color="#026ec1" [strokeWidth]="2"></lucide-icon>
+        </div>
+        <div class="col-md-3 text-center box">
+            <lucide-icon name="smartphone" [size]="18" color="#026ec1" [strokeWidth]="3"></lucide-icon>
+            <p class="title">{{'TELÉFONO' | translate}}</p>
+            <hr>
+            <p class="body">+57 3113775220 <br>
+                (60) 27340438
+            </p>
+        </div>
+    </div>
+</div>
+
+<app-footer class="hide-on-mobile"></app-footer>

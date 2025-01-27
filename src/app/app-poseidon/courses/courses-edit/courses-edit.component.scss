@@ -1,0 +1,276 @@
+.general-container {
+    display: flex;
+    flex-direction: column;
+
+    .container {
+        h1 {
+            color: #014e87;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        label {
+            color: #9c9c9c;
+        }
+
+        .box1 {
+
+            min-height: 400px;
+
+            border: 1px dashed #014e87;
+
+            .title {
+                color: #014e87;
+                font-size: 18px;
+            }
+
+            .aditional-info {
+                textarea {
+                    span {
+                        font-weight: bold;
+                    }
+
+                    text-align: start !important;
+                    color: #9c9c9c;
+                    min-height: 190px;
+                    max-height: 190px;
+                    padding-top: 30px;
+                    font-size: 12px;
+                }
+            }
+
+            .content {
+                max-height: 300px;
+                overflow-y: auto;
+
+                ul {
+                    margin: 0;
+                    background-color: transparent !important;
+
+                    li {
+                        background-color: transparent !important;
+                    }
+                }
+
+                .table {
+                    font-size: 12px;
+
+                    td {
+                        vertical-align: middle;
+                    }
+
+                    #encabezado {
+                        cursor: pointer;
+                    }
+
+                    #encabezado:hover {
+                        cursor: pointer;
+                        background-color: #0b6db8;
+                    }
+
+                    .custom-header {
+                        background-color: #014e87;
+                        color: white;
+                    }
+
+                    .custom-td {
+                        padding-left: 10px;
+                        max-width: 280px;
+                    }
+
+                }
+
+            }
+        }
+
+
+        .box2 {
+
+            min-height: 400px;
+
+            border-top: 1px dashed #014e87;
+            border-right: 1px dashed #014e87;
+            border-bottom: 1px dashed #014e87;
+
+            .title {
+                color: #014e87;
+                font-size: 18px;
+            }
+
+            .aditional-info {
+                textarea {
+                    span {
+                        font-weight: bold;
+                    }
+
+                    text-align: start !important;
+                    color: #9c9c9c;
+                    min-height: 170px;
+                    max-height: 170px;
+                    padding-top: 30px;
+                    font-size: 12px;
+                }
+            }
+
+            .content {
+                cursor: grab;
+                max-height: 500px;
+                overflow-y: auto;
+
+                &:active {
+                    cursor: grabbing;
+                }
+
+                ul {
+                    margin: 0;
+                    background-color: transparent !important;
+
+                    li {
+                        background-color: transparent !important;
+                    }
+                }
+
+                .table {
+                    font-size: 12px;
+
+                    td {
+                        vertical-align: middle;
+                    }
+
+                    #encabezado {
+                        cursor: pointer;
+                    }
+
+                    #encabezado:hover {
+                        cursor: pointer;
+                        background-color: #0b6db8;
+                    }
+
+                    .custom-header {
+                        background-color: #014e87;
+                        color: white;
+                    }
+
+                    .custom-td {
+                        padding-left: 10px;
+                        max-width: 280px;
+                    }
+
+                }
+
+            }
+        }
+    }
+
+}
+
+@media (orientation: portrait) {
+    .general-container {
+        display: none !important;
+    }
+
+    .general-container-mobile {
+        max-height: 650px;
+        font-size: 11px !important;
+        overflow-y: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        h1 {
+            color: #014e87;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        label {
+            color: #9c9c9c;
+        }
+
+        .aditional-info {
+            textarea {
+
+                text-align: start !important;
+                color: #9c9c9c;
+                min-height: 190px;
+                max-height: 190px;
+                padding-top: 15px;
+                font-size: 11px;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+        
+                &::-webkit-scrollbar {
+                    display: none;
+                }
+
+                span {
+                    font-weight: bold;
+                }
+            }
+        }
+
+        .content{
+            font-size: 11px;
+            max-height: 250px;
+            overflow-x: auto;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+    
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+            .table {
+                td {
+                    vertical-align: middle;
+                }
+    
+                #encabezado {
+                    cursor: pointer;
+                }
+    
+                #encabezado:hover {
+                    cursor: pointer;
+                    background-color: #0b6db8;
+                }
+    
+                .custom-header {
+                    background-color: #014e87;
+                    color: white;
+                }
+    
+                .custom-td {
+                    padding-left: 10px;
+                    max-width: 280px;
+                }
+    
+            }
+        }
+
+        .buttons {
+            font-size: 11px !important;
+            display: flex;
+            flex-wrap: wrap;
+
+            .btn {
+                font-size: 11px !important;
+                flex-grow: 1;
+                flex-basis: 200;
+                margin: 0.2rem;
+                float: right;
+            }
+        }
+    }
+
+}
+
+@media (orientation: landscape) {
+    .general-container-mobile {
+        display: none !important;
+        max-height: 600px;
+    }
+}

@@ -1,0 +1,155 @@
+.general-container {
+    .box-container {
+        padding: 0 2rem 0 2rem;
+
+        #container {
+            border-radius: 7px;
+            background-color: rgba($color: #9c9c9c, $alpha: 0.25);
+
+            .title {
+                margin: 1rem 0 1rem 0;
+
+                h2 {
+                    padding-left: 2rem;
+                }
+            }
+
+            .mat-tree {
+                background-color: #fff !important;
+                border-radius: 7px;
+                padding: 4% 0 4% 0;
+                max-height: 750px;
+                overflow-y: auto;
+
+                .mat-tree-node {
+                    height: 35px;
+                    min-height: 35px;
+                    margin-bottom: 0.5rem;
+                }
+            }
+        }
+    }
+
+    h2 {
+        color: #2E6187;
+        font-weight: bold;
+        margin: 0;
+        background-color: rgba($color: #fff, $alpha: 0.2);
+        border-radius: 7px;
+    }
+}
+
+.tanque-glp {
+    height: 80px;
+    border: 3px solid #2E6187;
+    border-radius: 50px 50px 50px 50px;
+    position: relative;
+    background: #ddd;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    /* Rectángulo superior */
+    .top-container {
+        width: 30%;
+        height: 40%;
+        border: 3px solid #2E6187;
+        border-radius: 0;
+        position: absolute;
+        top: -5px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        z-index: 1;
+        background-color: rgba($color: #333, $alpha: 0.2);
+    }
+
+    /* Parte que muestra el contenido */
+    .contenido {
+        width: 100%;
+        height: var(--porcentaje, 0%);
+        background: linear-gradient(180deg, rgba($color:#49f752, $alpha: 0.7), rgba($color:#13e000, $alpha: 0.7));
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-top: 2px solid #00cc00;
+    }
+
+    /* Texto del porcentaje */
+    .porcentaje {
+        color: #333;
+        font-size: 1rem;
+        font-weight: bold;
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+        z-index: 1;
+    }
+}
+
+.card {
+    width: 50rem;
+
+    .sensors {
+        display: flex;
+        flex-wrap: wrap;
+
+        .sensor {
+            flex-grow: 1;
+            flex-basis: 200;
+            margin: 0.2rem;
+            border-radius: 7px;
+            width: 16rem;
+            cursor: pointer;
+            min-height: 10rem;
+        }
+
+        .sensor:hover {
+            background-color: rgba($color: #727272, $alpha: 1);
+        }
+    }
+}
+
+
+@media (orientation: portrait) {
+    .general-container {
+        .box-container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 0;
+
+            .list-tree {
+                .content {
+                    max-height: 250px;
+                    overflow-y: auto;
+                    scrollbar-width: none;
+                    -ms-overflow-style: none;
+
+                    &::-webkit-scrollbar {
+                        display: none;
+                    }
+                }
+            }
+
+            .tank-boxes {
+                .row {
+                    max-height: 400px;
+                    overflow-y: auto;
+                }
+            }
+
+            #container {
+                flex-grow: 1;
+                flex-basis: 200;
+                margin-bottom: 2rem;
+            }
+        }
+
+        .card {
+            width: 100%;
+        }
+    }
+}

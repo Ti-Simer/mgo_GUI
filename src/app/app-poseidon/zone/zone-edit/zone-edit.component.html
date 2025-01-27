@@ -1,0 +1,19 @@
+<div class="general-container">
+    <div class="container mt-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <h3>{{'Zonas' | translate}}</h3>
+                <h2>{{'Actualización de información' | translate}}</h2>
+                <div class="col-12 mt-4">
+                    <form [formGroup]="updateForm" (ngSubmit)="updateZone()">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">-- {{'Nombre' | translate}}</label>
+                            <input type="text" id="name" class="form-control" formControlName="name" required>
+                        </div>
+                        <button type="submit" class="btn btn-success" [disabled]="!updateForm.valid">{{'Guardar cambios' | translate}}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

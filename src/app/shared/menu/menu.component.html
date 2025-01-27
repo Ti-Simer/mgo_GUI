@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+
+    <img class="navbar-brand" src="assets/images/logonav.png" alt="Simer Electronic" class="img-fluid"
+      (click)="redirectToLandingPage()">
+    <p>Simer Electronic</p>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse mt-2" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link inicio" (click)="redirectToLandingPage()" style="cursor:pointer">{{'Inicio' | translate}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="toUs()">{{'Nosotros' | translate}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="toLegalWarning()">{{'Aviso legal' | translate}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="toContact()">{{'Contacto' | translate}}</a>
+        </li>
+        <li class="nav-item">
+          <button class="matbutton" mat-button [matMenuTriggerFor]="ctrlConfig">
+            <span>&blacktriangledown;</span>
+            <span class="ml-2"><lucide-icon name="globe" [size]="15"></lucide-icon> {{language | uppercase}}</span>
+          </button>
+
+          <mat-menu #ctrlConfig="matMenu">
+            <a class="dropdown-item" style="cursor: pointer; padding-left: 1rem;" (click)="switchLanguage('es')">{{'Español' | translate}}</a>
+            <a class="dropdown-item" style="cursor: pointer; padding-left: 1rem;" (click)="switchLanguage('en')">{{'Inglés' | translate}}</a>
+            <a class="dropdown-item" style="cursor: pointer; padding-left: 1rem;" (click)="switchLanguage('pt')">{{'Portugues' | translate}}</a>
+          </mat-menu>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

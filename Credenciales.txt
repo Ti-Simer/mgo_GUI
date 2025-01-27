@@ -1,0 +1,34 @@
+*Apuntar el frontend al backend local
+
+adminuser@admin.com
+6ebS#r&#^B6n
+
+server simer 1:
+172.105.153.203
+root
++*W8/*v=RcK
+
+UPDATE `branch-offices` SET `branch_office_code` = '12345' WHERE `branch-offices`.`id` = '550b00e0-5308-4adf-819b-b48d651cc0d6';
+UPDATE `branch-offices` SET `branch_office_code` = '12355' WHERE `branch-offices`.`id` = 'c649a466-ef43-4993-8cd4-0968df843a68';
+
+
+Issue#059
+				--FRONTEND--
+Update:
+	*Se ha instalado "electron", "electron-packager" para el empaque-
+	tamiento del aplicativo web.
+
+	*Se ha creado archivo index.js en la raiz del proyecto con los
+	parámetros correspondientes para el empaquetamiento correcto del
+	aplicativo.
+
+	*En el archivo package.json se han incluido las siguientes lineas
+	dentro de scripts:
+
+	"scripts": {
+    		"build": "ng build --out=dist",
+    		"test": "ng test",
+    		"electron": "electron dist/sistema_registros/main.js",
+    		"electron-build": "ng build --prod && npm run electron",
+    		"electron-pack": "electron-packager . --platform=win32 --arch=x64 --out=electron-pack --ignore=node_modules --ignore=backend --ignore=src --ignore=.vscode --ignore=.angular"
+   	},

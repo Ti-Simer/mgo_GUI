@@ -1,0 +1,242 @@
+.general-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 70vh;
+
+    margin-top: 2.5rem;
+
+    .container {
+        padding-bottom: 100px;
+
+        .section1 {
+            margin: 0;
+
+            .box1 {
+                border: 0.5px dotted #014e87;
+                border-radius: 15px;
+                margin-right: 1rem;
+
+                .col-md-6 {
+                    a {
+                        div {
+                            border-radius: 15px;
+                            -webkit-animation: swing-top-fwd 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+                            animation: swing-top-fwd 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+                        }
+                    }
+                }
+
+                .col-md-6:hover {
+                    a {
+                        div {
+                            animation: cards 0.2s ease 0s 1 normal forwards;
+                            cursor: pointer;
+                        }
+                    }
+                }
+
+                .title {
+                    padding-top: 1rem;
+                    background-color: #014e87;
+                    color: #ffffff;
+                    vertical-align: middle;
+                    margin-bottom: 1rem;
+                    border-radius: 14px 14px 0 0;
+
+                    h4 {
+                        color: #ffffff;
+                        font-weight: bold;
+                    }
+                }
+
+                .subtitle {
+                    h3 {
+                        font-style: italic;
+                        font-size: 12px;
+                        margin-bottom: 2.5rem;
+                    }
+                }
+            }
+
+            .box2 {
+                border: 0.5px dotted #014e87;
+                border-radius: 15px;
+
+
+                .col-md-12 {
+                    overflow-x: auto;
+                    overflow-y: auto;
+                    max-height: 16rem;
+                }
+
+                .title {
+                    padding-top: 1rem;
+                    background-color: #014e87;
+                    color: #ffffff;
+                    vertical-align: middle;
+                    border-radius: 14px 14px 0 0;
+
+                    h4 {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+
+        .section2 {
+            .box1 {
+                border: 0.5px dotted #014e87;
+                border-radius: 15px;
+                max-height: 24rem;
+
+                .title {
+                    padding-top: 1rem;
+                    background-color: #014e87;
+                    color: #ffffff;
+                    vertical-align: middle;
+                    border-radius: 14px 14px 0 0;
+
+                    h4 {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+
+        .section3 {
+            margin: 1.5rem auto;
+            display: flex;
+
+            .card1 {
+                background-image: url('../../../assets/images/card1home.png');
+                background-size: cover; // Ajusta la imagen de fondo para cubrir todo el div
+                background-repeat: no-repeat; // Evita que la imagen de fondo se repita
+                height: 6rem;
+                width: 21rem;
+                margin-right: 1rem;
+                border-radius: 10px;
+                padding-top: 1.5rem;
+
+                .text1 {
+                    font-weight: bold;
+                    color: #ffffff;
+                    font-size: 18px;
+                }
+
+                .text2 {
+                    color: #ffffff;
+                    font-size: 12px;
+                }
+            }
+
+            .card2 {
+                background-image: url('../../../assets/images/card2home.png');
+                background-size: cover; // Ajusta la imagen de fondo para cubrir todo el div
+                background-repeat: no-repeat; // Evita que la imagen de fondo se repita
+                height: 6rem;
+                width: 21rem;
+                margin-right: 1rem;
+                border-radius: 10px;
+                padding-top: 1.5rem;
+
+                .text1 {
+                    font-weight: bold;
+                    color: #ffffff;
+                    font-size: 18px;
+                }
+
+                .text2 {
+                    color: #ffffff;
+                    font-size: 12px;
+                }
+            }
+
+            .card3 {
+                background-image: url('../../../assets/images/card3home.png');
+                background-size: cover; // Ajusta la imagen de fondo para cubrir todo el div
+                background-repeat: no-repeat; // Evita que la imagen de fondo se repita
+                height: 6rem;
+                width: 21rem;
+                margin-right: 0.4rem;
+                border-radius: 10px;
+                padding-top: 1.5rem;
+
+                .text1 {
+                    font-weight: bold;
+                    color: #ffffff;
+                    font-size: 18px;
+                }
+
+                .text2 {
+                    color: #ffffff;
+                    font-size: 12px;
+                }
+            }
+
+            #card:hover {
+                animation: cards 0.2s ease 0s 1 normal forwards;
+                cursor: pointer;
+            }
+
+            @keyframes cards {
+                0% {
+                    transform: scale(1);
+                }
+
+                100% {
+                    transform: scale(1.03);
+                }
+            }
+
+
+        }
+    }
+
+
+}
+
+@media (orientation: portrait) {
+    .general-container {
+        .container {
+            padding-bottom: 0px !important;
+
+            .section1 {
+                flex-direction: column;
+
+                .box1 {
+                    margin: auto;
+                    width: 100%;
+                    margin-bottom: 1rem;
+                    padding-bottom: 1rem;
+                    margin-right: 0 !important;
+
+                    .title {
+                        .subtitle {
+                            margin-bottom: 0 !important;
+                        }
+                    }
+                }
+
+                .box2 {
+                    margin: auto;
+                    width: 100%;
+                    margin-bottom: 1rem;
+                    padding-bottom: 1rem;
+                }
+            }
+
+            .section2 {
+                display: none !important;
+            }
+
+            .section3 {
+                display: none !important;
+            }
+        }
+    }
+
+    .hide-on-mobile {
+        display: none !important;
+    }
+
+}

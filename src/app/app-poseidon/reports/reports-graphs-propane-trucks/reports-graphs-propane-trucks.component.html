@@ -1,0 +1,62 @@
+<app-menu-home></app-menu-home>
+<div class="row container justify-content-center">
+
+    <div class="col-sm-3 side-menu">
+
+        <nav class="navbar navbar-expand-lg">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+
+                <mat-accordion>
+                    <ul class="list-group list-group-flush">
+                        <p class="text-light strong" style="margin: 5px auto; font-weight: bold; font-size: 16px;">{{'Auto Tanque' | translate}}: {{propaneTruckId}}</p>
+                        <li class="list-group-item" *ngFor="let graph of graphs; let i = index">
+                            <mat-expansion-panel (opened)="graph.panelOpenState = true"
+                                (closed)="graph.panelOpenState = false">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        {{ graph.name }}
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <ul class="list-group" *ngFor="let subItem of graph.subItems">
+                                    <li class="list-group">
+                                        <p (click)="changeGraph(subItem.name)">{{subItem.name}}</p>
+                                    </li>
+                                </ul>
+                            </mat-expansion-panel>
+                        </li>
+                    </ul>
+                </mat-accordion>
+            </div>
+        </nav>
+    </div>
+
+    <div class="row horizontal-menu">
+        <div class="col-md-6 text-center">
+            <form [formGroup]="graphsForm">
+                <div class="mb-3">
+                    <p style="color: #8d8d8d; font-weight: bold;">{{'Tipo de gráfico' | translate}}</p>
+                    <select id="graph" class="form-select" formControlName="graph">
+                        <option value="" disabled selected>Seleccione un estado</option>
+                        <option *ngFor="let item of graphs" [value]="item.name">
+                            {{item.name}}
+                        </option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-sm-10 text-default text-center" *ngIf="graphsForm.value.graph == 'default'">
+        <p style="font-size: 14px; color: #a8a8a8;">{{'Seleccione el tipo de reporte que quiere visualizar' | translate}}</p>
+    </div>
+
+
+    <div class="col-sm-10 justify-content-center" *ngIf="graphsForm.value.graph == 'Informe de cargues' || graphsForm.value.graph == 'Load report' || graphsForm.value.graph == 'Relatório de carga'">
+        <app-reports-load-report></app-reports-load-report>
+    </div>
+
+</div>

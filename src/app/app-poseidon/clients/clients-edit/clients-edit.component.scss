@@ -1,0 +1,29 @@
+.general-container{
+    display: flex;
+    flex-direction: column;
+
+    .container{
+
+        label {
+            //font-weight: bold;
+            color: #9c9c9c;
+        }
+        
+        h3{
+            margin-bottom: 0;
+            color: #014e87;
+            font-weight: bold;
+        }
+        
+        h2{
+            color: #9c9c9c;
+            font-weight: bold;
+        }
+    }
+}
+
+@media (orientation: portrait) {
+    .general-container{
+        font-size: 11px !important;
+    }
+}

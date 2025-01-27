@@ -1,0 +1,28 @@
+<div class="general-container">
+    <div class="container">
+
+
+        <div class="row header mb-4" *ngIf="bills">
+            <h2 class="text-title">{{bills[0].branch_office_name}}</h2>
+            <div class="row buttons text-center mb-2">
+                <div class="col-md-12">
+                    <button class="btn btn-sm btn-info m-2" (click)="toReports()">{{'Volver' | translate}}</button>
+                    <button class="btn btn-sm btn-danger" (click)="toReportsBranchOffice()">{{'Ver detalles' | translate}}</button>
+                    <p style="font-size: 12px; color: #b9b9b9;">({{'La primera carga de información puede tardar unos minutos, por favor espere' | translate}})</p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row mb-4 text-center" id="htmlData">
+            <h2 *ngIf="bills" style="color: #8d8d8d; font-weight: bold;"> {{bills[0].branch_office_name}}: </h2>
+            <div class="col-md-10 text-center">
+                <div class="row graphic">
+                    <div class="col-md-8 d-flex justify-content-center box1">
+                        <canvas #chart></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

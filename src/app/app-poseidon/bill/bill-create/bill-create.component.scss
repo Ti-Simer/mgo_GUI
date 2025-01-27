@@ -1,0 +1,73 @@
+.general-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 70vh;
+
+    margin-top: 7rem;
+    
+    .container{   
+        padding-bottom: 100px; 
+
+        label {
+            //font-weight: bold;
+            color: #9c9c9c;
+        }
+        
+        .form-check-label:hover {
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        h1 {
+            color: #014e87;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        h2 {
+            color: #9c9c9c;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .search {
+            display: inline-block;
+        
+            input {
+                color: #9c9c9c;
+                margin-left: 1.8rem;
+            }
+        }
+        
+        .selector {
+            max-height: 200px;
+            overflow: overlay;
+            padding: 0 1rem 0 1rem;
+        
+            .table-bordered {
+        
+                label {
+                    color: #808080;
+                }
+        
+                td {
+                    vertical-align: middle;
+                }
+        
+                .custom-header {
+                    background-color: #014e87;
+                    color: white;
+                }
+        
+                ul {
+                    margin: 0;
+                    background-color: transparent !important;
+        
+                    li {
+                        background-color: transparent !important;
+                    }
+                }
+            }
+        }
+    }
+}

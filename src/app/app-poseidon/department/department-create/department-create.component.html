@@ -1,0 +1,21 @@
+<div class="general-container">
+    <div class="container mt-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <h1>{{'Registrar Departamento' | translate}}</h1>
+                <div class="col-12 mt-4">
+                    <form [formGroup]="departmentForm" (ngSubmit)="onSubmit()">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">-- {{'Nombre del Departamento' | translate}}</label>
+                            <input type="text" id="name" class="form-control" formControlName="name"
+                                placeholder="{{'Escriba aquí el nombre del departamento' | translate}}">
+                        </div>
+
+                        <!-- Puedes agregar más campos aquí según los atributos de la entidad Roles -->
+                        <button type="submit" class="btn btn-success m-1" [disabled]="!departmentForm.valid">{{'Registrar departamento' | translate}}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

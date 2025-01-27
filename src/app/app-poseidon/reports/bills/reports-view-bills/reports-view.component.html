@@ -1,0 +1,54 @@
+<app-menu-home></app-menu-home>
+
+<div class="general-container">
+    <div class="container mt-4 container-derroteros">
+        <div class="row">
+            <div class="col-md-8" *ngIf="bills.length > 0">
+                <h2><img src="assets/images/bills.svg"> {{bills[0].branch_office[0].name}}</h2>
+            </div>
+            <div class="col-md-4">
+                <button (click)="toReports()" class="btn btn-secondary float-end">{{'Volver' | translate}}</button>
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-center" *ngIf="bills.length > 0">
+            <div class="col-lg-4 filter text-center">
+                <input class="form-control" #myInput type="text" placeholder="{{'Buscar..' | translate}}"
+                    (input)="initializeSearchFilter()">
+                <p style="font-size: 10px; color: #a8a8a8;">{{'Para utilizar correctamente el buscador por favor desplegar todos los registros con el paginador' | translate}}</p>
+            </div>
+        </div>
+
+        <div class="row p-1" *ngIf="bills.length > 0">
+            <div class="col-sm-4">
+                <p style="font-size: 12px; color: #a8a8a8;">({{bills.length}} {{'registros' | translate}})
+                </p>
+            </div>
+        </div>
+
+        <div class="row mt-1">
+            <div class="col-md">
+                <table  class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="custom-header">{{'Fecha' | translate}}</th>
+                            <th class="custom-header">{{'Cliente' | translate}}</th>
+                            <th class="custom-header">{{'Operador' | translate}}</th>
+                            <th class="custom-header">{{'Estado' | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTable">
+                        <tr *ngFor="let bill of bills.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)"
+                            (click)="toBill(bill.id)">
+                            <td class="custom-td">{{ bill.create | date: 'dd - MMMM - y H:mm'}}</td>
+                            <td class="custom-td">{{ bill.client[0].firstName }} {{ bill.client[0].lastName }}</td>
+                            <td class="custom-td">{{ bill.operator[0].firstName }} {{ bill.operator[0].lastName }}</td>
+                            <td class="custom-td">{{ bill.state }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <mat-paginator [length]="bills.length" [pageSizeOptions]="[25, 50, 100, bills.length]" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

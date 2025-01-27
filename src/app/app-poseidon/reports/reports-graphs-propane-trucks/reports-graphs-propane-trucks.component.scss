@@ -1,0 +1,127 @@
+.container {
+    .col-sm-10 {
+        //margin-left: 27rem;
+        margin: 0 auto 0 37rem;
+    }
+
+    .col-sm-12 {
+        margin-left: 45rem;
+
+        @media (max-width: 1300px) {
+            margin-left: 25rem;
+        }
+    }
+
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 999;
+
+        padding-top: 5rem;
+        width: 225px;
+        height: 100vh;
+        background-color: #014e87;
+
+        mat-accordion {
+            ul {
+                background-color: #014e87 !important;
+
+                li {
+                    background-color: #014e87 !important;
+                    border: none;
+
+                    mat-expansion-panel {
+                        box-shadow: none;
+
+                        mat-expansion-panel-header{
+                            span{
+                                color: #ffffff !important;
+                            }
+                        }
+
+                        mat-panel-title {
+                            color: #ffffff !important;
+                            font-size: 16px;
+                        }
+
+                        mat-panel-title:hover {
+                            font-weight: bold;
+                        }
+                    }
+                }
+            }
+
+            mat-expansion-panel {
+                background-color: #014e87 !important;
+
+                ul {
+                    background-color: #014e87 !important;
+
+                    li {
+                        background-color: #014e87 !important;
+
+                        p {
+                            color: #ffffff !important;
+                            font-size: 14px;
+                            padding-left: 0.5rem;
+                        }
+
+                        p:hover{
+                            font-weight: bold;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .text-default {
+        margin-top: 300px;
+    }
+
+    .horizontal-menu {
+        margin-top: 7rem;
+        //margin-left: 4rem;
+        width: 400px;
+    }
+
+    .text-default {
+        margin-top: 300px;
+        padding-left: 150px;
+    }
+
+    .horizontal-menu {
+        margin-top: 7rem;
+        //margin-left: 4rem;
+        width: 400px;
+    }
+
+}
+
+
+@media (orientation: landscape) {
+    .horizontal-menu {
+        display: none !important;
+    }
+}
+
+@media (orientation: portrait) {
+    .container {
+
+        .col-sm-10 {
+            margin-left: 0rem;
+        }
+
+        .side-menu {
+            display: none !important;
+        }
+
+        .text-default {
+            margin-top: 300px;
+            padding: 0 !important;
+        }
+    }
+}

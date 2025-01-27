@@ -1,0 +1,52 @@
+<div class="general-container">
+    <div class="container mt-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <h3>{{'Ciudades' | translate}}</h3>
+                <h2>{{'Actualización de información' | translate}}</h2>
+                <div class="col-12 mt-4">
+                    <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">-- {{'Nombre de la ciudad' | translate}}</label>
+                            <input type="text" id="name" class="form-control" formControlName="name"
+                                placeholder="Escriba aquí el nombre de la ciudad">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="department" class="form-label">-- {{'Departamento' | translate}}</label>
+                            <div class="input-group" *ngIf="departments.length != 0">
+                                <select id="department" class="form-select" formControlName="department" *ngIf="departments.length != 0">
+                                    <option value="" disabled selected>{{'Seleccione un departamento' | translate}}</option>
+                                    <option *ngFor="let deparment of departments" [value]="deparment.id">{{ deparment.name }}</option>
+                                </select>
+                                <button type="button" class="btn btn-outline-secondary" (click)="toCreateDepartments()">
+                                    +
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="map mb-3" *ngIf="updateForm.value.department">
+                            <input class="form-control mb-1" #geoCode type="text" placeholder="{{'Buscar en mapa...' | translate}}"
+                                (input)="codeAddress()" style="width: 100%; background-color: #ebebeb;">
+
+                            <!-- Agrega aquí el componente de mapa de Google Maps -->
+                            <google-map id="mapContainer" (mapClick)="onMapClick($event)" [width]="'100%'"
+                                [height]="'250px'" [center]="mapCenter">
+
+                                <!-- Marcador condicional -->
+                                <map-marker *ngIf="markerVisible" [position]="markerPosition"></map-marker>
+                            </google-map>
+                            <p *ngIf="updateForm.value.latitude" style="font-size: 14px; color: #a8a8a8;" for="latitude">
+                                {{'Latitud' | translate}}:
+                                {{updateForm.value.latitude}}, {{'Longitud' | translate}}:
+                                {{updateForm.value.longitude}}</p>
+                        </div>
+
+                        <!-- Puedes agregar más campos aquí según los atributos de la entidad Roles -->
+                        <button type="submit" class="btn btn-success m-1" [disabled]="!updateForm.valid">{{'Guardar cambios' | translate}}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

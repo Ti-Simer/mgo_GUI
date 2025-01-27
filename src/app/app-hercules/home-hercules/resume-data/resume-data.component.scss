@@ -1,0 +1,49 @@
+.container {
+    max-height: 750px;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    canvas {
+        width: 50%;
+        text-align: center;
+        padding: 0;
+    }
+
+    .information {
+        border-radius: 7px;
+    }
+
+    h3 {
+        color: #2E6187;
+        font-weight: bold;
+        margin: 0;
+        background-color: rgba($color: #fff, $alpha: 0.2);
+        border-radius: 7px;
+    }
+}
+
+@media (orientation: portrait) {
+    .container {
+        max-height: 600px;
+        overflow-y: auto;
+
+        canvas {
+            width: 100%;
+        }
+    }
+
+    #chartLandscape {
+        display: none;
+    }
+}
+
+@media (orientation: landscape) {
+    #chartPortrait {
+        display: none;
+    }
+}

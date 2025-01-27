@@ -1,0 +1,29 @@
+<div class="general-container" *ngIf="flag">
+    <ul>
+        <li *ngFor="let notification of notifications">
+            <p class="text-title" (click)="toViewNotification(notification.id)">
+                {{ notification.title }}
+            </p>
+            <p class="text-body" (click)="toViewNotification(notification.id)"
+                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                {{ notification.message }} <br>
+                <span class="text-date">
+                    {{notification.create | date: 'dd - MMMM - y H:mm'}}
+                </span>
+            </p>
+        </li>
+    </ul>
+</div>
+
+<div class="row footer justify-content-center text-center align-items-center" *ngIf="flag">
+    <div class="col-sm-7 m-0">
+        <button class="btn btn-outline-secondary btn-md" (click)="toNotifications()">{{'Ver todo' | translate}}</button>
+    </div>
+</div>
+
+<div class="general-container" *ngIf="flag == false">
+    <div class="row d-flex justify-content-center"></div>
+    <span class="text-center">
+        {{'no tienes Permiso para ver las notificaciones' | translate}}
+    </span>
+</div>

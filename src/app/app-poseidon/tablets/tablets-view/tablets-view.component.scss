@@ -1,0 +1,59 @@
+.general-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 70vh;
+
+    margin-top: 7rem;
+
+    .container{
+        padding-bottom: 100px; 
+
+        .col-md-5 {
+            border: 1px solid #cccccc;
+            padding: 3%;
+    
+            .card-text {
+                margin-bottom: 0;
+            }
+    
+            .card-title {
+                margin-bottom: 0;
+            }
+        }
+    
+        .noubication {
+            border: 1px solid #cccccc;
+    
+            p {
+                margin-top: 32%;
+                color: #b4b3b3;
+            }
+        }
+    
+        h5:hover {
+            font-weight: bold;
+            color: #b4b3b3;
+        }
+    
+        .loading {
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+            margin-top: 10rem;
+            text-align: center;
+    
+            .img {
+                width: 20%;
+                margin-bottom: 1rem;
+            }
+    
+            p {
+                font-size: 14px;
+                color: #a8a8a8;
+            }
+    
+    
+        }
+    }
+
+}

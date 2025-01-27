@@ -1,0 +1,173 @@
+/* Estilos para la barra de herramientas */
+.mat-toolbar {
+  //background-color: #014e87 !important;
+  /* Azul oscuro */
+  color: white !important;
+  /* Texto blanco */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+  transition: background-color 0.3s ease;
+  min-height: 4.5rem;
+  padding-top: 0.5rem;
+}
+
+.mat-sidenav-content {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Estilos para el botón del menú */
+.mat-icon-button {
+  transition: color 0.3s ease;
+
+  .mat-icon {
+    color: white !important;
+  }
+}
+
+.mat-icon-button:hover {
+  color: #ff4081 !important;
+}
+
+/* Estilos para los enlaces del menú */
+.menu-items a {
+  color: white !important;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.menu-items a:hover {
+  color: #ff4081 !important;
+}
+
+.logo {
+  padding-left: 3%;
+  align-items: center !important;
+  display: flex;
+  margin: 0;
+  font-weight: bold;
+}
+
+.menu-items {
+  margin-left: 50%;
+  font-size: 11px;
+
+  .matbutton {
+    text-align: left !important;
+    color: #8cb6d7 !important;
+  }
+
+  .mat-menu {
+    .dropdown-item {
+      padding-left: 1rem !important;
+    }
+  }
+}
+
+/* Estilos para el sidenav */
+.mat-sidenav {
+  background-color: #737377 !important;
+  /* Azul oscuro */
+  color: white !important;
+
+  /* Texto blanco */
+  .side-menu-list {
+    padding-top: 2rem !important;
+    padding-left: 1.5rem !important;
+  }
+}
+
+.mat-nav-list .mat-list-item {
+  color: white !important;
+}
+
+.mat-nav-list .mat-list-item:hover {
+  background-color: #014e87 !important;
+  /* Azul un poco más claro */
+}
+
+.mat-nav-list .mat-list-item a:hover {
+  color: #ff4081 !important;
+  /* Color rosa al pasar el cursor */
+}
+
+.matbutton {
+  color: #fff !important;
+}
+
+.mat-tree {
+  background-color: #737377 !important;
+  color: white !important;
+
+  .mat-tree-node {
+    height: 35px;
+    min-height: 35px;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Estilos para dispositivos móviles */
+@media (orientation: portrait) {
+  .menu-items {
+    display: none;
+  }
+
+  .mat-sidenav {
+    width: 315px !important;
+    /* Ajustar el ancho del sidenav */
+  }
+
+  .mdc-list-item__primary-text {
+    color: #fff;
+  }
+
+  #text-company-landscape {
+    display: none;
+  }
+
+  #text-company-portrait {
+    font-size: 16px;
+  }
+}
+
+@media (orientation: landscape) {
+  #text-company-portrait {
+    display: none;
+  }
+
+  .horizontal-tree {
+    display: flex;
+    flex-direction: row;
+    /* Elementos principales en línea horizontal */
+    gap: 1rem;
+    /* Espaciado entre nodos principales */
+    background-color: transparent;
+
+    .mat-tree-node {
+      display: flex;
+      align-items: center;
+      color: white !important;
+    }
+
+    /* Estilo para nodos hijos */
+    mat-nested-tree-node {
+      display: flex;
+      flex-direction: column;
+      /* Hijos se organizan verticalmente */
+      margin-left: 1rem;
+      /* Indentación para los hijos */
+      gap: 0.5rem;
+      /* Espaciado entre nodos hijos */
+    }
+
+    /* Opcional: Ajuste para íconos o botones */
+    button[mat-icon-button] {
+      margin-right: 0.5rem;
+    }
+  }
+
+}

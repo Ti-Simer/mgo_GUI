@@ -1,0 +1,98 @@
+.container {
+    margin-top: 4rem;
+    margin-bottom: 5.5rem;
+
+    .title {
+        h2 {
+            color: #9c9c9c;
+            font-weight: bold;
+            margin-bottom: 0;
+        }
+
+        p {
+            font-size: 14px;
+            color: #a8a8a8;
+            color: #d4d4d4;
+            margin-bottom: 2rem;
+        }
+    }
+
+    .slot {
+
+        .atenea {
+            width: 49.7%;
+            cursor: pointer;
+        }
+
+        .atenea-text {
+            margin-bottom: 0;
+            font-weight: bold;
+            color: #3C4A56;
+        }
+
+        .poseidon {
+            width: 60.3%;
+            cursor: pointer;
+        }
+
+        .poseidon-text {
+            margin-bottom: 0;
+            font-weight: bold;
+            color: #014e87;
+        }
+
+        .fenix {
+            width: 58%;
+            cursor: pointer;
+        }
+
+        .hercules {
+            width: 47.2%;
+            cursor: pointer;
+        }
+
+        .fenix-text {
+            margin-bottom: 0;
+            font-weight: bold;
+            color: #103C5D;
+        }
+
+        lucide-icon {
+            cursor: pointer;
+        }
+
+    }
+}
+
+/* Estilos para ocultar el footer en vista móvil */
+@media (max-width: 768px) {
+    .container {
+        .slot {
+            margin-bottom: 2rem;
+
+            .atenea {
+                width: 15%;
+            }
+
+            .poseidon {
+                width: 15%;
+            }
+
+            .fenix {
+                width: 16%;
+            }
+
+            .hercules {
+                width: 12%;
+            }
+
+            lucide-icon {
+                display: none !important;
+            }
+        }
+    }
+
+    .hide-on-mobile {
+        display: none !important;
+    }
+}

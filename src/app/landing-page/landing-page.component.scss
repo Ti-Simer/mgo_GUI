@@ -1,0 +1,56 @@
+.container {
+  margin-top: 4rem;
+  margin-bottom: 5.5rem;
+  img {
+    margin-bottom: 1rem;
+    width: 10.5em;
+  }
+}
+  
+.text-center {
+  text-align: center;
+}
+  
+.btn {
+  margin: 0.5rem;
+}
+
+/* Estilo para todo el cuerpo de la página */
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Estilo para el contenedor principal */
+.wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estilo para el contenido principal */
+.content {
+  flex: 1;
+}
+
+/* Estilos para la imagen de la marca en portrait */
+@media (orientation: portrait) {
+  .content {
+    flex: 1;
+    margin-bottom: 11.5rem !important;
+  }
+}
+
+/* Estilos para ocultar el footer en vista móvil */
+@media (max-width: 768px) {
+  .hide-on-mobile {
+      display: none !important;
+  }
+
+  .container {
+    margin-top: 10rem;
+  }
+}

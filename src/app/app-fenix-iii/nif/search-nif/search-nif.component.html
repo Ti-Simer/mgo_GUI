@@ -1,0 +1,63 @@
+<app-menu-fenix></app-menu-fenix>
+<div class="general-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <form [formGroup]="nifForm" (ngSubmit)="onSubmit()">
+
+                    <div class="mb-3" *ngIf="!nif">
+                        <label for="name" class="form-label">-- NIF</label>
+                        <input type="text" id="searchNif" class="form-control" formControlName="searchNif"
+                            placeholder="Digite el nif a consultar">
+                    </div>
+
+                    <div class="mb-3" *ngIf="!nif">
+                        <button class="btn btn-success m-1" [disabled]="!nifForm.value.searchNif" (click)="searchNif()"
+                            *ngIf="!nif">Buscar</button>
+                        <button (click)="toImportNifs()" class="btn btn-secondary" *ngIf="!nif">Cancelar</button>
+                    </div>
+
+
+                    <div class="row justify-content-center" *ngIf="nif">
+                        <h3>NIF: {{nif.nif}}</h3>
+                        <h2>Actualización de información</h2>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="nif" class="form-label">-- NIF</label>
+                                <input type="text" id="nif" class="form-control" formControlName="nif"
+                                    placeholder="Digite el nif">
+                            </div>
+        
+                            <div class="mb-3">
+                                <label for="category" class="form-label">-- Categoría</label>
+                                <input type="number" id="category" class="form-control" formControlName="category"
+                                    placeholder="digite la categoría">
+                            </div>
+                        </div>
+        
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="tara" class="form-label">-- Tara</label>
+                                <input type="number" step="0.1" id="tara" class="form-control" formControlName="tara"
+                                    placeholder="Digite la tara, ejemplo 13.5">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="fecha_mtto" class="form-label">-- Fecha de mantenimiento</label>
+                                <input type="date" id="fecha_mtto" class="form-control" formControlName="fecha_mtto"
+                                    placeholder="Fecha en formato yyyy-mm-dd">
+                            </div>
+        
+                            <!-- Puedes agregar más campos aquí según los atributos de la entidad Roles -->
+                            <button type="submit" class="btn btn-success m-1" [disabled]="!nifForm.valid">Guardar
+                                cambios</button>
+                            <button (click)="toImportNifs()" class="btn btn-secondary">Cancelar</button>
+        
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

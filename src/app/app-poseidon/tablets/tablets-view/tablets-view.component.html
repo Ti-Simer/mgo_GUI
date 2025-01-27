@@ -1,0 +1,72 @@
+<app-menu-home></app-menu-home>
+<div class="general-container">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-lg-11 mb-3">
+                <div class="row mt-4 d-flex justify-content-center" *ngIf="isLoading">
+                    <div class="col-sm-1">
+                        <div class="spinner-grow text-secondary" role="status">
+                            <span class="sr-only"></span>
+                        </div>
+                        <div class="spinner-grow text-light" role="status">
+                            <span class="sr-only"></span>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="card text-center" *ngIf="tablet">
+                    <div class="card-header">
+                        <ul class="nav nav-pills card-header-pills">
+                            <li class="nav-item" id="date">
+                                <a class="nav-link disabled">{{'Estado' | translate}}: {{tablet.state}}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link">{{'Desactivar tablet' | translate}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-1">
+    
+                            </div>
+                            <div class="col-md-5">
+                                <h5 class="card-title float-end" style="color: rgb(40, 191, 83);">{{'Porcentaje de batería' | translate}}:
+                                    {{tablet.batteryPercent}}%</h5><br>
+                                <p class="card-text"> </p>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <p class="card-text" style="font-weight: bold;">{{'Dirección Física' | translate}}:</p>
+                                <p class="card-text">{{tablet.mac}}</p>
+                                <h5 class="card-title" (click)="toOperator()" style="cursor: pointer;">{{'Operador' | translate}}:
+                                    {{tablet.operator[0].firstName}}
+                                    {{tablet.operator[0].lastName}}</h5>
+                                <h5 class="card-title" (click)="toOperator()" style="cursor: pointer;">
+                                    {{tablet.operator[0].email}}</h5>
+                            </div>
+                            <div class="col-md-6" *ngIf="tablet.longitude != 0 && tablet.latitude != 0">
+                                <google-map [zoom]="zoom" [width]="'80%'" [height]="'350px'" [center]="mapCenter">
+                                    <map-marker *ngFor="let marker of markers" [position]="marker.position"
+                                        [label]="marker.label"></map-marker>
+                                </google-map>
+                            </div>
+                            <div class="col-md-5 noubication" *ngIf="tablet.longitude == 0 && tablet.latitude == 0">
+                                <p class="card-text"> {{'No se ha detectado ubicación' | translate}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a (click)="toTablets()" class="btn btn-primary">{{'Lista de dispositivos' | translate}}</a>
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>

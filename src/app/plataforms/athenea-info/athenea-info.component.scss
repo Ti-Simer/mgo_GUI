@@ -1,0 +1,54 @@
+.container {
+    margin-top: 4rem;
+    margin-bottom: 5.5rem;
+
+    .title {
+        h3 {
+            margin-bottom: 0;
+            color: #014e87;
+            font-weight: bold;
+        }
+
+        h2 {
+            color: #9c9c9c;
+            font-weight: bold;
+        }
+    }
+
+    .content {
+        .login {
+            img {
+                width: 25%;
+                position: fixed;
+                top: 30%;
+                left: 15%;
+                z-index: -1;
+            }
+        }
+    }
+
+}
+
+@media (orientation: portrait) {
+    .container {
+        margin-top: -10%;
+
+        .content {
+            .login {
+                img {
+                    display: none !important;
+
+                }
+            }
+
+            .buttons {
+                display: block !important;
+
+                .back {
+                    display: none !important;
+                }
+            }
+        }
+
+    }
+}

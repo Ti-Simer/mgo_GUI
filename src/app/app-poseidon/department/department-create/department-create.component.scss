@@ -1,0 +1,23 @@
+.general-container{
+    display: flex;
+    flex-direction: column;
+    max-height: 800px;
+    
+    .container{
+        label {
+            //font-weight: bold;
+            color: #9c9c9c;
+        }
+        
+        h1 {
+            color: #014e87;
+            font-weight: bold;
+        }
+    }
+}
+
+@media (orientation: portrait) {
+    .general-container{
+        font-size: 11px !important;
+    }
+}

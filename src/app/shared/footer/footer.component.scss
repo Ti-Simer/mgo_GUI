@@ -1,0 +1,25 @@
+/* Estilos para el footer */
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    -webkit-box-shadow: -2px -7px 17px 2px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: -2px -7px 17px 2px rgba(0, 0, 0, 0.15);
+    box-shadow: -2px -7px 17px 2px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    height: 80px;
+
+    .copyr {
+        color: #5E6265;
+        text-align: center;
+        font-size: 11px;
+    }
+}
+
+/* Ocultar el footer en vista móvil */
+@media (max-width: 900px) {
+    .footer {
+        display: none;
+    }
+}

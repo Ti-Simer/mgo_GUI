@@ -1,0 +1,35 @@
+<app-menu-home></app-menu-home>
+<div class="general-container">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-lg-11">
+                <div class="card text-center" *ngIf="notification">
+                    <div class="card-header">
+                        <ul class="nav nav-pills card-header-pills">
+                            <li class="nav-item" id="date">
+                                <a class="nav-link disabled">{{notification.create | date: 'dd - MMMM - y H:mm'}}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" (click)="delete(notification)">
+                                    <img src="assets/images/trash.svg" style="cursor: pointer;">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{notification.title}}</p>
+                        <h5 class="card-title">{{notification.message}}</h5>
+                        <h5 class="card-title float-end">({{notification.type}})</h5>
+                    </div>
+                    <div class="card-footer">
+                        <a (click)="toNotifications()" class="btn btn-secondary" style="margin-right: 1rem;">{{'Volver' | translate}}</a>
+                        <a (click)="goToReview()" class="btn btn-primary">{{'Revisar' | translate}}</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>

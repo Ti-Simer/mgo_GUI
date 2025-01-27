@@ -1,0 +1,58 @@
+.navbar {
+    -webkit-box-shadow: -2px 7px 17px 2px rgba(0, 0, 0, 0.27);
+    -moz-box-shadow: -2px 7px 17px 2px rgba(0, 0, 0, 0.27);
+    box-shadow: -2px 7px 17px 2px rgba(0, 0, 0, 0.27);
+
+    background-color: #026ec1 !important;
+
+    .container {
+        .navbar-brand {
+            width: 5%;
+        }
+
+        .nav-item {
+            button{
+                color: #b7d3e4;
+                font-size: 11px;
+            }
+
+            mat-menu{
+                a{
+                    padding-left: 1rem;
+                }
+            }
+        }
+
+        img {
+            cursor: pointer;
+            width: 6%;
+        }
+
+        p {
+            color: white;
+            font-size: 18px;
+            margin: 0;
+            margin-right: 52%;
+        }
+
+        a {
+            cursor: pointer;
+        }
+    }
+}
+
+/* Estilos para la imagen de la marca en portrait */
+@media (orientation: portrait) {
+    .navbar {
+        margin-bottom: 4rem;
+    }
+
+    .navbar .container p {
+        margin-right: 0;
+        /* Desactiva el margen derecho en portrait */
+    }
+
+    .navbar .container img {
+        width: 12%;
+    }
+}

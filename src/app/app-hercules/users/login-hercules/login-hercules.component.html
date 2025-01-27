@@ -1,0 +1,42 @@
+<div class="wrapper">
+    <div class="container content">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <h3>{{'Sistema Hercules' | translate}}</h3>
+                <h2>{{'Inicio de sesión' | translate}}</h2>
+                <div class="col-12 mt-4">
+                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+                        <div class="mb-3">
+                            <label for="credentials" class="form-label">-- {{'Usuario' | translate}}</label>
+                            <input type="text" id="credentials" class="form-control" formControlName="credentials"
+                                placeholder="{{'Numero de id o correo' | translate}}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="server" class="form-label">-- {{'Contraseña' | translate}}</label>
+                            <div class="input-group">
+                                <input [type]="showPassword ? 'text' : 'password'" id="password" class="form-control"
+                                    formControlName="password" placeholder="{{'Escriba aquí su contraseña' | translate}}">
+                                <button type="button" class="btn btn-outline-secondary" (click)="toggleShowPassword()">
+                                    <lucide-icon [name]="showPassword ? 'eye-off' : 'eye'"></lucide-icon>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success" [disabled]="!loginForm.valid">{{'Iniciar Sesión' | translate}}
+                            </button>
+                        <button class="btn btn-secondary" style="margin-left: 1rem;"
+                            (click)="toPlataforms()">{{'Cancelar' | translate}}</button>
+
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-3 visible-on-landscape">
+                <img src="assets/images/esquema-poseidon.svg" alt="" style="width: 425px;">
+            </div>
+        </div>
+    </div>
+
+    <app-footer class="hide-on-mobile"></app-footer>
+</div>

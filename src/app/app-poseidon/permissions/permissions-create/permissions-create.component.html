@@ -1,0 +1,29 @@
+<app-menu-home></app-menu-home>
+
+<div class="general-container">
+    <div class="container mt-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <h1>{{'Registrar Permiso' | translate}}</h1>
+                <div class="col-12 mt-4">
+                    <form [formGroup]="permissionForm" (ngSubmit)="onSubmit()">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">-- {{'Nombre del Permiso' | translate}}</label>
+                            <input type="text" id="name" class="form-control" formControlName="name"
+                                placeholder="{{'Escriba aquí el nombre del permiso' | translate}}">
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="accessCode" class="form-label">-- {{'Código de acceso' | translate}}</label>
+                            <input type="text" id="accessCode" class="form-control" formControlName="accessCode"
+                                placeholder="{{'Escriba aquí el código del permiso' | translate}}">
+                        </div>
+                        <!-- Puedes agregar más campos aquí según los atributos de la entidad Roles -->
+                        <button type="submit" class="btn btn-success m-1" [disabled]="!permissionForm.valid">{{'Registrar Permiso' | translate}}</button>
+                        <button (click)="toPermissions()" class="btn btn-secondary">{{'Cancelar' | translate}}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

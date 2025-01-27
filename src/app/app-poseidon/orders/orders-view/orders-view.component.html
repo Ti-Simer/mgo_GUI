@@ -1,0 +1,13 @@
+
+<div class="general-container">
+    <div class="container mt-2" *ngIf="order">
+        <div class="mb-3 aditional-info">
+            <label for="info" class="form-label">-- {{'Pedido' | translate}}</label>
+            <textarea class="form-control" id="info" rows="3" readonly>
+                {{'Establecimiento' | translate}}: {{order.branch_office.name}}
+                {{'Folio' | translate}}: {{order.folio}}
+                {{'Token' | translate}}: {{order.token}}
+            </textarea>
+        </div>
+    </div>
+</div>

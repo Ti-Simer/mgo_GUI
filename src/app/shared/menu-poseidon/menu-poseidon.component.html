@@ -1,0 +1,91 @@
+<button class="matbutton" mat-button [matMenuTriggerFor]="ctrlNotify" style="margin-right: -20px;" (click)="fetchNotifications()">
+    <img *ngIf="!notifications" class="visible-in-landscape" src="assets/images/icons/bell.svg"
+        alt="" style="margin-right: 15px; width: 20px;">
+    <img *ngIf="notifications" class="visible-in-landscape" src="assets/images/icons/bell-fill.svg"
+        alt="" style="margin-right: 15px; width: 20px;">
+    <span *ngIf="notifications && notifications.length < 49"
+        style="position: absolute; top: -6px; right: 25px; color: #fff; font-size: 8px;">
+        {{notifications.length}} </span>
+    <span *ngIf="notifications && notifications.length > 49"
+        style="position: absolute; top: -6px; right: 25px; color: #fff; font-size: 8px;">
+        49+ </span>
+</button>
+
+<mat-menu #ctrlNotify="matMenu">
+    <app-notifications *ngIf="notifications"></app-notifications>
+    <p style="width: 250px; text-align: center; padding-top: 15px;" *ngIf="!notifications"> {{'No tiene notificaciones' | translate}}
+    </p>
+</mat-menu>
+
+<button class="matbutton" mat-button (click)="redirectToHome()">
+    {{'Inicio' | translate}}
+</button>
+
+<button class="matbutton" mat-button [matMenuTriggerFor]="ctrlConfig">
+    <span>&blacktriangledown;</span>
+    <span class="ml-2">{{'Administración' | translate}}</span>
+</button>
+
+<mat-menu #ctrlConfig="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="ctrlUsers">{{'Control usuarios' | translate}}</button>
+    <button mat-menu-item [matMenuTriggerFor]="ctrlUbication">{{'Control ubicación' | translate}}</button>
+    <button mat-menu-item [matMenuTriggerFor]="ctrlClients">{{'Control clientes' | translate}}</button>
+    <button mat-menu-item [matMenuTriggerFor]="ctrlMaquinaria">{{'Control parque vehicular' | translate}}</button>
+</mat-menu>
+
+<mat-menu #ctrlUsers="matMenu">
+    <a (click)="toUsers()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Usuarios' | translate}}</a>
+    <a (click)="toRoles()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Roles' | translate}}</a>
+    <a (click)="toPermissions()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Permisos' | translate}}</a>
+</mat-menu>
+
+<mat-menu #ctrlUbication="matMenu">
+    <a (click)="toDepartments()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Estados' | translate}}</a>
+    <a (click)="toCities()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Ciudades' | translate}}</a>
+    <a (click)="toZones()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Zonas' | translate}}</a>
+</mat-menu>
+
+<mat-menu #ctrlClients="matMenu">
+    <a (click)="toBranchOffices()" class="dropdown-item"
+        style="cursor: pointer; padding-left: 1rem;">{{'Establecimientos' | translate}}</a>
+    <a (click)="toClients()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Clientes' | translate}}</a>
+    <a (click)="toOccupations()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Cargos' | translate}}</a>
+    <a (click)="toCourses()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Derroteros' | translate}}</a>
+</mat-menu>
+
+<mat-menu #ctrlMaquinaria="matMenu">
+    <a (click)="toPropaneTrucks()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Auto Tanques' | translate}}</a>
+    <a (click)="toStationaryTanks()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Tanques Estacionarios' | translate}}</a>
+    <a (click)="toTablets()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Dispositivos de control' | translate}}</a>
+</mat-menu>
+
+<button class="matbutton" mat-button [matMenuTriggerFor]="ctrlAccount">
+    <span>&blacktriangledown;</span>
+    <span class="ml-2">{{'Cuenta' | translate}}</span>
+</button>
+
+<mat-menu #ctrlAccount="matMenu">
+    <a (click)="toProfile()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"><lucide-icon name="user"
+            [size]=13></lucide-icon> {{'Perfil' | translate}}</a>
+    <a (click)="toNotifications()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"><lucide-icon
+            name="bell" [size]=13></lucide-icon> {{'Notificaciones' | translate}}</a>
+    <a (click)="logout()" class="dropdown-item"
+        style="cursor: pointer; padding-left: 1rem; color: #e13411;"><lucide-icon name="log-out"
+            [size]=13></lucide-icon> {{'Cerrar sesión' | translate}}</a>
+</mat-menu>
+
+<button class="matbutton" mat-button [matMenuTriggerFor]="ctrlConfigLanguage">
+    <span>&blacktriangledown;</span>
+    <span class="ml-2"><i-lucide [img]="Languages" [size]="12" class="Languages-icon"></i-lucide>
+        {{language |
+        uppercase}}</span>
+</button>
+
+<mat-menu #ctrlConfigLanguage="matMenu" style="display: block;">
+    <a class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"
+        (click)="switchLanguage('es')">{{'Spanish' | translate}}</a>
+    <a class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"
+        (click)="switchLanguage('en')">{{'English' | translate}}</a>
+    <a class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"
+        (click)="switchLanguage('pt')">{{'Portuguese' | translate}}</a>
+</mat-menu>

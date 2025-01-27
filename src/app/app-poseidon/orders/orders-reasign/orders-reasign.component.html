@@ -1,0 +1,232 @@
+<div class="general-container">
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <h1>Reasignación de Pedidos</h1>
+            <label style="font-size: 10px !important; margin-bottom: 2rem;">(Para reasignar pedidos arrastre los elementos de una caja a la que asignará el pedido.)</label>
+            <br>
+        </div>
+        <div class="row mb-3 box-container">
+            <div class="col-lg-6 p-3 box1" cdkDropList #ordersList1="cdkDropList" [cdkDropListData]="orders1"
+                [cdkDropListConnectedTo]="[ordersList2]" (cdkDropListDropped)="drop($event)">
+                <p class="title" *ngIf="!selectedCourseId1">Selección °1</p>
+                <label for="operator" class="form-label" *ngIf="!selectedCourseId1">-- Derrotero 1</label>
+
+                <select id="operator" class="form-select mb-2" [(ngModel)]="selectedCourseId1"
+                    (change)="onCourseSelectionChange(selectedCourseId1)">
+                    <option value="" disabled selected>Seleccione un derrotero</option>
+                    <option *ngFor="let course of courses" [value]="course.id">
+                        {{ course.operator.firstName }} {{ course.operator.lastName }}, {{ course.propane_truck.plate }}
+                        : {{ course.propane_truck.capacity }}kg || {{ course.create | date: 'dd - MMMM - y H:mm'}}
+                    </option>
+                </select>
+
+                <div class="mb-3 aditional-info" *ngIf="selectedCourseId1">
+                    <label for="info" class="form-label">-- Información derrotero</label>
+                    <textarea class="form-control" id="info" rows="3" readonly>
+                        Operario: {{course1.operator.firstName}} {{course1.operator.lastName}}  - Identificación: {{course1.operator.idNumber}}
+                        E-mail: {{course1.operator.email}}
+                        Pedidos: {{course1.orders.length}}
+                        _____________
+                        Vehículo: {{course1.propane_truck.plate}} - {{course1.propane_truck.capacity}}kg
+                        Derrotero: {{course1.create | date: 'dd - MMMM - y H:mm'}}
+                    </textarea>
+                </div>
+
+                <label for="info" class="form-label" *ngIf="selectedCourseId1">-- Pedidos:</label>
+
+                <div class="content">
+                    <div class="card mb-2" *ngFor="let order of orders1" cdkDrag>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="custom-header">Folio</th>
+                                    <th class="custom-header">Fecha</th>
+                                    <th class="custom-header">Establecimiento</th>
+                                    <th class="custom-header">Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="custom-td">{{ order.folio }}</td>
+                                    <td class="custom-td">{{ order.create | date: 'dd - MMMM - y H:mm' }}</td>
+                                    <td class="custom-td">{{ order.branch_office.name }}</td>
+                                    <td class="custom-td">{{ order.branch_office.status }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 p-3 box2" cdkDropList #ordersList2="cdkDropList" [cdkDropListData]="orders2"
+                [cdkDropListConnectedTo]="[ordersList1]" (cdkDropListDropped)="drop($event)">
+                <p class="title" *ngIf="!selectedCourseId2">Selección °2</p>
+                <label for="operator" class="form-label" *ngIf="!selectedCourseId2">-- Derrotero 2</label>
+
+                <select id="operator" class="form-select mb-2" [(ngModel)]="selectedCourseId2"
+                    (change)="onCourseSelectionChange2(selectedCourseId2)">
+                    <option value="" disabled selected>Seleccione un derrotero</option>
+                    <option *ngFor="let course of courses" [value]="course.id">
+                        {{ course.operator.firstName }} {{ course.operator.lastName }}, {{ course.propane_truck.plate }}
+                        : {{ course.propane_truck.capacity }}kg || {{ course.create | date: 'dd - MMMM - y H:mm'}}
+                    </option>
+                </select>
+
+                <div class="mb-3 aditional-info" *ngIf="selectedCourseId2">
+                    <label for="info" class="form-label">-- Información derrotero</label>
+                    <textarea class="form-control" id="info" rows="3" readonly>
+                        Operario: {{course2.operator.firstName}} {{course2.operator.lastName}}  - Identificación: {{course2.operator.idNumber}}
+                        E-mail: {{course2.operator.email}}
+                        Pedidos: {{course2.orders.length}}
+                        _____________
+                        Vehículo: {{course2.propane_truck.plate}} - {{course2.propane_truck.capacity}}kg
+                        Derrotero: {{course2.create | date: 'dd - MMMM - y H:mm'}}
+                    </textarea>
+                </div>
+
+                <label for="info" class="form-label" *ngIf="selectedCourseId2">-- Pedidos:</label>
+
+                <div class="content">
+                    <div class="card mb-2" *ngFor="let order of orders2" cdkDrag>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="custom-header">Folio</th>
+                                    <th class="custom-header">Fecha</th>
+                                    <th class="custom-header">Establecimiento</th>
+                                    <th class="custom-header">Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="custom-td">{{ order.folio }}</td>
+                                    <td class="custom-td">{{ order.create | date: 'dd - MMMM - y H:mm'}}</td>
+                                    <td class="custom-td">{{ order.branch_office.name }}</td>
+                                    <td class="custom-td">{{ order.branch_office.status }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="col-md-9"></div>
+                <div class="col-sm-3 float-end">
+                    <button class="btn btn-success mx-1" (click)="onSubmit()" style="float: right">Aplicar
+                        cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="general-container-mobile">
+    <h1>Reasignación de Pedidos</h1>
+    <label style="font-size: 10px !important; margin-bottom: 2rem;">(Para reasignar pedidos presione los botones derrotero 1 y 2, se asignarán automáticamente en la caja 1 o 2 respectivamente.)</label>
+    <br>
+
+    <div class="box-container">
+        <div class="box">
+            <label for="operator" class="form-label" *ngIf="!selectedCourseId1">-- Derrotero 1</label>
+            <select id="operator" class="form-select mb-2" [(ngModel)]="selectedCourseId1"
+                (change)="onCourseSelectionChange(selectedCourseId1)" style="font-size: 11px !important;">
+                <option value="" disabled selected style="font-size: 11px !important;">Seleccione un derrotero</option>
+                <option *ngFor="let course of courses" [value]="course.id" style="font-size: 11px !important;">
+                    {{ course.operator.firstName }} {{ course.operator.lastName }}, {{ course.propane_truck.plate }}
+                    : {{ course.propane_truck.capacity }}kg || {{ course.create | date: 'dd - MMMM - y H:mm'}}
+                </option>
+            </select>
+
+            <div class="mb-3 aditional-info" *ngIf="selectedCourseId1">
+                <label for="info" class="form-label">-- Información derrotero</label>
+                <textarea class="form-control" id="info" rows="3" readonly>
+                    Operario: {{course1.operator.firstName}} {{course1.operator.lastName}}  - Identificación: {{course1.operator.idNumber}}
+                    E-mail: {{course1.operator.email}}
+                    Pedidos: {{course1.orders.length}}
+                    _____________
+                    Vehículo: {{course1.propane_truck.plate}} - {{course1.propane_truck.capacity}}kg
+                    Derrotero: {{course1.create | date: 'dd - MMMM - y H:mm'}}
+                </textarea>
+            </div>
+
+            <div class="content-table" *ngIf="selectedCourseId1">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="custom-header">Folio</th>
+                            <th class="custom-header">Fecha</th>
+                            <th class="custom-header">Establecimiento</th>
+                            <th class="custom-header">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let order of orders1">
+                            <td class="custom-td">{{ order.folio }}</td>
+                            <td class="custom-td">{{ order.create | date: 'dd - MMMM - y H:mm' }}</td>
+                            <td class="custom-td">{{ order.branch_office.name }}</td>
+                            <td class="custom-td buttons-submit">
+                                <span class="btn" style="text-decoration: none;">{{ order.branch_office.status }}</span>
+                                <button *ngIf="orders1.includes(order) && selectedCourseId2" class="btn btn-sm btn-info" (click)="moveOrder(order)">derrotero 2</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="box">
+            <label for="operator" class="form-label" *ngIf="!selectedCourseId2">-- Derrotero 2</label>
+            <select id="operator" class="form-select mb-2" [(ngModel)]="selectedCourseId2"
+                (change)="onCourseSelectionChange2(selectedCourseId2)" style="font-size: 11px !important;">
+                <option value="" disabled selected style="font-size: 11px !important;">Seleccione un derrotero</option>
+                <option *ngFor="let course of courses" [value]="course.id" style="font-size: 11px !important;">
+                    {{ course.operator.firstName }} {{ course.operator.lastName }}, {{ course.propane_truck.plate }}
+                    : {{ course.propane_truck.capacity }}kg || {{ course.create | date: 'dd - MMMM - y H:mm'}}
+                </option>
+            </select>
+
+            <div class="mb-3 aditional-info" *ngIf="selectedCourseId2">
+                <label for="info" class="form-label">-- Información derrotero</label>
+                <textarea class="form-control" id="info" rows="3" readonly>
+                    Operario: {{course2.operator.firstName}} {{course2.operator.lastName}}  - Identificación: {{course2.operator.idNumber}}
+                    E-mail: {{course2.operator.email}}
+                    Pedidos: {{course2.orders.length}}
+                    _____________
+                    Vehículo: {{course2.propane_truck.plate}} - {{course2.propane_truck.capacity}}kg
+                    Derrotero: {{course2.create | date: 'dd - MMMM - y H:mm'}}
+                </textarea>
+            </div>
+
+            <div class="content-table" *ngIf="selectedCourseId2">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="custom-header">Folio</th>
+                            <th class="custom-header">Fecha</th>
+                            <th class="custom-header">Establecimiento</th>
+                            <th class="custom-header">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let order of orders2">
+                            <td class="custom-td">{{ order.folio }}</td>
+                            <td class="custom-td">{{ order.create | date: 'dd - MMMM - y H:mm' }}</td>
+                            <td class="custom-td">{{ order.branch_office.name }}</td>
+                            <td class="custom-td buttons-submit">
+                                <span class="btn" style="text-decoration: none;">{{ order.branch_office.status }}</span>
+                                <button *ngIf="orders2.includes(order) && selectedCourseId1" class="btn btn-sm btn-info" (click)="moveOrder(order)">derrotero 1</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="buttons-submit float-end">
+        <button class="btn btn-success" (click)="onSubmit()" style="float: right">Aplicar
+            cambios</button>
+    </div>
+</div>
