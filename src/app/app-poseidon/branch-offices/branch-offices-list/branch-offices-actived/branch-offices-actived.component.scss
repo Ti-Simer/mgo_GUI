@@ -74,6 +74,17 @@ mat-paginator {
     background-color: transparent !important;
 }
 
+#responsive-container {
+    display: flex;
+    flex-wrap: wrap;
+
+    #items {
+        flex-grow: 1;
+        flex-basis: 200;
+        margin: 0.2rem;
+    }
+}
+
 @media (orientation: portrait) {
     .col-lg-1 {
         .btn-lg {

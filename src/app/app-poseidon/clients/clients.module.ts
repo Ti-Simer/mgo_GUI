@@ -21,7 +21,8 @@ import {
   Sheet,
   PlusCircle,
   FileDown,
-  HelpCircle
+  HelpCircle,
+  Search
 } from 'lucide-angular';
 import { DialogCreateClientsComponent } from './dialog-create-clients/dialog-create-clients.component';
 import { DialogEditClientsComponent } from './dialog-edit-clients/dialog-edit-clients.component';
@@ -53,7 +54,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       Sheet,
       PlusCircle,
       FileDown,
-      HelpCircle
+      HelpCircle,
+      Search
     }),
     TranslateModule.forChild({
       loader: {

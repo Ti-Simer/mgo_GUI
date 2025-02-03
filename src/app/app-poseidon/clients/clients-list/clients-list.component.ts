@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -19,6 +20,7 @@ import { DialogEditClientsComponent } from '../dialog-edit-clients/dialog-edit-c
 })
 export class ClientsListComponent {
   private languageSubscription!: Subscription;
+  searchForm!: FormGroup;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   pageSizeOptions: number[] = [25, 50, 100]; // Opciones de tamaño de página
@@ -47,6 +49,12 @@ export class ClientsListComponent {
         this.toHome();
         toastr.warning('No tienes permisos para leer esta información');
       }
+    });
+
+    this.searchForm = new FormBuilder().group({
+      firstName: [null, Validators.required],
+      lastName: [null],
+      cc: [null],
     });
   }
 
@@ -161,6 +169,80 @@ export class ClientsListComponent {
           });
       }
     });
+  }
+
+  makeQuerySearch() {
+    const firstName = this.searchForm.get('firstName')?.value;
+    const lastName = this.searchForm.get('lastName')?.value;
+    const cc = this.searchForm.get('cc')?.value;
+
+    const searchQuery = {
+      firstName: firstName,
+      lastName: lastName,
+      cc: cc
+    };
+
+    this.isLoading = true;
+
+    this.clientService.getByQuery(searchQuery).subscribe(
+      response => {
+        this.isLoading = false;
+        if (response.statusCode === 200) {
+          //this.total = response.data.length;
+          this.clients = response.data.sort((a: any, b: any) => {
+            let dateA = new Date(a.internal_folio);
+            let dateB = new Date(b.internal_folio);
+            return dateB.getTime() - dateA.getTime();
+          });
+          this.toastr.success(response.message, 'Éxito');
+        } else {
+          this.toastr.info(response.message, 'Información');
+        }
+      },
+      error => {
+        this.isLoading = false;
+        this.toastr.error('Ha ocurrido un error al consultar los pedidos: ', error);
+      }
+    );
+  }
+
+  infoFilter() {
+    let message = '';
+    let title = '';
+
+    switch (this.languageService.getLanguage()) {
+
+      case 'es':
+        title = 'Campos de Búsqueda';
+
+        message = `
+          <strong>=== INFORMACIÓN ===</strong><br><br>
+          Los campos nombre, apellido, identificación pueden funcionar unitariamente.<br>
+        `;
+        break;
+
+      case 'en':
+        title = 'Search Fields';
+
+        message = `
+          <strong>=== INFORMATION ===</strong><br><br>
+          The fields name, last name, identification can work individually.<br>
+        `;
+        break;
+
+      case 'pt':
+        title = 'Campos de Pesquisa';
+        message = `
+          <strong>=== INFORMAÇÃO ===</strong><br><br>
+          Os campos nome, sobrenome, identificação podem funcionar individualmente.<br>
+        `;
+        break;
+
+      default:
+        break;
+    }
+
+    this.dialogService.openInfoDialog(message, title);
   }
 
   toCreateClient() {

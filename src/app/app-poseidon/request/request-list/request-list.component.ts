@@ -54,8 +54,8 @@ export class RequestListComponent {
     });
 
     this.searchForm = new FormBuilder().group({
-      propane_truck: [null, Validators.required],
-      date: [null, Validators.required],
+      propane_truck: [null],
+      date: [null],
       date2: [null],
     });
   }
@@ -182,7 +182,7 @@ export class RequestListComponent {
           });
           this.toastr.success(response.message, 'Éxito');
         } else {
-          this.toastr.info('No se han encontrado servicios');
+          this.toastr.info(response.message, 'Información');
         }
       },
       error => {

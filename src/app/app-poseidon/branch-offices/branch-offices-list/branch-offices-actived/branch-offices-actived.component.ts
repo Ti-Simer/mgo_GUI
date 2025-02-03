@@ -1,4 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
+import { FormGroup, FormBuilder, Validator, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -19,6 +20,7 @@ import { DialogEditBranchOfficeComponent } from '../../dialog-edit-branch-office
 })
 export class BranchOfficesActivedComponent {
   private languageSubscription!: Subscription;
+  searchForm!: FormGroup;
 
   @ViewChild('myInput') searchInput!: ElementRef; // Obtiene una referencia al elemento de entrada de búsqueda
 
@@ -44,6 +46,7 @@ export class BranchOfficesActivedComponent {
     private toastr: ToastrService,
     private translate: TranslateService,
     private languageService: LanguageService,
+    private formBuilder: FormBuilder,
     private dialog: MatDialog
   ) {
     translate.addLangs(['en', 'es', 'pt']);
@@ -54,6 +57,11 @@ export class BranchOfficesActivedComponent {
         this.toHome();
         toastr.warning('No tienes permisos para leer esta información');
       }
+    });
+
+    this.searchForm = this.formBuilder.group({
+      branch_office: [null],
+      city: [null],
     });
   }
 
@@ -182,6 +190,80 @@ export class BranchOfficesActivedComponent {
           });
       }
     });
+  }
+
+  makeQuerySearch() {
+    const branch_office = this.searchForm.get('branch_office')?.value;
+    const city = this.searchForm.get('city')?.value;
+
+    const searchQuery = {
+      branch_office: branch_office,
+      city: city
+    };
+
+    this.isLoading = true;
+
+    this.branchOfficesService.getByQuery(searchQuery).subscribe(
+      response => {
+        console.log(response);
+
+        this.isLoading = false;
+        if (response.statusCode === 200) {
+          this.totalBranchOffices = response.data.length;
+          this.branchOffices = response.data.sort((a: any, b: any) => {
+            let dateA = new Date(a.internal_folio);
+            let dateB = new Date(b.internal_folio);
+            return dateB.getTime() - dateA.getTime();
+          });
+          this.toastr.success(response.message, 'Éxito');
+        } else {
+          this.toastr.info('No se han encontrado Establecimientos');
+        }
+      },
+      error => {
+        this.isLoading = false;
+        this.toastr.error('Ha ocurrido un error al consultar los Establecimientos: ', error);
+      }
+    );
+  }
+
+  infoFilter() {
+    let message = '';
+    let title = '';
+
+    switch (this.languageService.getLanguage()) {
+
+      case 'es':
+        title = 'Buscar por ciudad';
+
+        message = `
+          <strong>=== INFORMACIÓN ===</strong><br><br>
+          El campo ciudad es opcional, si se llena el formulario de búsqueda con el campo ciudad la consulta se ejecuta primero por nombre de establecimiento y despues por ciudad.<br>
+        `;
+        break;
+
+      case 'en':
+        title = 'Search by city';
+
+        message = `
+          <strong>=== INFORMATION ===</strong><br><br>
+          The city field is optional. If the search form is filled out with the city field, the query is executed first by establishment name and then by city.<br>
+        `;
+        break;
+
+      case 'pt':
+        title = 'Intervalo de Datas';
+        message = `
+          <strong>=== INFORMAÇÃO ===</strong><br><br>
+          O campo cidade é opcional, caso o formulário de busca seja preenchido com o campo cidade a consulta é realizada primeiro por nome do estabelecimento e depois por cidade.<br>
+        `;
+        break;
+
+      default:
+        break;
+    }
+
+    this.dialogService.openInfoDialog(message, title);
   }
 
   toHome() {

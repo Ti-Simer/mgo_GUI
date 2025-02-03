@@ -473,4 +473,37 @@ export class BranchOfficesService {
 
     return this.http.post(`${apiUrl}/branch-offices/createMultiple`, branchOfficeData, { headers: this.apiKey });
   }
+
+  getByQuery(query: any): Observable<any> {
+    const token = this.getTokenData();
+    let apiUrl: any;
+    
+    switch (token.key) {
+      case 'poseidon-645C0*.9010':
+        apiUrl = environment.apiPoseidonGasco;
+        break;
+  
+      case 'poseidon-645N31V4+.8020':
+        apiUrl = environment.apiPoseidonGasneiva;
+        break;
+  
+      case 'poseidon-D1645PR0*.7030':
+        apiUrl = environment.apiPoseidonDigaspro;
+        break;
+  
+      case 'poseidon-M0NT4645+.6040':
+        apiUrl = environment.apiPoseidonMontagas;
+        break;
+  
+      case 'poseidon-3654*.5050':
+        apiUrl = environment.apiPoseidonEgsa;
+        break;
+  
+      default:
+        this.toastr.warning('Usuario no autorizado', 'Error');
+        break;
+    }
+  
+    return this.http.post(`${apiUrl}/branch-offices/findbranchOfficesByQuery`, query, { headers: this.apiKey });
+  }
 }

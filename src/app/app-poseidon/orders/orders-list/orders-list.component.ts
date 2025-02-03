@@ -1,4 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -31,6 +32,8 @@ export class OrdersListComponent {
   totalOrders: number = 0;
   isLoading = false;
 
+  searchForm!: FormGroup;
+
   constructor(
     private authService: AuthService,
     private ordersService: OrdersService,
@@ -49,6 +52,11 @@ export class OrdersListComponent {
         this.toHome();
         toastr.warning('No tienes permisos para leer esta información');
       }
+    });
+
+    this.searchForm = new FormBuilder().group({
+      date: [null, Validators.required],
+      date2: [null],
     });
   }
 
@@ -93,9 +101,9 @@ export class OrdersListComponent {
     };
 
     this.ordersService.getAll(pageData).subscribe(
-      response => {        
+      response => {
         this.isLoading = false;
-        if (response.statusCode == 200) {          
+        if (response.statusCode == 200) {
           this.pageIndex = response.data.page;
           this.pageSize = response.data.limit;
           this.totalOrders = response.data.total; // Total de elementos para la paginación
@@ -132,7 +140,7 @@ export class OrdersListComponent {
           this.ordersService.delete(id).subscribe(
             response => {
               console.log(response);
-              
+
               if (response.statusCode === 200) {
                 this.toastr.info('Pedido eliminado exitosamente', 'Información');
                 this.fetchOrders();
@@ -203,6 +211,78 @@ export class OrdersListComponent {
         });
       }
     });
+  }
+
+  makeQuerySearch() {
+    const date = this.searchForm.get('date')?.value;
+    const date2 = this.searchForm.get('date2')?.value;
+
+    const searchQuery = {
+      date: date,
+      date2: date2
+    };
+
+    this.isLoading = true;
+
+    this.ordersService.getByQuery(searchQuery).subscribe(
+      response => {
+        this.isLoading = false;
+        if (response.statusCode === 200) {
+          this.totalOrders = response.data.length;
+          this.orders = response.data.sort((a: any, b: any) => {
+            let dateA = new Date(a.internal_folio);
+            let dateB = new Date(b.internal_folio);
+            return dateB.getTime() - dateA.getTime();
+          });
+          this.toastr.success(response.message, 'Éxito');
+        } else {
+          this.toastr.info('No se han encontrado pedidos');
+        }
+      },
+      error => {
+        this.isLoading = false;
+        this.toastr.error('Ha ocurrido un error al consultar los pedidos: ', error);
+      }
+    );
+  }
+
+  infoFilter() {
+    let message = '';
+    let title = '';
+
+    switch (this.languageService.getLanguage()) {
+
+      case 'es':
+        title = 'Rango de fechas';
+
+        message = `
+          <strong>=== INFORMACIÓN ===</strong><br><br>
+          El rango de fechas puede utilizarce para filtrar los servicios por fecha de creación, el campo de fecha rango 2 es opcional, si se deja vacío se tomará como la misma fecha que el campo de rango 1.<br>
+        `;
+        break;
+
+      case 'en':
+        title = 'Date Range';
+
+        message = `
+          <strong>=== INFORMATION ===</strong><br><br>
+          The date range can be used to filter services by creation date, the date range 2 field is optional, if left empty it will be taken as the same date as the range 1 field.<br>
+        `;
+        break;
+
+      case 'pt':
+        title = 'Intervalo de Datas';
+        message = `
+          <strong>=== INFORMAÇÃO ===</strong><br><br>
+          O intervalo de datas pode ser usado para filtrar serviços por data de criação, o campo de intervalo de datas 2 é opcional, se deixado em branco, será considerado a mesma data que o campo de intervalo 1.<br>
+        `;
+        break;
+
+      default:
+        break;
+    }
+
+    this.dialogService.openInfoDialog(message, title);
   }
 
   toCourses() {

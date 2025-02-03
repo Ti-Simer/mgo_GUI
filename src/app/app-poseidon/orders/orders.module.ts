@@ -24,7 +24,9 @@ import {
   LucideAngularModule,
   ScrollText,
   ArrowBigLeftDash,
-  ArrowBigRightDash
+  ArrowBigRightDash,
+  HelpCircle,
+  Search
 } from 'lucide-angular';
 
 // Factory function for TranslateHttpLoader
@@ -57,7 +59,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     LucideAngularModule.pick({
       ScrollText,
       ArrowBigLeftDash,
-      ArrowBigRightDash
+      ArrowBigRightDash,
+      HelpCircle,
+      Search
     }),
     TranslateModule.forChild({
       loader: {

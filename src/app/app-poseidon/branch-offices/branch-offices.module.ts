@@ -28,7 +28,8 @@ import {
   Sheet,
   PlusCircle,
   HelpCircle,
-  FileDown
+  FileDown,
+  Search
 } from 'lucide-angular';
 import { DialogCreateBranchOfficeComponent } from './dialog-create-branch-office/dialog-create-branch-office.component';
 import { DialogEditBranchOfficeComponent } from './dialog-edit-branch-office/dialog-edit-branch-office.component';
@@ -67,7 +68,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       Sheet,
       PlusCircle,
       HelpCircle,
-      FileDown
+      FileDown,
+      Search
     }),
     TranslateModule.forChild({
       loader: {
