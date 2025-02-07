@@ -62,6 +62,7 @@ export class BranchOfficesActivedComponent {
     this.searchForm = this.formBuilder.group({
       branch_office: [null],
       city: [null],
+      nit: [null]
     });
   }
 
@@ -195,10 +196,12 @@ export class BranchOfficesActivedComponent {
   makeQuerySearch() {
     const branch_office = this.searchForm.get('branch_office')?.value;
     const city = this.searchForm.get('city')?.value;
+    const nit = this.searchForm.get('nit')?.value;
 
     const searchQuery = {
       branch_office: branch_office,
-      city: city
+      city: city,
+      nit: nit
     };
 
     this.isLoading = true;

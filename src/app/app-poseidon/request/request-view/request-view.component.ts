@@ -90,8 +90,6 @@ export class RequestViewComponent {
       "fechaInicial": this.request.data_series.fechaInicial
     }
 
-    console.log(billData);
-
     this.billService.findByFolio(billData).subscribe(response => {
       console.log(response);
       if (response.statusCode == 200) {

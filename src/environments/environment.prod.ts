@@ -2,7 +2,6 @@ export const environment = {
     production: false,
 
     /// ----------------------------------- ** URL de los servicios de despliegue **  ----------------------------------- ///
-
     apiPoseidonGasco: 'http://localhost:3000', // URL del servicio para desarrollo
     //apiPoseidonGasco: 'http://172.105.153.203:3000', // URL del servicio para despliegue
 
@@ -26,6 +25,9 @@ export const environment = {
 
     apiHerculesMontagas: 'http://localhost:4007', // URL del servicio para desarrollo
     //apiHerculesMontagas: 'http://172.105.153.203:4007', // URL del servicio para despliegue
+
+    apiPoseidonSimer: 'http://localhost:4008', // URL del servicio para desarrollo
+    //apiPoseidonSimer: 'http://172.105.153.203:4008', // URL del servicio para despliegue
 
     directory: 'http://localhost', //URL del directorio del servidor de desarrollo
     //directory: 'http://172.105.153.203', //URL del directorio del servidor

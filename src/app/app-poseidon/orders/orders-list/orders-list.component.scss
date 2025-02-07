@@ -54,11 +54,11 @@
             }
         }
         
-        #search-filter {
+        #responsive-container {
             display: flex;
             flex-wrap: wrap;
-
-            #search-items {
+        
+            #items {
                 flex-grow: 1;
                 flex-basis: 200;
                 margin: 0.2rem;

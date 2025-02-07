@@ -1,7 +1,7 @@
 <div class="general-container d-flex justify-content-center">
     <div class="container">
-        <div class="row section1 d-flex justify-content-center mb-2">
-            <div class="col-sm-5 box1">
+        <div class="row section1 d-flex justify-content-center mb-2" id="responsive-container">
+            <div class="col-sm-5 box1" id="items">
                 <div class="row title">
                     <h4>{{nameText}}</h4>
                 </div>
@@ -48,7 +48,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-6 box2">
+            <div class="col-sm-5 box2" id="items">
                 <div class="row title">
                     <h4>{{'Informe de registro' | translate}}</h4>
                 </div>
@@ -61,7 +61,7 @@
         </div>
 
         <div class="row section2 d-flex justify-content-center">
-            <div class="col-sm-11 box1">
+            <div class="col-sm-12 box1">
                 <div class="row title">
                     <h4>{{'Derroteros en curso' | translate}} (2024)</h4>
                 </div>
@@ -73,9 +73,9 @@
             </div>
         </div>
     
-        <div class="row section3 d-flex justify-content-center">
+        <div class="row section3 d-flex justify-content-center" id="responsive-container">
     
-            <div class="col-sm-3 card1" id="card" (click)="toReports()">
+            <div class="col-sm-3 card1" id="card" (click)="toReports()" id="items">
                 <div class="col-sm-12">
                     <div class="row">
                         <span class="text1" *ngIf="billing">
@@ -93,7 +93,7 @@
                 </div>
             </div>
     
-            <div class="col-sm-3 card2" *ngIf="operators" id="card" (click)="toUsers()">
+            <div class="col-sm-3 card2" *ngIf="operators" id="card" (click)="toUsers()" id="items">
                 <div class="col-sm-12">
                     <div class="row">
                         <span class="text1">
@@ -108,7 +108,7 @@
                 </div>
             </div>
     
-            <div class="col-sm-3 card3" id="card" (click)="toNotifications()">
+            <div class="col-sm-3 card3" id="card" (click)="toNotifications()" id="items">
                 <div class="col-sm-12">
                     <div class="row">
                         <span class="text1">

@@ -2,7 +2,7 @@
 .footer {
     position: fixed;
     bottom: 0;
-    width: 100%;
+    margin: 0 auto;
     color: white;
     -webkit-box-shadow: -2px -7px 17px 2px rgba(0, 0, 0, 0.15);
     -moz-box-shadow: -2px -7px 17px 2px rgba(0, 0, 0, 0.15);
@@ -14,6 +14,17 @@
         color: #5E6265;
         text-align: center;
         font-size: 11px;
+    }
+}
+
+#responsive-container {
+    display: flex;
+    flex-wrap: wrap;
+
+    #items {
+        flex-grow: 1;
+        flex-basis: 200;
+        margin: 0.2rem;
     }
 }
 

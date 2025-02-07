@@ -4,8 +4,8 @@ import * as jwt_decode from 'jwt-decode';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { UsuarioService } from './poseidon-services/usuario.service';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../environments/environment.prod';
 import * as CryptoJS from 'crypto-js';
 
 @Injectable({
@@ -14,11 +14,11 @@ import * as CryptoJS from 'crypto-js';
 export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(this.isLoggedIn());
   private authTokenKey = 'authToken';
-  
+  private apiKey = environment.apiKey
+
   constructor(
     private http: HttpClient,
     private router: Router,
-    private usuariosService: UsuarioService,
     private toastr: ToastrService
   ) { }
 
@@ -87,7 +87,6 @@ export class AuthService {
     return null;
   }
 
-  
   // Obtener el usuario completo desde el token
   getTokenData(): any | null {
     const token = this.getToken();
@@ -112,7 +111,7 @@ export class AuthService {
   }
 
   decryptData(data: string) {
-    const bytes  = CryptoJS.AES.decrypt(data, 'S1m3r9010');
+    const bytes = CryptoJS.AES.decrypt(data, 'S1m3r9010');
     const originalText = bytes.toString(CryptoJS.enc.Utf8);
     return originalText;
   }
@@ -123,7 +122,7 @@ export class AuthService {
     const userId = this.getUserFromToken();
     var user = null;
 
-    this.usuariosService.getUserById(userId).subscribe(
+    this.getUserById(userId).subscribe(
       response => {
         user = response.data;
         if (user.role.name === 'Operario') {
@@ -135,7 +134,7 @@ export class AuthService {
 
   writeChecker(): Observable<boolean> {
     const userId = this.getUserFromToken();
-    return this.usuariosService.getUserById(userId).pipe(
+    return this.getUserById(userId).pipe(
       map(response => {
         const permissions = response.data.role.permissions;
         return permissions.some((permission: { name: string }) => permission.name === 'Escritura');
@@ -145,7 +144,7 @@ export class AuthService {
 
   editChecker(): Observable<boolean> {
     const userId = this.getUserFromToken();
-    return this.usuariosService.getUserById(userId).pipe(
+    return this.getUserById(userId).pipe(
       map(response => {
         const permissions = response.data.role.permissions;
         return permissions.some((permission: { name: string }) => permission.name === 'Edición');
@@ -155,7 +154,7 @@ export class AuthService {
 
   deleteChecker(): Observable<boolean> {
     const userId = this.getUserFromToken();
-    return this.usuariosService.getUserById(userId).pipe(
+    return this.getUserById(userId).pipe(
       map(response => {
         const permissions = response.data.role.permissions;
         return permissions.some((permission: { name: string }) => permission.name === 'Eliminación');
@@ -165,7 +164,7 @@ export class AuthService {
 
   readChecker(): Observable<boolean> {
     const userId = this.getUserFromToken();
-    return this.usuariosService.getUserById(userId).pipe(
+    return this.getUserById(userId).pipe(
       map(response => {
         const permissions = response.data.role.permissions;
         return permissions.some((permission: { name: string }) => permission.name === 'Lectura');
@@ -173,10 +172,45 @@ export class AuthService {
     );
   }
 
-  AtheneaKeyVerify () {
+  getUserById(id: string): Observable<any> {
+    const token = this.getTokenData();
+    let apiUrl: string = '';
+
+    switch (token.key) {
+      case 'poseidon-645C0*.9010': apiUrl = environment.apiPoseidonGasco; break;
+      case 'poseidon-645N31V4+.8020': apiUrl = environment.apiPoseidonGasneiva; break;
+      case 'poseidon-D1645PR0*.7030': apiUrl = environment.apiPoseidonDigaspro; break;
+      case 'poseidon-M0NT4645+.6040': apiUrl = environment.apiPoseidonMontagas; break;
+      case 'poseidon-3654*.5050': apiUrl = environment.apiPoseidonEgsa; break;
+      case 'poseidon-5lm3r+.4060': apiUrl = environment.apiPoseidonSimer; break;
+      case 'poseidon-5lm3r+.4060': apiUrl = environment.apiPoseidonSimer; break;
+      default: this.toastr.warning('Usuario no autorizado', 'Error'); break;
+    }
+
+    return this.http.get(`${apiUrl}/usuarios/getById/${id}`, { headers: this.apiKey });
+  }
+
+  getApiUrl(): string {
+    const token = this.getTokenData();
+    let apiUrl: string = '';
+
+    switch (token.key) {
+      case 'poseidon-645C0*.9010': apiUrl = environment.apiPoseidonGasco; break;
+      case 'poseidon-645N31V4+.8020': apiUrl = environment.apiPoseidonGasneiva; break;
+      case 'poseidon-D1645PR0*.7030': apiUrl = environment.apiPoseidonDigaspro; break;
+      case 'poseidon-M0NT4645+.6040': apiUrl = environment.apiPoseidonMontagas; break;
+      case 'poseidon-3654*.5050': apiUrl = environment.apiPoseidonEgsa; break;
+      case 'poseidon-5lm3r+.4060': apiUrl = environment.apiPoseidonSimer; break;
+      case 'poseidon-5lm3r+.4060': apiUrl = environment.apiPoseidonSimer; break;
+      default: this.toastr.warning('Usuario no autorizado', 'Error'); break;
+    }
+    return apiUrl;
+  }
+
+  AtheneaKeyVerify() {
     const token = this.getTokenData();
     console.log(token);
-    
+
     if (token.key == 'athenea-montagas.9010') {
     } else {
       this.router.navigate(['/']);
@@ -184,10 +218,10 @@ export class AuthService {
     }
   }
 
-  PoseidonKeyVerify () {
+  PoseidonKeyVerify() {
     const token = this.getTokenData();
     console.log(token);
-    
+
     if (token.key == 'poseidon-645C0*.9010') {
     } else {
       this.router.navigate(['/']);
@@ -195,8 +229,8 @@ export class AuthService {
     }
   }
 
-  FenixKeyVerify () {
-    const token = this.getTokenData();    
+  FenixKeyVerify() {
+    const token = this.getTokenData();
     if (token.key == 'fenix-montagas.9010') {
     } else {
       this.router.navigate(['/']);

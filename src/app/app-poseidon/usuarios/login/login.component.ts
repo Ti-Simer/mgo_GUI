@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             const expiresIn = 64800; // Duración en segundos (1 hora)
             this.authService.login(response.data.accessToken, expiresIn);
 
-            const message = this.translate.instant('Bienvenido') + ' ' + response.data.user.firstName;
+            const message = this.translate.instant('Bienvenido') + ' ' + response.data.user.firstName + response.data.user.lastName;
             this.toastr.success(message, response.message);
 
             this.router.navigate(['/poseidon/home']);

@@ -37,12 +37,12 @@
             <details>
                 <summary class="text-center text-secondary">{{'Búsqueda Avanzada' | translate}}</summary>
                 <hr style="width: 75%; margin: 2rem auto;">
-                <div class="col-lg-12 d-flex justify-content-center" id="search-filter">
-                    <div id="search-items" class="d-flex align-items-center">
+                <div class="col-lg-12 d-flex justify-content-center" id="responsive-container">
+                    <div id="items" class="d-flex align-items-center">
                         <input class="form-control" #myInput type="text" placeholder="{{'Filtrar..' | translate}}"
                         (input)="initializeSearchFilter()">
                     </div>
-                    <div id="search-items" class="d-flex align-items-center justify-content-between">
+                    <div id="items" class="d-flex align-items-center justify-content-between">
                         <div class="col-sm-4">
                             <label class="text-secondary">{{'Rango 1: ' | translate}}</label>
                         </div>
@@ -50,7 +50,7 @@
                             <input type="date" class="form-control" formControlName="date" id="dateInput">
                         </div>
                     </div>
-                    <div id="search-items" class="d-flex align-items-center justify-content-between">
+                    <div id="items" class="d-flex align-items-center justify-content-between">
                        <div class="col-sm-4">
                             <label class="text-secondary">{{'Rango 2: ' | translate}}</label>
                         </div>
@@ -58,18 +58,18 @@
                             <input type="date" class="form-control" formControlName="date2" id="dateInput">
                         </div>
                     </div>
-                    <div id="search-items">
+                    <div id="items">
                         <button class="btn btn-md btn-success w-100" [disabled]="!searchForm.valid" (click)="makeQuerySearch()">
                             <lucide-icon name="search" [size]="20"></lucide-icon> {{'Buscar' | translate}}
                         </button>
                     </div>
-                    <div id="search-items">
+                    <div id="items">
                         <button class="btn btn-md btn-secondary w-100" (click)="fetchOrders()">
                             {{'Reestablecer' | translate}}
                         </button>
                     </div>
                 </div>
-                <p id="search-items" style="font-size: 10px; color: #a8a8a8; margin-top: 1rem; text-align: center;">
+                <p id="items" style="font-size: 10px; color: #a8a8a8; margin-top: 1rem; text-align: center;">
                     {{'El filtro funciona sobre la búsqueda efectuada y mostrada en la tabla de registros, cuando se ejecuta una búsqueda el valor total del paginador cambia al resultado total dado por la consulta' | translate}} <br>
                     <lucide-icon class="mx-1" name="help-circle" color="#838383" [size]="16" style="cursor:pointer"
                     (click)="infoFilter()"></lucide-icon>
@@ -79,29 +79,23 @@
 
         <div class="row p-1 buttons-group-landscape">
             <div class="col-sm-12 d-flex">
-                <div class="col-md-8">
+                <div class="col-md-7">
                     <p style="font-size: 12px; color: #a8a8a8;">
                         <button type="button" class="btn btn-secondary btn-sm" (click)="setPageSizeToTotal()">{{'Mostrar todo' | translate}}</button>
                         {{pageIndex * pageSize + 1}} - {{(pageIndex + 1) * pageSize}} {{'de' | translate}} {{orders.length}} {{'registros' | translate}} 
                     </p>
                 </div>
-                <div class="col-md-1 float-end">
-                    <button (click)="toBranchOffices()" class="btn btn-info float-end">
+                <div class="col-md-5 float-end" id="responsive-container">
+                    <button (click)="toBranchOffices()" class="btn btn-info" id="items">
                         {{'Establecimientos' | translate}}
                     </button>
-                </div>
-                <div class="col-md-1 float-end">
-                    <button (click)="toRequest()" class="btn btn-secondary float-end">
+                    <button (click)="toRequest()" class="btn btn-secondary" id="items">
                         {{'Servicios' | translate}}
                     </button>
-                </div>
-                <div class="col-md-1 float-end">
-                    <button (click)="toCourses()" class="btn btn-secondary float-end">
+                    <button (click)="toCourses()" class="btn btn-secondary" id="items">
                         {{'Derroteros' | translate}}
                     </button>
-                </div>
-                <div class="col-md-1 float-end">
-                    <button (click)="toCreateOrder()" class="btn btn-success float-end">
+                    <button (click)="toCreateOrder()" class="btn btn-success" id="items">
                         <img src="assets/images/icons/add.svg"> {{'Añadir' | translate}}
                     </button>
                 </div>
