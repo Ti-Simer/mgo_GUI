@@ -2,12 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import * as jwt_decode from 'jwt-decode';
-import { HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../auth.service';
 
-//import { environment } from '../../environments/environment';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
+//import { environment } from '../../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -81,7 +79,6 @@ export class UsuarioService {
     }
 
     return this.http.post(`${apiUrl}/usuarios/login`, loginData, { headers: this.apiKey });
-
   }
 }
 

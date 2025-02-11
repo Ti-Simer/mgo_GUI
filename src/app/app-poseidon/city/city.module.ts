@@ -12,6 +12,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { DialogCreateCityComponent } from './dialog-create-city/dialog-create-city.component';
+import { DialogEditCityComponent } from './dialog-edit-city/dialog-edit-city.component';
 
 import {
   LucideAngularModule,
@@ -19,8 +21,6 @@ import {
   ArrowBigLeftDash,
   ArrowBigRightDash
 } from 'lucide-angular';
-import { DialogCreateCityComponent } from './dialog-create-city/dialog-create-city.component';
-import { DialogEditCityComponent } from './dialog-edit-city/dialog-edit-city.component';
 
 
 // Factory function for TranslateHttpLoader

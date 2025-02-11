@@ -9,7 +9,6 @@ import { LanguageService } from 'src/app/services/language.service';
 import { ConfigurationService } from 'src/app/services/poseidon-services/configuration.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import Cropper from 'cropperjs';
 
 @Component({
   selector: 'app-configuration-list',
@@ -84,7 +83,7 @@ export class ConfigurationListComponent {
     private configurationService: ConfigurationService,
   ) {
     this.configurationForm = this.formBuilder.group({
-      company: [null, Validators.required],
+      company: [null, [Validators.required, Validators.maxLength(21)]],
       phone: [null, Validators.required],
       email: [null, Validators.required],
       country_code: [null, Validators.required],
@@ -243,6 +242,11 @@ export class ConfigurationListComponent {
     if (!this.croppedBlob) {
       alert('Primero recorte la imagen.');
       return;
+    }
+
+    if (this.configurationForm.value.company.length > 21) {
+      this.toastr.warning('El nombre de la empresa no puede exceder los 21 caracteres', 'Advertencia!');
+      return
     }
 
     // Crear FormData para enviar los datos

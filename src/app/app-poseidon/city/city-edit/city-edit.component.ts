@@ -48,7 +48,7 @@ export class CityEditComponent {
   ) {
     translate.addLangs(['en', 'es', 'pt']);
     translate.setDefaultLang(this.languageService.getLanguage());
-    
+
     this.updateForm = this.formBuilder.group({
       name: [null, Validators.required],
       department: [null, Validators.required],
@@ -78,6 +78,11 @@ export class CityEditComponent {
           this.mapCenter = results[0].geometry.location;
           this.markerPosition = results[0].geometry.location;
           this.markerVisible = true;
+
+          this.updateForm.patchValue({
+            latitude: results[0].geometry.location.lat(),
+            longitude: results[0].geometry.location.lng()
+          });
         }
       });
     }
@@ -88,13 +93,15 @@ export class CityEditComponent {
     var lat = event.latLng!.lat();
     var lng = event.latLng!.lng();
 
-    // Actualiza la ubicación en el formulario
-    this.updateForm.patchValue({ latitude: `${lat}` });
-    this.updateForm.patchValue({ longitude: `${lng}` });
-
     // Actualiza la posición del marcador y lo muestra
     this.markerPosition = { lat, lng };
     this.markerVisible = true;
+
+    // Actualiza la ubicación en el formulario
+    this.updateForm.patchValue({
+      latitude: `${lat}`,
+      longitude: `${lng}`
+    });
   }
 
   fetchDepartments() {

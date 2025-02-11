@@ -47,7 +47,6 @@ export class BranchOfficesCreateComponent {
   stationaryTanks: any[] = [];
   factor: any;
   radius: any;
-  geofenceCoordinates: any[] = [];
   selectedstationaryTank: any[] = [];
 
   constructor(
@@ -83,7 +82,6 @@ export class BranchOfficesCreateComponent {
       client: [null, Validators.required],
       kilogramValue: [null, Validators.required],
       tank_stock: [1, Validators.required],
-      geofence: [null, Validators.required],
       stationary_tanks: [null, Validators.required]
     });
     this.authService.writeChecker().subscribe(flag => {
@@ -127,6 +125,12 @@ export class BranchOfficesCreateComponent {
           this.mapCenter = results[0].geometry.location;
           this.markerPosition = results[0].geometry.location;
           this.markerVisible = true;
+          this.branchOfficeForm.patchValue({
+            latitude: `${results[0].geometry.location.lat()}`,
+            longitude: `${results[0].geometry.location.lng()}`
+          });
+
+          this.geofence(results[0].geometry.location.lat(), results[0].geometry.location.lng());
         }
       });
     }
@@ -137,39 +141,17 @@ export class BranchOfficesCreateComponent {
     var lat = event.latLng!.lat();
     var lng = event.latLng!.lng();
 
-    // Actualiza la ubicación en el formulario
-    this.branchOfficeForm.patchValue({ latitude: `${lat}` });
-    this.branchOfficeForm.patchValue({ longitude: `${lng}` });
-
     // Actualiza la posición del marcador y lo muestra
     this.markerPosition = { lat, lng };
     this.markerVisible = true;
 
-    // Define el radio de la geocerca en metros
-    this.radius = 70;
-
-    // Define el número de lados del polígono (6 para un hexágono)
-    const sides = 6;
-
-    // Calcula el ángulo entre cada punto
-    const angleStep = 360 / sides;
-
-    // Inicializa las coordenadas de la geocerca
-    this.geofenceCoordinates = [];
-
-    // Calcula los puntos en la circunferencia del radio para crear un polígono
-    for (let i = 0; i < sides; i++) {
-      const degree = i * angleStep;
-      const radian = degree * Math.PI / 180;
-      const dx = this.radius * Math.cos(radian);
-      const dy = this.radius * Math.sin(radian);
-      const pointLat = lat + (180 / Math.PI) * (dy / 6378137);
-      const pointLng = lng + (180 / Math.PI) * (dx / 6378137) / Math.cos(lat * Math.PI / 180);
-      this.geofenceCoordinates.push({ lat: pointLat, lng: pointLng });
-    }
-
     // Actualiza la geocerca en el formulario
-    this.branchOfficeForm.patchValue({ geofence: JSON.stringify(this.geofenceCoordinates) });
+    this.branchOfficeForm.patchValue({
+      latitude: `${lat}`,
+      longitude: `${lng}`
+    });
+
+    this.geofence(lat, lng);
   }
 
   toggleInputClient() {
@@ -309,7 +291,7 @@ export class BranchOfficesCreateComponent {
         const dialogRef = this.dialog.open(DialogCreateStationaryTankComponent, {
           width: '600px',
         });
-    
+
         dialogRef.afterClosed().subscribe(result => {
           this.fetchStationaryTanks();
         });
@@ -325,7 +307,7 @@ export class BranchOfficesCreateComponent {
         const dialogRef = this.dialog.open(DialogCreateClientsComponent, {
           width: '600px',
         });
-    
+
         dialogRef.afterClosed().subscribe(result => {
           this.fetchClients();
         });
@@ -333,7 +315,7 @@ export class BranchOfficesCreateComponent {
     });
   }
 
-  toCreateCities(){
+  toCreateCities() {
     this.authService.writeChecker().subscribe(flag => {
       if (!flag) {
         this.toastr.warning('No tienes permisos para crear');
@@ -341,7 +323,7 @@ export class BranchOfficesCreateComponent {
         const dialogRef = this.dialog.open(DialogCreateCityComponent, {
           width: '600px',
         });
-    
+
         dialogRef.afterClosed().subscribe(result => {
           this.fetchCities();
         });
@@ -349,7 +331,7 @@ export class BranchOfficesCreateComponent {
     });
   }
 
-  toCreateZones(){
+  toCreateZones() {
     this.authService.writeChecker().subscribe(flag => {
       if (!flag) {
         this.toastr.warning('No tienes permisos para crear');
@@ -357,7 +339,7 @@ export class BranchOfficesCreateComponent {
         const dialogRef = this.dialog.open(DialogCreateZoneComponent, {
           width: '600px',
         });
-    
+
         dialogRef.afterClosed().subscribe(result => {
           this.fetchZones();
         });
@@ -367,5 +349,32 @@ export class BranchOfficesCreateComponent {
 
   toFactor() {
     this.router.navigate(['/poseidon/factor/edit/', this.factor.id]);
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  private geofence(lat: any, lng: any) {
+    // Define el radio de la geocerca en metros
+    this.radius = 100;
+
+    // Define el número de lados del polígono (6 para un hexágono)
+    const sides = 6;
+
+    // Calcula el ángulo entre cada punto
+    const angleStep = 360 / sides;
+
+    // Inicializa las coordenadas de la geocerca
+    const geofenceCoordinates = [];
+
+    // Calcula los puntos en la circunferencia del radio para crear un polígono
+    for (let i = 0; i < sides; i++) {
+      const degree = i * angleStep;
+      const radian = degree * Math.PI / 180;
+      const dx = this.radius * Math.cos(radian);
+      const dy = this.radius * Math.sin(radian);
+      const pointLat = lat + (180 / Math.PI) * (dy / 6378137);
+      const pointLng = lng + (180 / Math.PI) * (dx / 6378137) / Math.cos(lat * Math.PI / 180);
+      geofenceCoordinates.push({ lat: pointLat, lng: pointLng });
+    }
   }
 }

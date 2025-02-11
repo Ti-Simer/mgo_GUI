@@ -8,31 +8,39 @@
                     *ngIf="branch_office">{{branch_office.name}}</label>
 
                 <div class="col-lg-6">
-                    <label *ngIf="!branch_office && !branchOfficeInput" id="client-label" class="form-label" (click)="toggleInputClient()"style="cursor: pointer">{{'Listado (click para cambiar)' | translate}}</label>
-                    <label *ngIf="!branch_office && branchOfficeInput" id="client-label" class="form-label" (click)="toggleInputClient()"style="cursor: pointer">{{'Manual (click para cambiar)' | translate}}</label>
-                    <div class="mb-3" *ngIf="!branch_office && branchOfficeInput">
-                        <label for="name" class="form-label">-- {{'Código de establecimiento' | translate}}</label>
-                        <div class="input-group" *ngIf="branch_offices.length != 0">
-                            <input type="number" id="branch_office_code" class="form-control"
-                                formControlName="branch_office_code" placeholder="{{'Digite el código del establecimiento' | translate}}">
-                            <button type="button" class="btn btn-outline-secondary" (click)="toCreateBranchOffices()">
-                                +
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="mb-3" *ngIf="!branch_office && !branchOfficeInput">
-                        <label for="branch_office_code" class="form-label">-- {{'Establecimiento' | translate}}</label>
-                        <div class="input-group" *ngIf="branch_offices.length != 0">
-                            <input type="text" id="branch_office_code" class="form-control" formControlName="branch_office_code" [matAutocomplete]="auto" placeholder="{{'Establecimientos' | translate}}">
-                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                            <mat-option *ngFor="let branch_office of filteredBranchOffices | async" [value]="branch_office">
-                                {{ branch_office.name }} - {{ branch_office.nit }}
-                            </mat-option>
-                            </mat-autocomplete>
-                            <button type="button" class="btn btn-outline-secondary" (click)="toCreateBranchOffices()">
-                                +
-                            </button>
+                    <div class="mb-3">
+                        <label class="form-label" *ngIf="!branch_office">-- {{'Establecimiento' | translate}}</label>
+                        <ul class="nav nav-tabs" id="clientTab" role="tablist">
+                            <li class="nav-item" role="Mapa">
+                              <button class="nav-link active" id="client-list" data-bs-toggle="tab" data-bs-target="#client-listing" type="button" role="tab" aria-controls="client-listing" aria-selected="true">{{'Listado' | translate}}</button>
+                            </li>
+                            <li class="nav-item" role="Latitud y Longitud">
+                              <button class="nav-link" id="client-manual" data-bs-toggle="tab" data-bs-target="#client-manualing" type="button" role="tab" aria-controls="client-manualing" aria-selected="false">{{'Manual' | translate}}</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content mt-2" id="clientTabContent">
+                            <div class="tab-pane fade show active" id="client-listing" role="tabpanel" aria-labelledby="client-list">
+                                <div class="input-group">
+                                    <input type="text" id="branch_office_code" class="form-control" formControlName="branch_office_code" [matAutocomplete]="auto" placeholder="{{'Establecimientos' | translate}}">
+                                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                                    <mat-option *ngFor="let branch_office of filteredBranchOffices | async" [value]="branch_office">
+                                        {{ branch_office.name }} - {{ branch_office.nit }}
+                                    </mat-option>
+                                    </mat-autocomplete>
+                                    <button type="button" class="btn btn-outline-secondary" (click)="toCreateBranchOffices()">
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="client-manualing" role="tabpanel" aria-labelledby="client-manual">
+                                <div class="input-group">
+                                    <input type="number" id="branch_office_code" class="form-control"
+                                    formControlName="branch_office_code" placeholder="{{'Digite el código del establecimiento' | translate}}">
+                                    <button type="button" class="btn btn-outline-secondary" (click)="toCreateBranchOffices()">
+                                        +
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

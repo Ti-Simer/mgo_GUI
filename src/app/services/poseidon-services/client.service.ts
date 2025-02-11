@@ -6,8 +6,7 @@ import { HttpHeaders } from '@angular/common/http';
 import * as jwt_decode from 'jwt-decode';
 import { AuthService } from '../auth.service';
 
-//import { environment } from '../../environments/environment';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

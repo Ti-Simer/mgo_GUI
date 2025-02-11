@@ -8,6 +8,7 @@ import { NotificationService } from 'src/app/services/poseidon-services/notifica
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/services/language.service';
 import { Subscription } from 'rxjs';
+import { OrdersService } from 'src/app/services/poseidon-services/orders.service';
 
 @Component({
   selector: 'app-home',
@@ -30,8 +31,8 @@ export class HomeComponent {
   user: any;
   nameText: any;
   roleText: any;
-  bills: any;
-  billing: any = 0;
+  massData: any;
+  orders: any;
   operators: any;
   notifications: any = [];
 
@@ -40,7 +41,7 @@ export class HomeComponent {
     private router: Router,
     private authService: AuthService,
     private billService: BillService,
-    private notificationService: NotificationService,
+    private ordersService: OrdersService,
     private toastr: ToastrService,
     private translate: TranslateService,
     private languageService: LanguageService
@@ -58,10 +59,9 @@ export class HomeComponent {
       // Si no está autenticado, redirige a la página de inicio de sesión
       this.router.navigate(['/landing-page']);
     }
-
-    this.fetchBills();
-    this.fetchOperators();
-    this.fetchNotifications();
+    
+    this.fetchDataMass();
+    this.fetchOrdersLength();
     this.languageSubscription = this.languageService.getLanguageObservable().subscribe(newLanguage => {
       this.translate.use(newLanguage);
       this.translate.setDefaultLang(newLanguage);
@@ -85,17 +85,22 @@ export class HomeComponent {
     }
   }
 
-  fetchBills() {
-    this.billService.getAll().subscribe(
+  fetchDataMass() {
+    this.billService.getGlpByToday().subscribe(
       response => {
-        this.bills = response.data;
-
-        for (let i = 0; i < this.bills.length; i++) {
-          this.billing = this.billing + this.bills[i].total;
-        }
-
+        this.massData = response.data;
       }, error => {
         console.error('Error al obtener las facturas:', error);
+      }
+    );
+  }
+
+  fetchOrdersLength() {
+    this.ordersService.getOrdersByToday().subscribe(
+      response => {
+        this.orders = response.data;
+      }, error => {
+        console.error('Error al obtener las pedidos:', error);
       }
     );
   }
@@ -109,23 +114,7 @@ export class HomeComponent {
       }
     );
   }
-
-  fetchNotifications() {
-    this.notificationService.getAll().subscribe(
-      response => {
-        if (response.statusCode == 200) {
-          for (let i = 0; i < response.data.length; i++) {
-            if (response.data[i].type == 'CARGUE') {
-              this.notifications.push(response.data[i]);
-            }
-          }
-        }
-      }, error => {
-        console.error('Error al obtener las notificaciones:', error);
-      }
-    );
-  }
-
+  
   getUserById() {
     this.usuarioService.getUserById(this.userId).subscribe(
       (response) => {

@@ -45,7 +45,8 @@ import {
   Download,
   ArrowBigLeftDash,
   FileDown,
-  ChevronDown
+  ChevronDown,
+  CircleUserRound
 } from 'lucide-angular';
 
 // Factory function for TranslateHttpLoader
@@ -101,7 +102,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       Download,
       ArrowBigLeftDash,
       FileDown,
-      ChevronDown
+      ChevronDown,
+      CircleUserRound
     }),
     TranslateModule.forChild({
       loader: {

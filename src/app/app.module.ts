@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -35,6 +35,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { InfoDialogComponent } from './dialog/info-dialog/info-dialog.component';
 import { InfoConfirmDialogComponent } from './dialog/info-confirm-dialog/info-confirm-dialog.component';
 import { LoadingDialogComponent } from './dialog/loading-dialog/loading-dialog.component';
+import { LoadingSmallDialogComponent } from './dialog/loading-small-dialog/loading-small-dialog.component';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -46,6 +47,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatTreeModule } from '@angular/material/tree';
+
+import localeEs from '@angular/common/locales/es';
+import { registerLocaleData } from '@angular/common';
+registerLocaleData(localeEs);
+
 import {
   LucideAngularModule,
   Send,
@@ -82,11 +88,10 @@ import {
   HeartHandshake,
   SendIcon
 } from 'lucide-angular';
-import { LoadingSmallDialogComponent } from './dialog/loading-small-dialog/loading-small-dialog.component';
 
 // Factory function for TranslateHttpLoader
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 const loader = new Loader({
@@ -198,6 +203,7 @@ const loader = new Loader({
       provide: 'googleMapsApiKey',
       useValue: 'AIzaSyB__EOk3UXcZgFa6cZ6DKBS_kx5ipBkJck',
     },
+    { provide: LOCALE_ID, useValue: 'es' }
   ],
   bootstrap: [AppComponent]
 })

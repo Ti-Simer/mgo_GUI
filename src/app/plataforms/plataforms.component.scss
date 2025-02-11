@@ -57,6 +57,17 @@
             color: #103C5D;
         }
 
+        .poseidon-diesel {
+            width: 51.3%;
+            cursor: pointer;
+        }
+
+        .poseidon-diesel-text {
+            margin-bottom: 0;
+            font-weight: bold;
+            color: #537d9c;
+        }
+
         lucide-icon {
             cursor: pointer;
         }
@@ -71,7 +82,7 @@
             margin-bottom: 2rem;
 
             .atenea {
-                width: 15%;
+                width: 14%;
             }
 
             .poseidon {
@@ -84,6 +95,10 @@
 
             .hercules {
                 width: 12%;
+            }
+
+            .poseidon-diesel {
+                width: 14%;
             }
 
             lucide-icon {

@@ -4,8 +4,7 @@ import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../auth.service';
 
-//import { environment } from '../../environments/environment';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -55,5 +54,10 @@ export class OrdersService {
   getByQuery(query: any): Observable<any> {
     var apiUrl = this.authService.getApiUrl();
     return this.http.post(`${apiUrl}/orders/findOrderByQuery`, query, { headers: this.apiKey });
+  }
+
+  getOrdersByToday(): Observable<any> {
+    var apiUrl = this.authService.getApiUrl();
+    return this.http.get(`${apiUrl}/orders/getOrdersByToday`, { headers: this.apiKey });
   }
 }

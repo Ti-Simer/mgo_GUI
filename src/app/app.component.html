@@ -15,7 +15,7 @@
                     <img class="navbar-brand" [src]='logoSrc' class="img-fluid"
                         style="width: 4rem; margin-right: 1rem; cursor: pointer">
                     <span *ngIf="configuration" id="text-company-portrait">{{system | translate}} |
-                        {{configuration.company | truncate: 12}}
+                        {{configuration.company}}
                     </span>
                     <span *ngIf="configuration" id="text-company-landscape">{{system | translate}} |
                         {{configuration.company}}

@@ -92,7 +92,7 @@
     "Perfil": "Perfil",
     "Notificaciones": "Notificaciones",
     "Cerrar sesión": "Cerrar sesión",
-    "2024 Simer Electronics SAS. Todos los derechos reservados.": "2024 Simer Electronics SAS. Todos los derechos reservados.",
+    "2025 Simer Electronics SAS. Todos los derechos reservados.": "2025 Simer Electronics SAS. Todos los derechos reservados.",
     "Registrar Establecimiento": "Registrar Establecimiento",
     "Ciudad": "Ciudad",
     "Seleccione una ciudad": "Seleccione una ciudad",
@@ -463,20 +463,29 @@
     "Ultima conexión": "Ultima conexión",
     "Sin datos de conexión": "Sin datos de conexión",
     "Sin Sensores": "Sin Sensores",
-
     "Promedio de días entre recarga": "Promedio de días entre recarga",
     "Promedio de nivel bajo (-50%)": "Promedio de nivel bajo (-50%)",
     "Promedio de nivel alto (+50%)": "Promedio de nivel alto (+50%)",
     "Promedio de nivel": "Promedio de nivel",
-
     "Auto-Tanque": "Auto-Tanque",
     "Fecha-sistema": "Fecha-sistema",
     "Búsqueda Avanzada": "Búsqueda Avanzada",
     "Nombre Operador": "Nombre Operador",
     "Apellido Operador": "Apellido Operador",
-
     "Rango 1: ": "Rango 1: ",
     "Rango 2: ": "Rango 2: ",
+    "Cilindros": "Cilindros",
+    "Tanques almacenamiento": "Tanques almacenamiento",
+    "EDS": "EDS",
+    "Listado": "Listado",
+    "Manual": "Manual",
+    "Mapa": "Mapa",
+    "Latitud y Longitud": "Latitud y Longitud",
+    "No se han encontrado ciudades creadas": "No se han encontrado ciudades creadas",
+    "No se han encontrado zonas creadas": "No se han encontrado zonas creadas",
+    "No se han encontrado clientes creados": "No se han encontrado clientes creados",
+    "No se han encontrado tanques estacionarios disponibles": "No se han encontrado tanques estacionarios disponibles",
+    "CREAR": "CREAR",
 
     "": ""
 }

@@ -324,7 +324,6 @@ export class AppComponent {
         case 'Poseidon':
           this.configurationService.getAll().subscribe(
             response => {
-              console.log('ConfigurationService::', response);
               if (response.statusCode == 200) {
                 this.configuration = response.data[0];
               } else {

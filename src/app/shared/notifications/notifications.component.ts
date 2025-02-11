@@ -45,17 +45,19 @@ export class NotificationsComponent {
   }
 
   async fetchNotifications() {
-    const polling$ = interval(500);
+    const polling$ = interval(10000);
 
     this.subscription = polling$
       .pipe(switchMap(() => this.notificationService.getUnread()))
       .subscribe(
-        response => {          
-          this.notifications = response.data.sort((a: any, b: any) => {
-            let dateA = new Date(a.create); // o a.update dependiendo de qué fecha quieres usar
-            let dateB = new Date(b.create); // o b.update dependiendo de qué fecha quieres usar
-            return dateB.getTime() - dateA.getTime(); // Ordena en orden descendente
-          });
+        response => { 
+          if(response.statusCode == 200){
+            this.notifications = response.data.sort((a: any, b: any) => {
+              let dateA = new Date(a.create); // o a.update dependiendo de qué fecha quieres usar
+              let dateB = new Date(b.create); // o b.update dependiendo de qué fecha quieres usar
+              return dateB.getTime() - dateA.getTime(); // Ordena en orden descendente
+            });
+          }         
         },
         error => {
           console.error('Error al obtener las notificaciones:', error);

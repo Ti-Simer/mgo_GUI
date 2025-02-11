@@ -29,20 +29,42 @@
                             <label>No se han encontrado departamentos,</label> <label style="cursor: pointer; font-weight: bold;" (click)="toCreateDepartments()"> CREAR </label> 
                         </div>
 
-                        <div class="map mb-3" *ngIf="cityForm.value.department">
-                            <input class="form-control mb-1" #geoCode type="text" placeholder="{{'Buscar en mapa...' | translate}}"
-                                (input)="codeAddress()" style="width: 100%; background-color: #ebebeb;">
-    
-                            <!-- Agrega aquí el componente de mapa de Google Maps -->
-                            <google-map id="mapContainer" (mapClick)="onMapClick($event)" [width]="'100%'"
-                                [height]="'250px'" [center]="mapCenter">
-    
-                                <!-- Marcador condicional -->
-                                <map-marker *ngIf="markerVisible" [position]="markerPosition"></map-marker>
-                            </google-map>
-                            <p *ngIf="cityForm.value.latitude" style="font-size: 14px; color: #a8a8a8;" for="latitude">Latitud:
-                                {{cityForm.value.latitude}}, Longitud:
-                                {{cityForm.value.longitude}}</p>
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="Mapa">
+                              <button class="nav-link active" id="map-tab" data-bs-toggle="tab" data-bs-target="#map" type="button" role="tab" aria-controls="map" aria-selected="true">Mapa</button>
+                            </li>
+                            <li class="nav-item" role="Latitud y Longitud">
+                              <button class="nav-link" id="latlang-tab" data-bs-toggle="tab" data-bs-target="#latlang" type="button" role="tab" aria-controls="latlang" aria-selected="false">Latitud y Longitud</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content mt-2" id="myTabContent">
+                            <div class="tab-pane fade show active" id="map" role="tabpanel" aria-labelledby="map-tab">
+                                <div class="map mb-3">
+                                    <label for="nit" class="form-label">-- {{'Ubicación' | translate}}</label>
+                                    <input class="form-control mb-1" #geoCode type="text"
+                                        placeholder="{{'Buscar... (lat, lng, plus code)' | translate}}" (input)="codeAddress()"
+                                        style="width: 100%; background-color: #ebebeb;">
+            
+                                    <!-- Agrega aquí el componente de mapa de Google Maps -->
+                                    <google-map id="mapContainer" (mapClick)="onMapClick($event)" [width]="'100%'"
+                                        [height]="'250px'" [center]="mapCenter">
+                                        <!-- Marcador condicional -->
+                                        <map-marker *ngIf="markerVisible" [position]="markerPosition"></map-marker>
+                                    </google-map>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="latlang" role="tabpanel" aria-labelledby="latlang-tab">
+                                <div class="mb-3">
+                                    <label for="latitude" class="form-label">-- {{'Latitud' | translate}}</label>
+                                    <input type="text" id="latitude" class="form-control" formControlName="latitude"
+                                    placeholder="{{'Latitud' | translate}}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="longitude" class="form-label">-- {{'Longitude' | translate}}</label>
+                                    <input type="text" id="longitude" class="form-control" formControlName="longitude"
+                                    placeholder="{{'Longitud' | translate}}">
+                                </div>
+                            </div>
                         </div>
     
                         <!-- Puedes agregar más campos aquí según los atributos de la entidad Roles -->

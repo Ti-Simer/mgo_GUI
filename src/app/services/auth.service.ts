@@ -5,8 +5,10 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { environment } from '../../environments/environment.prod';
 import * as CryptoJS from 'crypto-js';
+
+import { environment } from '../../environments/environment';
+//import { environment } from '../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',
