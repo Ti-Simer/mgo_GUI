@@ -23,8 +23,6 @@ import {
   SignalZero
 } from 'lucide-angular';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ResumeDataComponent } from './resume-data/resume-data.component';
-import { DialogResumeDataComponent } from './dialog-resume-data/dialog-resume-data.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -36,8 +34,6 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     HomeHerculesComponent,
-    ResumeDataComponent,
-    DialogResumeDataComponent
   ],
   imports: [
     CommonModule,

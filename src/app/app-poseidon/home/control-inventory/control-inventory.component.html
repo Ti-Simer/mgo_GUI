@@ -1,0 +1,99 @@
+<div class="general-container" [formGroup]="controlInventoryForm">
+    <div class="row mb-3 justify-content-center formdate">
+        <h1 class="text-center">
+            {{'Control por inventario' | translate}} <br>
+            <hr class="w-25 mx-auto text-gray">
+        </h1>
+        <div class="col-lg-4" id="responsive-container">
+            <input type="date" class="form-control items" formControlName="day" id="dateInput">
+            <button type="submit" class="btn btn-md btn-success w-100 items" [disabled]="!controlInventoryForm.valid" (click)="onSubmit()">
+                <lucide-icon name="search" [size]="20"></lucide-icon> {{'Buscar' | translate}}
+            </button>
+        </div>
+    </div>
+
+    <div class="row d-flex justify-content-around mb-3 trucks" *ngIf="date">
+        <hr class="text-gray">
+        <h3 class="text-secondary text-center">{{'Auto tanques activos' | translate}}, {{date | date: 'fullDate'}}</h3>
+        <div class="row" id="responsive-container">
+            <div class="card shadow-sm p-4" style="cursor: pointer; width: 10rem" (click)="onTruckClick(truck)" id="items" *ngFor="let truck of trucks">
+                {{'Placa' | translate}}: {{truck.plate}} <br>
+                {{'Capacidad por densidad' | translate}}: {{truck.capacityGl}}GL / {{truck.capacity}}Kg <br>
+                {{'Capacidad Volumétrica' | translate}}: {{truck.capacityTGl}}GL
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3" *ngIf="inventoryReport.valid" [formGroup]="inventoryReport">
+        <hr class="text-gray">
+        <h1 class="text-secondary text-center">{{inventoryReport.value.plate}}</h1>
+        <h3 class="text-secondary text-center">{{'Reporte de inventario' | translate}}, {{date | date: 'fullDate'}}</h3>
+
+
+        <div class="row d-flex justify-content-center">
+            <div class="col-lg-10 d-flex justify-content-evenly" id="responsive-container">
+                <div class="w-50 bg-light shadow-sm p-2" id="items">
+                    {{'Capacidad en kilogramos' | translate}}: {{inventoryReport.value.capacity}} Kg<br>
+                    {{'Capacidad en Galones (densidad)' | translate}}: {{inventoryReport.value.capacityGl}} GL<br>
+                    {{'Capacidad en Galones (volumétrico)' | translate}}: {{inventoryReport.value.capacityTGl}} GL<br>
+                    {{'Densidad promedio' | translate}}:  {{inventoryReport.value.density}} <br>
+                    <span class="fw-bold text-info">
+                        {{'Volumen total-remisiones' | translate}}: {{inventoryReport.value.totalVolume}} GL<br>
+                    </span>
+                </div>
+                <div class="w-25 p-2 rounded align-items-center" id="items">
+                    <input type="number" class="form-control mb-1 w-75 mx-auto" formControlName="exit" placeholder="{{'% Salida' | translate}}">
+                    <input type="number" class="form-control mb-1 w-75 mx-auto" formControlName="entry" placeholder="{{'% Entrada' | translate}}">
+                    <div class="row d-flex justify-content-center p-2">
+                        <button class="btn btn-sm btn-success w-75" (click)="calculateInventory()">{{'Calcular' | translate}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row d-flex justify-content-center" *ngIf="data">
+        <hr class="text-gray w-25 mx-auto">
+        <div class="col-lg-10 d-flex justify-content-around" id="responsive-container">
+            <div class="w-25 shadow-sm bg-light p-2" id="items">
+                <h3 class="text-center mx-auto fw-bold text-secondary">{{'Cálculo con Densidad promedio' | translate}}</h3>
+                {{'Salida de auto tanque' | translate}}: {{data.exitGl }} GL ({{data.exit}}%)<br>
+                {{'Entrada de auto tanque' | translate}}: {{data.entryGl }} GL ({{data.entry}}%)<br>
+                {{'Entrega' | translate}}: {{data.saleGl }} GL<br>
+                ({{data.saleGl}} Gl - {{inventoryReport.value.totalVolume}} GL)<br>
+                <span class="fw-bold text-danger" *ngIf="data.performanceGl > 0">
+                    {{'Resultado' | translate}}: {{data.performanceGl }} GL<br>
+                    {{'Falta producto según la medicion de densidad promedio' | translate}}
+                </span>
+                <span class="fw-bold text-success" *ngIf="data.performanceGl < 0">
+                    {{'Resultado' | translate}}: {{data.performanceGl }} GL<br>
+                    {{'Sobra producto según la medicion de densidad promedio' | translate}}
+                </span>
+            </div>
+
+            <div class="w-25 shadow-sm bg-light p-2" id="items">
+                <h3 class="text-center mx-auto fw-bold text-secondary">{{'Cálculo volumétrico (2.02)' | translate}}</h3>
+                {{'Salida de auto tanque' | translate}}: {{data.exitTGl }} GL ({{data.exit}}%)<br>
+                {{'Entrada de auto tanque' | translate}}: {{data.entryTGl }} GL ({{data.entry}}%)<br>
+                {{'Entrega' | translate}}: {{data.saleTGl }} GL<br>
+                ({{data.saleTGl}} Gl - {{inventoryReport.value.totalVolume}} GL)<br>
+                <span class="fw-bold text-danger" *ngIf="data.performanceTGl > 0">
+                    {{'Resultado' | translate}}: {{data.performanceTGl }} GL<br>
+                    {{'Falta producto según la medicion volumétrica (2.02)' | translate}}
+                </span>
+                <span class="fw-bold text-success" *ngIf="data.performanceTGl < 0">
+                    {{'Resultado' | translate}}: {{data.performanceTGl | positiveNumber }} GL<br>
+                    {{'Sobra producto según la medicion volumétrica (2.02)' | translate}}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row w-75 d-flex flex-row-reverse mx-auto mt-3" *ngIf="data">
+        <div class="col-lg-6">
+            <button class="btn btn-success float-end" (click)="downloadData()">
+                <lucide-icon name="sheet"></lucide-icon> Descargar
+            </button>
+        </div>
+    </div>
+</div>

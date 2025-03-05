@@ -2,13 +2,13 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-dialog-resume-data',
-  templateUrl: './dialog-resume-data.component.html',
-  styleUrls: ['./dialog-resume-data.component.scss']
+  selector: 'app-dialog-create-localities',
+  templateUrl: './dialog-create-localities.component.html',
+  styleUrls: ['./dialog-create-localities.component.scss']
 })
-export class DialogResumeDataComponent {
+export class DialogCreateLocalitiesComponent {
     constructor(
-      public dialogRef: MatDialogRef<DialogResumeDataComponent>,
+      public dialogRef: MatDialogRef<DialogCreateLocalitiesComponent>,
       @Inject(MAT_DIALOG_DATA) public data: any
     ) {}
     

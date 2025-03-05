@@ -4,11 +4,11 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { UsuarioService } from 'src/app/services/poseidon-services/usuario.service';
 import { BillService } from 'src/app/services/poseidon-services/bill.service';
-import { NotificationService } from 'src/app/services/poseidon-services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/services/language.service';
 import { Subscription } from 'rxjs';
 import { OrdersService } from 'src/app/services/poseidon-services/orders.service';
+import { CourseService } from 'src/app/services/poseidon-services/course.service';
 
 @Component({
   selector: 'app-home',
@@ -33,6 +33,7 @@ export class HomeComponent {
   roleText: any;
   massData: any;
   orders: any;
+  courses: any;
   operators: any;
   notifications: any = [];
 
@@ -42,6 +43,7 @@ export class HomeComponent {
     private authService: AuthService,
     private billService: BillService,
     private ordersService: OrdersService,
+    private courseService: CourseService,
     private toastr: ToastrService,
     private translate: TranslateService,
     private languageService: LanguageService
@@ -62,6 +64,7 @@ export class HomeComponent {
     
     this.fetchDataMass();
     this.fetchOrdersLength();
+    this.fetchCourses();
     this.languageSubscription = this.languageService.getLanguageObservable().subscribe(newLanguage => {
       this.translate.use(newLanguage);
       this.translate.setDefaultLang(newLanguage);
@@ -76,8 +79,6 @@ export class HomeComponent {
 
   keyVerify() {
     const token = this.authService.getTokenData();
-    console.log(token);
-
     if (token.key == 'poseidon-M0NT4645+.6040') {
     } else {
       this.router.navigate(['/']);
@@ -88,7 +89,9 @@ export class HomeComponent {
   fetchDataMass() {
     this.billService.getGlpByToday().subscribe(
       response => {
-        this.massData = response.data;
+        if(response.statusCode == 200) {
+          this.massData = response.data;
+        }
       }, error => {
         console.error('Error al obtener las facturas:', error);
       }
@@ -101,6 +104,17 @@ export class HomeComponent {
         this.orders = response.data;
       }, error => {
         console.error('Error al obtener las pedidos:', error);
+      }
+    );
+  }
+
+  fetchCourses() {
+    this.courseService.findForHome().subscribe(
+      response => {
+        if (response.statusCode === 200) {
+          console.log(response);
+          this.courses = response.data;
+        }
       }
     );
   }
@@ -126,6 +140,11 @@ export class HomeComponent {
         console.error('Error al obtener el permiso por ID:', error);
       }
     );
+  }
+
+  refreshData() {
+    this.fetchDataMass();
+    this.fetchOrdersLength();
   }
 
   toOrders() {

@@ -114,15 +114,18 @@
                             </td>
                             <td>{{ course.fecha | date: 'fullDate' }}</td>
                             <td class="custom-td" id="orders">
-                                <ul class="list-group-item list-group-item-success" *ngFor="let order of course.orders">
-                                    <li class="list-group-item" (click)="toViewOrder(order)"
-                                        [ngStyle]="{'background-color': getCriticalityColor(order.status)}"
-                                        style="padding: 3px; border-radius: 3px; cursor: pointer;" title="{{ order.branch_office.name }}">
-                                        {{ order.branch_office.name | truncate:27 }} - 
-                                        <span style="color: #646464; font-size: 12px;">{{ order.status }}</span> 
-                                        <span style="color: #646464; font-size: 12px; float: right;">Token: {{ order.token }}</span>
-                                    </li>
-                                </ul>
+                                <details>
+                                    <summary class="text-secondary">{{course.orders.length}} {{'pedidos' | translate}}</summary>
+                                    <ul class="list-group-item list-group-item-success" *ngFor="let order of course.orders">
+                                        <li class="list-group-item" (click)="toViewOrder(order)"
+                                            [ngStyle]="{'background-color': getCriticalityColor(order.status)}"
+                                            style="padding: 3px; border-radius: 3px; cursor: pointer;" title="{{ order.branch_office.name }}">
+                                            {{ order.branch_office.name | truncate:27 }} - 
+                                            <span style="color: #646464; font-size: 12px;">{{ order.status }}</span> 
+                                            <span style="color: #646464; font-size: 12px; float: right;">Token: {{ order.token }}</span>
+                                        </li>
+                                    </ul>
+                                </details>
                             </td>
                             <td class="custom-td" id="buttons-table">
                                 <button class="btn btn-sm btn-info" (click)="toViewCourse(course)">{{'Ver ruta' | translate}}</button>

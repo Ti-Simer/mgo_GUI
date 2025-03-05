@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { interval, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -11,15 +11,13 @@ declare var google: any;
   templateUrl: './home-trackingmap.component.html',
   styleUrls: ['./home-trackingmap.component.scss']
 })
-export class HomeTrackingmapComponent {
+export class HomeTrackingmapComponent implements OnInit, OnDestroy {
+  isPortrait: boolean = window.matchMedia('(orientation: portrait)').matches;
 
   private subscription!: Subscription;
   tablets: any;
 
   zoom: any = 12;
-  width: any = '900px';
-  height: any = '300px';
-
   markers: any[] = [];
   mapCenter: google.maps.LatLngLiteral = { lat: 1.2073352562168826, lng: -77.28305456161672 };
 
@@ -32,29 +30,19 @@ export class HomeTrackingmapComponent {
     private tabletService: TabletService,
   ) { }
 
-  ngOnInit(): void {
-    
+  ngOnInit() {
     this.fetchTablets();
+    this.checkOrientation();
+    window.matchMedia('(orientation: portrait)').addEventListener('change', this.checkOrientation.bind(this));
+  }
 
-    // Verifica la orientación al cargar la página
-    if (window.matchMedia('(orientation: portrait)').matches) {
-      this.width = '300px';
-      this.height = '200px';
-    }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkOrientation();
+  }
 
-    // Escucha los cambios en la orientación del dispositivo
-    window.matchMedia('(orientation: portrait)').addEventListener('change', (event) => {
-      if (event.matches) {
-        // Si la orientación es portrait, cambia los valores de width y height
-        this.width = '300px';
-        this.height = '200px';
-      } else {
-        // Si la orientación no es portrait, establece los valores originales
-        this.width = '450px';
-        this.height = '300px';
-      }
-    });
-
+  checkOrientation() {
+    this.isPortrait = window.matchMedia('(orientation: portrait)').matches;
   }
 
   fetchTablets() {
@@ -79,7 +67,7 @@ export class HomeTrackingmapComponent {
                   lat: parseFloat(location.latitude),
                   lng: parseFloat(location.longitude),
                 },
-                label: `${location.operator[0].firstName} ${location.operator[0].lastName}` 
+                label: `${location.operator[0].firstName} ${location.operator[0].lastName}`
               });
 
               // Define el modo de transporte para este marcador (ajusta según tus necesidades)
@@ -102,5 +90,4 @@ export class HomeTrackingmapComponent {
       this.subscription.unsubscribe();
     }
   }
-
 }

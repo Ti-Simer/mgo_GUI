@@ -152,8 +152,6 @@ export class OrdersCreateComponent {
         }
       this.orderService.create(this.orderForm.value).subscribe(
         response => {
-          console.log(response);
-
           if (response.statusCode == 200) {
             this.toastr.success(`Pedido ${response.data.folio} en ${this.branch_office.name} ha sido creado satisfactoriamente`, `Exito!`);
             this.resetForm();

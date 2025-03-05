@@ -186,6 +186,7 @@ export class AuthService {
       case 'poseidon-3654*.5050': apiUrl = environment.apiPoseidonEgsa; break;
       case 'poseidon-5lm3r+.4060': apiUrl = environment.apiPoseidonSimer; break;
       case 'poseidon-5lm3r+.4060': apiUrl = environment.apiPoseidonSimer; break;
+      case 'hercules-M0NT4645+.6040': apiUrl = environment.apiHerculesMontagas; break;
       default: this.toastr.warning('Usuario no autorizado', 'Error'); break;
     }
 
@@ -204,6 +205,7 @@ export class AuthService {
       case 'poseidon-3654*.5050': apiUrl = environment.apiPoseidonEgsa; break;
       case 'poseidon-5lm3r+.4060': apiUrl = environment.apiPoseidonSimer; break;
       case 'poseidon-5lm3r+.4060': apiUrl = environment.apiPoseidonSimer; break;
+      case 'hercules-M0NT4645+.6040': apiUrl = environment.apiHerculesMontagas; break;
       default: this.toastr.warning('Usuario no autorizado', 'Error'); break;
     }
     return apiUrl;

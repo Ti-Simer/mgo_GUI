@@ -8,6 +8,7 @@ const routes: Routes = [
 
   { path: '', loadChildren: () => import('./home-hercules/home-hercules.module').then(m => m.HomeHerculesModule) },
   { path: 'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule) },
+  { path: 'localities', loadChildren: () => import('./localities/localities.module').then(m => m.LocalitiesModule) },
 ];
 
 @NgModule({

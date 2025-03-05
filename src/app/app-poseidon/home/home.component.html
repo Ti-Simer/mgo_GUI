@@ -1,302 +1,236 @@
-<div class="general-container d-flex justify-content-center">
-    <div class="container">
-        <div class="row section1 d-flex justify-content-center mb-2" id="responsive-container">
-            <div class="col-sm-5 box1" id="items">
-                <div class="row title">
-                    <h4>{{nameText}}</h4>
-                </div>
-                <div class="row subtitle">
-                    <h3>-- {{roleText}}</h3>
-                </div>
-
-                <div class="row d-flex justify-content-center">
-                    <div class="row d-flex justify-content-center">
-                        <div class="col-md-6">
-                            <a (click)="toCourses(roleText)" class="text-decoration-none" style="cursor: pointer;">
-                                <div class="bg-primary text-white p-4 text-center mb-4"
-                                    style="background-color: #014e87 !important;">
-                                    {{'Derroteros' | translate}}
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="col-md-6">
-                            <a (click)="toReports()" class="text-decoration-none" style="cursor: pointer;">
-                                <div class="text-white p-4 text-center mb-4" style="background-color: #0267B5;">
-                                    {{'Reportes' | translate}}
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="row d-flex justify-content-center">
-                        <div class="col-md-6">
-                            <a (click)="toOrders()" class="text-decoration-none" style="cursor: pointer;">
-                                <div class="text-white p-4 text-center mb-4" style="background-color: #027FDE;">
-                                    {{'Pedidos' | translate}}
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="col-md-6">
-                            <a (click)="toRequest()" class="text-decoration-none" style="cursor: pointer;">
-                                <div class="text-white p-4 text-center" style="background-color: #01213B;">
-                                    {{'Servicios' | translate}}
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-5 box2" id="items">
-                <div class="row title">
-                    <h4>{{'Informe de registro' | translate}}</h4>
-                </div>
-                <div class="row p-1">
-                    <div class="col-md-12">
-                        <app-log-report-list></app-log-report-list>
-                    </div>
-                </div>
-            </div>
+<div class="new-content mb-4">
+    <nav class="mt-4">
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">{{'Panel' | translate}}</button>
+          <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{{'Control/inventario' | translate}}</button>
+          <!-- <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">{{'Reportes' | translate}}</button> -->
         </div>
-
-        <div class="row section2 d-flex justify-content-center">
-            <div class="col-sm-12 box1">
-                <div class="row title">
-                    <h4>{{'Derroteros en curso' | translate}} (2024)</h4>
+    </nav>
+    <div class="tab-content mt-3" id="nav-tabContent" style="padding-bottom: 100px;">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="headerLandscape card mb-3 mx-auto" id="responsive-container" style="height: 50px !important; width: 98.4% !important; background: linear-gradient(to right, #142938, #014e87) !important; color: #fff;">
+                    <div class="card-body d-flex justify-content-center align-items-center p-0 h-50">
+                        <div class="col-xl-2 col-lg-2 d-flex justify-content-around align-items-center" id="items" style="font-weight: bold;">
+                            -- {{roleText}}
+                        </div>
+                        <div class="col-xl-5 col-lg-5" id="items"></div>
+                        <div class="col-xl-2 col-lg-2 d-flex justify-content-around align-items-center" id="items">
+                            {{nameText}}
+                            <lucide-icon name="rotate-cw" style="cursor: pointer"></lucide-icon>
+                            <lucide-icon name="circle-user-round" style="cursor: pointer"></lucide-icon>
+                            <lucide-icon name="bolt" style="cursor: pointer"></lucide-icon>
+                        </div>
+                    </div>
                 </div>
-                <div class="row d-flex justify-content-center p-2">
-                    <div class="col-md-12">
+                <div class="headerPortrait card mb-3 mx-auto" id="responsive-container" style="height: 50px !important; width: 98.4% !important; background: linear-gradient(to right, #142938, #014e87) !important; color: #fff;">
+                    <div class="card-body d-flex justify-content-center align-items-center p-0 h-50">
+                        <div class="col-xl-5 col-lg-5 d-flex justify-content-around align-items-center" id="items">
+                            {{nameText}}
+                            <lucide-icon name="rotate-cw" style="cursor: pointer" (click)="refreshData()"></lucide-icon>
+                            <lucide-icon name="circle-user-round" style="cursor: pointer"></lucide-icon>
+                            <lucide-icon name="bolt" style="cursor: pointer"></lucide-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-center mb-1">
+                    <div class="row ">
+                        <div class="col-xl-4 col-lg-4 d-flex justify-content-center">
+                            <div class="card l-bg-cherry">
+                                <div class="card-statistic-3 p-4">
+                                    <div class="card-icon card-icon-large"><i class="fas fa-shopping-cart"></i></div>
+                                    <div class="mb-4">
+                                        <h2 class="card-title mb-0">{{'Masa/día' | translate}}</h2>
+                                    </div>
+                                    <div class="row align-items-center mb-2 d-flex">
+                                        <div class="col-8">
+                                            <h2 class="d-flex align-items-center mb-0">
+                                                <span class="text1" *ngIf="massData">
+                                                    {{massData.mass | number}} Kg
+                                                </span>
+                                                <span class="text1" *ngIf="!massData">
+                                                    {{'No hay datos' | translate}}
+                                                </span>
+                                            </h2>
+                                            <h4 class="d-flex align-items-center mb-0">
+                                                <span class="text1" *ngIf="massData">
+                                                    {{massData.volume | number}} Gl
+                                                </span>
+                                                <span class="text1" *ngIf="!massData">
+                                                    {{'No hay datos' | translate}}
+                                                </span>
+                                            </h4>
+                                        </div>
+                                        <div class="col-4 text-right" *ngIf="massData">
+                                            <span>{{massData.today | date: 'mediumDate'}} <br> {{massData.percentageEffective}}% <i
+                                                    class="fa fa-arrow-up"></i></span>
+                                        </div>
+                                        <div class="col-4 text-right" *ngIf="!massData">
+                                            <span>{{'No hay datos registrados' | translate}} <br> 2025 
+                                                <i class="fa fa-arrow-up"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="progress mt-1" data-height="8" style="height: 8px;" *ngIf="massData">
+                                        <div class="progress-bar l-bg-cyan" role="progressbar"
+                                            [attr.data-width]="massData.percentageEffective + '%'" aria-valuenow="25"
+                                            aria-valuemin="0" aria-valuemax="100" [style.width.%]="massData.percentageEffective">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-xl-4 col-lg-4 d-flex justify-content-center">
+                            <div class="card l-bg-blue-dark">
+                                <div class="card-statistic-3 p-4">
+                                    <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
+                                    <div class="mb-4" *ngIf="orders">
+                                        <h2 class="card-title mb-0">{{'Pedidos desde' | translate}} {{orders.dayAgo | date: 'mediumDate'}}</h2>
+                                    </div>
+                                    <div class="mb-4" *ngIf="!orders">
+                                        <h2 class="card-title mb-0">{{'Pedidos' | translate}}</h2>
+                                    </div>
+                                    <div class="row align-items-center mb-2 d-flex">
+                                        <div class="col-8">
+                                            <h2 class="d-flex align-items-center mb-0">
+                                                <span class="text1" *ngIf="orders">
+                                                    {{orders.ordersOnCourse | number}} / {{orders.ordersSuccess | number}}
+                                                </span>
+                                            </h2>
+                                            <h4 class="d-flex align-items-center mb-0">
+                                                <span class="text1" *ngIf="orders">
+                                                    {{'En curso' | translate}} / {{'Finalizado' | translate}}
+                                                </span>
+                                                <span class="text1" *ngIf="!orders">
+                                                    {{'No hay datos' | translate}}
+                                                </span>
+                                            </h4>
+                                        </div>
+                                        <div class="col-4 text-right" *ngIf="orders">
+                                            <span>{{orders.today | date: 'mediumDate'}} <br> {{orders.percentageSuccess | number}}% <i
+                                                    class="fa fa-arrow-up"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="progress mt-1 " data-height="8" style="height: 8px;" *ngIf="orders">
+                                        <div class="progress-bar l-bg-green" role="progressbar"
+                                            [attr.data-width]="orders.percentageSuccess + '%'" aria-valuenow="25" aria-valuemin="0"
+                                            aria-valuemax="100" [style.width.%]="orders.percentageSuccess"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-xl-4 col-lg-4 d-flex justify-content-center">
+                            <div class="card l-bg-orange-dark">
+                                <div class="card-statistic-3 p-4">
+                                    <div class="card-icon card-icon-large"><i class="fas fa-dollar-sign"></i></div>
+                                    <div class="mb-4">
+                                        <h2 class="card-title mb-0" *ngIf="courses">{{'Derroteros' | translate}} {{courses[0].today | date: 'mediumDate'}}</h2>
+                                        <h2 class="card-title mb-0" *ngIf="!courses">{{'Derroteros' | translate}}</h2>
+                                    </div>
+                                    <div class="row align-items-center mb-2 d-flex">
+                                        <div class="col-8">
+                                            <h2 class="d-flex align-items-center mb-0" *ngIf="!courses">
+                                                {{'No hay datos' | translate}}
+                                            </h2>
+                                            <h2 class="d-flex align-items-center mb-0" *ngIf="courses">
+                                                {{courses[0].courses}} / {{courses[0].fullEfficiencyCount}}
+                                            </h2>
+                                            <h4 class="d-flex align-items-center mb-0">
+                                                <span class="text1" *ngIf="courses">
+                                                    {{'En curso' | translate}} / {{'Finalizado' | translate}}
+                                                </span>
+                                                <span class="text1" *ngIf="!courses">
+                                                    {{'No hay datos' | translate}}
+                                                </span>
+                                            </h4>
+                                        </div>
+                                        <div class="col-4 text-right" *ngIf="courses">
+                                            <span>{{courses[0].percentageSuccess}}% <i class="fa fa-arrow-up"></i></span>
+                                        </div>
+                                        <div class="col-4 text-right" *ngIf="!courses">
+                                            <span>{{'No hay datos registrados' | translate}} <br> 2025 
+                                                <i class="fa fa-arrow-up"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="progress mt-1" data-height="8" style="height: 8px;" *ngIf="courses">
+                                        <div class="progress-bar l-bg-cyan" role="progressbar"
+                                            [attr.data-width]="courses[0].percentageSuccess + '%'" aria-valuenow="25"
+                                            aria-valuemin="0" aria-valuemax="100" [style.width.%]="courses[0].percentageSuccess">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-center mb-1 mx-auto" id="responsive-container" style="width: 98.4% !important;">
+                    <div class="col-xl-5 col-lg-5 p-4 bg-light rounded shadow" id="items" style="background: linear-gradient(to right, #142938, #014e87) !important;">
+                        <app-home-chart></app-home-chart>
+                    </div>
+                    <div class="col-xl-5 col-lg-5 p-4 bg-light rounded shadow" id="items">
                         <app-home-trackingmap></app-home-trackingmap>
                     </div>
                 </div>
-            </div>
+                <div class="row d-flex justify-content-center mb-1 mx-auto" id="responsive-container" style="width: 98.4% !important;">
+                    <div class="col-xl-5 col-lg-5 p-3 bg-light rounded shadow d-flex justify-content-center align-items-center" id="items">
+                        <div class="row d-flex justify-content-center" style="flex-grow: 0.5">
+                            <div class="row d-flex justify-content-center">
+                                <h1 class="text-center text-lightgray font-weight-bold">
+                                    {{'Accesos directos' | translate}}
+                                </h1>
+                                <hr class="w-50 text-gray"> 
+                            </div>
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-md-6">
+                                    <a (click)="toCourses(roleText)" class="text-decoration-none" style="cursor: pointer;">
+                                        <div class="bg-primary text-white p-4 rounded text-center mb-4"
+                                            style="background-color: #014e87 !important;">
+                                            {{'Derroteros' | translate}}
+                                        </div>
+                                    </a>
+                                </div>
+            
+                                <div class="col-md-6">
+                                    <a (click)="toReports()" class="text-decoration-none" style="cursor: pointer;">
+                                        <div class="text-white p-4 rounded text-center mb-4" style="background-color: #0267B5;">
+                                            {{'Reportes' | translate}}
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-md-6">
+                                    <a (click)="toOrders()" class="text-decoration-none" style="cursor: pointer;">
+                                        <div class="text-white p-4 rounded text-center mb-4" style="background-color: #027FDE;">
+                                            {{'Pedidos' | translate}}
+                                        </div>
+                                    </a>
+                                </div>
+            
+                                <div class="col-md-6">
+                                    <a (click)="toRequest()" class="text-decoration-none" style="cursor: pointer;">
+                                        <div class="text-white p-4 rounded text-center" style="background-color: #01213B;">
+                                            {{'Servicios' | translate}}
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-5 col-lg-5 p-3 bg-light rounded shadow d-flex justify-content-center align-items-center" id="items">
+                        <app-log-report-list></app-log-report-list>
+                    </div>
+                </div>
         </div>
-
-        <div class="row section3 d-flex justify-content-center" id="responsive-container">
-
-            <div class="col-sm-3 card1" id="card" (click)="toReports()" id="items">
-                <div class="col-sm-12" *ngIf="massData">
-                    <div class="row">
-                        <span class="text1" *ngIf="massData.mass">
-                            {{massData.mass | number}} Kg <br>
-                            {{massData.volume | number}} Gl
-                        </span>
-                        <span class="text1" *ngIf="!massData.mass">
-                            {{'No hay datos registrados' | translate}}
-                        </span>
-                    </div>
-                    <div class="row">
-                        <span class="text2">
-                            {{massData.today | date: 'longDate'}}
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-3 card3" id="card" (click)="toNotifications()" id="items">
-                <div class="col-sm-12" *ngIf="orders">
-                    <div class="row">
-                        <span class="text1">
-                            {{'En curso' | translate}} / {{'Finalizado' | translate}} <br>
-                            {{orders.ordersOnCourse | number}} / {{orders.ordersSuccess | number}}
-                        </span>
-                    </div>
-                    <div class="row">
-                        <span class="text2">
-                            Pedidos desde {{orders.dayAgo | date: 'longDate'}}
-                        </span>
-                    </div>
-                </div>
-                <div class="col-sm-12" *ngIf="!orders">
-                    <div class="row">
-                        <span class="text1">
-                            {{'No hay datos registrados' | translate}}
-                        </span>
-                    </div>
-                </div>
-            </div>
-
+    
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <app-control-inventory></app-control-inventory>
         </div>
-
+    
+        <!-- <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div> -->
     </div>
-
-    <app-footer class="hide-on-mobile"></app-footer>
 </div>
 
-<!-- <div class="new-content mb-4">
-    <div class="row d-flex justify-content-center mb-1" id="responsive-container">
-        <div class="col-xl-2 col-lg-2 d-flex justify-content-around align-items-center" id="items">
-            -- {{roleText}}
-        </div>
-        <div class="col-xl-6 col-lg-6" id="items"></div>
-        <div class="col-xl-3 col-lg-3 d-flex justify-content-around align-items-center" id="items">
-            {{nameText}}
-            <lucide-icon name="circle-user-round"></lucide-icon>
-        </div>
-    </div>
-    <div class="row d-flex justify-content-center mb-1">
-        <div class="row ">
-            <div class="col-xl-4 col-lg-4">
-                <div class="card l-bg-cherry">
-                    <div class="card-statistic-3 p-4">
-                        <div class="card-icon card-icon-large"><i class="fas fa-shopping-cart"></i></div>
-                        <div class="mb-4">
-                            <h2 class="card-title mb-0">Masa/día</h2>
-                        </div>
-                        <div class="row align-items-center mb-2 d-flex">
-                            <div class="col-8">
-                                <h2 class="d-flex align-items-center mb-0">
-                                    <span class="text1" *ngIf="massData">
-                                        {{massData.mass | number}} Kg
-                                    </span>
-                                    <span class="text1" *ngIf="!massData">
-                                        0 Kg
-                                    </span>
-                                </h2>
-                                <h4 class="d-flex align-items-center mb-0">
-                                    <span class="text1" *ngIf="massData">
-                                        {{massData.volume | number}} Gl
-                                    </span>
-                                    <span class="text1" *ngIf="!massData">
-                                        0 GL
-                                    </span>
-                                </h4>
-                            </div>
-                            <div class="col-4 text-right" *ngIf="massData">
-                                <span>{{massData.today | date: 'fullDate'}} <br> {{massData.percentageEffective}}% <i
-                                        class="fa fa-arrow-up"></i></span>
-                            </div>
-                            <div class="col-4 text-right" *ngIf="!massData">
-                                <span>{{'No hay datos registrados' | translate}} <br> 2025 <br> 0% <i
-                                        class="fa fa-arrow-up"></i></span>
-                            </div>
-                        </div>
-                        <div class="progress mt-1" data-height="8" style="height: 8px;" *ngIf="massData">
-                            <div class="progress-bar l-bg-cyan" role="progressbar"
-                                [attr.data-width]="massData.percentageEffective + '%'" aria-valuenow="25"
-                                aria-valuemin="0" aria-valuemax="100" [style.width.%]="massData.percentageEffective">
-                            </div>
-                        </div>
-                        <div class="progress mt-1" data-height="8" style="height: 8px;" *ngIf="!massData">
-                            <div class="progress-bar l-bg-cyan" role="progressbar" data-width="5%" aria-valuenow="25"
-                                aria-valuemin="0" aria-valuemax="100" style="width: 5%;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<app-footer class="hide-on-mobile"></app-footer>
 
-            <div class="col-xl-4 col-lg-4">
-                <div class="card l-bg-blue-dark">
-                    <div class="card-statistic-3 p-4">
-                        <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
-                        <div class="mb-4" *ngIf="orders">
-                            <h2 class="card-title mb-0">Pedidos desde {{orders.dayAgo | date: 'longDate'}}</h2>
-                        </div>
-                        <div class="row align-items-center mb-2 d-flex">
-                            <div class="col-8">
-                                <h2 class="d-flex align-items-center mb-0">
-                                    <span class="text1" *ngIf="orders">
-                                        {{orders.ordersOnCourse | number}} / {{orders.ordersSuccess | number}}
-                                    </span>
-                                    <span class="text1" *ngIf="!orders">
-                                        0
-                                    </span>
-                                </h2>
-                                <h4 class="d-flex align-items-center mb-0">
-                                    <span class="text1" *ngIf="orders">
-                                        {{'En curso' | translate}} / {{'Finalizado' | translate}}
-                                    </span>
-                                    <span class="text1" *ngIf="!orders">
-                                        {{'No hay datos' | translate}}
-                                    </span>
-                                </h4>
-                            </div>
-                            <div class="col-4 text-right" *ngIf="orders">
-                                <span>{{orders.today | date: 'fullDate'}} <br> {{orders.percentageSuccess | number}}% <i
-                                        class="fa fa-arrow-up"></i></span>
-                            </div>
-                        </div>
-                        <div class="progress mt-1 " data-height="8" style="height: 8px;" *ngIf="orders">
-                            <div class="progress-bar l-bg-green" role="progressbar"
-                                [attr.data-width]="orders.percentageSuccess + '%'" aria-valuenow="25" aria-valuemin="0"
-                                aria-valuemax="100" [style.width.%]="orders.percentageSuccess"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-xl-4 col-lg-4">
-                <div class="card l-bg-orange-dark">
-                    <div class="card-statistic-3 p-4">
-                        <div class="card-icon card-icon-large"><i class="fas fa-dollar-sign"></i></div>
-                        <div class="mb-4">
-                            <h2 class="card-title mb-0">Derroteros</h2>
-                        </div>
-                        <div class="row align-items-center mb-2 d-flex">
-                            <div class="col-8">
-                                <h2 class="d-flex align-items-center mb-0">
-                                    $11.61k
-                                </h2>
-                            </div>
-                            <div class="col-4 text-right">
-                                <span>2.5% <i class="fa fa-arrow-up"></i></span>
-                            </div>
-                        </div>
-                        <div class="progress mt-1 " data-height="8" style="height: 8px;">
-                            <div class="progress-bar l-bg-cyan" role="progressbar" data-width="25%" aria-valuenow="25"
-                                aria-valuemin="0" aria-valuemax="100" style="width: 25%;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row d-flex justify-content-center mb-1" id="responsive-container">
-        <div class="col-xl-5 col-lg-5 bg-secondary" id="items">Grafico Rendimiento</div>
-        <div class="col-xl-5 col-lg-5 bg-secondary" id="items" style="padding: 2rem !important;">
-            <app-home-trackingmap></app-home-trackingmap></div>
-    </div>
-    <div class="row d-flex justify-content-center mb-1" id="responsive-container">
-        <div class="col-xl-5 col-lg-5" id="items">
-            <div class="row d-flex justify-content-center">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-md-6">
-                        <a (click)="toCourses(roleText)" class="text-decoration-none" style="cursor: pointer;">
-                            <div class="bg-primary text-white p-4 rounded text-center mb-4"
-                                style="background-color: #014e87 !important;">
-                                {{'Derroteros' | translate}}
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-6">
-                        <a (click)="toReports()" class="text-decoration-none" style="cursor: pointer;">
-                            <div class="text-white p-4 rounded text-center mb-4" style="background-color: #0267B5;">
-                                {{'Reportes' | translate}}
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="row d-flex justify-content-center">
-                    <div class="col-md-6">
-                        <a (click)="toOrders()" class="text-decoration-none" style="cursor: pointer;">
-                            <div class="text-white p-4 rounded text-center mb-4" style="background-color: #027FDE;">
-                                {{'Pedidos' | translate}}
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-6">
-                        <a (click)="toRequest()" class="text-decoration-none" style="cursor: pointer;">
-                            <div class="text-white p-4 rounded text-center" style="background-color: #01213B;">
-                                {{'Servicios' | translate}}
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-5 col-lg-5 bg-secondary" id="items"><app-log-report-list></app-log-report-list></div>
-    </div>
-</div> -->

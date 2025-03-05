@@ -1,45 +1,39 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BillRoutingModule } from './bill-routing.module';
-import { BillCreateComponent } from './bill-create/bill-create.component';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LocalitiesRoutingModule } from './localities-routing.module';
+import { LocalitiesListComponent } from './localities-list/localities-list.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { LocalitiesCreateComponent } from './localities-create/localities-create.component';
+import { DialogCreateLocalitiesComponent } from './dialog-create-localities/dialog-create-localities.component';
+import { ReactiveFormsModule } from '@angular/forms';
 import {
   LucideAngularModule,
-  Users,
-  ArrowBigLeftDash,
-  ArrowBigRightDash,
-  Eye,
-  EyeOff
+  Factory
 } from 'lucide-angular';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 // Factory function for TranslateHttpLoader
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 
-
 @NgModule({
   declarations: [
-    BillCreateComponent
+    LocalitiesListComponent,
+    LocalitiesCreateComponent,
+    DialogCreateLocalitiesComponent
   ],
   imports: [
     CommonModule,
-    BillRoutingModule,
+    LocalitiesRoutingModule,
     SharedModule,
-    FormsModule,
+    MatPaginatorModule,
     ReactiveFormsModule,
-    MatAutocompleteModule,
     LucideAngularModule.pick({
-      Users,
-      ArrowBigLeftDash,
-      ArrowBigRightDash,
-      Eye,
-      EyeOff
+      Factory
     }),
     TranslateModule.forChild({
       loader: {
@@ -48,6 +42,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
+    
   ]
 })
-export class BillModule { }
+export class LocalitiesModule { }

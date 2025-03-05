@@ -1,197 +1,120 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { BillService } from 'src/app/services/poseidon-services/bill.service';
-
-import {
-  ChartComponent,
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexXAxis,
-  ApexTitleSubtitle,
-  ApexStroke,
-} from "ng-apexcharts";
-
-export type ChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  xaxis: ApexXAxis;
-  title: ApexTitleSubtitle;
-  stroke: ApexStroke;
-};
+import { Component, AfterViewInit, OnDestroy } from '@angular/core';
+import { Chart, ChartConfiguration } from 'chart.js';
+import { CourseService } from 'src/app/services/poseidon-services/course.service';
 
 @Component({
   selector: 'app-home-chart',
   templateUrl: './home-chart.component.html',
   styleUrls: ['./home-chart.component.scss'],
 })
-export class HomeChartComponent implements OnInit {
+export class HomeChartComponent implements AfterViewInit, OnDestroy {
+  private myChart: Chart<'polarArea'> | undefined;
+  data: any[] = [];
 
-  @ViewChild("chart") chart!: ChartComponent;
-  public chartOptions!: ChartOptions; // Nota el uso de '!' para indicar que siempr
-  chartOptions2: any;
-
-  chartForm: FormGroup;
-
-  labels: any = [
-    { name: 25 },
-    { name: 50 },
-    { name: 100 },
-  ]
-
-  text: any = [
-    { name: 'Kilos cargados' },
-    { name: 'Ventas efectuadas' },
-    { name: 'Densidad' },
-    { name: 'Temperatura' },
-    { name: 'Volúmen' },
-  ]
-
-  types: any = [
-    { name: 'line' },
-    { name: 'bar' },
-    { name: 'area' },
-  ]
-
-  bills: any;
-  totals: any[] = [];
-  mass: any[] = [];
-  density: any[] = [];
-  dates: any[] = [];
-  temperature: any[] = [];
-  volume: any[] = [];
-  lastLabels: any[] = [];
-  lastData: any[] = [];
-
-  constructor(
-    private billService: BillService,
-    private formBuilder: FormBuilder
-  ) {
-    this.chartForm = this.formBuilder.group({
-      labels: [25],
-      text: ['Ventas efectuadas'],
-      types: ['line']
-    });
-  }
-
-  // @ViewChild('chart') private chartRef!: ElementRef;
-  // chart: any;
-
-  ngOnInit() {
-    this.fetchBills();
-
-    // Suscríbete a los cambios del formulario aquí, fuera de fetchBills
-    this.chartForm.valueChanges.subscribe(changes => {
-      // Si el gráfico ya existe, destrúyelo
-      if (this.chart) {
-        this.chart.destroy();
-      }
-
-      switch (this.chartForm.value.text) {
-        case 'Kilos cargados':
-          this.lastData = this.mass.slice(- + this.chartForm.value.labels);
-          break;
-
-        case 'Ventas efectuadas':
-          this.lastData = this.totals.slice(- + this.chartForm.value.labels);
-          break;
-
-        case 'Densidad':
-          this.lastData = this.density.slice(- + this.chartForm.value.labels);
-          break;
-
-        case 'Temperatura':
-          this.lastData = this.temperature.slice(- + this.chartForm.value.labels);
-          break;
-
-        case 'Volúmen':
-          this.lastData = this.volume.slice(- + this.chartForm.value.labels);
-          break;
-
-        default:
-          break;
-      }
-
-      // Recalcula las etiquetas con el nuevo valor del formulario
-      this.lastLabels = this.dates.slice(- + this.chartForm.value.labels);
-
-      // Dibuja el gráfico con las nuevas etiquetas
-      this.drawChart(this.lastLabels, this.lastData, this.chartForm.value.types);
-    });
-  }
-
-  convertToDate(dateString: string): Date {
-    let [day, month, year] = dateString.split("/");
-    return new Date(`${month}/${day}/${year}`);
-  }
-
-  fetchBills() {
-    this.billService.getAll().subscribe(
+  constructor(private courseService: CourseService) { 
+    this.courseService.findForHome().subscribe(
       response => {
-        if (response.statusCode == 200) {
-          this.bills = response.data.sort((a: any, b: any) => {
-            let dateA = this.convertToDate(a.charge.fechaInicial);
-            let dateB = this.convertToDate(b.charge.fechaInicial);
-            return dateA.getTime() - dateB.getTime(); // Ordena en orden ascendente
-          });
-
-          for (let i = 0; i < this.bills.length; i++) {
-            this.totals.push(this.bills[i].total);
-            this.mass.push(this.bills[i].charge.masaTotal);
-            this.density.push(this.bills[i].charge.densidad);
-            this.temperature.push(this.bills[i].charge.temperatura);
-            this.volume.push(this.bills[i].charge.volumenTotal);
-            this.dates.push(this.bills[i].charge.fechaInicial);
-          }
-
-          if (this.dates) {
-            this.lastLabels = this.dates.slice(- + this.chartForm.value.labels); // Obtiene los últimos 10 elementos
-            this.lastData = this.totals.slice(- + this.chartForm.value.labels); // Obtiene los últimos 10 elementos
-
-            this.drawChart(this.lastLabels, this.lastData, this.chartForm.value.types);
-          }
+        if (response.statusCode === 200) {
+          this.data = response.data;
         }
-      }, error => {
-        console.log(error);
       }
     );
   }
 
-  drawChart(labels: any, data: any, type: any) {
-    var data: any;
-    setTimeout(() => {
-
-      // Si el gráfico ya existe, destrúyelo antes de crear uno nuevo
-      if (this.chart) {
-        this.chart.destroy();
+  ngAfterViewInit() {
+    this.courseService.findForHome().subscribe(
+      response => {
+        if (response.statusCode === 200) {
+          console.log(response);
+          
+          this.data = response.data;
+          this.createChart(); // Llama a createChart después de recibir los datos
+        }
       }
-
-      this.chartOptions = {
-        series: [
-          {
-            name: this.chartForm.value.text,
-            data: data,
-          }
-        ],
-        chart: {
-          height: 350,
-          type: type
-        },
-        title: {
-          text: `${this.chartForm.value.text} de los últimos ${this.chartForm.value.labels} días`
-        },
-        xaxis: {
-          categories: labels,
-          labels: {
-            rotate: 0, // Rota las etiquetas -45 grados
-            trim: false, // Trunca las etiquetas si son demasiado largas
-          },
-          tickAmount: 8, // Limita el número de etiquetas mostradas a 8
-        },
-        stroke: {
-          curve: 'smooth',
-        },
-      };
-    }, 0);
+    );
+    window.addEventListener('resize', this.resizeChart.bind(this));
   }
 
+  ngOnDestroy() {
+    window.removeEventListener('resize', this.resizeChart.bind(this));
+    if (this.myChart) {
+      this.myChart.destroy();
+    }
+  }
+
+  createChart() {
+      if (!this.data) {
+        return;
+      }
+  
+      const ctx = document.getElementById('myChart') as HTMLCanvasElement;
+      if (!ctx) {
+        console.error('Canvas element not found');
+        return;
+      }
+  
+      const labels = this.data.map((item: any) => `${item.operator} (${item.propane_truck})`);
+      const efficiencies = this.data.map((item: any) => item.efficiency);
+  
+      const chartData = {
+        labels: labels,
+        datasets: [{
+          label: `Cargues efectuados (%)`,
+          data: efficiencies,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.4)', // Red with transparency
+            'rgba(75, 192, 192, 0.4)', // Green with transparency
+            'rgba(255, 205, 86, 0.4)', // Yellow with transparency
+            'rgba(201, 203, 207, 0.4)', // Grey with transparency
+            'rgba(54, 162, 235, 0.4)'  // Blue with transparency
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)', // Red border
+            'rgba(75, 192, 192, 1)', // Green border
+            'rgba(255, 205, 86, 1)', // Yellow border
+            'rgba(201, 203, 207, 1)', // Grey border
+            'rgba(54, 162, 235, 1)'  // Blue border
+          ],
+          borderWidth: 1
+        }]
+      };
+  
+      const config: ChartConfiguration<'polarArea'> = {
+        type: 'polarArea',
+        data: chartData,
+        options: {
+          scales: {
+            r: {
+              grid: {
+                color: 'white' // Color de las líneas del gráfico
+              },
+              angleLines: {
+                color: 'white' // Color de las líneas del gráfico
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            },
+            title: {
+              display: true,
+              text: 'Eficiencia de Cargues por Operador'
+            }
+          }
+        }
+      };
+  
+      if (this.myChart) {
+        this.myChart.destroy();
+      }
+  
+      this.myChart = new Chart(ctx, config);
+    }
+
+  resizeChart() {
+    if (this.myChart) {
+      this.myChart.resize();
+    }
+  }
 }

@@ -61,4 +61,9 @@ export class CourseService {
     return this.http.delete(`${apiUrl}/courses/delete-on-reasign/${id}`, { headers: this.apiKey });
   }
 
+  findForHome(): Observable<any> {
+    var apiUrl = this.authService.getApiUrl();
+    return this.http.get(`${apiUrl}/courses/findForHome`, { headers: this.apiKey });
+  }
+
 }

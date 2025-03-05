@@ -55,10 +55,14 @@
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label for="branch_office" class="form-label">-- {{'Establecimiento' | translate}}</label>
-                        <select id="branch_office" class="form-select" formControlName="branch_office">
-                            <option value="" disabled selected>{{'Seleccione un establecimiento' | translate}}</option>
-                            <option *ngFor="let branchOffice of branchOffices" [value]="branchOffice.id">{{ branchOffice.name }} - {{branchOffice.nit}}</option>
-                        </select>
+                        <div class="input-group">
+                            <input type="text" id="branch_office" class="form-control" formControlName="branch_office" [matAutocomplete]="autoBranch" placeholder="{{'Establecimientos' | translate}}">
+                            <mat-autocomplete #autoBranch="matAutocomplete" [displayWith]="displayFnBranchOffices">
+                            <mat-option *ngFor="let branch_office of filteredBranchOffices | async" [value]="branch_office">
+                                {{ branch_office.name }} - {{ branch_office.nit }}
+                            </mat-option>
+                            </mat-autocomplete>
+                        </div>
                     </div>
 
                     <div class="mb-3">
@@ -80,11 +84,14 @@
 
                     <div class="mb-3">
                         <label for="client" class="form-label">-- {{'Cliente' | translate}}</label>
-                        <select id="client" class="form-select" formControlName="client">
-                            <option value="" disabled selected>{{'Seleccione un cliente' | translate}}</option>
-                            <option *ngFor="let client of clients" [value]="client.id">{{ client.firstName }} {{client.lastName}} - {{client.cc}}</option>
-                        </select>
-                        <!-- <label (click)="setPageSizeToTotal()" style="float: right; cursor: pointer;" >{{'Mostrar todo' | translate}}</label> -->
+                        <div class="input-group">
+                            <input type="text" id="client" class="form-control" formControlName="client" [matAutocomplete]="autoClient" placeholder="{{'Cliente' | translate}}">
+                            <mat-autocomplete #autoClient="matAutocomplete" [displayWith]="displayFnClients">
+                            <mat-option *ngFor="let client of filteredClients | async" [value]="client">
+                                {{ client.firstName }} {{ client.lastName }} - {{ client.cc }}
+                            </mat-option>
+                            </mat-autocomplete>
+                        </div>
                     </div>
 
                     <div class="mb-3">

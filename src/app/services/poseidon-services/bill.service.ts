@@ -70,4 +70,9 @@ export class BillService {
     return this.http.get(`${apiUrl}/bill/getGlpByToday`, { headers: this.apiKey });
   }
 
+  getPlatesByBillDay(data: any): Observable<any> {
+    var apiUrl = this.authService.getApiUrl();
+    return this.http.post(`${apiUrl}/bill/getPlatesByBillDay`, data, { headers: this.apiKey });
+  }
+
 }

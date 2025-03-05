@@ -314,4 +314,8 @@ export class BranchOfficesActivedComponent {
     this.router.navigate(['/poseidon/orders/list']);
   }
 
+  toClients() {
+    this.router.navigate(['/poseidon/client/list']);
+  }
+
 }

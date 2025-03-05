@@ -122,11 +122,6 @@ export class OrdersListComponent {
     );
   }
 
-  setPageSizeToTotal() {
-    this.pageSize = this.totalOrders;
-    this.fetchOrders();
-  }
-
   getEndIndex(): number {
     return Math.min((this.pageIndex * this.pageSize) + this.pageSize, this.totalOrders);
   }

@@ -86,7 +86,9 @@ import {
   CircleUserRound,
   Factory,
   HeartHandshake,
-  SendIcon
+  SendIcon,
+  Bolt,
+  MessageSquareWarning
 } from 'lucide-angular';
 
 // Factory function for TranslateHttpLoader
@@ -186,7 +188,9 @@ const loader = new Loader({
       CircleUserRound,
       Factory,
       HeartHandshake,
-      SendIcon
+      SendIcon,
+      Bolt,
+      MessageSquareWarning
     }),
     TranslateModule.forRoot({
       loader: {

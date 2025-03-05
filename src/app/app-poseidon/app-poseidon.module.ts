@@ -46,8 +46,14 @@ import {
   ArrowBigLeftDash,
   FileDown,
   ChevronDown,
-  CircleUserRound
+  CircleUserRound,
+  Bolt,
+  RotateCw,
+  MessageSquareWarning,
+  Search,
+  Sheet
 } from 'lucide-angular';
+import { ControlInventoryComponent } from './home/control-inventory/control-inventory.component';
 
 // Factory function for TranslateHttpLoader
 export function HttpLoaderFactory(http: HttpClient) {
@@ -59,6 +65,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HomeComponent,
     HomeTrackingmapComponent,
     HomeChartComponent,
+    ControlInventoryComponent,
   ],
   imports: [
     CommonModule,
@@ -103,7 +110,12 @@ export function HttpLoaderFactory(http: HttpClient) {
       ArrowBigLeftDash,
       FileDown,
       ChevronDown,
-      CircleUserRound
+      CircleUserRound,
+      Bolt,
+      RotateCw,
+      MessageSquareWarning,
+      Search,
+      Sheet
     }),
     TranslateModule.forChild({
       loader: {

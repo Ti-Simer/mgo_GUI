@@ -26,27 +26,35 @@ mat-card-content {
     text-align: center;
 }
 
-.table {
-    font-size: 12px;
+.table-list{
+    overflow-y: auto;
+    max-height: 650px;
+    max-width: 103%;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
 
-    td {
-        vertical-align: middle;
+    .table {
+        font-size: 12px;
+    
+        td {
+            vertical-align: middle;
+        }
+    
+        #encabezado {
+            cursor: pointer;
+        }
+    
+        #encabezado:hover {
+            cursor: pointer;
+            background-color: #0b6db8;
+        }
+    
+        .custom-header {
+            background-color: #014e87;
+            color: white;
+        }
+    
     }
-
-    #encabezado {
-        cursor: pointer;
-    }
-
-    #encabezado:hover {
-        cursor: pointer;
-        background-color: #0b6db8;
-    }
-
-    .custom-header {
-        background-color: #014e87;
-        color: white;
-    }
-
 }
 
 .col-lg-1 {

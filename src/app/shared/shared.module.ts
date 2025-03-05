@@ -14,16 +14,18 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TruncatePipe } from './truncate.pipe';
+import { MenuPoseidonComponent } from './menu-poseidon/menu-poseidon.component';
+import { MenuHerculesComponent } from './menu-hercules/menu-hercules.component';
+import { PositiveNumberPipe } from './positive-number.pipe';
 
 import {
   LucideAngularModule,
   Bell,
   User,
   LogOut,
-  Globe
+  Globe,
+  Dot
 } from 'lucide-angular';
-import { MenuPoseidonComponent } from './menu-poseidon/menu-poseidon.component';
-import { MenuHerculesComponent } from './menu-hercules/menu-hercules.component';
 
 // Factory function for TranslateHttpLoader
 export function HttpLoaderFactory(http: HttpClient) {
@@ -42,7 +44,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MenuFenixComponent,
     TruncatePipe,
     MenuPoseidonComponent,
-    MenuHerculesComponent
+    MenuHerculesComponent,
+    PositiveNumberPipe
   ],
   imports: [
     CommonModule,
@@ -52,7 +55,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       Bell,
       User,
       LogOut,
-      Globe
+      Globe,
+      Dot
     }),
     TranslateModule.forChild({
       loader: {
@@ -72,7 +76,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TruncatePipe,
     NotificationsComponent,
     MenuPoseidonComponent,
-    MenuHerculesComponent
+    MenuHerculesComponent,
+    PositiveNumberPipe
   ]
 })
 export class SharedModule { }

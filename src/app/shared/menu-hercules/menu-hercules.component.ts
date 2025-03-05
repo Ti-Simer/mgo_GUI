@@ -87,6 +87,10 @@ export class MenuHerculesComponent {
     this.router.navigate(['/poseidon/usuarios/profile/', this.authService.encryptData(this.userId)]);
   }
 
+  toLocalities() {
+    this.router.navigate(['/hercules/localities/list']);
+  }
+
   redirectToHome() {
     this.router.navigate(['/hercules/home']);
   }

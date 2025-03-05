@@ -10,26 +10,27 @@ import { environment } from '../../../environments/environment.prod';
 })
 export class UserService {
   private apiUrl = environment.apiHerculesMontagas;
+  private apiKey = environment.apiKey;
 
   constructor(private http: HttpClient) { }
 
   createUser(userData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/users/create`, userData);
+    return this.http.post(`${this.apiUrl}/usuarios/create`, userData);
   }
 
   updateUser(id: string, userData: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/users/update/${id}`, userData,);
+    return this.http.put(`${this.apiUrl}/usuarios/update/${id}`, userData,);
   }
 
-  loginHercules(loginData: { credentials: string; password: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/users/login`, loginData);
+  loginHercules(loginData: { credentials: string; password: string }): Observable<any> {    
+    return this.http.post(`${this.apiUrl}/usuarios/login`, loginData, { headers: this.apiKey });
   }
 
   findUserById(id: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/users/getById/${id}`);
+    return this.http.get(`${this.apiUrl}/usuarios/getById/${id}`);
   }
 
   findAll(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/users/all/`);
+    return this.http.get(`${this.apiUrl}/usuarios/all/`);
   }
 }
