@@ -51,6 +51,16 @@
         justify-content: center;
         align-items: center;
         border-top: 2px solid #00cc00;
+
+        &.warning {
+            background: linear-gradient(180deg, rgba($color:#ffcc00, $alpha: 0.7), rgba($color:#ff9900, $alpha: 0.7));
+            border-top: 2px solid #ff9900;
+        }
+
+        &.error {
+            background: linear-gradient(180deg, rgba($color:#ff6666, $alpha: 0.7), rgba($color:#ff0000, $alpha: 0.7));
+            border-top: 2px solid #ff0000;
+        }
     }
 
     /* Texto del porcentaje */
@@ -61,6 +71,105 @@
         text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
         z-index: 1;
     }
+}
+
+
+
+.generate-report-btn {
+    bottom: 20px;
+    right: 20px;
+    background-color: #2e6187;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 0.9rem;
+
+    &:hover {
+        background-color: #3b7eb1;
+    }
+}
+
+.generate-general-report-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgb(46, 97, 135);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+        background-color: #3b7eb1;
+    }
+}
+
+.mini-card {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    padding: 1rem;
+    margin-top: 0rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+
+    &.success {
+        border-color: #28a745;
+        background-color: rgba(40, 167, 69, 0.1);
+    }
+
+    &.warning {
+        border-color: #ff9900;
+        background-color: rgba(255, 153, 0, 0.1);
+    }
+
+    &.error {
+        border-color: #ff0000;
+        background-color: rgba(255, 0, 0, 0.1);
+    }
+
+    .mini-card-header {
+        margin-bottom: 0.0rem;
+    }
+
+    .mini-card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+
+    .mini-card-body {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #28a745;
+        flex-grow: 1;
+        align-items: center;
+        justify-content: center;
+        padding-top: 1rem;
+    }
+
+    .mini-card-footer {
+        margin-top: 0.0rem;
+    }
+}
+
+
+.card-text {
+    color: #333;
+    font-weight: bold;
+    font-size: 3rem;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+    z-index: 1;
 }
 
 .card {

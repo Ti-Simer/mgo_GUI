@@ -8,17 +8,14 @@ import { environment } from '../../../environments/environment.prod';
 @Injectable({
   providedIn: 'root'
 })
-export class LocalitiesService {
+export class DevicesService {
   private apiUrl = environment.apiHerculesMontagas;
   private apiKey = environment.apiKey;
 
   constructor(private http: HttpClient) { }
 
-  create(locationData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/locations/create`, locationData);
+  create(deviceData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/devices/create`, deviceData);
   }
-
-  findAll(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/locations/all/`);
-  }
+  
 }

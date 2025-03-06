@@ -74,9 +74,9 @@ export class LocalitiesListComponent {
     this.isLoading = true;
     this.localitiesService.findAll().subscribe((response: any) => {
       this.isLoading = false;
-      console.log('Localities::', response);
+      console.log(response.data);
+      
       if (response.statusCode == 200) {
-
         this.localities = response.data;
       }
     });
@@ -101,7 +101,35 @@ export class LocalitiesListComponent {
       }
     });
   }
-  sortData(item: any) { }
+  
+  sortData(data: string) {
+    const keys = data.split('.'); // Divide la cadena en partes
+    this.localities.sort((a: any, b: any) => {
+      let valueA = a;
+      let valueB = b;
+
+      // Navega a través de las claves para obtener el valor final
+      keys.forEach(key => {
+        if (key.includes('[')) {
+          const [arrayKey, index] = key.split(/[\[\]]/).filter(Boolean);
+          valueA = valueA[arrayKey][index];
+          valueB = valueB[arrayKey][index];
+        } else {
+          valueA = valueA[key];
+          valueB = valueB[key];
+        }
+      });
+
+      if (valueA < valueB) {
+        return -1;
+      }
+      if (valueA > valueB) {
+        return 1;
+      }
+      return 0; // Los valores son iguales
+    });
+  }
+
   toEditCity(item: any) { }
   deleteCity(item: any) { }
   activteCity(item: any) { }

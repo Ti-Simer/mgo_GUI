@@ -21,8 +21,8 @@
                 </div>
             </div>
             <div class="row text-content text-center mb-2">
-                <div class="col-md-12">
-                    <p style="font-size: 12px; color: #b9b9b9;">{{'Las Ciudades son registros necesarios para la creación de sucursales y establecer a donde pertenecen' | translate}}</p>
+                <div class="col-md-12 d-flex justify-content-center">
+                    <p  class="w-75" style="font-size: 12px; color: #b9b9b9;">{{'Las localidades son registros que representan las plantas donde se ha instalado sistema hercules, estas pueden ir vacias para poder contener mas localidades con información del dispositivo comunicador y tanque de almacenamiento' | translate}}</p>
                 </div>
             </div>
         </div>
@@ -80,23 +80,35 @@
                     <thead>
                         <tr>
                             <th class="custom-header" (click)="sortData('name')" id="encabezado">{{'Nombre' | translate}}</th>
-                            <th class="custom-header" (click)="sortData('department[0].name')" id="encabezado">{{'Estado/provincia' | translate}}</th>
-                            <th class="custom-header" (click)="sortData('department[0].name')" id="encabezado">{{'Equipo-Imei' | translate}}</th>
+                            <th class="custom-header" id="encabezado">{{'Estado/provincia' | translate}}</th>
+                            <th class="custom-header" id="encabezado">{{'Equipo-Imei' | translate}}</th>
                             <th class="custom-header" style="width: 16%;">{{'Acciones' | translate}}</th>
                         </tr>
                     </thead>
                     <tbody id="myTable">
                         <tr *ngFor="let city of localities.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)">
-                            <td>{{ city.name }}</td>
+                            <td>
+                                {{ city.name }} <br>
+                                <span style="color: #9e9e9e; font-size: 12px;">
+                                    {{ city.create | date: 'fullDate'}}
+                                </span>
+                            </td>
                             <td>
                                 <label *ngIf="city.parent_id">
-                                    {{ city.parent_id.name }}
+                                    {{ city.name }}, {{ city.parent_id.name }}
                                 </label>
                                 <label *ngIf="!city.parent_id">
                                     {{'Sin asignar' | translate}}
                                 </label>
                             </td>
-                            <td>{{ city.devices.imei }}</td>
+                            <td>
+                                <label *ngIf="city.devices">
+                                    {{ city.devices.imei }} 
+                                </label>
+                                <label *ngIf="!city.devices">
+                                    {{'Sin asignar' | translate}}
+                                </label>
+                            </td>
                             <td id="buttons-table" > 
                                 <button class="btn btn-sm btn-info" (click)="toEditCity(city)">{{'Editar' | translate}}</button>
                                 <button class="btn btn-sm btn-danger" *ngIf="city.state == 'ACTIVO'" (click)="deleteCity(city)">{{'Desactivar' | translate}}</button>

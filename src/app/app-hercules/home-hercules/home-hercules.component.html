@@ -26,19 +26,19 @@
                         </h2>
                         <div class="d-flex justify-content-around">
                             <div class="w-50 text-center">
-                                <label class="text-secondary">{{'Imei:' | translate}} {{item.device.imei}}</label>
+                                <label class="text-secondary"><b>{{'ID:' | translate}}</b> {{item.device.imei}}</label>
                                 <br>
                                 <label class="text-secondary">
-                                    {{ item.data.RCI == '01' ? 'Red contra incendios: ON' : 'Red contra incendios: OFF' | translate }}
+                                    <b>{{ item.data.RCI == '01' ? 'Red contra incendios: ON' : 'Red contra incendios: OFF' | translate }}</b>
                                 </label>
                             </div>
                             <div class="w-50 text-center">
                                 <label class="text-secondary">
-                                    {{ item.data.NVIN == '01' ? 'Válvula-IN: ON' : 'Válvula-IN: OFF' | translate }}
+                                    <b>{{ item.data.NVIN == '01' ? 'Válvula-IN: ON' : 'Válvula-IN: OFF' | translate }}</b>
                                 </label>
                                 <br>
                                 <label class="text-secondary">
-                                    {{ item.data.NVOUT == '01' ? 'Válvula-OUT: ON' : 'Válvula-OUT: OFF' | translate }}
+                                    <b>{{ item.data.NVOUT == '01' ? 'Válvula-OUT: ON' : 'Válvula-OUT: OFF' | translate }}</b>
                                 </label>
                             </div>
                         </div>
@@ -67,7 +67,10 @@
                                         <lucide-icon name="signal-zero" color="gray"></lucide-icon>
                                     </p> -->
                                 </div>
-                                <div class="contenido" [style.--porcentaje]="(item.data?.percent || 0) + '%'">
+                                <div class="contenido" 
+                                    [ngClass]="{'warning': (item.data?.percent || 0) >= 35 && (item.data?.percent || 0) < 50, 
+                                                'error': (item.data?.percent || 0) < 35}" 
+                                    [style.--porcentaje]="(item.data?.percent || 0) + '%'">
                                     <span class="porcentaje">{{ item.data?.percent || 0 }}%</span>
                                 </div>
                             </div>
@@ -76,47 +79,61 @@
                                 <p class="card-text">{{'Sin Datos' | translate}}</p>
                             </div>
 
-                            <div class="w-50 p-2 rounded text-success bg-light shadow-sm d-flex justify-content-center">
+                            <div class="w-50 p-2 rounded  bg-light shadow-sm d-flex justify-content-center">
                                 <div class="w-50">
                                     <h3 class="text-success fw-bold">{{'Sensores' | translate}}</h3>
                                     <label>
-                                        {{'Temperatura:' | translate}} {{item.data.temperature}} C°
+                                       <b>{{'Temperatura:' | translate}}</b><br> {{item.data.temperature}} C°
                                     </label><br>
                                     <label>
-                                        {{'Presión:' | translate}} {{item.data.pressure}} PSI
+                                        <b>{{'Presión:' | translate}}</b><br> {{item.data.pressure}} PSI
                                     </label><br>
                                     <label>
-                                        {{'Volúmen:' | translate}} {{item.data.volume}} Gl US
+                                        <b>{{'Volúmen:' | translate}}</b><br> {{item.data.volume}} GL US
                                     </label><br>
                                     <label>
-                                        {{'Masa:' | translate}} {{item.data.mass}} Kg
+                                        <b>{{'Masa:' | translate}}</b><br> {{item.data.mass}} Kg
                                     </label><br>
                                     <label>
-                                        {{'Densidad:' | translate}} {{item.data.density}} g/cm3
+                                        <b>{{'Densidad:' | translate}}</b><br> {{item.data.density}} g/cm3
                                     </label><br>
                                 </div>
                                 <div class="w-50">
                                     <h3 class="text-success fw-bold">{{'Aforo' | translate}}</h3>
                                     <label>
-                                        {{'Altura:' | translate}} {{item.data.level}} mm
+                                        <b>{{'Altura:' | translate}}</b><br> {{item.data.level}} mm
                                     </label><br>
                                     <label>
-                                        {{'Volúmen:' | translate}} {{item.data.volume_lt}} Lts
+                                        <b>{{'Volúmen:' | translate}}</b><br> {{item.data.volume_lt}} Lts
                                     </label><br>
                                     <label>
-                                        {{'Volúmen:' | translate}} {{item.data.volume_gl}} Gl
+                                        <b>{{'Volúmen:' | translate}}</b><br> {{item.data.volume_gl}} GL
                                     </label><br>
                                     <label>
-                                        {{'Porcentaje:' | translate}} {{item.data.percent}} %
-                                    </label><br>
+                                        <b>{{'Porcentaje:' | translate}}</b><br> {{item.data.percent}} %
+                                    </label>
+                                </div>
+                                <div class="mini-card" [ngClass]="{
+                                                                'success': (item.data?.percent / 7) >= 7,
+                                                                'warning': (item.data?.percent / 7) >= 5 && (item.data?.percent / 7) < 7, 
+                                                                'error': (item.data?.percent / 7) < 5}">
+                                    <div class="mini-card-header">
+                                        <h4 class="mini-card-title fw-bold">{{'Autonomía de contenido en días' | translate}}</h4>
+                                    </div>
+                                    <div class="mini-card-body">
+                                        <p class="card-text">{{item.data.percent ? (item.data.percent / 7).toFixed(2) : 0}}</p>
+                                    </div>
+                                    <div class="mini-card-footer">
+                                        <button class="btn btn-primary generate-report-btn" (click)="inventoryMethodByIMEI(item)">{{'Cierre de Inventario' | translate}}</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <button class="btn btn-primary generate-general-report-btn" (click)="inventoryMethodGeneral()" >{{'Cierre de Inventario General' | translate}}</button>
         </div>
-
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
             ...
         </div>
