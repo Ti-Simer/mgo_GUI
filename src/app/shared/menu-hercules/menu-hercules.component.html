@@ -7,21 +7,30 @@
     <span class="ml-2">{{'Administración' | translate}}</span>
 </button>
 
+<mat-menu #ctrlAdmn="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="ctrlUsers">{{'Control usuarios' | translate}}</button>
+    <button mat-menu-item [matMenuTriggerFor]="ctrlFactory">{{'Control ubicación' | translate}}</button>
+</mat-menu>
+
+<mat-menu #ctrlUsers="matMenu">
+    <a (click)="toUsers()" class="dropdown-item">{{'Usuarios' | translate}}</a>
+    <a (click)="toRoles()" class="dropdown-item">{{'Roles' | translate}}</a>
+    <a (click)="toPermissions()" class="dropdown-item">{{'Permisos' | translate}}</a>
+</mat-menu>
+
+<mat-menu #ctrlFactory="matMenu">
+    <a (click)="toLocalities()" class="dropdown-item" >{{'Localidades' | translate}}</a>
+</mat-menu>
+
 <button class="matbutton" mat-button [matMenuTriggerFor]="ctrlAccount">
     <span>&blacktriangledown;</span>
     <span class="ml-2">{{'Cuenta' | translate}}</span>
 </button>
 
-<mat-menu #ctrlAdmn="matMenu">
-    <a (click)="toLocalities()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 0.5rem;">
-        <lucide-icon name="dot" [size]=13></lucide-icon> {{'Localidades' | translate}}
-    </a>
-</mat-menu>
-
 <mat-menu #ctrlAccount="matMenu">
-    <a (click)="toProfile()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"><lucide-icon name="user"
+    <a (click)="toProfile()" class="dropdown-item"><lucide-icon name="user"
             [size]=13></lucide-icon> {{'Perfil' | translate}}</a>
-    <!-- <a (click)="toNotifications()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"><lucide-icon
+    <!-- <a (click)="toNotifications()" class="dropdown-item"><lucide-icon
             name="bell" [size]=13></lucide-icon> {{'Notificaciones' | translate}}</a> -->
     <a (click)="logout()" class="dropdown-item"
         style="cursor: pointer; padding-left: 1rem; color: #e13411;"><lucide-icon name="log-out"
@@ -36,10 +45,10 @@
 </button>
 
 <mat-menu #ctrlConfigLanguage="matMenu" style="display: block;">
-    <a class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"
+    <a class="dropdown-item"
         (click)="switchLanguage('es')">{{'Spanish' | translate}}</a>
-    <a class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"
+    <a class="dropdown-item"
         (click)="switchLanguage('en')">{{'English' | translate}}</a>
-    <a class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"
+    <a class="dropdown-item"
         (click)="switchLanguage('pt')">{{'Portuguese' | translate}}</a>
 </mat-menu>

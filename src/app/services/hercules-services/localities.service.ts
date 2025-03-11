@@ -18,6 +18,10 @@ export class LocalitiesService {
     return this.http.post(`${this.apiUrl}/locations/create`, locationData);
   }
 
+  update(id: string, locationData: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/locations/update/${id}`, locationData);
+  }
+
   findAll(): Observable<any> {
     return this.http.get(`${this.apiUrl}/locations/all/`);
   }

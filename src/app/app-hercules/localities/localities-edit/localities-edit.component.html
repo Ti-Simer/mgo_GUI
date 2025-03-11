@@ -1,0 +1,132 @@
+<div class="general-container">
+    <div class="container mt-2">
+        <form [formGroup]="localityForm">
+            <div class="row justify-content-center">
+                <!-- Columna 1 -->
+                <div class="col-lg-6">
+                    <h1>{{localityForm.value.name | translate}}</h1>
+                    <div class="col-12 mt-4">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">-- {{'Nombre de la localidad' | translate}}</label>
+                            <input type="text" id="name" class="form-control" formControlName="name"
+                                placeholder="{{'Escriba aquí el nombre de la localidad' | translate}}">
+                        </div>
+
+                        <ul class="nav nav-tabs" id="myTab" role="tablist" *ngIf="localityForm.value.if_parent">
+                            <li class="nav-item" role="Mapa">
+                                <button class="nav-link active" id="map-tab" data-bs-toggle="tab" data-bs-target="#map"
+                                    type="button" role="tab" aria-controls="map" aria-selected="true">Listado</button>
+                            </li>
+                            <li class="nav-item" role="Latitud y Longitud">
+                                <button class="nav-link" id="latlang-tab" data-bs-toggle="tab" data-bs-target="#latlang"
+                                    type="button" role="tab" aria-controls="latlang" aria-selected="false">Ingreso
+                                    manual</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content mt-2" id="myTabContent" *ngIf="localityForm.value.if_parent">
+                            <div class="tab-pane fade show active" id="map" role="tabpanel" aria-labelledby="map-tab">
+                                <div class="map mb-3">
+                                    <label for="department" class="form-label">-- {{'Localidad padre' |
+                                        translate}}</label>
+                                    <div class="input-group" *ngIf="localities.length != 0">
+                                        <select id="parent_id" class="form-select" formControlName="parent_id"
+                                            *ngIf="localities.length != 0">
+                                            <option value="" disabled selected>{{'Seleccione una localidad' |
+                                                translate}}</option>
+                                            <option *ngFor="let locality of localities" [value]="locality.id"
+                                                (ngValueChange)="onParentSelectionChange(locality.id)">{{ locality.name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="latlang" role="tabpanel" aria-labelledby="latlang-tab">
+                                <div class="mb-3">
+                                    <label for="department" class="form-label">-- {{'Localidad padre' |
+                                        translate}}</label>
+                                    <input type="text" id="parent_id" class="form-control" formControlName="parent_id"
+                                        placeholder="{{'Digite el nombre de la localidad' | translate}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3" style="height: 125px; overflow-y: auto;">
+                            <label class="mb-2"*ngIf="childrens.length < 1">{{'No tiene localidades relacionadas por debajo' | translate}}</label>
+                            <div *ngIf="childrens.length > 0">
+                                <label class="mb-2">-- {{'localidades relacionadas' | translate}} ({{childrens.length}}) : </label>
+                                <ul class="list-group">
+                                    <label class="m-1 p-1 bg-ligh shadow-sm rounded text-secondary w-50" *ngFor="let children of childrens">{{children.name}}</label>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="btn btn-success m-1" (click)="updateLocality()">{{'Guardar Localidad' | translate}}</button>
+                    </div>
+                </div>
+
+                <!-- Columna 2 -->
+                <div class="col-lg-6" *ngIf="localityForm.value.if_device">
+
+                    <div class="mb-2" *ngIf="localityForm.value.if_device">
+                        <label for="imei" class="form-label">-- {{'Imei' | translate}}</label>
+                        <input type="text" id="imei" class="form-control" formControlName="imei"
+                            placeholder="{{'Escriba aquí el Imei' | translate}}">
+                    </div>
+
+                    <button class="btn btn-success m-1" *ngIf="localityForm.value.if_device" (click)="updateDevice()">{{'Guardar Equipo' | translate}}</button>
+                    <hr class="my-3 mb-4 mx-auto w-75">
+
+                    <div class="mb-3" *ngIf="localityForm.value.if_device">
+                        <label for="serial" class="form-label">-- {{'Tanque de almacenamiento' | translate}}</label>
+                        <input type="text" id="serial" class="form-control" formControlName="serial"
+                            placeholder="{{'Escriba aquí el serial' | translate}}">
+                    </div>
+
+                    <div class="row table-list mb-3">
+                        <label for="name" class="form-label">-- {{'Aforo' | translate}}</label>
+                        <div class="col-md">
+                            <table class="table table-striped table-bordered" *ngIf="aforo.length > 0">
+                                <thead>
+                                    <tr>
+                                        <th class="custom-header" id="encabezado">{{'Altura(mm)' | translate}}</th>
+                                        <th class="custom-header" id="encabezado">{{'Incremento(mm)' | translate}}</th>
+                                        <th class="custom-header" id="encabezado">{{'Porcentaje' | translate}}</th>
+                                        <th class="custom-header" id="encabezado">{{'Volumen(Gl)' | translate}}</th>
+                                        <th class="custom-header" id="encabezado">{{'Volumen(Lt)' | translate}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="myTable">
+                                    <tr *ngFor="let aforo of aforo">
+                                        <td>
+                                            {{ aforo['Altura mm'] }}
+                                        </td>
+                                        <td>
+                                            {{ aforo['Incremento mm'] }}
+                                        </td>
+                                        <td>
+                                            {{ aforo['Porcentaje'] }}
+                                        </td>
+                                        <td>
+                                            {{ aforo['Volumen gl'] }}
+                                        </td>
+                                        <td>
+                                            {{ aforo['Volumen lt'] }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-2" *ngIf="localityForm.value.if_device">
+                        <label class="input-group-text" for="inputGroupFile01">*.csv</label>
+                        <input type="file" class="form-control" id="inputGroupFile01" accept=".xlsx"
+                            (change)="handleFileInput($event)">
+                    </div>
+
+                    <!-- Puedes agregar más campos aquí según los atributos de la entidad Roles -->
+                    <button class="btn btn-success m-1 float-end" (click)="updateStorageTank()">{{'Guardar Tanque' | translate}}</button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

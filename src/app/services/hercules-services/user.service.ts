@@ -14,12 +14,12 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  createUser(userData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/usuarios/create`, userData);
+  create(userData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/usuarios/create`, userData, { headers: this.apiKey });
   }
 
   updateUser(id: string, userData: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/usuarios/update/${id}`, userData,);
+    return this.http.put(`${this.apiUrl}/usuarios/update/${id}`, userData, { headers: this.apiKey });
   }
 
   loginHercules(loginData: { credentials: string; password: string }): Observable<any> {    
@@ -27,10 +27,18 @@ export class UserService {
   }
 
   findUserById(id: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/usuarios/getById/${id}`);
+    return this.http.get(`${this.apiUrl}/usuarios/getById/${id}`, { headers: this.apiKey });
   }
 
   findAll(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/usuarios/all/`);
+    return this.http.get(`${this.apiUrl}/usuarios/all/`, { headers: this.apiKey });
+  }
+
+  deleteUser(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/usuarios/delete/${id}`, { headers: this.apiKey });
+  }
+
+  activateUser(id: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/usuarios/activate/${id}`, { headers: this.apiKey });
   }
 }

@@ -213,7 +213,40 @@ const TREE_DATA_HER: MenuNode[] = [
         path: 'logout',
       },
     ],
-  }
+  },
+  {
+    name: 'Administración',
+    icon: 'lucide-gantt-square',
+    color: '#ffffff',
+    children: [
+      {
+        name: 'Control usuarios',
+        icon: 'chevron-right',
+        color: '#ffffff',
+        children: [
+          {
+            name: 'Usuarios',
+            color: '#ffffff',
+            icon: 'dot',
+            path: '/hercules/users/list'
+          }
+        ],
+      },
+      {
+        name: 'Control plantas',
+        icon: 'chevron-right',
+        color: '#ffffff',
+        children: [
+          {
+            name: 'Localidades',
+            color: '#ffffff',
+            icon: 'dot',
+            path: '/hercules/localities/list'
+          }
+        ],
+      }
+    ],
+  },
 ];
 
 /** Flat node with expandable and level information */

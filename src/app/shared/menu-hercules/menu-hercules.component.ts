@@ -91,6 +91,18 @@ export class MenuHerculesComponent {
     this.router.navigate(['/hercules/localities/list']);
   }
 
+  toUsers() {
+    this.router.navigate(['/hercules/users/list']);
+  }
+
+  toRoles() {
+    this.router.navigate(['/hercules/roles/list']);
+  }
+
+  toPermissions() {
+    this.router.navigate(['/hercules/permissions/list']);
+  }
+
   redirectToHome() {
     this.router.navigate(['/hercules/home']);
   }

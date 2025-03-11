@@ -5,6 +5,7 @@ import { DialogCreateLocalitiesComponent } from '../dialog-create-localities/dia
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
+import { DialogEditLocalitiesComponent } from '../dialog-edit-localities/dialog-edit-localities.component';
 
 @Component({
   selector: 'app-localities-list',
@@ -74,8 +75,6 @@ export class LocalitiesListComponent {
     this.isLoading = true;
     this.localitiesService.findAll().subscribe((response: any) => {
       this.isLoading = false;
-      console.log(response.data);
-      
       if (response.statusCode == 200) {
         this.localities = response.data;
       }
@@ -92,7 +91,7 @@ export class LocalitiesListComponent {
         this.toastr.warning('No tienes permisos para crear');
       } else {
         const dialogRef = this.dialog.open(DialogCreateLocalitiesComponent, {
-          width: '750px',
+          width: '800px',
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -101,7 +100,7 @@ export class LocalitiesListComponent {
       }
     });
   }
-  
+
   sortData(data: string) {
     const keys = data.split('.'); // Divide la cadena en partes
     this.localities.sort((a: any, b: any) => {
@@ -130,7 +129,36 @@ export class LocalitiesListComponent {
     });
   }
 
-  toEditCity(item: any) { }
+  toEditLocality(locality: any) {
+    let datos = {};
+
+    if (locality.devices) {
+      datos = {
+        imei: locality.devices.imei,
+        localityId: locality.id,
+      };
+    } else {
+      datos = {
+        localityId: locality.id,
+      };
+    }
+
+    this.authService.editChecker().subscribe(flag => {
+      if (!flag) {
+        this.toastr.warning('No tienes permisos para editar');
+      } else {
+        const dialogRef = this.dialog.open(DialogEditLocalitiesComponent, {
+          width: '1400px',
+          data: datos,
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          this.fetchLocalities();
+        });
+      }
+    });
+  }
+
   deleteCity(item: any) { }
   activteCity(item: any) { }
 }

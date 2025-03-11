@@ -17,5 +17,9 @@ export class DevicesService {
   create(deviceData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/devices/create`, deviceData);
   }
+
+  update(id: string, locationData: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/devices/update/${id}`, locationData);
+  }
   
 }

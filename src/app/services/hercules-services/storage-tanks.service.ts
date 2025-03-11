@@ -17,4 +17,8 @@ export class StorageTanksService {
   create(storageTankData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/storage-tanks/create`, storageTankData);
   }
+
+  update(id: string, storageTankData: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/storage-tanks/update/${id}`, storageTankData);
+  }
 }

@@ -11,14 +11,14 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { DialogCreateRolesComponent } from './dialog-create-roles/dialog-create-roles.component';
+import { DialogEditRolesComponent } from './dialog-edit-roles/dialog-edit-roles.component';
 import {
   LucideAngularModule,
   Contact,
   ArrowBigLeftDash,
   ArrowBigRightDash
 } from 'lucide-angular';
-import { DialogCreateRolesComponent } from './dialog-create-roles/dialog-create-roles.component';
-import { DialogEditRolesComponent } from './dialog-edit-roles/dialog-edit-roles.component';
 
 // Factory function for TranslateHttpLoader
 export function HttpLoaderFactory(http: HttpClient) {

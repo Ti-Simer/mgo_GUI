@@ -21,6 +21,17 @@ export const environment = {
     // apiPoseidonEgsa: 'http://172.105.153.203:4006', // URL del servicio para despliegue
     // apiHerculesMontagas: 'http://172.105.153.203:4007', // URL del servicio para despliegue
     // apiPoseidonSimer: 'http://172.105.153.203:4008', // URL del servicio para despliegue
+
+    // apiPoseidonGasco: 'http://5.189.160.98:3000', // URL del servicio para test-pruebas
+    // apiAtheneaMontagas: 'http://5.189.160.98:4001', // URL del servicio para test-pruebas
+    // apiPoseidonMontagas: 'http://5.189.160.98:4002', // URL del servicio para test-pruebas
+    // apiPoseidonGasneiva: 'http://5.189.160.98:4003', // URL del servicio para test-pruebas
+    // apiFenixLocal: 'http://localhost:4004', // URL del servicio para test-pruebas
+    // apiPoseidonDigaspro: 'http://5.189.160.98:4005', // URL del servicio para test-pruebas
+    // apiPoseidonEgsa: 'http://5.189.160.98:4006', // URL del servicio para test-pruebas
+    // apiHerculesMontagas: 'http://5.189.160.98:4007', // URL del servicio para test-pruebas
+    // apiPoseidonSimer: 'http://5.189.160.98:4008', // URL del servicio para test-pruebas
+
     /// ----------------------------------- ** Api-Key MiddleWare ** ----------------------------------- ///
 
     directory: 'http://localhost', //URL del directorio del servidor de desarrollo

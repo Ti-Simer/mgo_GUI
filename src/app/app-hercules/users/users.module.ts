@@ -16,6 +16,12 @@ import {
   EyeOff,
   BadgeX
 } from 'lucide-angular';
+import { UsersListComponent } from './users-list/users-list.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { DialogEditUsersComponent } from './dialog-edit-users/dialog-edit-users.component';
+import { DialogCreateUsersComponent } from './dialog-create-users/dialog-create-users.component';
+import { UsersCreateComponent } from './users-create/users-create.component';
+import { UsersEditComponent } from './users-edit/users-edit.component';
 
 // Factory function for TranslateHttpLoader
 export function HttpLoaderFactory(http: HttpClient) {
@@ -24,7 +30,12 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    LoginHerculesComponent
+    LoginHerculesComponent,
+    UsersListComponent,
+    DialogEditUsersComponent,
+    DialogCreateUsersComponent,
+    UsersCreateComponent,
+    UsersEditComponent
   ],
   imports: [
     CommonModule,
@@ -32,6 +43,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
+    MatPaginatorModule,
     LucideAngularModule.pick({
       Users,
       ArrowBigLeftDash,

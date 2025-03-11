@@ -17,4 +17,12 @@ export class DataService {
   findLatestData(): Observable<any> {
     return this.http.get(`${this.apiUrl}/data/findLatestData/`, { headers: this.apiKey });
   }
+
+  findDataByImei(imei: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/data/findDataByImei/${imei}`);
+  }
+
+  findDataByLocality(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/data/findDataByLocality/${id}`);
+  }
 }

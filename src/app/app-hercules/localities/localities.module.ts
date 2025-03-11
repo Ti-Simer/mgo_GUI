@@ -14,6 +14,8 @@ import {
   LucideAngularModule,
   Factory
 } from 'lucide-angular';
+import { LocalitiesEditComponent } from './localities-edit/localities-edit.component';
+import { DialogEditLocalitiesComponent } from './dialog-edit-localities/dialog-edit-localities.component';
 
 // Factory function for TranslateHttpLoader
 export function HttpLoaderFactory(http: HttpClient) {
@@ -24,7 +26,9 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     LocalitiesListComponent,
     LocalitiesCreateComponent,
-    DialogCreateLocalitiesComponent
+    DialogCreateLocalitiesComponent,
+    LocalitiesEditComponent,
+    DialogEditLocalitiesComponent
   ],
   imports: [
     CommonModule,

@@ -110,51 +110,51 @@ export class LocalitiesCreateComponent {
     let dataDevice: any = {};
     let dataStorageTank: any = {};
 
-    if (this.localityForm.value.name) {
-      dataLocality.name = this.localityForm.value.name;
-    }
+    const { name, if_parent, parent_id, if_device, imei, serial, aforo } = this.localityForm.value;
 
-    if (this.localityForm.value.if_parent == true) {
-      if (this.localityForm.value.parent_id) {
-        dataLocality.parent_id = this.localityForm.value.parent_id;
-      }
-    }
-
-    if (!dataLocality.name) {
+    if (name) {
+      dataLocality.name = name;
+    } else {
       this.toastr.warning('Debe ingresar un nombre');
       return;
     }
 
-    if (this.localityForm.value.if_parent == true && !this.localityForm.value.imei) {
-      this.toastr.warning('Debe ingresar un IMEI');
-      return;
+    if (if_parent) {
+      if (parent_id) {
+        dataLocality.parent_id = parent_id;
+      }
+      if (!imei) {
+        this.toastr.warning('Debe ingresar un IMEI');
+        return;
+      }
+      if (if_device && (!serial || !aforo)) {
+        this.toastr.warning(!serial ? 'Debe ingresar un Serial' : 'Debe ingresar el aforo del tanque');
+        return;
+      }
     }
 
-    if (this.localityForm.value.if_parent == true && this.localityForm.value.if_device == true && !this.localityForm.value.serial) {
-      this.toastr.warning('Debe ingresar un serial');
-      return;
-    }
-
-    if (this.localityForm.value.if_parent == true && this.localityForm.value.if_device == true && !this.localityForm.value.aforo) {
-      this.toastr.warning('Debe ingresar el aforo del tanque');
-      return;
+    if (if_device) {
+      if (!imei || !serial || !aforo) {
+        this.toastr.warning(!imei ? 'Debe ingresar un IMEI' : !serial ? 'Debe ingresar un Serial' : 'Debe ingresar un Aforo');
+        return;
+      }
     }
 
     this.localitiesService.create(dataLocality).subscribe(
       response => {
         if (response.statusCode == 200) {
           this.toastr.success('Localidad creada correctamente');
-          if (this.localityForm.value.if_device == true) {
-            dataDevice.imei = this.localityForm.value.imei;
-            dataDevice.location = response.data.id
+          if (if_device) {
+            dataDevice.imei = imei;
+            dataDevice.location = response.data.id;
 
             this.devicesService.create(dataDevice).subscribe(
               response => {
                 if (response.statusCode == 200) {
                   this.toastr.success('Dispositivo creado correctamente');
-                  dataStorageTank.serial = this.localityForm.value.serial;
+                  dataStorageTank.serial = serial;
                   dataStorageTank.device = response.data.id;
-                  dataStorageTank.aforo = this.localityForm.value.aforo;
+                  dataStorageTank.aforo = aforo;
 
                   this.storageTanksService.create(dataStorageTank).subscribe(
                     response => {
@@ -169,7 +169,6 @@ export class LocalitiesCreateComponent {
         }
       }
     );
-
   }
 
   toCities() {

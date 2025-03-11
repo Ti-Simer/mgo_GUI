@@ -3,10 +3,10 @@
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
                 type="button" role="tab" aria-controls="nav-home" aria-selected="true">{{'Panel' | translate}}</button>
-            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
+            <!-- <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
                 type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{{'Control/inventario' |
                 translate}}</button>
-            <!-- <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">{{'Reportes' | translate}}</button> -->
+            <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">{{'Reportes' | translate}}</button> -->
         </div>
     </nav>
     <div class="tab-content mt-3" id="nav-tabContent" style="padding-bottom: 100px;">
@@ -16,7 +16,7 @@
                     <div class="col-lg-5 p-4 shadow-sm" id="items" *ngFor="let item of data">
                         <h2 class="text-center fw-bold">
                             <label class="text-secondary" *ngIf="item.device.location.parent_id">
-                                {{item.device.location.parent_id.name}}, {{item.device.location.name}} </label>
+                                E.A {{item.device.location.name}} </label>
                             <label class="text-secondary" *ngIf="!item.device.location.parent_id">
                                 {{item.device.location.name}} </label><br>
                             <label class="text-secondary">
@@ -28,17 +28,21 @@
                             <div class="w-50 text-center">
                                 <label class="text-secondary"><b>{{'ID:' | translate}}</b> {{item.device.imei}}</label>
                                 <br>
-                                <label class="text-secondary">
-                                    <b>{{ item.data.RCI == '01' ? 'Red contra incendios: ON' : 'Red contra incendios: OFF' | translate }}</b>
+                                <label class="text-secondary" [ngClass]="{'text-success': item.data.RCI == '01', 'text-danger': item.data.RCI != '01'}">
+                                    <b>{{ item.data.RCI == '01' ? 'Red contra incendios: Activa' : 'Red contra incendios: Inactiva' | translate }}</b>
                                 </label>
                             </div>
                             <div class="w-50 text-center">
-                                <label class="text-secondary">
-                                    <b>{{ item.data.NVIN == '01' ? 'Válvula-IN: ON' : 'Válvula-IN: OFF' | translate }}</b>
+                                <label class="text-secondary" *ngIf="item.data.NVIN == '01'" [ngClass]="{'text-success': item.data.NVIN == '01'}">
+                                    <b>{{'CARGUE EN PROCESO' | translate}}</b>
                                 </label>
                                 <br>
                                 <label class="text-secondary">
-                                    <b>{{ item.data.NVOUT == '01' ? 'Válvula-OUT: ON' : 'Válvula-OUT: OFF' | translate }}</b>
+                                    <b *ngIf="item.data.NVIN != '01'">{{'' | translate}}</b>
+                                </label>
+                                <br>
+                                <label class="text-secondary" [ngClass]="{'text-danger': item.data.NVOUT == '01'}">
+                                    <b>{{ item.data.NVOUT == '01' ? 'DESCARGUE EN PROCESO' : '' | translate }}</b>
                                 </label>
                             </div>
                         </div>
@@ -71,7 +75,7 @@
                                     [ngClass]="{'warning': (item.data?.percent || 0) >= 35 && (item.data?.percent || 0) < 50, 
                                                 'error': (item.data?.percent || 0) < 35}" 
                                     [style.--porcentaje]="(item.data?.percent || 0) + '%'">
-                                    <span class="porcentaje">{{ item.data?.percent || 0 }}%</span>
+                                    <span class="porcentaje">{{ item.data?.percent || 0 | number:'1.2-2' }}%</span>
                                 </div>
                             </div>
 
@@ -81,7 +85,7 @@
 
                             <div class="w-50 p-2 rounded  bg-light shadow-sm d-flex justify-content-center">
                                 <div class="w-50">
-                                    <h3 class="text-success fw-bold">{{'Sensores' | translate}}</h3>
+                                    <h3 class="text-success fw-bold">{{'Variables Tanque E.A' | translate}}</h3>
                                     <label>
                                        <b>{{'Temperatura:' | translate}}</b><br> {{item.data.temperature}} C°
                                     </label><br>
@@ -98,7 +102,7 @@
                                         <b>{{'Densidad:' | translate}}</b><br> {{item.data.density}} g/cm3
                                     </label><br>
                                 </div>
-                                <div class="w-50">
+                                <!--<div class="w-50">
                                     <h3 class="text-success fw-bold">{{'Aforo' | translate}}</h3>
                                     <label>
                                         <b>{{'Altura:' | translate}}</b><br> {{item.data.level}} mm
@@ -112,7 +116,7 @@
                                     <label>
                                         <b>{{'Porcentaje:' | translate}}</b><br> {{item.data.percent}} %
                                     </label>
-                                </div>
+                                </div>-->
                                 <div class="mini-card" [ngClass]="{
                                                                 'success': (item.data?.percent / 7) >= 7,
                                                                 'warning': (item.data?.percent / 7) >= 5 && (item.data?.percent / 7) < 7, 

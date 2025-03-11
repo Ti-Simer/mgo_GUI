@@ -110,7 +110,7 @@
                                 </label>
                             </td>
                             <td id="buttons-table" > 
-                                <button class="btn btn-sm btn-info" (click)="toEditCity(city)">{{'Editar' | translate}}</button>
+                                <button class="btn btn-sm btn-info" (click)="toEditLocality(city)">{{'Ver' | translate}}</button>
                                 <button class="btn btn-sm btn-danger" *ngIf="city.state == 'ACTIVO'" (click)="deleteCity(city)">{{'Desactivar' | translate}}</button>
                                 <button class="btn btn-sm btn-success" *ngIf="city.state == 'INACTIVO'" (click)="activteCity(city)">{{'Activar' | translate}}</button>
                             </td>
