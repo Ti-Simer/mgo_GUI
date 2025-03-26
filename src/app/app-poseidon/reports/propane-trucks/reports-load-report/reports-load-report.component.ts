@@ -41,6 +41,7 @@ export type ChartOptions = {
 })
 export class ReportsLoadReportComponent {
   private languageSubscription!: Subscription;
+  currencyCode: string = 'COP';
 
   @ViewChild('myInput') searchInput!: ElementRef; // Obtiene una referencia al elemento de entrada de búsqueda
   @ViewChild('chartBar2') private chartRefBar2!: ElementRef;
@@ -162,6 +163,8 @@ export class ReportsLoadReportComponent {
       // Dibuja el gráfico con las nuevas etiquetas
       this.drawChart(this.lastLabels, this.lastData);
     });
+
+    this.currencyCode = this.languageService.detectRegionAndSetCurrency();
   }
 
   convertToDate(dateString: string): Date {

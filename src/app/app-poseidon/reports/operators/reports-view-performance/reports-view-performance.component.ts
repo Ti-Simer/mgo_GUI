@@ -19,6 +19,7 @@ import { Subscription } from 'rxjs';
 })
 export class ReportsViewPerformanceComponent {
   private languageSubscription!: Subscription;
+  currencyCode: string = 'COP';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   pageSizeOptions: number[] = [25, 50, 100]; // Opciones de tamaño de página
@@ -68,6 +69,8 @@ export class ReportsViewPerformanceComponent {
         // Actualizar los datos de la tabla según la página seleccionada
       });
     }
+
+    this.currencyCode = this.languageService.detectRegionAndSetCurrency();
   }
 
   // Método para manejar el cambio de página

@@ -23,6 +23,8 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LogReportModule } from './log-report/log-report.module';
+import { ControlInventoryComponent } from './home/control-inventory/control-inventory.component';
+import { ImportLpgPropertiesComponent } from './home/import-lpg-properties/import-lpg-properties.component';
 import {
   LucideAngularModule,
   Send,
@@ -51,9 +53,11 @@ import {
   RotateCw,
   MessageSquareWarning,
   Search,
-  Sheet
+  Sheet,
+  Eraser,
+  Upload,
+  HelpCircleIcon
 } from 'lucide-angular';
-import { ControlInventoryComponent } from './home/control-inventory/control-inventory.component';
 
 // Factory function for TranslateHttpLoader
 export function HttpLoaderFactory(http: HttpClient) {
@@ -66,6 +70,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HomeTrackingmapComponent,
     HomeChartComponent,
     ControlInventoryComponent,
+    ImportLpgPropertiesComponent,
   ],
   imports: [
     CommonModule,
@@ -115,7 +120,10 @@ export function HttpLoaderFactory(http: HttpClient) {
       RotateCw,
       MessageSquareWarning,
       Search,
-      Sheet
+      Sheet,
+      Eraser,
+      Upload,
+      HelpCircleIcon
     }),
     TranslateModule.forChild({
       loader: {

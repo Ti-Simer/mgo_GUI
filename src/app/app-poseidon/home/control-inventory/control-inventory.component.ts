@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/services/auth.service';
 import { LanguageService } from 'src/app/services/language.service';
 import { BillService } from 'src/app/services/poseidon-services/bill.service';
 import { ReportService } from 'src/app/services/poseidon-services/report.service';
+import { LpgPropertiesService } from 'src/app/services/poseidon-services/lpg-properties.service';
 import * as XLSX from 'xlsx';
+import { ImportLpgPropertiesComponent } from '../import-lpg-properties/import-lpg-properties.component';
 
 @Component({
   selector: 'app-control-inventory',
@@ -15,15 +19,21 @@ export class ControlInventoryComponent {
   controlInventoryForm: FormGroup;
   inventoryReport: FormGroup;
   date: any;
-  trucks: any = [];
   data: any;
+
+  trucks: any[] = [];
+  hasProperties: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private billService: BillService,
     private reportService: ReportService,
+    private lpgPropertiesService: LpgPropertiesService,
     private languageService: LanguageService,
     private toastService: ToastrService,
+    private toastr: ToastrService,
+    private dialog: MatDialog,
+    private authService: AuthService
   ) {
     this.controlInventoryForm = this.formBuilder.group({
       day: [null, Validators.required],
@@ -32,14 +42,19 @@ export class ControlInventoryComponent {
     this.inventoryReport = this.formBuilder.group({
       capacity: [null, Validators.required],
       capacityGl: [null, Validators.required],
-      capacityTGl: [null, Validators.required],
       density: [null, Validators.required],
       plate: [null, Validators.required],
       totalVolume: [null, Validators.required],
       date: [null, Validators.required],
-      entry: [null],
+      observed_pressure: [null],
+      temperature: [null],
       exit: [null],
+      entry: [null],
     });
+  }
+
+  ngOnInit() {
+    this.has_Properties();
   }
 
   onSubmit() {
@@ -49,6 +64,9 @@ export class ControlInventoryComponent {
         if (response.statusCode == 200) {
           this.date = response.data.day;
           this.trucks = response.data.propaneTrucks;
+          this.toastService.success(response.message);
+        } else {
+          this.toastService.warning(response.message);
         }
       }
     );
@@ -67,8 +85,19 @@ export class ControlInventoryComponent {
   }
 
   calculateInventory() {
-    if (!this.inventoryReport.value.entry && !this.inventoryReport.value.entry) {
+    if (!this.inventoryReport.value.entry && !this.inventoryReport.value.exit) {
       this.toastService.warning('Debe ingresar los valores de entrada y salida');
+      return;
+    }
+
+    if (this.inventoryReport.value.entry >= this.inventoryReport.value.exit) {
+      this.toastService.warning('El valor de entrada debe ser menor al de salida');
+      return;
+    }
+
+    if (this.inventoryReport.value.entry <= 0 || this.inventoryReport.value.exit > 100) {
+      this.toastService.warning('Los valores de entrada deben ser mayores a 0 y los de salida menores a 100');
+      return;
     }
 
     try {
@@ -76,6 +105,7 @@ export class ControlInventoryComponent {
 
       this.reportService.control_inventory(data).subscribe(
         response => {
+          console.log(response);
           if (response.statusCode == 200) {
             this.toastService.success('Inventario calculado correctamente');
             this.data = response.data;
@@ -98,19 +128,22 @@ export class ControlInventoryComponent {
         headers: {
           capacity: [
             'Capacidad en kilogramos',
-            'Capacidad en Galones (densidad)',
-            'Capacidad en Galones (volumétrico)',
-            'Densidad promedio',
-            'Volumen total-remisiones'
+            'Capacidad en Galones',
+            'Densidad (g/cm³)',
           ],
-          calculationDensity: 'Cálculo con Densidad promedio',
+          calculationExit: `Salida de auto tanque (${this.inventoryReport.value.exit}%)`,
           calculationHeaders: [
-            `Salida de auto tanque (${this.data.exit}%)`,
-            `Entrada de auto tanque (${this.data.entry}%)`,
-            'Entrega (Gl)',
-            'Resultado (Gl)'
+            'Volumen vapor (GL)',
+            'Volumen liquido (GL)',
+            'Volúmen total (GL)',
+            'Masa total (KG)'
           ],
-          volumetric: 'Cálculo volumétrico (2.02)'
+          calculationEntry: `Entrada de auto tanque (${this.inventoryReport.value.entry}%)`,
+          theoreticalSale: 'Venta teórica',
+          saleHeaders: [
+            'Volumen teórico (GL)',
+            'Volumen real (GL)',
+          ]
         }
       },
       en: {
@@ -119,19 +152,22 @@ export class ControlInventoryComponent {
         headers: {
           capacity: [
             'Capacity in kilograms',
-            'Capacity in Gallons (density)',
-            'Capacity in Gallons (volumetric)',
-            'Average density',
-            'Total volume-deliveries'
+            'Capacity in Gallons',
+            'Density (g/cm³)',
           ],
-          calculationDensity: 'Calculation with Average Density',
+          calculationExit: `Tanker truck exit (${this.inventoryReport.value.exit}%)`,
           calculationHeaders: [
-            `Tank truck exit (${this.data.exit}%)`,
-            `Tank truck entry (${this.data.entry}%)`,
-            'Delivery (Gl)',
-            'Result (Gl)'
+            'Vapor volume (GL)',
+            'Liquid volume (GL)',
+            'Total volume (GL)',
+            'Total mass (KG)'
           ],
-          volumetric: 'Volumetric calculation (2.02)'
+          calculationEntry: `Tanker truck entry (${this.inventoryReport.value.entry}%)`,
+          theoreticalSale: 'Theoretical sale',
+          saleHeaders: [
+            'Theoretical volume (GL)',
+            'Real volume (GL)',
+          ]
         }
       },
       pt: {
@@ -140,98 +176,154 @@ export class ControlInventoryComponent {
         headers: {
           capacity: [
             'Capacidade em quilogramas',
-            'Capacidade em Galões (densidade)',
-            'Capacidade em Galões (volumétrico)',
-            'Densidade média',
-            'Volume total-remessas'
+            'Capacidade em Galões',
+            'Densidade (g/cm³)',
           ],
-          calculationDensity: 'Cálculo com Densidade média',
+          calculationExit: `Saída de auto tanque (${this.inventoryReport.value.exit}%)`,
           calculationHeaders: [
-            `Saída do auto tanque (${this.data.exit}%)`,
-            `Entrada do auto tanque (${this.data.entry}%)`,
-            'Entrega (Gl)',
-            'Resultado (Gl)'
+            'Volume de vapor (GL)',
+            'Volume líquido (GL)',
+            'Volume total (GL)',
+            'Massa total (KG)'
           ],
-          volumetric: 'Cálculo volumétrico (2.02)'
+          calculationEntry: `Entrada de auto tanque (${this.inventoryReport.value.entry}%)`,
+          theoreticalSale: 'Venda teórica',
+          saleHeaders: [
+            'Volume teórico (GL)',
+            'Volume real (GL)',
+          ]
         }
       }
     };
-
+    
     // Obtener idioma y validar
     const lang = this.languageService.getLanguage() as keyof typeof translations;
     const translation = translations[lang] || translations['en'];
-
+    
     // Extraer datos comunes
     const reportValues = {
       vehicle: `${translation.vehicle} ${this.inventoryReport.value.plate}, ${this.date}`,
       capacityData: [
         this.inventoryReport.value.capacity,
         this.inventoryReport.value.capacityGl,
-        this.inventoryReport.value.capacityTGl,
         this.inventoryReport.value.density,
+      ],
+      calculationExit: [
+        this.data.exit_calculations.liquid_equivalent_vapor_volume_at_60F,
+        this.data.exit_calculations.liquid_volume_at_60F,
+        this.data.exit_calculations.total_volume_at_60F,
+        this.data.exit_calculations.total_mass
+      ],
+      calculationEntry: [
+        this.data.entry_calculations.liquid_equivalent_vapor_volume_at_60F,
+        this.data.entry_calculations.liquid_volume_at_60F,
+        this.data.entry_calculations.total_volume_at_60F,
+        this.data.entry_calculations.total_mass
+      ],
+      theoreticalSale: [
+        this.data.teoric_sale,
         this.inventoryReport.value.totalVolume
-      ],
-      densityCalculation: [
-        this.data.exitGl,
-        this.data.entryGl,
-        this.data.saleGl,
-        this.data.performanceGl
-      ],
-      volumetricCalculation: [
-        this.data.exitTGl,
-        this.data.entryTGl,
-        this.data.saleTGl,
-        this.data.performanceTGl
       ]
     };
-
+    
     // Construir estructura de datos
     const ws_data = [
       [reportValues.vehicle],
       [translation.capacityData],
       translation.headers.capacity,
       reportValues.capacityData,
-      [translation.headers.calculationDensity],
+      [translation.headers.calculationExit],
       translation.headers.calculationHeaders,
-      reportValues.densityCalculation,
-      [translation.headers.volumetric],
+      reportValues.calculationExit,
+      [translation.headers.calculationEntry],
       translation.headers.calculationHeaders,
-      reportValues.volumetricCalculation
+      reportValues.calculationEntry,
+      [translation.headers.theoreticalSale],
+      translation.headers.saleHeaders,
+      reportValues.theoreticalSale
     ];
 
     // Crear worksheet
     const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(ws_data);
 
-    // Combinar celdas para los títulos
+    // Combinar celdas (se mantiene igual)
     const mergeRules: XLSX.Range[] = [
-      { s: { r: 0, c: 0 }, e: { r: 0, c: 4 } }, // Fila 1 (A-E)
-      { s: { r: 1, c: 0 }, e: { r: 1, c: 4 } }, // Fila 2
-      { s: { r: 4, c: 0 }, e: { r: 4, c: 4 } }, // Fila 5
-      { s: { r: 7, c: 0 }, e: { r: 7, c: 4 } }  // Fila 8
+      { s: { r: 0, c: 0 }, e: { r: 0, c: 4 } },
+      { s: { r: 1, c: 0 }, e: { r: 1, c: 4 } },
+      { s: { r: 4, c: 0 }, e: { r: 4, c: 4 } },
+      { s: { r: 7, c: 0 }, e: { r: 7, c: 4 } },
+      { s: { r: 10, c: 0 }, e: { r: 10, c: 4 } },
     ];
     ws['!merges'] = mergeRules;
 
-    // Aplicar estilos a los headers
-    const applyBoldStyle = (row: number, cols: number[]) => {
-      cols.forEach(col => {
-        const cell = XLSX.utils.encode_cell({ r: row, c: col });
-        ws[cell].s = { font: { bold: true } };
-      });
-    };
+    // Aplicar estilos CORREGIDOS
+    this.applyBoldStyleWithFix(ws, 0, [0]);  // Vehicle
+    this.applyBoldStyleWithFix(ws, 1, [0]);  // Capacity Data
+    this.applyBoldStyleWithFix(ws, 2, [0, 1, 2]);
+    this.applyBoldStyleWithFix(ws, 4, [0]);
+    this.applyBoldStyleWithFix(ws, 5, [0, 1, 2, 3]);
+    this.applyBoldStyleWithFix(ws, 7, [0]);
+    this.applyBoldStyleWithFix(ws, 8, [0, 1, 2, 3]);
+    this.applyBoldStyleWithFix(ws, 9, [0]);
+    this.applyBoldStyleWithFix(ws, 10, [0, 1]);
 
-    // Aplicar negrita a:
-    applyBoldStyle(0, [0]);  // Vehicle
-    applyBoldStyle(1, [0]);  // Capacity Data
-    applyBoldStyle(2, [0, 1, 2, 3, 4]); // Headers capacidad
-    applyBoldStyle(4, [0]);  // Calculation Density
-    applyBoldStyle(5, [0, 1, 2, 3]); // Calculation Headers
-    applyBoldStyle(7, [0]);  // Volumetric
-    applyBoldStyle(8, [0, 1, 2, 3]); // Volumetric Headers
+    // Configurar anchos de columnas
+    ws['!cols'] = [
+      { wch: 25 }, { wch: 20 }, { wch: 20 },
+      { wch: 20 }, { wch: 20 }
+    ];
 
-    // Resto del código mantiene igual
+
+    // Exportar CON configuración de estilos
     const filename = `control_inventory ${this.inventoryReport.value.plate} ${this.date}.xlsx`;
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-    XLSX.writeFile(wb, filename);
+    XLSX.utils.book_append_sheet(wb, ws, 'Report');
+
+    XLSX.writeFile(wb, filename, {
+      bookType: 'xlsx',
+      type: 'array',
+      cellStyles: true // Habilitar estilos
+    });
+  }
+
+  // Función auxiliar para aplicar estilos
+  private applyBoldStyleWithFix(ws: XLSX.WorkSheet, row: number, cols: number[]) {
+    cols.forEach(col => {
+      const cell = XLSX.utils.encode_cell({ r: row, c: col });
+      if (!ws[cell]) ws[cell] = { t: 's', v: '' };
+      ws[cell].s = {
+        font: { bold: true },
+        alignment: { horizontal: 'center' }
+      };
+    });
+  }
+
+  has_Properties() {
+    this.lpgPropertiesService.hasAny().subscribe(
+      response => {
+        if (response.statusCode == 200) {
+          this.hasProperties = response.data;
+        } else {
+          this.toastr.warning(response.message);
+          console.error(response.message);
+        }
+      }
+    );
+  }
+
+  toImportLpgProperties() {
+    this.authService.writeChecker().subscribe(flag => {
+      if (!flag) {
+        this.toastr.warning('No tienes permisos para crear');
+      } else {
+        const dialogRef = this.dialog.open(ImportLpgPropertiesComponent, {
+          width: '1600px',
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          this.has_Properties();
+        });
+      }
+    });
   }
 }

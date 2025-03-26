@@ -52,7 +52,7 @@
                                         <td>{{ bill.branch_office[0].name}}</td>
                                         <td>{{ bill.client[0].firstName}} {{ bill.client[0].lastName}}</td>
                                         <td>
-                                            {{bill.charge.total | currency:'USD':'symbol':'1.0-0'}}
+                                            {{bill.charge.total | currency:currencyCode:'symbol':'1.0-0'}}
                                         </td>
                                     </tr>
                                 </tbody>

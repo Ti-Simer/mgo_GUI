@@ -45,7 +45,7 @@ export class PropaneTruckCreateComponent {
     translate.setDefaultLang(this.languageService.getLanguage());
 
     this.propaneTruckForm = this.formBuilder.group({
-      plate: [null, Validators.required],
+      plate: ['', [Validators.required, Validators.maxLength(10), this.plateValidator]],
       capacity: [null, Validators.required],
       operator: [null, Validators.required],
       factor: [null, Validators.required],
@@ -88,9 +88,15 @@ export class PropaneTruckCreateComponent {
     this.multipleSelection = !this.multipleSelection;
   }
 
-  onPlateInputChange() {
-    const inputValue = this.plateInput.nativeElement.value;
-    this.plateInput.nativeElement.value = inputValue.toUpperCase();
+  onPlateInputChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.toUpperCase().replace(/[^A-Z0-9-]/g, '');
+    this.propaneTruckForm.get('plate')?.setValue(input.value, { emitEvent: false });
+  }
+
+  plateValidator(control: any): { [key: string]: boolean } | null {
+    const valid = /^[A-Z0-9-]{1,10}$/.test(control.value);
+    return valid ? null : { invalidPlate: true };
   }
 
   fetchOperators() {

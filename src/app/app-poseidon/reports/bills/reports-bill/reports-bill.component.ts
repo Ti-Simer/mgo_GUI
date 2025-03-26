@@ -18,6 +18,7 @@ import html2canvas from 'html2canvas';
 export class ReportsBillComponent {
   private languageSubscription!: Subscription;
   @Input() billId: any;
+  currencyCode: string = 'COP';
 
   bill: any;
 
@@ -36,6 +37,7 @@ export class ReportsBillComponent {
 
   ngOnInit(): void {
     this.getBill();
+    this.currencyCode = this.languageService.detectRegionAndSetCurrency();
   }
 
   getBill() {

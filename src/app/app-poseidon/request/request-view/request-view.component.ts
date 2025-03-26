@@ -18,6 +18,7 @@ import { DialogViewBillComponent } from '../../reports/bills/dialog-view-bill/di
 })
 export class RequestViewComponent {
   private languageSubscription!: Subscription;
+  currencyCode: string = 'COP'; // Valor predeterminado
 
   requestId: any;
   request: any;
@@ -52,6 +53,7 @@ export class RequestViewComponent {
 
   ngOnInit(): void {
     this.getRequest();
+    this.currencyCode = this.languageService.detectRegionAndSetCurrency();
   }
 
   getRequest() {
@@ -59,7 +61,6 @@ export class RequestViewComponent {
       response => {
         if (response.statusCode == 200) {
           this.request = response.data;
-          console.log(this.request);
         } else {
           this.toastr.warning('Ha ocurrido un error al consultar el servicio', 'Advertencia!', {
             timeOut: 5000,

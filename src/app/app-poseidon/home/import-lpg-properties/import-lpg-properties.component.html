@@ -1,0 +1,84 @@
+<button type="button" class="btn-close" aria-label="Close" (click)="onClose()"></button>
+<div class="dialog-container">
+
+    <div class="mx-auto w-75" *ngIf="lpgProperties.length < 1" [formGroup]="lpgPropertiesForm">
+        <div class="row">
+            <div class="col-md">
+                <h1>{{'Importar propiedades GLP' | translate}}</h1>
+            </div>
+        </div>
+        
+        <div class="input-group mb-3">
+            <input type="text" id="name" class="form-control" formControlName="type_GLP"
+                placeholder="{{'Escriba el tipo de GLP' | translate}}">
+            <button type="button" class="btn btn-outline-secondary" (click)="helpTypeGlp()">
+                <lucide-icon name="help-circle-icon"></lucide-icon>
+            </button>
+        </div>
+
+        <div class="input-group mb-3">
+            <input type="file" class="form-control" id="inputGroupFile01" accept=".xlsx" (change)="handleFileInput($event)">
+        </div>
+
+        <div class="row">
+            <div class="col-md-4" id="responsive-container">
+                <button class="btn btn-sm btn-secondary" (click)="downloadFormat()" id="items"><lucide-icon name="sheet" [size]="20"></lucide-icon> {{'Descargar formato' | translate}}</button>
+                <button class="btn btn-sm btn-success" (click)="onSubmit()" [disabled]="!lpgPropertiesForm.valid" id="items"><lucide-icon name="upload" [size]="20"></lucide-icon> {{'Importar' | translate}}</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-1 table-list" *ngIf="lpgProperties.length > 0">
+        <div class="row d-flex justify-content-center mx-0 mb-2">
+            <div class="col-md-3 p-0">
+                <h1>{{'Tabla de propiedades' | translate}} {{lpgProperties[0].type_GLP}}</h1>
+            </div>
+            <div class="col-md-5"></div>
+            <div class="col-md-4 p-0" id="responsive-container">
+                <button class="btn btn-danger float-end" id="items" (click)="clearTable()"><lucide-icon name="eraser" [size]="20"></lucide-icon> {{'Borrar' | translate}}</button>
+                <button class="btn btn-success float-end" id="items" (click)="downloadProperties()"><lucide-icon name="sheet" [size]="20"></lucide-icon> {{'Descargar' | translate}}</button>
+            </div>
+        </div>
+
+        <div class="col-md table-list">
+            <table class="table table-striped table-bordered" *ngIf="lpgProperties.length > 0">
+                <thead>
+                    <tr>
+                        <th class="custom-header" (click)="sortData('compound')" id="encabezado">{{'compound' | translate}}</th>
+                        <th class="custom-header" (click)="sortData('volume_percent')" id="encabezado">{{'volume_percent' | translate}}</th>
+                        <th class="custom-header" (click)="sortData('pie3_gal')" id="encabezado">{{'pie3_gal' | translate}}</th>
+                        <th class="custom-header" (click)="sortData('volatility_factor')" id="encabezado">{{'volatility_factor' | translate}}</th>
+                        <th class="custom-header" (click)="sortData('relative_volatility')" id="encabezado">{{'relative_volatility' | translate}}</th>
+                        <th class="custom-header" (click)="sortData('vapor_fraction')" id="encabezado">{{'vapor_fraction' | translate}}</th>
+                        <th class="custom-header" (click)="sortData('molar_mass')" id="encabezado">{{'molar_mass' | translate}}</th>
+                        <th class="custom-header" (click)="sortData('steam_weight')" id="encabezado">{{'steam_weight' | translate}}</th>
+                        <th class="custom-header" (click)="sortData('critical_temperature')" id="encabezado">{{'critical_temperature' | translate}}</th>
+                        <th class="custom-header" (click)="sortData('critical_pressure')" id="encabezado">{{'critical_pressure' | translate}}</th>
+                        <th class="custom-header" (click)="sortData('acentric_factor')" id="encabezado">{{'acentric_factor' | translate}}</th>
+                        <th class="custom-header" (click)="sortData('temp_vapor')" id="encabezado">{{'temp_vapor' | translate}}</th>
+                        <th class="custom-header" (click)="sortData('pres_vapor')" id="encabezado">{{'pres_vapor' | translate}}</th>
+                        <th class="custom-header" (click)="sortData('factor_vapor')" id="encabezado">{{'factor_vapor' | translate}}</th>
+                    </tr>
+                </thead>
+                <tbody id="myTable">
+                    <tr *ngFor="let propertie of lpgProperties">
+                        <th class="custom-td">{{ propertie.compound }}</th>
+                        <td class="custom-td">{{ propertie.volume_percent }}</td>
+                        <td class="custom-td">{{ propertie.pie3_gal }}</td>
+                        <td class="custom-td">{{ propertie.volatility_factor }}</td>
+                        <td class="custom-td">{{ propertie.relative_volatility }}</td>
+                        <td class="custom-td">{{ propertie.vapor_fraction }}</td>
+                        <td class="custom-td">{{ propertie.molar_mass }}</td>
+                        <td class="custom-td">{{ propertie.steam_weight }}</td>
+                        <td class="custom-td">{{ propertie.critical_temperature }}</td>
+                        <td class="custom-td">{{ propertie.critical_pressure }}</td>
+                        <td class="custom-td">{{ propertie.acentric_factor }}</td>
+                        <td class="custom-td">{{ propertie.temp_vapor }}</td>
+                        <td class="custom-td">{{ propertie.pres_vapor }}</td>
+                        <td class="custom-td">{{ propertie.factor_vapor }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -111,7 +111,7 @@
                         </div>
                         <div class="col-sm-6">
                             <p>
-                                {{ request.branch_office.kilogramValue | currency:'USD':'symbol':'1.0-0' }}
+                                {{ request.branch_office.kilogramValue | currency:currencyCode:'symbol':'1.0-0' }}
                             </p>
                         </div>
                     </div>
@@ -147,7 +147,7 @@
                         </div>
                         <div class="col-sm-6">
                             <p>
-                                {{ request.data_series.total | currency:'USD':'symbol':'1.0-0' }}
+                                {{ request.data_series.total | currency:currencyCode:'symbol':'1.0-0' }}
                             </p>
                         </div>
                     </div>
