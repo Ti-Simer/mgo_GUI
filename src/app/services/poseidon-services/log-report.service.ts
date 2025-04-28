@@ -46,10 +46,13 @@ export class LogReportService {
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-  findByDay(): Observable<any> {
+  findByDay(pageData: any): Observable<any> {
     var apiUrl = this.authService.getApiUrl();
-    return this.http.get(`${apiUrl}/log-report/findByDay`, { headers: this.apiKey });
+    return this.http.post(`${apiUrl}/log-report/findByDay`, pageData, { headers: this.apiKey });
   }
 
-
+  findTrucksOnCourseLog(): Observable<any> {
+    var apiUrl = this.authService.getApiUrl();
+    return this.http.get(`${apiUrl}/course-log/findTrucksOnCourseLog`, { headers: this.apiKey });
+  }
 }

@@ -40,14 +40,17 @@ export class ControlInventoryComponent {
     });
 
     this.inventoryReport = this.formBuilder.group({
-      capacity: [null, Validators.required],
+      capacity: [{value: null, disabled: true}, Validators.required],
       capacityGl: [null, Validators.required],
       density: [null, Validators.required],
       plate: [null, Validators.required],
       totalVolume: [null, Validators.required],
+      totalMass: [null, Validators.required],
       date: [null, Validators.required],
-      observed_pressure: [null],
-      temperature: [null],
+      observed_pressure_in: [null],
+      temperature_in: [null],
+      observed_pressure_out: [null],
+      temperature_out: [null],
       exit: [null],
       entry: [null],
     });
@@ -80,46 +83,11 @@ export class ControlInventoryComponent {
       density: truck.density,
       plate: truck.plate,
       totalVolume: truck.totalVolume,
+      totalMass: truck.totalMass,
       date: this.date
     });
   }
-
-  calculateInventory() {
-    if (!this.inventoryReport.value.entry && !this.inventoryReport.value.exit) {
-      this.toastService.warning('Debe ingresar los valores de entrada y salida');
-      return;
-    }
-
-    if (this.inventoryReport.value.entry >= this.inventoryReport.value.exit) {
-      this.toastService.warning('El valor de entrada debe ser menor al de salida');
-      return;
-    }
-
-    if (this.inventoryReport.value.entry <= 0 || this.inventoryReport.value.exit > 100) {
-      this.toastService.warning('Los valores de entrada deben ser mayores a 0 y los de salida menores a 100');
-      return;
-    }
-
-    try {
-      const data = this.inventoryReport.value;
-
-      this.reportService.control_inventory(data).subscribe(
-        response => {
-          console.log(response);
-          if (response.statusCode == 200) {
-            this.toastService.success('Inventario calculado correctamente');
-            this.data = response.data;
-          } else {
-            this.toastService.error(response.message, 'Error al calcular el inventario');
-          }
-        }
-      );
-
-    } catch (error) {
-      this.toastService.error('Error al calcular el inventario');
-    }
-  }
-
+  
   downloadData() {
     const translations = {
       es: {
@@ -286,18 +254,7 @@ export class ControlInventoryComponent {
     });
   }
 
-  // Función auxiliar para aplicar estilos
-  private applyBoldStyleWithFix(ws: XLSX.WorkSheet, row: number, cols: number[]) {
-    cols.forEach(col => {
-      const cell = XLSX.utils.encode_cell({ r: row, c: col });
-      if (!ws[cell]) ws[cell] = { t: 's', v: '' };
-      ws[cell].s = {
-        font: { bold: true },
-        alignment: { horizontal: 'center' }
-      };
-    });
-  }
-
+  
   has_Properties() {
     this.lpgPropertiesService.hasAny().subscribe(
       response => {
@@ -319,11 +276,58 @@ export class ControlInventoryComponent {
         const dialogRef = this.dialog.open(ImportLpgPropertiesComponent, {
           width: '1600px',
         });
-
+        
         dialogRef.afterClosed().subscribe(result => {
           this.has_Properties();
         });
       }
+    });
+  }
+
+  calculateInventory() {
+    if (!this.inventoryReport.value.entry && !this.inventoryReport.value.exit) {
+      this.toastService.warning('Debe ingresar los valores de entrada y salida');
+      return;
+    }
+    
+    if (this.inventoryReport.value.entry >= this.inventoryReport.value.exit) {
+      this.toastService.warning('El valor de entrada debe ser menor al de salida');
+      return;
+    }
+
+    if (this.inventoryReport.value.entry <= 0 || this.inventoryReport.value.exit > 100) {
+      this.toastService.warning('Los valores de entrada deben ser mayores a 0 y los de salida menores a 100');
+      return;
+    }
+    
+    try {
+      const data = this.inventoryReport.value;
+      
+      this.reportService.control_inventory(data).subscribe(
+        response => {
+          if (response.statusCode == 200) {
+            this.toastService.success('Inventario calculado correctamente');
+            this.data = response.data;
+          } else {
+            this.toastService.error(response.message, 'Error al calcular el inventario');
+          }
+        }
+      );
+
+    } catch (error) {
+      this.toastService.error('Error al calcular el inventario');
+    }
+  }
+  
+  // Función auxiliar para aplicar estilos
+  private applyBoldStyleWithFix(ws: XLSX.WorkSheet, row: number, cols: number[]) {
+    cols.forEach(col => {
+      const cell = XLSX.utils.encode_cell({ r: row, c: col });
+      if (!ws[cell]) ws[cell] = { t: 's', v: '' };
+      ws[cell].s = {
+        font: { bold: true },
+        alignment: { horizontal: 'center' }
+      };
     });
   }
 }

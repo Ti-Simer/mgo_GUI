@@ -108,8 +108,7 @@ export class BillCreateComponent {
       response => {
         if (response.statusCode == 200) {
           this.clients = response.data;
-          console.log(response.data);
-          
+
           this.filteredClients = this.billForm.get('client')!.valueChanges.pipe(
             startWith(''),
             map(value => {
@@ -227,10 +226,20 @@ export class BillCreateComponent {
       return;
     }
 
-    console.log('Formulario de factura:', this.billForm.value);
-
     if (this.billForm.valid) {
-      this.billService.create(this.billForm.value).subscribe(
+
+      const data = {
+        client: this.billForm.value.client.id,
+        charge: this.billForm.value.charge,
+        branch_office: this.billForm.value.branch_office.id,
+        operator: this.billForm.value.operator,
+        status: this.billForm.value.status,
+        folio: this.billForm.value.folio,
+        payment_type: this.billForm.value.payment_type,
+        plate: this.billForm.value.plate,
+      }
+
+      this.billService.create(data).subscribe(
         response => {
           if (response.statusCode == 200) {
             this.toastr.success(`Remision ${response.data.bill_code} creada satisfactoriamente`, `Exito`);

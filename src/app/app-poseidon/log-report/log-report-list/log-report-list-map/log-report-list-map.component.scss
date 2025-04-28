@@ -1,0 +1,11 @@
+@media (orientation: portrait) {
+    #mapContainerLandscape {
+        display: none !important;
+    }
+}
+
+@media (orientation: landscape) {
+    #mapContainerPortrait {
+        display: none !important;
+    }
+}

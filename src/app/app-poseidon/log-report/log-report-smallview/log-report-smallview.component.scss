@@ -1,0 +1,23 @@
+.general-container {
+    max-height: 200px;
+    overflow-y: auto;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+
+    &::-webkit-scrollbar {
+        display: none;
+        /* Safari and Chrome */
+    }
+}
+
+#responsive-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas de igual ancho */
+    grid-template-rows: repeat(2, auto); /* 2 filas automáticas */
+    gap: 0.5rem; /* Espaciado entre los elementos */
+
+    #items {
+        margin: 0.2rem; /* Espaciado interno opcional */
+    }
+}

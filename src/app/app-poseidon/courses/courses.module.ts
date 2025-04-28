@@ -26,16 +26,20 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { DialogCreateCoursesComponent } from './dialog-create-courses/dialog-create-courses.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-
+import { DialogEditCoursesComponent } from './dialog-edit-courses/dialog-edit-courses.component';
+import { DialogViewCoursesComponent } from './dialog-view-courses/dialog-view-courses.component';
+import { CoursesLogComponent } from './courses-log/courses-log.component';
+import { CoursesLogViewComponent } from './courses-log-view/courses-log-view.component';
+import { DialogCoursesLogViewComponent } from './dialog-courses-log-view/dialog-courses-log-view.component';
 import {
   LucideAngularModule,
   MapPinned,
   ArrowBigLeftDash,
   ArrowBigRightDash,
-  MapPin
+  MapPin,
+  Search,
+  Sheet
 } from 'lucide-angular';
-import { DialogEditCoursesComponent } from './dialog-edit-courses/dialog-edit-courses.component';
-import { DialogViewCoursesComponent } from './dialog-view-courses/dialog-view-courses.component';
 
 // Factory function for TranslateHttpLoader
 export function HttpLoaderFactory(http: HttpClient) {
@@ -51,7 +55,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     CoursesEditComponent,
     DialogCreateCoursesComponent,
     DialogEditCoursesComponent,
-    DialogViewCoursesComponent
+    DialogViewCoursesComponent,
+    CoursesLogComponent,
+    CoursesLogViewComponent,
+    DialogCoursesLogViewComponent
   ],
   imports: [
     CommonModule,
@@ -74,7 +81,9 @@ export function HttpLoaderFactory(http: HttpClient) {
       MapPinned,
       ArrowBigLeftDash,
       ArrowBigRightDash,
-      MapPin 
+      MapPin,
+      Search,
+      Sheet
     }),
     TranslateModule.forChild({
       loader: {

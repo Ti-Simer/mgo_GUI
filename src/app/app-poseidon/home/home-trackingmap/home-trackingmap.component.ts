@@ -75,7 +75,7 @@ export class HomeTrackingmapComponent implements OnInit, OnDestroy {
             }
 
           } else {
-            console.log('No se han encontrado ubicaciones');
+            //console.log('No se han encontrado ubicaciones');
           }
         },
         (error) => {

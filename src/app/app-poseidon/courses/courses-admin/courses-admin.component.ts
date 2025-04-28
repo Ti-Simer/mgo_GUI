@@ -129,7 +129,6 @@ export class CoursesAdminComponent {
     this.isLoading = true;
     this.courseService.getAll().subscribe(
       response => {
-        console.log('derroteros::', response)
         this.isLoading = false;
         if (response.statusCode == 200) {
           this.courses = response.data;

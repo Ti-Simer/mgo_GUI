@@ -68,6 +68,7 @@ export class CoursesCreateComponent {
       propane_truck: [null],
       orders: [null, Validators.required],
       fecha: [null, Validators.required],
+      creator: [this.authService.getUserFromToken()],
     });
 
     this.visualForm = this.formBuilder.group({
@@ -283,8 +284,8 @@ export class CoursesCreateComponent {
 
     if (this.courseForm.valid) {
       this.courseService.create(formValue).subscribe(
-        response => {
-          if (response.statusCode === 200) {
+        response => {          
+          if (response.statusCode === 201) {
             this.toastr.success('Derrotero creado exitosamente', 'Información');
             this.dialogRef.close();
             this.loadingDialogRef.close(); 

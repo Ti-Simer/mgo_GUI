@@ -1,65 +1,107 @@
-.criticality-box {
-  display: inline-block;
-  width: 15px;
-  height: 15px;
-  margin-left: 10px;
-  border-radius: 3px;
+.shortcut-subsection .col-md-6:hover a div {
+    animation: cards 0.2s ease 0s 1 normal forwards;
 }
 
-.sticky-element {
-  position: -webkit-sticky;
-  /* For Safari */
-  position: sticky;
-  height: 14.8rem;
-  top: 0;
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-  .card-body {
-    .text-secondary {
-      cursor: pointer;
+@keyframes cards {
+    0% {
+        transform: scale(1);
     }
-
-    .text-info {
-      cursor: pointer;
+    100% {
+        transform: scale(1.05);
     }
-  }
 }
 
-.no_data {
-  padding-top: 4.5rem;
+.general-container {
+  .tank-section {
+    height: 800px;
 
-  .col-lg-12 {
-    border: dashed 1px #014e87;
-    border-radius: 10px;
+    .tank-card-section {
+      .tank-list {
+        height: 400px;
+        max-height: 400px;
+        overflow-y: auto;
 
-    .col-md-8 {
-      p {
-        cursor: pointer;
+        /* Firefox */
+        -ms-overflow-style: none;
+        /* Internet Explorer 10+ */
+
+        &::-webkit-scrollbar {
+          display: none;
+          /* Safari and Chrome */
+        }
+
       }
     }
+
+    .shortcut-subsection {
+      max-height: 275px;
+      overflow-y: auto;
+
+      /* Firefox */
+      -ms-overflow-style: none;
+      /* Internet Explorer 10+ */
+
+      &::-webkit-scrollbar {
+        display: none;
+        /* Safari and Chrome */
+      }
+
+    }
+  }
+
+  .event-section {
+    height: 700px;
+
+    .event-routes-section {
+      height: 250;
+
+      .events {
+        max-height: 200px;
+        overflow-y: auto;
+        /* Firefox */
+        -ms-overflow-style: none;
+        /* Internet Explorer 10+ */
+
+        &::-webkit-scrollbar {
+          display: none;
+          /* Safari and Chrome */
+        }
+
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columnas de igual ancho */
+        grid-template-rows: repeat(2, auto);
+        /* 2 filas automáticas */
+        gap: 0.5rem;
+        /* Espaciado entre los elementos */
+
+        .event-card {
+          margin: 0.2rem;
+          /* Espaciado interno opcional */
+        }
+      }
+
+    }
+
+    // .map-subsection {
+    //   height: 548px;
+    // }
   }
 }
 
 @media (orientation: portrait) {
-  #content-landscape {
-    display: none;
-  }
-
-  #content-portrait {
+  #responsive-container {
     display: flex;
     flex-wrap: wrap;
 
-    .box {
+    #items {
       flex-grow: 1;
       flex-basis: 200;
-      float: right;
+      margin: 0.2rem;
     }
   }
 }
 
 @media (orientation: landscape) {
-  #content-portrait {
-    display: none;
-  }
+
 }

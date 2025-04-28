@@ -66,8 +66,11 @@ export class CoursesEditComponent {
 
     this.courseForm = this.formBuilder.group({
       operator_id: [null, Validators.required],
+      propane_truck: [null],
       orders: [null, Validators.required],
+      last_orders: [null, Validators.required],
       fecha: [null, Validators.required],
+      creator: [this.authService.getUserFromToken()],
     });
   }
 
@@ -110,6 +113,7 @@ export class CoursesEditComponent {
   getCourseById() {
     this.courseService.getCourseById(this.courseId).subscribe(
       (response) => {
+        console.log('Response:', response);
         if (response.statusCode === 200) {
           this.course = response.data;
   
@@ -119,6 +123,8 @@ export class CoursesEditComponent {
           this.courseForm.patchValue({
             operator_id: this.course.operator_id,
             fecha: fecha,
+            propane_truck: this.course.propane_truck.plate,
+            last_orders: this.course.orders.map((order: any) => String(order.folio)),
           });
   
           this.toastr.success('Derrotero consultado con éxito');
@@ -167,11 +173,7 @@ export class CoursesEditComponent {
     }
   }
 
-  moveOrder(order: any) {
-
-    console.log('order', order);
-    
-
+  moveOrder(order: any) {    
     if (!this.orders1.includes(order)) {
       this.orders1.push(order);
       this.orders2 = this.orders2.filter(item => item !== order);

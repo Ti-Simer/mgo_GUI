@@ -1,28 +1,39 @@
 import { Component } from '@angular/core';
-import { flag } from 'ngx-bootstrap-icons';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 import { LogReportService } from 'src/app/services/poseidon-services/log-report.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/services/language.service';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-log-report-list',
   templateUrl: './log-report-list.component.html',
   styleUrls: ['./log-report-list.component.scss']
 })
+
 export class LogReportListComponent {
   private languageSubscription!: Subscription;
 
   log_reports: any[] = [];
+  criticalityCounts: any;
+  criticalityLow: any;
+  criticalityMedium: any;
+  criticalityHigh: any;
+  dateToday: any = new Date().toLocaleDateString('es-GB', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
 
   constructor(
     private logReportService: LogReportService,
     private toastr: ToastrService,
     private authService: AuthService,
     private translate: TranslateService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private router: Router
   ) {
     translate.addLangs(['en', 'es', 'pt']);
     translate.setDefaultLang(this.languageService.getLanguage());
@@ -40,10 +51,19 @@ export class LogReportListComponent {
   }
 
   fetchLogReports() {
-    this.logReportService.findByDay().subscribe((response: any) => {
+    const pageData = {
+      pageData: {
+        page: 1,
+        limit: 50
+      }
+    };
+
+    this.logReportService.findByDay(pageData).subscribe((response: any) => {
 
       if (response.statusCode == 200) {
-        this.log_reports = response.data.sort((a: any, b: any) => {
+        this.criticalityCounts = response.data.criticalityCounts;
+        this.receiveCriticalityCounts(this.criticalityCounts);
+        this.log_reports = response.data.logReports.sort((a: any, b: any) => {
           let dateA = new Date(a.create); // o a.update dependiendo de qué fecha quieres usar
           let dateB = new Date(b.create); // o b.update dependiendo de qué fecha quieres usar
           return dateB.getTime() - dateA.getTime(); // Ordena en orden descendente
@@ -54,49 +74,63 @@ export class LogReportListComponent {
     });
   }
 
-  fetchAllLogReports() {
-    this.authService.readChecker().subscribe(flag => {
-      if (flag) {
-        this.logReportService.getAll().subscribe((response: any) => {
+  receiveCriticalityCounts(data: any) {
+    if (data) {
+      for (let item of data) {
+        switch (item.criticality) {
+          case 0:
+            this.criticalityLow = item.count;
+            break;
+          case 1:
+            this.criticalityMedium = item.count;
+            break;
+          case 2:
+            this.criticalityHigh = item.count;
+            break;
+        }
+      }
+    }
+  }
 
-          if (response.statusCode == 200) {
-            this.log_reports = response.data.sort((a: any, b: any) => {
-              let dateA = new Date(a.create); // o a.update dependiendo de qué fecha quieres usar
-              let dateB = new Date(b.create); // o b.update dependiendo de qué fecha quieres usar
-              return dateB.getTime() - dateA.getTime(); // Ordena en orden descendente
-            });
-          }
-          this.log_reports = response.data;
-          console.log(this.log_reports);
-          
-          if (this.log_reports.length == 0) {
-            this.toastr.info('No se encontraron informes de registros', 'Información');
-          }
-        });
-      } else {
-        this.log_reports = [];
+  // Direcciones
+
+  toCourses() {
+    this.authService.readChecker().subscribe(flag => {
+      if (!flag) {
         this.toastr.warning('No tienes permisos para leer esta información');
+      } else {
+        this.router.navigate(['/poseidon/courses/admin']);
       }
     });
   }
 
-  filterByCriticality(criticality: number) {
-    const filteredLogs = this.log_reports.filter(log => log.route_event.criticality === criticality);
-    if (filteredLogs.length > 0) {
-      this.log_reports = filteredLogs;
-    }
+  toOrders() {
+    this.authService.readChecker().subscribe(flag => {
+      if (!flag) {
+        this.toastr.warning('No tienes permisos para leer esta información');
+      } else {
+        this.router.navigate(['/poseidon/orders/list']);
+      }
+    });
   }
 
-  getCriticalityColor(criticality: number): string {
-    switch (criticality) {
-      case 2:
-        return 'red';
-      case 1:
-        return 'orange';
-      case 0:
-        return 'yellow';
-      default:
-        return 'grey';
-    }
+  toReports() {
+    this.authService.readChecker().subscribe(flag => {
+      if (!flag) {
+        this.toastr.warning('No tienes permisos para leer esta información');
+      } else {
+        this.router.navigate(['/poseidon/reports/list']);
+      }
+    });
+  }
+
+  toRequest() {
+    this.authService.readChecker().subscribe(flag => {
+      if (!flag) {
+        this.toastr.warning('No tienes permisos para leer esta información');
+      } else {
+        this.router.navigate(['/poseidon/request/list']);
+      }
+    });
   }
 }

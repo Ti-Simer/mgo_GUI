@@ -39,18 +39,12 @@
 
 
             .text-title {
-                -webkit-box-sizing: content-box;
-                -moz-box-sizing: content-box;
                 box-sizing: content-box;
                 float: left;
                 border: none;
                 font-size: 32px;
                 color: #fff;
                 text-align: center;
-                -o-text-overflow: ellipsis;
-                text-overflow: ellipsis;
-                letter-spacing: -2px;
-                text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
                 padding: 0 1rem 0 0;
             }
         }

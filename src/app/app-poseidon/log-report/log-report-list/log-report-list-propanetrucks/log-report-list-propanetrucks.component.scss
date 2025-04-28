@@ -1,0 +1,120 @@
+.color-changing-square-green {
+    width: 150px;
+    /* Ancho del cuadrado */
+    height: 100px;
+    /* Alto del cuadrado */
+    background-color: #198754;
+    /* Color inicial */
+    background-image: url('/assets/images/tank_black.svg');
+    background-size: contain;
+    /* Ajusta la imagen al tamaño del contenedor */
+    background-position: center;
+    /* Centra la imagen en el contenedor */
+    background-repeat: no-repeat;
+    /* Evita que la imagen se repita */
+    animation: colorChangeGreen 1.5s infinite;
+    /* Animación infinita */
+}
+
+/* Definición de la animación */
+@keyframes colorChangeGreen {
+    0% {
+        background-color: rgb(106, 180, 106);
+        /* Color inicial */
+    }
+
+    50% {
+        background-color: rgb(106, 180, 106);
+        /* Color intermedio */
+    }
+
+    100% {
+        background-color: #198754;
+        /* Color final */
+    }
+}
+
+.color-changing-square-orange {
+    width: 150px;
+    /* Ancho del cuadrado */
+    height: 100px;
+    /* Alto del cuadrado */
+    background-color: #f09d04;
+    /* Color inicial */
+    background-image: url('/assets/images/tank_black.svg');
+    background-size: contain;
+    /* Ajusta la imagen al tamaño del contenedor */
+    background-position: center;
+    /* Centra la imagen en el contenedor */
+    background-repeat: no-repeat;
+    /* Evita que la imagen se repita */
+    animation: colorChangeOrange 1.5s infinite;
+    /* Animación infinita */
+}
+
+/* Definición de la animación */
+@keyframes colorChangeOrange {
+    0% {
+        background-color: rgb(255, 176, 30);
+        /* Color inicial */
+    }
+
+    50% {
+        background-color: rgb(255, 180, 41);
+        /* Color intermedio */
+    }
+
+    100% {
+        background-color: rgb(240, 157, 4);
+        /* Color final */
+    }
+}
+
+.color-changing-square-red {
+    width: 150px;
+    /* Ancho del cuadrado */
+    height: 100px;
+    /* Alto del cuadrado */
+    background-color: #ff0000;
+    /* Color inicial */
+    background-image: url('/assets/images/tank_black.svg');
+    background-size: contain;
+    /* Ajusta la imagen al tamaño del contenedor */
+    background-position: center;
+    /* Centra la imagen en el contenedor */
+    background-repeat: no-repeat;
+    /* Evita que la imagen se repita */
+    animation: colorChangeRed 1.5s infinite;
+    /* Animación infinita */
+}
+
+/* Definición de la animación */
+@keyframes colorChangeRed {
+    0% {
+        background-color: rgb(253, 50, 50);
+        /* Color inicial */
+    }
+
+    50% {
+        background-color: rgb(252, 90, 90)
+        /* Color intermedio */
+    }
+
+    100% {
+        background-color: red;
+        /* Color final */
+    }
+}
+
+@media (orientation: portrait) {
+    .responsive-container2 {
+        display: flex;
+        flex-wrap: wrap;
+
+        #items2 {
+            flex-grow: 1;
+            flex-basis: 200;
+            margin: 0.2rem;
+        }
+    }
+}

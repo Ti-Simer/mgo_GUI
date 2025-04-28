@@ -1,0 +1,27 @@
+<div class="general-container" id="responsive-container">
+    <div class="shadow-sm rounded bg-light p-2" id="items" *ngFor="let log_report of log_reports">
+        <span class="mb-3 text-muted">
+            {{log_report.propane_truck.plate}} <br>
+            {{log_report.user.firstName}} {{log_report.user.lastName}} <br>
+        </span>
+        <span class="d-flex">
+            <span class="p-2 shadow-sm rounded text-white w-100" style="background-color: #014e87;" *ngIf="log_report.route_event.criticality == 0">
+                <lucide-icon name="flame" color="#36a9ff"></lucide-icon> Baja <br>
+                {{log_report.route_event.name}} <br>
+                {{log_report.create | date: 'medium'}} <br>
+            </span>
+            <span class="p-2 shadow-sm rounded text-white w-100" style="background-color: #014e87;" *ngIf="log_report.route_event.criticality == 1">
+                <lucide-icon name="flame" color="#f19538"></lucide-icon> Media <br>
+                {{log_report.route_event.name}} <br>
+                {{log_report.create | date: 'medium'}} <br>
+            </span>
+            <span class="p-2 shadow-sm rounded text-white w-100" style="background-color: #014e87;" *ngIf="log_report.route_event.criticality == 2">
+                <lucide-icon name="flame" color="#c61f1f"></lucide-icon> Alta <br>
+                {{log_report.route_event.name}} <br>
+                {{log_report.create | date: 'medium'}} <br>
+            </span>
+        </span>
+        <span>
+        </span>
+    </div>
+</div>

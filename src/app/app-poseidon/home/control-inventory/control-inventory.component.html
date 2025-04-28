@@ -43,29 +43,68 @@
 
         <div class="row d-flex justify-content-center">
             <div class="col-lg-10 d-flex justify-content-evenly" id="responsive-container">
-                <div class="w-50 bg-light text-secondary shadow-sm p-2 display-5" id="items">
-                    {{'Capacidad en kilogramos' | translate}}: {{inventoryReport.value.capacity}} Kg<br>
-                    {{'Densidad promedio' | translate}}: {{inventoryReport.value.density}} g/cm³<br>
-                    {{'Conversión en Galones' | translate}}:
-                    {{inventoryReport.value.capacityGl}} GL<br>
-                </div>
-                <div class="w-25 p-2 rounded align-items-center" id="items">
-                    <input type="number" class="form-control mb-1 w-75 mx-auto" formControlName="exit"
-                        placeholder="{{'% Salida' | translate}}">
-                    <input type="number" class="form-control mb-1 w-75 mx-auto" formControlName="entry"
-                        placeholder="{{'% Entrada' | translate}}">
-                    <input type="number" class="form-control mb-1 w-75 mx-auto" formControlName="observed_pressure"
-                        placeholder="{{'Presion observada' | translate}}">
-                    <input type="number" class="form-control mb-1 w-75 mx-auto" formControlName="temperature"
-                        placeholder="{{'Temperatura' | translate}}">
-                    <input type="number" class="form-control mb-1 w-75 mx-auto" formControlName="density"
-                        placeholder="{{'Densidad' | translate}}">
-                    <input type="number" class="form-control mb-1 w-75 mx-auto" formControlName="capacityGl"
-                        placeholder="{{'Capacidad tanque 100%' | translate}}">
-                    <div class="row d-flex justify-content-center p-2">
-                        <button class="btn btn-sm btn-success w-75" (click)="calculateInventory()">{{'Calcular' |
-                            translate}}</button>
+                <div class=" bg-light text-secondary shadow-sm p-2 display-5" id="items" style="font-size: 18px;">
+                    <span class="text-center text-secondary fw-bold mb-4">
+                        {{'Datos del tanque' | translate}}
+                    </span>
+
+                    <div class="d-flex" id="responsive-container">
+                        <label id="items" class="w-50" style="align-content: center;">
+                            {{'Conversión en Galones' | translate}} (GL)
+                        </label>
+                        <input type="number" class="form-control mb-1 mt-1 w-25" formControlName="capacityGl"
+                            placeholder="{{'Densidad' | translate}}" id="items" [attr.disabled]="true" />
                     </div>
+
+                    <div class="d-flex" id="responsive-container">
+                        <label id="items" class="w-50" style="align-content: center;">
+                            {{'Densidad promedio' | translate}} (g/cm³)
+                        </label>
+                        <input type="number" class="form-control mb-1 mt-1 w-25" formControlName="density"
+                            placeholder="{{'Densidad' | translate}}" id="items">
+                    </div>
+
+                    <div class="d-flex" id="responsive-container">
+                        <label id="items" class="w-50" style="align-content: center;">
+                            {{'Capacidad en kilogramos' | translate}} (Kg)
+                        </label>
+                        <input type="number" class="form-control mb-1 w-25" formControlName="capacity"
+                            placeholder="{{'Capacidad tanque 100%' | translate}}" id="items">
+                    </div>
+                </div>
+
+                <div class=" p-2 rounded align-items-center" id="items">
+                    <label class="display-6 mb-2" style="font-size: 18px;">
+                        <span class="text-center text-secondary fw-bold">
+                            {{'Salida de producto' | translate}}
+                        </span>
+                    </label>
+                    <input type="number" class="form-control mb-1 w-75" formControlName="exit"
+                        placeholder="{{'% Salida' | translate}}">
+                    <input type="number" class="form-control mb-1 w-75" formControlName="observed_pressure_out"
+                        placeholder="{{'Presion observada' | translate}}">
+                    <input type="number" class="form-control mb-1 w-75" formControlName="temperature_out"
+                        placeholder="{{'Temperatura' | translate}}">
+                </div>
+
+                <div class=" p-2 rounded align-items-center" id="items">
+                    <label class="display-6 mb-2" style="font-size: 18px;">
+                        <span class="text-center text-secondary fw-bold">
+                            {{'Entrada de producto' | translate}}
+                        </span>
+                    </label>
+                    <input type="number" class="form-control mb-1 w-75" formControlName="entry"
+                        placeholder="{{'% Entrada' | translate}}">
+                    <input type="number" class="form-control mb-1 w-75" formControlName="observed_pressure_in"
+                        placeholder="{{'Presion observada' | translate}}">
+                    <input type="number" class="form-control mb-1 w-75" formControlName="temperature_in"
+                        placeholder="{{'Temperatura' | translate}}">
+                </div>
+            </div>
+            <div class="col-lg-10 mt-2" id="responsive-container">
+                <div class="col-md-7" id="items"></div>
+                <div class="col-md-4" id="items">
+                    <button class="btn btn-sm btn-success w-100" (click)="calculateInventory()">{{'Calcular' | translate}}</button>
                 </div>
             </div>
         </div>
@@ -74,7 +113,7 @@
     <div class="row d-flex justify-content-center" *ngIf="data">
         <div class="col-lg-10 d-flex justify-content-around" id="responsive-container">
             <div class="w-25 shadow-sm bg-light p-4 display-6 text-secondary" id="items">
-                <div class="text-center mx-auto text-secondary fw-bold display-5">{{'Cálculo de corrección volumétrica'
+                <div class="text-center mx-auto text-secondary fw-bold display-5">{{'Cálculo corrección volumétrica'
                     | translate}}</div>
                 <h3 class="text-secondary text-center">({{'Salida' | translate}}: {{inventoryReport.value.exit}}%:
                     {{data.exit_calculations.gross_volume}} Gl - {{'Entrada' | translate}}:
@@ -82,7 +121,7 @@
                 <div class="row d-flex justify-content-around mb-3">
                     <div class="col-lg-5 bg-white rounded shadow-sm p-3 m-2">
                         <span class="text-success fw-bold">
-                            {{'Datos calculados de salida' | translate}}<br>
+                            {{'Variables condición salida' | translate}}<br>
                         </span>
                         {{'Volúmen vapor'| translate}}: {{data.exit_calculations.liquid_equivalent_vapor_volume_at_60F}} GL<br>
                         {{'Volúmen líquido'| translate}}: {{data.exit_calculations.liquid_volume_at_60F}} GL<br>
@@ -123,7 +162,7 @@
                     </div>
                     <div class="col-lg-5 bg-white rounded shadow-sm p-3 m-2">
                         <span class="text-success fw-bold">
-                            {{'Datos calculados de entrada' | translate}}<br>
+                            {{'Variables condición entrada' | translate}}<br>
                         </span>
                         {{'Volumen vapor' | translate}}: {{data.entry_calculations.liquid_equivalent_vapor_volume_at_60F}} GL<br>
                         {{'Volumen liquido' | translate}}: {{data.entry_calculations.liquid_volume_at_60F}} GL<br>
@@ -165,27 +204,45 @@
                     </div>
                 </div>
                 <div class="row d-flex justify-content-center">
-                    <div class="col-lg-11 bg-white rounded shadow-sm p-3">
-                        {{'Venta teórica' | translate}} ({{inventoryReport.value.exit}}% - {{inventoryReport.value.entry}}%)<br>
-                        ({{data.exit_calculations.total_volume_at_60F }} GL -
-                        {{data.entry_calculations.total_volume_at_60F }} GL)<br>
-                        <span class="text-success fw-bold">
-                            {{'Volumen teórico' | translate}}: {{data.teoric_sale}} GL<br>
-                        </span>
-                        <span class="text-info fw-bold">
-                            {{'Volumen real' | translate}}: {{inventoryReport.value.totalVolume}} GL<br>
-                        </span>
+                    <div class="col-lg-11 bg-white rounded shadow-sm p-3" id="responsive-container">
+                        <div class="" id="items">
+                            ({{data.exit_calculations.total_volume_at_60F }} GL -
+                            {{data.entry_calculations.total_volume_at_60F }} GL)<br>
+                            <span class="text-success fw-bold">
+                                {{'Volumen calculado' | translate}}: {{data.teoric_sale_gl}} GL<br>
+                            </span>
+                            <span class="text-info fw-bold">
+                                {{'Volumen entregado' | translate}}: {{inventoryReport.value.totalVolume}} GL<br>
+                            </span>
+                            <span [ngClass]="{'text-success': (inventoryReport.value.totalVolume - data.teoric_sale_gl) > 0, 'text-danger': (inventoryReport.value.totalVolume - data.teoric_sale_gl) < 0}" class="fw-bold">
+                                {{'Diferencia' | translate}}: {{inventoryReport.value.totalVolume - data.teoric_sale_gl | number:'1.0-0'}} GL<br>
+                            </span>
+                        </div>
+
+                        <div class="" id="items">
+                            ({{data.exit_calculations.total_mass }} Kg -
+                            {{data.entry_calculations.total_mass }} Kg)<br>
+                            <span class="text-success fw-bold">
+                                {{'Masa calculada' | translate}}: {{data.teoric_sale_kg}} Kg<br>
+                            </span>
+                            <span class="text-info fw-bold">
+                                {{'Masa entregada' | translate}}: {{inventoryReport.value.totalMass}} Kg<br>
+                            </span>
+                            <span [ngClass]="{'text-success': (inventoryReport.value.totalMass - data.teoric_sale_kg) > 0, 'text-danger': (inventoryReport.value.totalMass - data.teoric_sale_kg) < 0}" class="fw-bold">
+                                {{'Diferencia' | translate}}: {{inventoryReport.value.totalMass - data.teoric_sale_kg | number:'1.0-0'}} Kg<br>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row w-100 d-flex justify-content-center mx-auto mt-3" *ngIf="data">
+    <!-- <div class="row w-100 d-flex justify-content-center mx-auto mt-3" *ngIf="data">
         <div class="col-lg-10 p-0">
             <button class="btn btn-lg btn-success float-end" (click)="downloadData()">
                 <lucide-icon name="sheet"></lucide-icon> {{'Descargar' | translate}}
             </button>
         </div>
-    </div>
+    </div> -->
 </div>

@@ -56,7 +56,8 @@ import {
   Sheet,
   Eraser,
   Upload,
-  HelpCircleIcon
+  HelpCircleIcon,
+  Flame
 } from 'lucide-angular';
 
 // Factory function for TranslateHttpLoader
@@ -123,7 +124,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       Sheet,
       Eraser,
       Upload,
-      HelpCircleIcon
+      HelpCircleIcon,
+      Flame
     }),
     TranslateModule.forChild({
       loader: {

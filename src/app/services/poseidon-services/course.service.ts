@@ -66,4 +66,14 @@ export class CourseService {
     return this.http.get(`${apiUrl}/courses/findForHome`, { headers: this.apiKey });
   }
 
+  findByDate(courseData: any): Observable<any> {
+    var apiUrl = this.authService.getApiUrl();
+    return this.http.post(`${apiUrl}/course-log/findByDate`, courseData, { headers: this.apiKey });
+  }
+
+  findCourseLogById(id: string): Observable<any> {
+    var apiUrl = this.authService.getApiUrl();
+    return this.http.get(`${apiUrl}/course-log/getById/${id}`, { headers: this.apiKey });
+  }
+
 }

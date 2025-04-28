@@ -1,101 +1,163 @@
-<div class="row" *ngIf="log_reports" id="content-landscape">
-    <div class="col-md-8">
-        <div class="col-md-12" *ngFor="let log of log_reports">
-            <div class="card mb-1" style="width: 25rem;">
-                <div class="card-body">
-                    <h5 class="card-title">{{log.route_event.name | translate}}: {{'Código' | translate}}: {{log.code_event}}
-                        <span [ngStyle]="{'background-color': getCriticalityColor(log.route_event.criticality)}"
-                            class="criticality-box"></span> <br>
-                        <strong>{{log.user.firstName}} {{log.user.lastName}}</strong>
-                    </h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{'Fecha' | translate}}: {{log.create | date: 'dd - MMMM - y'}} {{'Hora' | translate}}:
-                        {{log.create | date: 'HH:mm:ss'}}</h6>
-                    <p class="card-text">
-                        {{log.route_event.description | translate}}
-                    </p>
-                    <a href="/poseidon/home" class="card-link">{{'Detalles' | translate}}</a>
+<div class="general-container d-flex justify-content-center" id="responsive-container">
+
+    <!-- sección1 -->
+
+    <div class="col-lg-6 m-1 tank-section" id="items">
+
+        <div class="col-lg-12 p-2 mb-2 bg-light shadow-sm tank-card-section rounded">
+
+            <div class="title display-6 text-center fw-bold" style="color: #014e87">
+                {{'Auto tanques en curso' | translate}}
+                <p class="text-secondary fw-light mt-1" style="font-size: 18px">
+                    {{dateToday}}
+                </p>
+            </div>
+            <div class="tank-list">
+                <app-log-report-list-propanetrucks></app-log-report-list-propanetrucks>
+            </div>
+        </div>
+
+        <div class="col-lg-12 p-2 bg-light shadow-sm shortcut-subsection rounded">
+            <div class="row d-flex justify-content-center">
+                <div class="text-center fw-bold display-6 mb-2" style="color: #014e87;">
+                    {{'Accesos directos' | translate}}
+                </div>
+                <hr class="w-50 text-gray">
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-6">
+                    <a (click)="toCourses()" class="text-decoration-none" style="cursor: pointer;">
+                        <div class="bg-primary text-white p-4 rounded text-center mb-4"
+                            style="background-color: #014e87 !important;">
+                            {{'Derroteros' | translate}}
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-6">
+                    <a (click)="toReports()" class="text-decoration-none" style="cursor: pointer;">
+                        <div class="text-white p-4 rounded text-center mb-4" style="background-color: #0267B5;">
+                            {{'Reportes' | translate}}
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-6">
+                    <a (click)="toOrders()" class="text-decoration-none" style="cursor: pointer;">
+                        <div class="text-white p-4 rounded text-center mb-4" style="background-color: #027FDE;">
+                            {{'Pedidos' | translate}}
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-6">
+                    <a (click)="toRequest()" class="text-decoration-none" style="cursor: pointer;">
+                        <div class="text-white p-4 rounded text-center" style="background-color: #01213B;">
+                            {{'Servicios' | translate}}
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4" *ngIf="log_reports.length != 0">
-        <div class="card mb-1 sticky-element">
-            <div class="card-body">
-                <h6 class="card-subtitle mb-2 text-muted">{{'registros' | translate}} ({{log_reports.length}})</h6>
-                <h5 class="card-title d-flex">
-                    <strong class="text-secondary" (click)="fetchLogReports()">{{'Diario' | translate}} -</strong>
-                    <p class="text-info" (click)="fetchAllLogReports()">- {{'Mostrar todo' | translate}}</p>
-                </h5>
-                <p class="card-text">
-                    <button class="btn btn-sm btn-danger mb-1" (click)="filterByCriticality(2)">
-                        {{'Ver Altos' | translate}}
-                    </button>
-                    <button class="btn btn-sm btn-warning mb-1" (click)="filterByCriticality(1)">
-                        {{'Ver Medios' | translate}}
-                    </button>
-                    <button class="btn btn-sm btn-info mb-1" (click)="filterByCriticality(0)">
-                        {{'Ver Bajos' | translate}}
-                    </button>
-                </p>
-                <a href="/poseidon/home" class="card-link">{{'Ver todo' | translate}}</a>
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="row" id="content-portrait">
-    <div class="box">
-        <div class="card mb-1 sticky-element">
-            <div class="card-body">
-                <h6 class="card-subtitle mb-2 text-muted">{{'registros' | translate}} ({{log_reports.length}})</h6>
-                <h5 class="card-title d-flex">
-                    <strong class="text-secondary" (click)="fetchLogReports()">{{'Diario' | translate}} -</strong>
-                    <p class="text-info" (click)="fetchAllLogReports()">- {{'Mostrar todo' | translate}}</p>
-                </h5>
-                <p class="card-text">
-                    <button class="btn btn-sm btn-danger mb-1" (click)="filterByCriticality(2)">
-                        {{'Ver Altos' | translate}}
-                    </button>
-                    <button class="btn btn-sm btn-warning mb-1" (click)="filterByCriticality(1)">
-                        {{'Ver Medios' | translate}}
-                    </button>
-                    <button class="btn btn-sm btn-info mb-1" (click)="filterByCriticality(0)">
-                        {{'Ver Bajos' | translate}}
-                    </button>
-                </p>
-                <a class="card-link">{{'Ver todo' | translate}}</a>
-            </div>
-        </div>
-    </div>
-    
-    <div class="box">
-        <div class="card mb-1" *ngFor="let log of log_reports">
-            <div class="card-body">
-                <h5 class="card-title">{{log.route_event.name | translate}}: {{'Código' | translate}}: {{log.code_event}}
-                    <span [ngStyle]="{'background-color': getCriticalityColor(log.route_event.criticality)}"
-                        class="criticality-box"></span> <br>
-                    <strong>{{log.user.firstName}} {{log.user.lastName}}</strong>
-                </h5>
-                <h6 class="card-subtitle mb-2 text-muted">{{'Fecha' | translate}}: {{log.create | date: 'dd - MMMM - y'}} {{'Hora' | translate}}:
-                    {{log.create | date: 'HH:mm:ss'}}</h6>
-                <p class="card-text">
-                    {{log.route_event.description | translate}}
-                </p>
-                <a href="/poseidon/home" class="card-link">{{'Detalles' | translate}}</a>
-            </div>
-        </div>
-    </div>
-</div>
+    <!-- sección2 -->
 
-<div class="row" *ngIf="log_reports">
-    <div class="row no_data" *ngIf="log_reports.length == 0">
-        <div class="col-lg-12 d-flex justify-content-center p-4">
-            <div class="col-md-8 text-center p-4">
-                {{'No hay datos para mostrar hoy' | translate}}
-    
-                <p class="text-info" (click)="fetchAllLogReports()">{{'Mostrar todo' | translate}}</p>
-    
+    <div class="col-lg-6 m-1 event-section" id="items">
+
+        <div class="col-lg-12 mb-2 bg-light shadow-sm event-routes-section rounded">
+            <!-- Header -->
+            <div class="header">
+                <div class="row d-flex justify-content-center mb-2 p-2"
+                    id="responsive-container">
+                    <span class="display-6 text-center fw-bold" style="color: #014e87">
+                        {{'Eventos de ruta' | translate}}
+                        <p class="text-secondary fw-light mt-1" style="font-size: 18px">
+                            {{dateToday}}
+                        </p>
+                    </span>
+                    <div class="col-sm d-flex justify-content-around" id="items" *ngIf="log_reports.length > 0">
+                        <button type="button"
+                            class="btn btn-primary position-relative p-2 shadow-sm rounded text-white w-25"
+                            style="background-color: #014e87;">
+                            <lucide-icon name="flame" color="#36a9ff"></lucide-icon> {{'Baja' | translate}}
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{criticalityLow}}
+                                <span class="visually-hidden"></span>
+                            </span>
+                        </button>
+                        <button type="button"
+                            class="btn btn-primary position-relative p-2 shadow-sm rounded text-white w-25"
+                            style="background-color: #014e87;">
+                            <lucide-icon name="flame" color="#f19538"></lucide-icon> {{'Media' | translate}}
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{criticalityMedium}}
+                                <span class="visually-hidden"></span>
+                            </span>
+                        </button>
+                        <button type="button"
+                            class="btn btn-primary position-relative p-2 shadow-sm rounded text-white w-25"
+                            style="background-color: #014e87;">
+                            <lucide-icon name="flame" color="#c61f1f"></lucide-icon> {{'Alta' | translate}}
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{criticalityHigh}}
+                                <span class="visually-hidden"></span>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="col-sm" id="items" *ngIf="log_reports.length > 0">
+                        <button class="btn btn-sm btn-secondary float-end w-25" id="items" >
+                            {{'Ver todo' | translate}}
+                        </button>
+                    </div>
+                    <div class="container d-flex justify-content-center" *ngIf="log_reports.length < 1">
+                        <p class="display-6 text-secondary text-center p-4 rounded" style="border: dotted 1px #8e8f8f;">
+                            {{'No se han presentado eventos de ruta' | translate}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Eventos -->
+
+            <div class="events">
+                <div class="shadow-sm event-card rounded bg-white p-2" *ngFor="let log_report of log_reports">
+                    <span class="mb-3 text-muted">
+                        {{log_report.propane_truck.plate}} <br>
+                        {{log_report.user.firstName}} {{log_report.user.lastName}} <br>
+                    </span>
+                    <span class="d-flex">
+                        <span class="p-2 shadow-sm rounded text-white w-100" style="background-color: #014e87;"
+                            *ngIf="log_report.route_event.criticality == 0">
+                            <lucide-icon name="flame" color="#36a9ff"></lucide-icon> Baja <br>
+                            {{log_report.route_event.name}} <br>
+                            {{log_report.create | date: 'medium'}} <br>
+                        </span>
+                        <span class="p-2 shadow-sm rounded text-white w-100" style="background-color: #014e87;"
+                            *ngIf="log_report.route_event.criticality == 1">
+                            <lucide-icon name="flame" color="#f19538"></lucide-icon> Media <br>
+                            {{log_report.route_event.name}} <br>
+                            {{log_report.create | date: 'medium'}} <br>
+                        </span>
+                        <span class="p-2 shadow-sm rounded text-white w-100" style="background-color: #014e87;"
+                            *ngIf="log_report.route_event.criticality == 2">
+                            <lucide-icon name="flame" color="#c61f1f"></lucide-icon> Alta <br>
+                            {{log_report.route_event.name}} <br>
+                            {{log_report.create | date: 'medium'}} <br>
+                        </span>
+                    </span>
+                </div>
             </div>
         </div>
+
+        <div class="col-lg-12 p-2 bg-light shadow-sm map-subsection rounded">
+            <app-log-report-list-map></app-log-report-list-map>
+        </div>
+
     </div>
 </div>

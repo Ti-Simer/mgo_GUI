@@ -20,18 +20,13 @@
                     </div>
                 </div>
 
-                <div class="row header mb-4">
-                    <div class="row">
-                        <div class="col-sm-1">
-                        </div>
-                        <div class="col-sm-11 d-flex justify-content-center">
-                            <h2 class="text-title"><lucide-icon name="file-text" [size]="60"></lucide-icon> {{'Reportes' | translate}}
-                            </h2>
-                        </div>
-                        <div class="col-sm-1">
+                <div class="row header mb-4 display-5">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-sm-10 d-flex justify-content-center">
+                            <div class="text-title fw-bold"><lucide-icon name="file-text" [size]="60"></lucide-icon> {{'Reportes' | translate}}</div>
                         </div>
                     </div>
-                    <div class="row text-content text-center mb-3">
+                    <div class="row text-content text-center mb-3 mt-3">
                         <div class="col-md-12" [formGroup]="reportForm" (ngSubmit)="onSubmit()">
                             <p style="font-size: 12px; color: #b9b9b9;">{{'Seleccione un tipo de reporte' | translate}}</p>
                             <div class="row justify-content-center d-flex">

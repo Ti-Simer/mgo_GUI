@@ -24,9 +24,7 @@ export class HomeChartComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.courseService.findForHome().subscribe(
       response => {
-        if (response.statusCode === 200) {
-          console.log(response);
-          
+        if (response.statusCode === 200) {          
           this.data = response.data;
           this.createChart(); // Llama a createChart después de recibir los datos
         }

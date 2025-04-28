@@ -9,6 +9,7 @@ import { LanguageService } from 'src/app/services/language.service';
 import { Subscription } from 'rxjs';
 import { OrdersService } from 'src/app/services/poseidon-services/orders.service';
 import { CourseService } from 'src/app/services/poseidon-services/course.service';
+import { ShareService } from 'src/app/services/share.service';
 
 @Component({
   selector: 'app-home',
@@ -35,6 +36,10 @@ export class HomeComponent {
   orders: any;
   courses: any;
   operators: any;
+  criticalityCounts: any;
+  criticalityLow: any;
+  criticalityMedium: any;
+  criticalityHigh: any;
   notifications: any = [];
 
   constructor(
@@ -46,7 +51,8 @@ export class HomeComponent {
     private courseService: CourseService,
     private toastr: ToastrService,
     private translate: TranslateService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private shareService: ShareService
   ) {
     translate.addLangs(['en', 'es', 'pt']);
     translate.setDefaultLang(this.languageService.getLanguage());
@@ -61,13 +67,36 @@ export class HomeComponent {
       // Si no está autenticado, redirige a la página de inicio de sesión
       this.router.navigate(['/landing-page']);
     }
-    
+
     this.fetchDataMass();
     this.fetchOrdersLength();
     this.fetchCourses();
+    this.receiveCriticalityCounts();
     this.languageSubscription = this.languageService.getLanguageObservable().subscribe(newLanguage => {
       this.translate.use(newLanguage);
       this.translate.setDefaultLang(newLanguage);
+    });
+  }
+
+  receiveCriticalityCounts() {
+    this.shareService.datos$.subscribe(data => {
+      this.criticalityCounts = data;
+
+      if (this.criticalityCounts) {
+        for (let item of this.criticalityCounts) {
+          switch (item.criticality) {
+            case 0:
+              this.criticalityLow = item.count;
+              break;
+            case 1:
+              this.criticalityMedium = item.count;
+              break;
+            case 2:
+              this.criticalityHigh = item.count;
+              break;
+          }
+        }
+      }
     });
   }
 
@@ -89,7 +118,7 @@ export class HomeComponent {
   fetchDataMass() {
     this.billService.getGlpByToday().subscribe(
       response => {
-        if(response.statusCode == 200) {
+        if (response.statusCode == 200) {
           this.massData = response.data;
         }
       }, error => {
@@ -112,7 +141,6 @@ export class HomeComponent {
     this.courseService.findForHome().subscribe(
       response => {
         if (response.statusCode === 200) {
-          console.log(response);
           this.courses = response.data;
         }
       }
@@ -128,7 +156,7 @@ export class HomeComponent {
       }
     );
   }
-  
+
   getUserById() {
     this.usuarioService.getUserById(this.userId).subscribe(
       (response) => {

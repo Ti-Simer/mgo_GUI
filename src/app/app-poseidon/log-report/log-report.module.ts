@@ -6,6 +6,15 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LogReportSmallviewComponent } from './log-report-smallview/log-report-smallview.component';
+import { GoogleMapsModule } from '@angular/google-maps';
+import {
+  LucideAngularModule,
+  Flame,
+  Truck
+} from 'lucide-angular';
+import { LogReportListMapComponent } from './log-report-list/log-report-list-map/log-report-list-map.component';
+import { LogReportListPropanetrucksComponent } from './log-report-list/log-report-list-propanetrucks/log-report-list-propanetrucks.component';
 
 // Factory function for TranslateHttpLoader
 export function HttpLoaderFactory(http: HttpClient) {
@@ -14,12 +23,20 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    LogReportListComponent
+    LogReportListComponent,
+    LogReportSmallviewComponent,
+    LogReportListMapComponent,
+    LogReportListPropanetrucksComponent
   ],
   imports: [
     CommonModule,
     LogReportRoutingModule,
     SharedModule,
+    GoogleMapsModule,
+    LucideAngularModule.pick({
+      Flame,
+      Truck
+    }),
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -29,7 +46,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
   ],
   exports: [
-    LogReportListComponent
+    LogReportListComponent,
+    LogReportSmallviewComponent
   ]
 })
 export class LogReportModule { }
