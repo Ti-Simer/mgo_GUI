@@ -76,4 +76,9 @@ export class CourseService {
     return this.http.get(`${apiUrl}/course-log/getById/${id}`, { headers: this.apiKey });
   }
 
+  searchFiveDaysAgo(): Observable<any> {
+    var apiUrl = this.authService.getApiUrl();
+    return this.http.get(`${apiUrl}/course-log/searchFiveDaysAgo`, { headers: this.apiKey });
+  }
+
 }

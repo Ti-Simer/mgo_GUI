@@ -74,7 +74,7 @@
     "Control usuarios": "Control usuarios",
     "Control ubicación": "Control ubicación",
     "Control clientes": "Control clientes",
-    "Control parque vehicular": "Control parque vehicular",
+    "Control entregas": "Control entregas",
     "Usuarios": "Usuarios",
     "Roles": "Roles",
     "Permisos": "Permisos",
@@ -582,6 +582,8 @@
 
     "No se han presentado eventos de ruta": "No se han presentado eventos de ruta",
     "No hay Auto Tanques en curso": "No hay Auto Tanques en curso",
+
+    "Registro de GLP entregado": "Registro de GLP entregado",
     
     "": ""
 }

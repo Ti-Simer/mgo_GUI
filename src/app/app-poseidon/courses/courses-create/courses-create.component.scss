@@ -1,10 +1,11 @@
 .general-container {
     display: flex;
     flex-direction: column;
+    min-height: 750px;
 
     .container {
         .search {
-            display: inline-block;
+            //display: inline-block;
 
             input {
                 color: #9c9c9c;
@@ -85,6 +86,10 @@
         h1 {
             color: #014e87;
             font-weight: bold;
+        }
+
+        mat-paginator {
+            font-size: 11px !important;
         }
 
         .selector {

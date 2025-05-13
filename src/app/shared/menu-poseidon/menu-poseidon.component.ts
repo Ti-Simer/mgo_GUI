@@ -203,6 +203,26 @@ export class MenuPoseidonComponent {
     });
   }
 
+  toOrders() {
+    this.authService.readChecker().subscribe(flag => {
+      if (!flag) {
+        this.toastr.warning('No tienes permisos para leer esta información');
+      } else {
+        this.router.navigate(['/poseidon/orders/list']);
+      }
+    });
+  }
+
+  toRequest() {
+    this.authService.readChecker().subscribe(flag => {
+      if (!flag) {
+        this.toastr.warning('No tienes permisos para leer esta información');
+      } else {
+        this.router.navigate(['/poseidon/request/list']);
+      }
+    });
+  }
+
   toStationaryTanks() {
     this.authService.readChecker().subscribe(flag => {
       if (!flag) {

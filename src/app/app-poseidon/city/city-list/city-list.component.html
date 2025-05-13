@@ -36,27 +36,23 @@
                 <p style="font-size: 10px; color: #a8a8a8;">{{'Para utilizar correctamente el buscador por favor desplegar todos los registros con el paginador' | translate}}</p>
             </div>
         </div>
-
+        
         <div class="row p-1 buttons-group-landscape">
             <div class="col-sm-12 d-flex">
-                <div class="col-md-9">
+                <div class="col-md-8" style="justify-items: baseline;">
                     <p style="font-size: 12px; color: #a8a8a8;">
                         <button type="button" class="btn btn-secondary btn-sm" (click)="setPageSizeToTotal()">{{'Mostrar todo' | translate}}</button>
                         {{pageIndex * pageSize + 1}} - {{(pageIndex + 1) * pageSize}} {{'de' | translate}} {{cities.length}} {{'registros' | translate}} 
-                    </p>
+                    </p>              
                 </div>
-                <div class="col-md-1 float-end">
-                    <button (click)="toDepartments()" class="btn btn-info float-end">
+                <div class="col-md-4 float-end" id="responsive-container">
+                    <button (click)="toDepartments()" class="btn btn-sm btn-info float-end"id="items">
                         {{'Estados' | translate}}
                     </button>
-                </div>
-                <div class="col-md-1 float-end">
-                    <button (click)="toZones()" class="btn btn-info float-end">
+                    <button (click)="toZones()" class="btn btn-sm btn-info float-end"id="items">
                         {{'Zonas' | translate}}
                     </button>
-                </div>
-                <div class="col-md-1 float-end">
-                    <button (click)="toCreateCity()" class="btn btn-success float-end">
+                    <button (click)="toCreateCity()" class="btn btn-sm btn-success float-end"id="items">
                         <img src="assets/images/icons/add.svg"> {{'Añadir' | translate}}
                     </button>
                 </div>

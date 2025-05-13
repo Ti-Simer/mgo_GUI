@@ -17,6 +17,8 @@ import { DialogCreatePropaneTruckComponent } from '../../propane-truck/dialog-cr
 import { DialogCreateOrdersComponent } from '../../orders/dialog-create-orders/dialog-create-orders.component';
 import { LoadingSmallDialogComponent } from 'src/app/dialog/loading-small-dialog/loading-small-dialog.component';
 import { DialogService } from 'src/app/services/dialog.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { DialogCreateUserComponent } from '../../usuarios/dialog-create-user/dialog-create-user.component';
 
 @Component({
   selector: 'app-courses-create',
@@ -24,13 +26,20 @@ import { DialogService } from 'src/app/services/dialog.service';
   styleUrls: ['./courses-create.component.scss']
 })
 export class CoursesCreateComponent {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('myInput') searchInput!: ElementRef;
   @ViewChild('myInput2') searchInput2!: ElementRef;
+  pageSizeOptions: number[] = [50, 100, 200]; // Opciones de tamaño de página
+  pageSize: number = 50; // Tamaño de página predeterminado
+  pageIndex: number = 1; // Página actual
+  totalOrders: number = 0;
+
   private languageSubscription!: Subscription;
   private loadingDialogRef!: MatDialogRef<LoadingSmallDialogComponent>;
 
   courseForm: FormGroup;
   visualForm: FormGroup;
+  searchForm: FormGroup;
   operators: any[] = [];
   branchOffices: any;
   selectedOrder: any[] = [];
@@ -78,6 +87,10 @@ export class CoursesCreateComponent {
       fecha: [null],
     });
 
+    this.searchForm = this.formBuilder.group({
+      branch_office: [null],
+    });
+
     this.authService.writeChecker().subscribe(flag => {
       if (!flag) {
         this.toCourses();
@@ -88,6 +101,20 @@ export class CoursesCreateComponent {
 
   ngOnInit(): void {
     this.fetchPropaneTrucks();
+    this.getOrders();
+  }
+
+  ngAfterViewInit() {
+    if (this.paginator) {
+      this.paginator.page.subscribe((event: any) => {
+        this.onPageChange(event);
+      });
+    }
+  }
+
+  onPageChange(event: any) {
+    this.pageIndex = event.pageIndex + 1; // Angular Material paginator is zero-based
+    this.pageSize = event.pageSize;
     this.getOrders();
   }
 
@@ -106,10 +133,18 @@ export class CoursesCreateComponent {
   }
 
   getOrders() {
-    this.orderService.getAvailableOrders().subscribe(
+    const pageData = {
+      pageData: {
+        page: this.pageIndex,
+        limit: this.pageSize
+      }
+    };
+
+    this.orderService.getAvailableOrders(pageData).subscribe(
       response => {
         if (response.statusCode === 200) {
-          this.orders = response.data.sort((a: any, b: any) => {
+          this.totalOrders = response.data.total;
+          this.orders = response.data.orders.sort((a: any, b: any) => {
             let dateA = new Date(a.folio); // o a.update dependiendo de qué fecha quieres usar
             let dateB = new Date(b.folio); // o b.update dependiendo de qué fecha quieres usar
             return dateB.getTime() - dateA.getTime(); // Ordena en orden descendente
@@ -271,6 +306,21 @@ export class CoursesCreateComponent {
     );
   }
 
+  searchOrders() { 
+    const data = {
+      branch_office: this.searchForm.value.branch_office,
+    }
+
+    this.orderService.findOrdersByBranchOffice(data).subscribe(
+      response => {
+        if (response.statusCode === 200) {
+          this.orders = response.data.orders
+          this.totalOrders = response.data.total;
+        }
+      }
+    );
+  }
+
   onSubmit() {
     this.loadingDialogRef = this.dialogService.openLoadingDialogSmall();
     // Obtener el valor actual del formulario
@@ -337,7 +387,16 @@ export class CoursesCreateComponent {
   }
 
   toCreateUser() {
+    this.authService.writeChecker().subscribe(flag => {
+      if (!flag) {
+        this.toastr.warning('No tienes permisos para crear');
+      } else {
+        const dialogRef = this.dialog.open(DialogCreateUserComponent, {
+          width: '600px',
+        });
 
+      }
+    });
   }
 
   toCourses() {

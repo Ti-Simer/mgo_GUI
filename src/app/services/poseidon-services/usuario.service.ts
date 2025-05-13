@@ -67,7 +67,6 @@ export class UsuarioService {
 
   login(loginData: { server: string, email: string; password: string }): Observable<any> {
     var apiUrl: any;
-
     switch (loginData.server) {
       case 'poseidon-645C0*.9010': apiUrl = environment.apiPoseidonGasco; break;
       case 'poseidon-645N31V4+.8020': apiUrl = environment.apiPoseidonGasneiva; break;

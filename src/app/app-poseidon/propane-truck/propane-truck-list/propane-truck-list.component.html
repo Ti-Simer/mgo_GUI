@@ -39,14 +39,14 @@
 
         <div class="row p-1 buttons-group-landscape">
             <div class="col-sm-12 d-flex">
-                <div class="col-md-11">
+                <div class="col-md-11" style="justify-items: baseline;">
                     <p style="font-size: 12px; color: #a8a8a8;">
                         <button type="button" class="btn btn-secondary btn-sm" (click)="setPageSizeToTotal()">{{'Mostrar todo' | translate}}</button>
                         {{pageIndex * pageSize + 1}} - {{(pageIndex + 1) * pageSize}} {{'de' | translate}} {{propaneTrucks.length}} {{'registros' | translate}} 
-                    </p>
+                    </p>                
                 </div>
-                <div class="col-md-1 float-end">
-                    <button (click)="toCreatePropaneTruck()" class="btn btn-success float-end">
+                <div class="col-md-1 float-end" id="responsive-container">
+                    <button (click)="toCreatePropaneTruck()" class="btn btn-sm btn-success float-end" id="items">
                         <img src="assets/images/icons/add.svg"> {{'Añadir' | translate}}
                     </button>
                 </div>

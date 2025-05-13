@@ -1,93 +1,179 @@
-import { Component, ViewChild, OnInit, HostListener, OnDestroy } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
-import { interval, Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { TabletService } from 'src/app/services/poseidon-services/tablet.service';
+import { Component } from '@angular/core';
+import { LanguageService } from 'src/app/services/language.service';
+import { CourseService } from 'src/app/services/poseidon-services/course.service';
+import {
+  ChartComponent,
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexXAxis,
+  ApexTitleSubtitle,
+  ApexStroke,
+  ApexYAxis,
+} from "ng-apexcharts";
 
-declare var google: any;
+export type ChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  yaxis: ApexYAxis;
+  title: ApexTitleSubtitle;
+  stroke: ApexStroke;
+};
 
 @Component({
   selector: 'app-home-trackingmap',
   templateUrl: './home-trackingmap.component.html',
   styleUrls: ['./home-trackingmap.component.scss']
 })
-export class HomeTrackingmapComponent implements OnInit, OnDestroy {
-  isPortrait: boolean = window.matchMedia('(orientation: portrait)').matches;
 
-  private subscription!: Subscription;
-  tablets: any;
+export class HomeTrackingmapComponent {
+  public chartOptions!: ChartOptions;
+  chart: any;
 
-  zoom: any = 12;
-  markers: any[] = [];
-  mapCenter: google.maps.LatLngLiteral = { lat: 1.2073352562168826, lng: -77.28305456161672 };
-
-  // Define una matriz de modos de transporte para cada marcador
-  travelModes: google.maps.TravelMode[] = [];
-  @ViewChild('map') map: any; // Esta es la referencia al mapa
+  data: any = [];
 
   constructor(
-    private authService: AuthService,
-    private tabletService: TabletService,
+    private languageService: LanguageService,
+    private courseService: CourseService,
   ) { }
 
   ngOnInit() {
-    this.fetchTablets();
-    this.checkOrientation();
-    window.matchMedia('(orientation: portrait)').addEventListener('change', this.checkOrientation.bind(this));
+    this.searchFiveDaysAgo();
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.checkOrientation();
+  searchFiveDaysAgo(){
+    this.courseService.searchFiveDaysAgo().subscribe(
+      response => {
+        this.data = response.data;
+
+        // Extraer las fechas y las masas aplicadas
+        const labels = this.data.map((item: any) => {
+          const date = new Date(`${item.date}T00:00:00`); // Forzar interpretación como fecha local
+          return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+        });
+        const data = this.data.map((item: any) => {
+          return item.total_delivered_mass;
+        });
+
+        // Llamar a la función para dibujar el gráfico
+        this.drawChart(labels, data);
+      }
+    );
   }
 
-  checkOrientation() {
-    this.isPortrait = window.matchMedia('(orientation: portrait)').matches;
-  }
+  drawChart(labels: any, data: any) {
+    var data: any;
 
-  fetchTablets() {
-    const polling$ = interval(10500);
+    setTimeout(() => {
 
-    // Cada vez que el Observable emite un valor, realiza una consulta a tu backend
-    this.subscription = polling$
-      .pipe(switchMap(() => this.tabletService.getAll()))
-      .subscribe(
-        response => {
-          if (response.statusCode === 200) {
-            this.tablets = response.data;
+      // Si el gráfico ya existe, destrúyelo antes de crear uno nuevo
+      if (this.chart) {
+        this.chart.destroy();
+      }
 
-            // Reinicia los marcadores y modos de transporte antes de agregar nuevos
-            this.markers = [];
-            this.travelModes = [];
+      let seriesName = '';
+      let titleTextGLP = '';
+      let titleTextDate = '';
+      let titleTextMass = '';
 
-            // Itera a través de los waypoints y crea los marcadores y modos de transporte
-            for (const location of this.tablets) {
-              this.markers.push({
-                position: {
-                  lat: parseFloat(location.latitude),
-                  lng: parseFloat(location.longitude),
-                },
-                label: `${location.operator[0].firstName} ${location.operator[0].lastName}`
-              });
+      switch (this.languageService.getLanguage()) {
+        case 'es':
+          seriesName = 'Masa aplicada';
+          titleTextGLP = `Registro de GLP entregado`;
+          titleTextDate = `Fecha (dd/mm/aa)`;
+          titleTextMass = `Masa aplicada (kg)`;
+          break;
 
-              // Define el modo de transporte para este marcador (ajusta según tus necesidades)
-              this.travelModes.push(google.maps.TravelMode.WALKING); // Ejemplo: modo a pie
-            }
+        case 'en':
+          seriesName = 'Applied mass';
+          titleTextGLP = `GLP delivery record`;
+          titleTextDate = `Date (dd/mm/yy)`;
+          titleTextMass = `Applied mass (kg)`;
+          break;
 
-          } else {
-            //console.log('No se han encontrado ubicaciones');
+        case 'pt':
+          seriesName = 'Massa aplicada';
+          titleTextGLP = `Registro de entrega de GLP`;
+          titleTextDate = `Data (dd/mm/aa)`;
+          titleTextMass = `Massa aplicada (kg)`;
+          break;
+      
+        default:
+          break;
+      }
+
+      this.chartOptions = {
+        series: [
+          {
+            name: seriesName,
+            data: data,
+          }
+        ],
+        chart: {
+          height: 350,
+          type: 'line',
+          stacked: false
+
+        },
+        title: {
+          text: titleTextGLP,
+          style: {
+            color: "#fff",
+            fontWeight: "bold",
           }
         },
-        (error) => {
-          console.log('Ha ocurrido un error al consultar las ubicaciones de tablets', error);
-        }
-      );
+        xaxis: {
+          categories: labels,
+          labels: {
+            rotate: -45, // Rota las etiquetas -45 grados
+            trim: true, // Trunca las etiquetas si son demasiado largas
+            style: {
+              colors: "#fff",
+              fontSize: "8px"
+            }
+          },
+          title: {
+            text: titleTextDate,
+            offsetY: 10,
+            style: {
+              color: "#fff",
+            }
+          },
+          axisBorder: {
+            show: true,
+            color: "#103C5D"
+          },
+          tickAmount: 10, // Limita el número de etiquetas mostradas a 8
+        },
+        yaxis: {
+          labels: {
+            formatter: function (val: number) {
+              return val.toFixed(2);
+            },
+            style: {
+              colors: "#fff",
+              fontSize: "10px"
+            }
+          },
+          title: {
+            text: titleTextMass,
+            style: {
+              color: "#FF1654"
+            }
+          },
+          axisBorder: {
+            show: true,
+            color: "#FF1654"
+          },
+        },
+        stroke: {
+          curve: 'smooth',
+          colors: ["#053050"],
+        },
+      };
+    }, 0);
   }
 
   ngOnDestroy() {
-    // Asegúrate de cancelar la suscripción cuando el componente se destruya
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }

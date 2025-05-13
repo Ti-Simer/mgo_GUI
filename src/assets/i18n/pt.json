@@ -74,7 +74,7 @@
     "Control usuarios": "Controle de usuários",
     "Control ubicación": "Controle de localização",
     "Control clientes": "Controle de clientes",
-    "Control parque vehicular": "Controle da frota de veículos",
+    "Control entregas": "Controle de entregas",
     "Usuarios": "Usuários",
     "Roles": "Funções",
     "Permisos": "Permissões",
@@ -580,6 +580,8 @@
 
     "No se han presentado eventos de ruta": "Não houve eventos de rota",
     "No hay Auto Tanques en curso": "Não há Auto Tanques em curso",
+
+    "Registro de GLP entregado": "Registro de GLP entregue",
 
     "": ""
 }

@@ -112,10 +112,10 @@ const TREE_DATA_POS: MenuNode[] = [
         color: '#ffffff',
         children: [
           {
-            name: 'Establecimientos',
+            name: 'Cargos',
             color: '#ffffff',
             icon: 'dot',
-            path: '/poseidon/branch-offices/list'
+            path: '/poseidon/occupation/list'
           },
           {
             name: 'Clientes',
@@ -124,24 +124,30 @@ const TREE_DATA_POS: MenuNode[] = [
             path: '/poseidon/client/list'
           },
           {
-            name: 'Cargos',
+            name: 'Tanques Estacionarios',
             color: '#ffffff',
             icon: 'dot',
-            path: '/poseidon/occupation/list'
+            path: '/poseidon/stationary-tank/list'
           },
           {
-            name: 'Derroteros',
+            name: 'Establecimientos',
             color: '#ffffff',
             icon: 'dot',
-            path: '/poseidon/courses/admin'
-          }
+            path: '/poseidon/branch-offices/list'
+          },
         ],
       },
       {
-        name: 'Control parque vehicular',
+        name: 'Control entregas',
         icon: 'chevron-right',
         color: '#ffffff',
         children: [
+          {
+            name: 'Pedidos',
+            color: '#ffffff',
+            icon: 'dot',
+            path: '/poseidon/orders/list'
+          },
           {
             name: 'Auto Tanques',
             color: '#ffffff',
@@ -149,16 +155,16 @@ const TREE_DATA_POS: MenuNode[] = [
             path: '/poseidon/propane-trucks/list'
           },
           {
-            name: 'Tanques Estacionarios',
+            name: 'Derroteros',
             color: '#ffffff',
             icon: 'dot',
-            path: '/poseidon/stationary-tank/list'
+            path: '/poseidon/courses/admin'
           },
           {
-            name: 'Dispositivos de control',
+            name: 'Servicios',
             color: '#ffffff',
             icon: 'dot',
-            path: '/poseidon/tablets/list'
+            path: '/poseidon/request/list'
           },
         ],
       },

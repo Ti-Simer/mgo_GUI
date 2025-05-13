@@ -39,19 +39,17 @@
 
         <div class="row p-1 buttons-group-landscape">
             <div class="col-sm-12 d-flex">
-                <div class="col-md-10">
+                <div class="col-md-8" style="justify-items: baseline;">
                     <p style="font-size: 12px; color: #a8a8a8;">
                         <button type="button" class="btn btn-secondary btn-sm" (click)="setPageSizeToTotal()">{{'Mostrar todo' | translate}}</button>
                         {{pageIndex * pageSize + 1}} - {{(pageIndex + 1) * pageSize}} {{'de' | translate}} {{roles.length}} {{'registros' | translate}} 
-                    </p>
+                    </p>               
                 </div>
-                <div class="col-md-1 float-end">
-                    <button (click)="toUsers()" class="btn btn-info float-end">
+                <div class="col-md-4 float-end" id="responsive-container">
+                    <button (click)="toUsers()" class="btn btn-sm  btn-info float-end" id="items">
                         {{'Usuarios' | translate}}
                     </button>
-                </div>
-                <div class="col-md-1 float-end">
-                    <button (click)="toPermissions()" class="btn btn-info float-end">
+                    <button (click)="toPermissions()" class="btn btn-sm  btn-info float-end" id="items">
                         {{'Permisos' | translate}}
                     </button>
                 </div>

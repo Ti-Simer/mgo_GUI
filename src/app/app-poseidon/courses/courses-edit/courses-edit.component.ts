@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogCreateOrdersComponent } from '../../orders/dialog-create-orders/dialog-create-orders.component';
 import { LoadingSmallDialogComponent } from 'src/app/dialog/loading-small-dialog/loading-small-dialog.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-courses-edit',
@@ -23,14 +24,22 @@ import { LoadingSmallDialogComponent } from 'src/app/dialog/loading-small-dialog
 export class CoursesEditComponent {
   private languageSubscription!: Subscription;
   private loadingDialogRef!: MatDialogRef<LoadingSmallDialogComponent>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('myInput') searchInput!: ElementRef; // Obtiene una referencia al elemento de entrada de búsqueda
   @ViewChild('myInput2') searchInput2!: ElementRef; // Obtiene una referencia al elemento de entrada de búsqueda
+  pageSizeOptions: number[] = [50, 100, 200]; // Opciones de tamaño de página
+  pageSize: number = 50; // Tamaño de página predeterminado
+  pageIndex: number = 1; // Página actual
+  totalOrders: number = 0;
+
   @Input() courseId: string = '';
 
   courseForm: FormGroup;
+  searchForm: FormGroup;
 
   course: any;
   orders: any[] = [];
+  selectedOrder: any[] = [];
 
   courses: any[] = [];
   course1: any
@@ -72,6 +81,10 @@ export class CoursesEditComponent {
       fecha: [null, Validators.required],
       creator: [this.authService.getUserFromToken()],
     });
+
+    this.searchForm = this.formBuilder.group({
+      branch_office: [null],
+    });
   }
 
   ngOnInit(): void {
@@ -81,7 +94,18 @@ export class CoursesEditComponent {
   }
 
   ngAfterViewInit() {
+    if (this.paginator) {
+      this.paginator.page.subscribe((event: any) => {
+        this.onPageChange(event);
+      });
+    }
     this.initializeSearchFilter();
+  }
+
+  onPageChange(event: any) {
+    this.pageIndex = event.pageIndex + 1; // Angular Material paginator is zero-based
+    this.pageSize = event.pageSize;
+    this.getOrders();
   }
 
   initializeSearchFilter() {
@@ -96,7 +120,7 @@ export class CoursesEditComponent {
       });
     }
   }
-  
+
   initializeSearchFilter2() {
     if (this.searchInput2) {
       const inputElement = this.searchInput2.nativeElement as HTMLInputElement;
@@ -113,20 +137,19 @@ export class CoursesEditComponent {
   getCourseById() {
     this.courseService.getCourseById(this.courseId).subscribe(
       (response) => {
-        console.log('Response:', response);
         if (response.statusCode === 200) {
           this.course = response.data;
-  
+
           // Convertir la fecha a un objeto Date sin desplazamientos de zona horaria
           const fecha = new Date(this.course.fecha + 'T00:00:00');
-  
+
           this.courseForm.patchValue({
             operator_id: this.course.operator_id,
             fecha: fecha,
             propane_truck: this.course.propane_truck.plate,
             last_orders: this.course.orders.map((order: any) => String(order.folio)),
           });
-  
+
           this.toastr.success('Derrotero consultado con éxito');
         } else {
           console.log('Ocurrió un error en la consulta del derrotero');
@@ -139,11 +162,19 @@ export class CoursesEditComponent {
   }
 
   getOrders() {
-    this.orderService.getAvailableOrders().subscribe(
+    const pageData = {
+      pageData: {
+        page: this.pageIndex,
+        limit: this.pageSize
+      }
+    };
+
+    this.orderService.getAvailableOrders(pageData).subscribe(
       response => {
         this.loadingDialogRef.close();
         if (response.statusCode === 200) {
-          this.orders = response.data.sort((a: any, b: any) => {
+          this.totalOrders = response.data.total; // Actualiza el total de pedidos
+          this.orders = response.data.orders.sort((a: any, b: any) => {
             let dateA = new Date(a.folio); // o a.update dependiendo de qué fecha quieres usar
             let dateB = new Date(b.folio); // o b.update dependiendo de qué fecha quieres usar
             return dateB.getTime() - dateA.getTime(); // Ordena en orden descendente
@@ -173,13 +204,29 @@ export class CoursesEditComponent {
     }
   }
 
-  moveOrder(order: any) {    
-    if (!this.orders1.includes(order)) {
-      this.orders1.push(order);
-      this.orders2 = this.orders2.filter(item => item !== order);
+  onOrderChange(order: any) {
+    const index = this.selectedOrder.indexOf(order.folio);
+  
+    if (index === -1) {
+      // Si no se encuentra en la lista, agrégalo
+      this.selectedOrder.push(order.folio);
+      this.course.orders.push(order);
     } else {
-      this.orders2.push(order);
-      this.orders1 = this.orders1.filter(item => item !== order);
+      // Si ya está en la lista, quítalo
+      this.selectedOrder.splice(index, 1); // Elimina el folio de selectedOrder
+      const orderIndex = this.course.orders.findIndex((o: any) => o.folio === order.folio);
+      if (orderIndex !== -1) {
+        this.course.orders.splice(orderIndex, 1); // Elimina el elemento correcto de course.orders
+      }
+    }
+  
+    // Marcar el formulario como válido si se han seleccionado locations
+    if (this.selectedOrder.length > 0) {
+      this.courseForm.get('orders')?.setValidators(Validators.required);
+      this.courseForm.get('orders')?.updateValueAndValidity();
+    } else {
+      this.courseForm.get('orders')?.clearValidators();
+      this.courseForm.get('orders')?.updateValueAndValidity();
     }
   }
 
@@ -187,6 +234,21 @@ export class CoursesEditComponent {
     this.loadingDialogRef = this.dialogService.openLoadingDialogSmall();
     this.getOrders();
     this.getCourseById();
+  }
+
+  searchOrders() {
+    const data = {
+      branch_office: this.searchForm.value.branch_office,
+    }
+
+    this.orderService.findOrdersByBranchOffice(data).subscribe(
+      response => {
+        if (response.statusCode === 200) {
+          this.orders = response.data.orders
+          this.totalOrders = response.data.total;
+        }
+      }
+    );
   }
 
   onSubmit() {

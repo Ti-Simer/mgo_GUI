@@ -74,7 +74,7 @@
     "Control usuarios": "User control",
     "Control ubicación": "Location control",
     "Control clientes": "Customer control",
-    "Control parque vehicular": "Vehicle fleet control",
+    "Control entregas": "Delivery control",
     "Usuarios": "Users",
     "Roles": "Roles",
     "Permisos": "Permissions",
@@ -584,6 +584,9 @@
 
     "No se han presentado eventos de ruta": "No route events have occurred",
     "No hay Auto Tanques en curso": "No Tank Trucks in progress",
+
+    "Registro de GLP entregado": "LPG delivery record",
+
 
     "": ""
 }

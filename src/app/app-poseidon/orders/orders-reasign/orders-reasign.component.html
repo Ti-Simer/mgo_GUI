@@ -1,8 +1,8 @@
 <div class="general-container">
     <div class="container mt-4">
-        <div class="row mb-4">
+        <div class="row">
             <h1>Reasignación de Pedidos</h1>
-            <label style="font-size: 10px !important; margin-bottom: 2rem;">(Para reasignar pedidos arrastre los elementos de una caja a la que asignará el pedido.)</label>
+            <label style="font-size: 11px !important; margin-bottom: 2rem;">(Para reasignar pedidos arrastre los elementos de una caja a la que asignará el pedido.)</label>
             <br>
         </div>
         <div class="row mb-3 box-container">
@@ -50,7 +50,7 @@
                                     <td class="custom-td">{{ order.folio }}</td>
                                     <td class="custom-td">{{ order.create | date: 'dd - MMMM - y H:mm' }}</td>
                                     <td class="custom-td">{{ order.branch_office.name }}</td>
-                                    <td class="custom-td">{{ order.branch_office.status }}</td>
+                                    <td class="custom-td">{{ order.status }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -102,7 +102,7 @@
                                     <td class="custom-td">{{ order.folio }}</td>
                                     <td class="custom-td">{{ order.create | date: 'dd - MMMM - y H:mm'}}</td>
                                     <td class="custom-td">{{ order.branch_office.name }}</td>
-                                    <td class="custom-td">{{ order.branch_office.status }}</td>
+                                    <td class="custom-td">{{ order.status }}</td>
                                 </tr>
                             </tbody>
                         </table>

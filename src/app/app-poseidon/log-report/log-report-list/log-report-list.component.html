@@ -3,21 +3,7 @@
     <!-- sección1 -->
 
     <div class="col-lg-6 m-1 tank-section" id="items">
-
-        <div class="col-lg-12 p-2 mb-2 bg-light shadow-sm tank-card-section rounded">
-
-            <div class="title display-6 text-center fw-bold" style="color: #014e87">
-                {{'Auto tanques en curso' | translate}}
-                <p class="text-secondary fw-light mt-1" style="font-size: 18px">
-                    {{dateToday}}
-                </p>
-            </div>
-            <div class="tank-list">
-                <app-log-report-list-propanetrucks></app-log-report-list-propanetrucks>
-            </div>
-        </div>
-
-        <div class="col-lg-12 p-2 bg-light shadow-sm shortcut-subsection rounded">
+        <div class="col-lg-12 p-2 mb-2 bg-light shadow-sm shortcut-subsection rounded">
             <div class="row d-flex justify-content-center">
                 <div class="text-center fw-bold display-6 mb-2" style="color: #014e87;">
                     {{'Accesos directos' | translate}}
@@ -60,12 +46,24 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-lg-12 p-2 bg-light shadow-sm tank-card-section rounded">
+
+            <div class="title display-6 text-center fw-bold" style="color: #014e87">
+                {{'Auto tanques en curso' | translate}}
+                <p class="text-secondary fw-light mt-1" style="font-size: 18px">
+                    {{dateToday}}
+                </p>
+            </div>
+            <div class="tank-list">
+                <app-log-report-list-propanetrucks></app-log-report-list-propanetrucks>
+            </div>
+        </div>
     </div>
 
     <!-- sección2 -->
 
     <div class="col-lg-6 m-1 event-section" id="items">
-
         <div class="col-lg-12 mb-2 bg-light shadow-sm event-routes-section rounded">
             <!-- Header -->
             <div class="header">

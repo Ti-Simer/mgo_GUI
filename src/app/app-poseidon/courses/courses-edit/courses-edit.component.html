@@ -47,7 +47,7 @@
                                 <td class="custom-td">{{ order.folio }}</td>
                                 <td class="custom-td">{{ order.create | date: 'dd - MMMM - y H:mm' }}</td>
                                 <td class="custom-td">{{ order.branch_office.name }}</td>
-                                <td class="custom-td">{{ order.branch_office.status }}</td>
+                                <td class="custom-td">{{ order.status }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -57,10 +57,16 @@
             <div class="col-lg-6 p-3 box2" cdkDropList #ordersList2="cdkDropList" [cdkDropListData]="orders"
                 [cdkDropListConnectedTo]="[ordersList1]" (cdkDropListDropped)="drop($event)">
                 
-                <div class="row mb-2 search">
-                    <label for="info" class="form-label">-- {{'Pedidos disponibles' | translate}}:</label>
-                    <div class="input-group">
-                        <input class="form-control" #myInput type="text" placeholder="{{'Buscar..' | translate}}"
+                <div class="row mb-2 search d-flex justify-content-center">
+                    <label for="orders" class="form-label">-- {{'Pedidos' | translate}}</label>
+                    <div class="input-group w-50" [formGroup]="searchForm">
+                        <input class="form-control" formControlName="branch_office" type="text" placeholder="{{'Buscar..' | translate}}">
+                        <button type="button" class="btn btn-outline-secondary" (click)="searchOrders()">
+                            <lucide-icon name="search" [size]="20"></lucide-icon>
+                        </button>
+                    </div>
+                    <div class="input-group w-50">
+                        <input class="form-control" #myInput type="text" placeholder="{{'Filtrar..' | translate}}"
                         (input)="initializeSearchFilter()">
                         <button type="button" class="btn btn-outline-secondary" (click)="toCreateOrders()">
                             +
@@ -68,6 +74,7 @@
                     </div>
                 </div>
 
+                <mat-paginator [length]="totalOrders" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"(page)="onPageChange($event)" showFirstLastButtons></mat-paginator>
                 <div class="content">
                     <table class="table table-striped table-bordered">
                         <thead>
@@ -75,15 +82,18 @@
                                 <th class="custom-header">{{'Folio' | translate}}</th>
                                 <th class="custom-header">{{'Fecha' | translate}}</th>
                                 <th class="custom-header">{{'Establecimiento' | translate}}</th>
-                                <th class="custom-header">{{'Estado' | translate}}</th>
+                                <th class="custom-header">{{'Añadir' | translate}}</th>
                             </tr>
                         </thead>
                         <tbody id="myTable">
-                            <tr *ngFor="let order of orders" cdkDrag>
+                            <tr *ngFor="let order of orders">
                                 <td class="custom-td">{{ order.folio }}</td>
                                 <td class="custom-td">{{ order.create | date: 'dd - MMMM - y H:mm'}}</td>
                                 <td class="custom-td">{{ order.branch_office.name }}</td>
-                                <td class="custom-td">{{ order.branch_office.status }}</td>
+                                <td>
+                                    <input type="checkbox" class="form-check-input" [id]="order.id"
+                                        [value]="order.id" (change)="onOrderChange(order)">
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -153,7 +163,7 @@
                                 <td class="custom-td">{{ order.folio }}</td>
                                 <td class="custom-td">{{ order.create | date: 'dd - MMMM - y H:mm' }}</td>
                                 <td class="custom-td">{{ order.branch_office.name }}</td>
-                                <td class="custom-td">{{ order.branch_office.status }}</td>
+                                <td class="custom-td">{{ order.status }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -165,8 +175,15 @@
                 
                 <div class="row mb-2 search">
                     <label for="info" class="form-label">-- {{'Pedidos disponibles' | translate}}:</label>
+                    <div class="input-group mb-2" [formGroup]="searchForm">
+                        <input class="form-control" formControlName="branch_office" type="text" placeholder="{{'Buscar..' | translate}}"
+                        style="font-size: 11px !important;">
+                        <button type="button" class="btn btn-outline-secondary" (click)="searchOrders()">
+                            <lucide-icon name="search" [size]="20"></lucide-icon>
+                        </button>
+                    </div>
                     <div class="input-group">
-                        <input class="form-control" #myInput2 type="text" placeholder="{{'Buscar..' | translate}}"
+                        <input class="form-control" #myInput2 type="text" placeholder="{{'Filtrar..' | translate}}"
                         (input)="initializeSearchFilter2()" style="font-size: 11px !important;">
                         <button type="button" class="btn btn-outline-secondary" (click)="toCreateOrders()">
                             +
@@ -189,9 +206,9 @@
                                 <td class="custom-td">{{ order.folio }}</td>
                                 <td class="custom-td">{{ order.create | date: 'dd - MMMM - y H:mm'}}</td>
                                 <td class="custom-td">{{ order.branch_office.name }}</td>
-                                <td class="custom-td buttons">
-                                    <span class="btn">{{ order.branch_office.status }}</span>
-                                    <button class="btn btn-sm btn-info" (click)="moveOrder(order)">Añadir</button>
+                                <td>
+                                    <input type="checkbox" class="form-check-input" [id]="order.id"
+                                        [value]="order.id" (change)="onOrderChange(order)" style="font-size: 18px;">
                                 </td>
                             </tr>
                         </tbody>

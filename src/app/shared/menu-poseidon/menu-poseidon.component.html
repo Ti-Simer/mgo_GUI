@@ -30,33 +30,33 @@
     <button mat-menu-item [matMenuTriggerFor]="ctrlUsers">{{'Control usuarios' | translate}}</button>
     <button mat-menu-item [matMenuTriggerFor]="ctrlUbication">{{'Control ubicación' | translate}}</button>
     <button mat-menu-item [matMenuTriggerFor]="ctrlClients">{{'Control clientes' | translate}}</button>
-    <button mat-menu-item [matMenuTriggerFor]="ctrlMaquinaria">{{'Control parque vehicular' | translate}}</button>
+    <button mat-menu-item [matMenuTriggerFor]="ctrlMaquinaria">{{'Control entregas' | translate}}</button>
 </mat-menu>
 
 <mat-menu #ctrlUsers="matMenu">
-    <a (click)="toUsers()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Usuarios' | translate}}</a>
-    <a (click)="toRoles()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Roles' | translate}}</a>
-    <a (click)="toPermissions()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Permisos' | translate}}</a>
+    <a (click)="toUsers()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Usuarios' | translate}}</a>
+    <a (click)="toRoles()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Roles' | translate}}</a>
+    <a (click)="toPermissions()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Permisos' | translate}}</a>
 </mat-menu>
 
 <mat-menu #ctrlUbication="matMenu">
-    <a (click)="toDepartments()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Estados' | translate}}</a>
-    <a (click)="toCities()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Ciudades' | translate}}</a>
-    <a (click)="toZones()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Zonas' | translate}}</a>
+    <a (click)="toDepartments()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Estados' | translate}}</a>
+    <a (click)="toCities()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Ciudades' | translate}}</a>
+    <a (click)="toZones()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Zonas' | translate}}</a>
 </mat-menu>
 
 <mat-menu #ctrlClients="matMenu">
-    <a (click)="toBranchOffices()" class="dropdown-item"
-        style="cursor: pointer; padding-left: 1rem;">{{'Establecimientos' | translate}}</a>
-    <a (click)="toClients()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Clientes' | translate}}</a>
-    <a (click)="toOccupations()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Cargos' | translate}}</a>
-    <a (click)="toCourses()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Derroteros' | translate}}</a>
+    <a (click)="toOccupations()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Cargos' | translate}}</a>
+    <a (click)="toClients()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Clientes' | translate}}</a>
+    <a (click)="toStationaryTanks()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Tanques Estacionarios' | translate}}</a>
+    <a (click)="toBranchOffices()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Establecimientos' | translate}}</a>
 </mat-menu>
 
 <mat-menu #ctrlMaquinaria="matMenu">
-    <a (click)="toPropaneTrucks()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Auto Tanques' | translate}}</a>
-    <a (click)="toStationaryTanks()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Tanques Estacionarios' | translate}}</a>
-    <a (click)="toTablets()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;">{{'Dispositivos de control' | translate}}</a>
+    <a (click)="toOrders()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Pedidos' | translate}}</a>
+    <a (click)="toPropaneTrucks()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Auto Tanques' | translate}}</a>
+    <a (click)="toCourses()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Derroteros' | translate}}</a>
+    <a (click)="toRequest()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Servicios' | translate}}</a>
 </mat-menu>
 
 <button class="matbutton" mat-button [matMenuTriggerFor]="ctrlAccount">

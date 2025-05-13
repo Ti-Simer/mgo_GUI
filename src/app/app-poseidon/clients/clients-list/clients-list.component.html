@@ -75,18 +75,19 @@
                     </p>
                 </div>
                 <div class="col-md-4 float-end" id="responsive-container">
-                    <button (click)="toOccupations()" class="btn btn-info float-end" id="items">
+                    <button (click)="toOccupations()" class="btn btn-sm btn-info float-end" id="items">
                         {{'Cargos' | translate}}
                     </button>
-                    <button (click)="toImportClients()" class="btn btn-success float-end" id="items">
+                    <button (click)="toImportClients()" class="btn btn-sm btn-success float-end" id="items">
                         <lucide-icon name="sheet"></lucide-icon> {{'Importar XLS' | translate}}
                     </button>
-                    <button (click)="toCreateClient()" class="btn btn-success float-end" id="items">
+                    <button (click)="toCreateClient()" class="btn btn-sm btn-success float-end" id="items">
                         <img src="assets/images/icons/add.svg"> {{'Añadir' | translate}}
                     </button>
                 </div>
             </div>
         </div>
+
 
         <label class="text-length px-1" style="font-size: 10px; color: #a8a8a8;">{{pageIndex * pageSize + 1}} - {{(pageIndex + 1) * pageSize}} {{'de' | translate}} {{clients.length}} {{'registros' | translate}}</label>
         <div class="buttons-group-portrait">

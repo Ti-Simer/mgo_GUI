@@ -84,9 +84,12 @@
                     <div class="row mb-2 search">
                         <label class="form-label">-- {{'Tanques estacionarios' | translate}}</label>
                         <div class="col-sm-12 d-flex">
-                            <div class="col-sm-7">
+                            <div class="input-group" *ngIf="stationaryTanks.length != 0">
                                 <input class="form-control" #myInput type="text" placeholder="{{'Buscar..' | translate}}"
-                                    (input)="initializeSearchFilter()">
+                                (input)="initializeSearchFilter()" *ngIf="stationaryTanks.length != 0">
+                                <button type="button" class="btn btn-outline-secondary" (click)="toCreateStationaryTank()">
+                                    +
+                                </button>
                             </div>
                             <div class="col-sm-2 m-1"></div>
                             <div class="col-sm-3" style="align-self: center; vertical-align: middle;">

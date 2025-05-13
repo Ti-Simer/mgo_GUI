@@ -46,9 +46,9 @@ export class OrdersService {
 
   /////////////////////////////////////////////////////////////////////////////////////////////////
 
-  getAvailableOrders(): Observable<any> {
+  getAvailableOrders(pageData: any): Observable<any> {
     var apiUrl = this.authService.getApiUrl();
-    return this.http.get(`${apiUrl}/orders/getAvailableOrders`, { headers: this.apiKey });
+    return this.http.post(`${apiUrl}/orders/getAvailableOrders`, pageData, { headers: this.apiKey });
   }
 
   getByQuery(query: any): Observable<any> {
@@ -59,5 +59,10 @@ export class OrdersService {
   getOrdersByToday(): Observable<any> {
     var apiUrl = this.authService.getApiUrl();
     return this.http.get(`${apiUrl}/orders/getOrdersByToday`, { headers: this.apiKey });
+  }
+
+  findOrdersByBranchOffice(query: any): Observable<any> {
+    var apiUrl = this.authService.getApiUrl();
+    return this.http.post(`${apiUrl}/orders/findOrdersByBranchOffice`, query, { headers: this.apiKey });
   }
 }

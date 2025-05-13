@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 import { CourseService } from 'src/app/services/poseidon-services/course.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { DialogService } from 'src/app/services/dialog.service';
-import { forkJoin } from 'rxjs'; // Asegúrate de tener esta línea al inicio de tu archivo
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -20,6 +20,8 @@ export class OrdersReasignComponent {
   course2: any
   orders1: any[] = [];
   orders2: any[] = [];
+  last_orders1: any[] = [];
+  last_orders2: any[] = [];
   selectedCourseId1: any;
   selectedCourseId2: any;
 
@@ -71,13 +73,15 @@ export class OrdersReasignComponent {
 
   onCourseSelectionChange(id: any): void {
     const selectedCourse = this.courses.find(course => course.id === id);
-    this.orders1 = selectedCourse && Array.isArray(selectedCourse.orders) ? selectedCourse.orders : [];
+    this.orders1 = selectedCourse && Array.isArray(selectedCourse.orders) ? [...selectedCourse.orders] : [];
+    this.last_orders1 = selectedCourse && Array.isArray(selectedCourse.orders) ? [...selectedCourse.orders] : [];
     this.course1 = selectedCourse;
   }
 
   onCourseSelectionChange2(id: any): void {
     const selectedCourse = this.courses.find(course => course.id === id);
-    this.orders2 = selectedCourse && Array.isArray(selectedCourse.orders) ? selectedCourse.orders : [];
+    this.orders2 = selectedCourse && Array.isArray(selectedCourse.orders) ? [...selectedCourse.orders] : [];
+    this.last_orders2 = selectedCourse && Array.isArray(selectedCourse.orders) ? [...selectedCourse.orders] : [];
     this.course2 = selectedCourse;
   }
 
@@ -151,13 +155,29 @@ export class OrdersReasignComponent {
             {
               id: this.selectedCourseId1,
               orders: this.orders1.map(order => order.id),
+              operator_id: this.course1.operator.idNumber,
+              propane_truck: this.course1.propane_truck.plate,
+              last_orders: this.last_orders1.map((order: any) => order.folio.toString()),
+              fecha: this.course1.fecha,
+              if_exist: true,
+              creator: this.authService.getUserFromToken(),
             },
             {
               id: this.selectedCourseId2,
               orders: this.orders2.map(order => order.id),
+              operator_id: this.course2.operator.idNumber,
+              propane_truck: this.course2.propane_truck.plate,
+              last_orders: this.last_orders2.map((order: any) => order.folio.toString()),
+              fecha: this.course2.fecha,
+              if_exist: true,
+              creator: this.authService.getUserFromToken(),
             }
           ]
 
+          if (courseData[0].propane_truck === courseData[1].propane_truck) {
+            this.toastr.warning('No puedes reasignar pedidos a la misma unidad', 'Advertencia!');
+            return;
+          }
 
           if (this.orders1.length === 0 || this.orders2.length === 0) {
 
@@ -172,14 +192,12 @@ export class OrdersReasignComponent {
           }
 
           const observables = courseData.map(course => {
-            const data = {
-              orders: course.orders
-            }
-
+            const data = course;
             return this.courseService.updateCourse(course.id, data);
           });
 
           forkJoin(observables).subscribe((responses: any[]) => { // Define explícitamente el tipo de 'responses'  
+            //console.log('responses::', responses)
             if (responses.every((response: any) => response.statusCode === 200)) { // Define explícitamente el tipo de 'response'
               this.dialogRef.close();
               this.toastr.success('Los pedidos se han reasignado correctamente');

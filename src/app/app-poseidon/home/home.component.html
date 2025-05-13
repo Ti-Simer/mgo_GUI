@@ -18,9 +18,8 @@
                             -- {{roleText}}
                         </div>
                         <div class="col-xl-5 col-lg-5" id="items"></div>
-                        <div class="col-xl-2 col-lg-2 d-flex justify-content-around align-items-center" id="items">
+                        <div class="col-xl-1 col-lg-1 d-flex justify-content-around align-items-center" id="items">
                             {{nameText}}
-                            <lucide-icon name="rotate-cw" style="cursor: pointer"></lucide-icon>
                             <lucide-icon name="circle-user-round" style="cursor: pointer"></lucide-icon>
                             <lucide-icon name="bolt" style="cursor: pointer"></lucide-icon>
                         </div>
@@ -30,7 +29,6 @@
                     <div class="card-body d-flex justify-content-center align-items-center p-0 h-50">
                         <div class="col-xl-5 col-lg-5 d-flex justify-content-around align-items-center" id="items">
                             {{nameText}}
-                            <lucide-icon name="rotate-cw" style="cursor: pointer" (click)="refreshData()"></lucide-icon>
                             <lucide-icon name="circle-user-round" style="cursor: pointer"></lucide-icon>
                             <lucide-icon name="bolt" style="cursor: pointer"></lucide-icon>
                         </div>
@@ -171,92 +169,8 @@
                     <div class="col-xl-5 col-lg-5 p-4 bg-light rounded shadow" id="items" style="background: linear-gradient(to right, #142938, #014e87) !important;">
                         <app-home-chart></app-home-chart>
                     </div>
-                    <div class="col-xl-5 col-lg-5 p-4 bg-light rounded shadow" id="items">
+                    <div class="col-xl-5 col-lg-5 p-4 rounded shadow" id="items" style="background:  #014e87 !important;">
                         <app-home-trackingmap></app-home-trackingmap>
-                    </div>
-                </div>
-                <div class="row d-flex justify-content-center mb-1 mx-auto" id="responsive-container" style="width: 98.4% !important;">
-                    <div class="col-xl-5 col-lg-5 p-3 bg-light rounded shadow d-flex justify-content-center align-items-center" id="items">
-                        <div class="row d-flex justify-content-center" style="flex-grow: 0.5">
-                            <div class="row d-flex justify-content-center">
-                                <h1 class="text-center text-lightgray font-weight-bold">
-                                    {{'Accesos directos' | translate}}
-                                </h1>
-                                <hr class="w-50 text-gray"> 
-                            </div>
-                            <div class="row d-flex justify-content-center">
-                                <div class="col-md-6">
-                                    <a (click)="toCourses(roleText)" class="text-decoration-none" style="cursor: pointer;">
-                                        <div class="bg-primary text-white p-4 rounded text-center mb-4"
-                                            style="background-color: #014e87 !important;">
-                                            {{'Derroteros' | translate}}
-                                        </div>
-                                    </a>
-                                </div>
-            
-                                <div class="col-md-6">
-                                    <a (click)="toReports()" class="text-decoration-none" style="cursor: pointer;">
-                                        <div class="text-white p-4 rounded text-center mb-4" style="background-color: #0267B5;">
-                                            {{'Reportes' | translate}}
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="row d-flex justify-content-center">
-                                <div class="col-md-6">
-                                    <a (click)="toOrders()" class="text-decoration-none" style="cursor: pointer;">
-                                        <div class="text-white p-4 rounded text-center mb-4" style="background-color: #027FDE;">
-                                            {{'Pedidos' | translate}}
-                                        </div>
-                                    </a>
-                                </div>
-            
-                                <div class="col-md-6">
-                                    <a (click)="toRequest()" class="text-decoration-none" style="cursor: pointer;">
-                                        <div class="text-white p-4 rounded text-center" style="background-color: #01213B;">
-                                            {{'Servicios' | translate}}
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-5 col-lg-5 p-3 bg-light rounded shadow" id="items">
-                        <div class="row shadow-sm rounded bg-light d-flex justify-content-center mb-2 p-2" id="responsive-container">
-                            <span class="display-6 text-center fw-bold" style="font-size: 24px; color: #014e87">
-                                {{'Eventos de ruta' | translate}} <br>
-                                <hr class="mx-auto w-75">
-                            </span>
-                            <div class="col-sm d-flex justify-content-around" id="items">
-                                <button type="button" class="btn btn-primary position-relative p-2 shadow-sm rounded text-white w-25" style="background-color: #014e87;">
-                                    <lucide-icon name="flame" color="#36a9ff"></lucide-icon> {{'Baja' | translate}}
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                      {{criticalityLow}}
-                                      <span class="visually-hidden"></span>
-                                    </span>
-                                </button>
-                                <button type="button" class="btn btn-primary position-relative p-2 shadow-sm rounded text-white w-25" style="background-color: #014e87;">
-                                    <lucide-icon name="flame" color="#f19538"></lucide-icon> {{'Media' | translate}}
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                      {{criticalityMedium}}
-                                      <span class="visually-hidden"></span>
-                                    </span>
-                                </button>
-                                <button type="button" class="btn btn-primary position-relative p-2 shadow-sm rounded text-white w-25" style="background-color: #014e87;">
-                                    <lucide-icon name="flame" color="#c61f1f"></lucide-icon> {{'Alta' | translate}}
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                      {{criticalityHigh}}
-                                      <span class="visually-hidden"></span>
-                                    </span>
-                                </button>
-                            </div>
-                            <div class="col-sm" id="items">
-                                <button class="btn btn-sm btn-secondary float-end w-25" id="items">
-                                    {{'Ver todo' | translate}}
-                                </button>
-                            </div>
-                        </div>
-                        <app-log-report-smallview></app-log-report-smallview>
                     </div>
                 </div>
         </div>

@@ -26,7 +26,7 @@ export class LogReportListMapComponent {
   receiveData() {
     this.shareService.secondData$.subscribe(data => {
       this.data = data;
-
+      
       if (this.data) {
         // Crear un array de objetos con los atributos deseados
         const formattedData = this.data.map((item: any) => ({
@@ -38,7 +38,6 @@ export class LogReportListMapComponent {
 
         // Itera a través de los waypoints y crea los marcadores y modos de transporte
         for (const location of formattedData) {
-
 
           switch (location.criticality) {
             case 0:
@@ -140,7 +139,16 @@ export class LogReportListMapComponent {
         }
       }
 
-      this.getMarkerPosition(this.markers[0]); // Centra el mapa en el primer marcador
+      if (this.markers.length > 0) {
+        if (this.markers[0].position.lat && this.markers[0].position.lng) {
+          this.mapCenter = {
+            lat: parseFloat(this.markers[0].position.lat),
+            lng: parseFloat(this.markers[0].position.lng)
+          }
+          this.zoom = 10;
+        }
+      }
+      //this.getMarkerPosition(this.markers[0]); // Centra el mapa en el primer marcador
 
     });
   }

@@ -16,6 +16,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogCreateCityComponent } from '../../city/dialog-create-city/dialog-create-city.component';
 import { DialogCreateZoneComponent } from '../../zone/dialog-create-zone/dialog-create-zone.component';
 import { DialogCreateClientsComponent } from '../../clients/dialog-create-clients/dialog-create-clients.component';
+import { DialogCreateStationaryTankComponent } from '../../stationary-tank/dialog-create-stationary-tank/dialog-create-stationary-tank.component';
 
 const geocoder = new google.maps.Geocoder();
 
@@ -372,6 +373,22 @@ export class BranchOfficesEditComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       this.fetchClients();
+    });
+  }
+
+  toCreateStationaryTank() {
+    this.authService.writeChecker().subscribe(flag => {
+      if (!flag) {
+        this.toastr.warning('No tienes permisos para crear');
+      } else {
+        const dialogRef = this.dialog.open(DialogCreateStationaryTankComponent, {
+          width: '600px',
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          this.fetchStationaryTanks();
+        });
+      }
     });
   }
 

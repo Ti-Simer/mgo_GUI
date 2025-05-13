@@ -36,10 +36,16 @@
                             </div>
                         </div>
 
-                        <div class="row mb-2 search">
+                        <div class="row mb-2 search d-flex justify-content-center">
                             <label for="orders" class="form-label">-- {{'Pedidos' | translate}}</label>
-                            <div class="input-group">
-                                <input class="form-control" #myInput type="text" placeholder="{{'Buscar..' | translate}}"
+                            <div class="input-group w-50" [formGroup]="searchForm">
+                                <input class="form-control" formControlName="branch_office" type="text" placeholder="{{'Buscar..' | translate}}">
+                                <button type="button" class="btn btn-outline-secondary" (click)="searchOrders()">
+                                    <lucide-icon name="search" [size]="20"></lucide-icon>
+                                </button>
+                            </div>
+                            <div class="input-group w-50">
+                                <input class="form-control" #myInput type="text" placeholder="{{'Filtrar..' | translate}}"
                                 (input)="initializeSearchFilter()">
                                 <button type="button" class="btn btn-outline-secondary" (click)="toCreateOrders()">
                                     +
@@ -93,8 +99,9 @@
                                 </tbody>
                             </table>
                         </div>
+                        <mat-paginator [length]="totalOrders" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"(page)="onPageChange($event)" showFirstLastButtons></mat-paginator>
 
-                        <label for="info" class="form-label">-- {{'Fecha de programación' | translate}}:</label>
+                        <label for="info" class="form-label mt-2">-- {{'Fecha de programación' | translate}}:</label>
                         <div class="col-md-4 date-picker">
                             <mat-form-field color="accent" class="calendar">
                                 <mat-label>{{'Fecha' | translate}}</mat-label>
@@ -167,8 +174,15 @@
 
                         <div class="row mb-2 search" style="font-size: 11px !important;">
                             <label for="orders" class="form-label">-- {{'Pedidos' | translate}}</label>
+                            <div class="input-group mb-2" [formGroup]="searchForm">
+                                <input class="form-control" formControlName="branch_office" type="text" placeholder="{{'Buscar..' | translate}}"
+                                style="font-size: 11px !important;">
+                                <button type="button" class="btn btn-outline-secondary" (click)="searchOrders()">
+                                    <lucide-icon name="search" [size]="20"></lucide-icon>
+                                </button>
+                            </div>
                             <div class="input-group">
-                                <input class="form-control" #myInput2 type="text" placeholder="{{'Buscar..' | translate}}"
+                                <input class="form-control" #myInput2 type="text" placeholder="{{'Filtrar..' | translate}}"
                                 (input)="initializeSearchFilter2()" style="font-size: 11px !important;">
                                 <button type="button" class="btn btn-outline-secondary" (click)="toCreateOrders()">
                                     +
@@ -216,8 +230,9 @@
                                 </tbody>
                             </table>
                         </div>
+                        <mat-paginator [length]="totalOrders" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"(page)="onPageChange($event)"></mat-paginator>
 
-                        <label for="info" class="form-label">-- {{'Fecha de programación' | translate}}:</label>
+                        <label for="info" class="form-label mt-2">-- {{'Fecha de programación' | translate}}:</label>
                         <div class="col-md-4 date-picker" style="font-size: 11px !important;">
                             <mat-form-field color="accent" class="calendar">
                                 <mat-label style="font-size: 11px !important;">{{'Fecha' | translate}}</mat-label>

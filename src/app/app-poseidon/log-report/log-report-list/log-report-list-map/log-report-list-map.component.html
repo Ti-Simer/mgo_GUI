@@ -1,8 +1,8 @@
 <div class="row d-flex justify-content-center">
     <div class="row section1 d-flex justify-content-center align-items-center">
-        <div class="row d-flex justify-content-center">
-            <div class="col-sm-12" id="responsive-container">
-                <google-map id="mapContainerLandscape" [zoom]="zoom" [width]="'100%'" [height]="'407px'" [center]="mapCenter"
+        <div class="row d-flex justify-content-center" *ngIf="data">
+            <div class="col-sm-12" id="responsive-container" *ngIf="data && markers[0].position.lat">
+                <google-map id="mapContainerLandscape" [zoom]="zoom" [width]="'100%'" [height]="'531px'" [center]="mapCenter"
                     [center]="mapCenter">
                     <!-- Marcador condicional -->
                     <map-marker *ngFor="let marker of markers" [position]="marker.position" [label]="marker.label"
@@ -17,6 +17,13 @@
                         [options]="{ icon: marker.icon }">
                     </map-marker>
                 </google-map>
+            </div>
+
+        </div>
+        <div class="col-sm-12" id="responsive-container"  *ngIf="!data || data[0].last_latitude === '' ">
+            <div class="display-6 text-center text-secondary p-4 rounded d-flex justify-content-center" style="border: dotted 1px #8e8f8f;">
+                <div class="map-off mx-auto">
+                </div>
             </div>
         </div>
     </div>

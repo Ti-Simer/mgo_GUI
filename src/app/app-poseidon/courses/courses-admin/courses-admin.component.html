@@ -49,20 +49,20 @@
         
                 <div class="row p-1 buttons-group-landscape">
                     <div class="col-sm-12 d-flex">
-                        <div class="col-md-8">
+                        <div class="col-md-8" style="justify-items: baseline;">
                             <p style="font-size: 12px; color: #a8a8a8;">
                                 <button type="button" class="btn btn-secondary btn-sm" (click)="setPageSizeToTotal()">{{'Mostrar todo' | translate}}</button>
                                 {{pageIndex * pageSize + 1}} - {{(pageIndex + 1) * pageSize}} {{'de' | translate}} {{courses.length}} {{'registros' | translate}} 
-                            </p>
+                            </p>                        
                         </div>
-                        <div class="col-md-2 float-end">
-                            <button (click)="toReasignOrders()" class="btn btn-secondary float-end">{{'Reasignar pedidos' | translate}}</button>
-                        </div>
-                        <div class="col-md-1 float-end">
-                            <button (click)="toOrders()" class="btn btn-info float-end">{{'Pedidos' | translate}}</button>
-                        </div>
-                        <div class="col-md-1 float-end" style="margin-left: 0.3rem;">
-                            <button (click)="toCreateCourses()" class="btn btn-success float-end">
+                        <div class="col-md-4 float-end" id="responsive-container">
+                            <button (click)="toReasignOrders()" class="btn btn-sm btn-secondary float-end" id="items">
+                                {{'Reasignar pedidos' | translate}}
+                            </button>
+                            <button (click)="toOrders()" class="btn btn-sm btn-info float-end" id="items">
+                                {{'Pedidos' | translate}}
+                            </button>
+                            <button (click)="toCreateCourses()" class="btn btn-sm btn-success float-end" id="items">
                                 <img src="assets/images/icons/add.svg"> {{'Añadir' | translate}}
                             </button>
                         </div>

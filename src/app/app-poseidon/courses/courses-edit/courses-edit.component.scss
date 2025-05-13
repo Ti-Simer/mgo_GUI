@@ -113,13 +113,8 @@
             }
 
             .content {
-                cursor: grab;
                 max-height: 500px;
                 overflow-y: auto;
-
-                &:active {
-                    cursor: grabbing;
-                }
 
                 ul {
                     margin: 0;
