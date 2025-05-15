@@ -8,6 +8,7 @@ import { RequestViewComponent } from './request-view/request-view.component';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { RequestStore } from './request-list/request.store';
 import {
   LucideAngularModule,
   PackageCheck,
@@ -15,7 +16,8 @@ import {
   ArrowBigRightDash,
   Sheet,
   Search,
-  HelpCircle
+  HelpCircle,
+  RotateCw
 } from 'lucide-angular';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -41,7 +43,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       ArrowBigRightDash,
       Sheet,
       Search,
-      HelpCircle
+      HelpCircle,
+      RotateCw
     }),
     TranslateModule.forChild({
       loader: {
@@ -50,6 +53,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-  ]
+  ],
+  providers: [RequestStore],
 })
 export class RequestModule { }

@@ -20,13 +20,15 @@ import { DialogCreateOrdersComponent } from './dialog-create-orders/dialog-creat
 import { DialogReasignOrdersComponent } from './dialog-reasign-orders/dialog-reasign-orders.component';
 import { DialogListOrdersComponent } from './dialog-list-orders/dialog-list-orders.component';
 import { OrdersListCourseComponent } from './orders-list-course/orders-list-course.component';
+import { OrdersStore } from './orders-list/orders.store';
 import {
   LucideAngularModule,
   ScrollText,
   ArrowBigLeftDash,
   ArrowBigRightDash,
   HelpCircle,
-  Search
+  Search,
+  RotateCw
 } from 'lucide-angular';
 
 // Factory function for TranslateHttpLoader
@@ -61,7 +63,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       ArrowBigLeftDash,
       ArrowBigRightDash,
       HelpCircle,
-      Search
+      Search,
+      RotateCw
     }),
     TranslateModule.forChild({
       loader: {
@@ -70,6 +73,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-  ]
+  ],
+  providers: [OrdersStore], // Provide the store here
 })
 export class OrdersModule { }

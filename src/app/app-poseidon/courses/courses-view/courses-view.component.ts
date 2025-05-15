@@ -11,7 +11,8 @@ import { Subscription } from 'rxjs';
 import * as XLSX from 'xlsx';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogEditCoursesComponent } from '../dialog-edit-courses/dialog-edit-courses.component';
-
+import { DialogCreateCoursesComponent } from '../dialog-create-courses/dialog-create-courses.component';
+import { ShareService } from 'src/app/services/share.service';
 
 declare var google: any; // Importa la API de Google Maps JavaScript
 
@@ -48,7 +49,8 @@ export class CoursesViewComponent {
     private translate: TranslateService,
     private languageService: LanguageService,
     public dialogRef: MatDialogRef<CoursesViewComponent>,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private shareService: ShareService,
   ) {
     translate.addLangs(['en', 'es', 'pt']);
     translate.setDefaultLang(this.languageService.getLanguage());
@@ -97,8 +99,7 @@ export class CoursesViewComponent {
       (response) => {
         if (response.statusCode === 200) {
           this.course = response.data;
-          console.log('Derrotero: ', this.course);
-
+          
           // Reinicia los marcadores y modos de transporte antes de agregar nuevos
           this.markers = [];
           this.travelModes = [];
@@ -236,6 +237,24 @@ export class CoursesViewComponent {
             response => {
               if (response.statusCode === 200) {
                 this.toastr.info('Derrotero eliminado exitosamente', 'Información');
+
+                if (response.data) {
+                  const orders = response.data;
+
+                  this.dialogService.openConfirmDialog(`Existen ${orders.length} pedidos sin finalizar ¿Desea reasignarlos a un nuevo derrotero?`)
+                    .subscribe(result => {
+                      if (result) {
+                        this.shareService.emit_orders_data(orders);
+
+                        const dialogRef = this.dialog.open(DialogCreateCoursesComponent, {
+                          width: '1400px',
+                        });
+
+                      } else {
+                        this.toastr.info('Los pedidos no fueron reasignados');
+                      }
+                    })
+                }
                 this.dialogRef.close();
               } else {
                 this.toastr.warning('Ocurrió un error al eliminar el derrotero');

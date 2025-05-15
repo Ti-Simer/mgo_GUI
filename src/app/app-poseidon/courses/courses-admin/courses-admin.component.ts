@@ -246,6 +246,10 @@ export class CoursesAdminComponent {
           width: '700px',
           data: { course: course}
         });
+
+        dialogRef.afterClosed().subscribe(result => {
+          this.getCourses();
+        });
       }
     });
   }

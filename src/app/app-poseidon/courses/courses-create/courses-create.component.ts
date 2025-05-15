@@ -19,6 +19,7 @@ import { LoadingSmallDialogComponent } from 'src/app/dialog/loading-small-dialog
 import { DialogService } from 'src/app/services/dialog.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { DialogCreateUserComponent } from '../../usuarios/dialog-create-user/dialog-create-user.component';
+import { ShareService } from 'src/app/services/share.service';
 
 @Component({
   selector: 'app-courses-create',
@@ -67,6 +68,7 @@ export class CoursesCreateComponent {
     private languageService: LanguageService,
     private dialog: MatDialog,
     private dialogService: DialogService,
+    private shareService: ShareService,
     public dialogRef: MatDialogRef<CoursesCreateComponent>
   ) {
     translate.addLangs(['en', 'es', 'pt']);
@@ -102,6 +104,7 @@ export class CoursesCreateComponent {
   ngOnInit(): void {
     this.fetchPropaneTrucks();
     this.getOrders();
+    this.receiveData();
   }
 
   ngAfterViewInit() {
@@ -130,6 +133,19 @@ export class CoursesCreateComponent {
 
   displayFn(propaneTruck: any): string {
     return propaneTruck && propaneTruck.plate ? `${propaneTruck.plate} || ${propaneTruck.operator[0].firstName} ${propaneTruck.operator[0].lastName}` : '';
+  }
+
+  receiveData() {
+    let orders: any[] = [];
+    this.shareService.ordersData$.subscribe(data => {
+      orders = data;
+    });
+
+    if (orders.length > 0) {
+      orders.forEach((order: any) => {
+        this.onOrderChange(order)
+      });
+    }
   }
 
   getOrders() {

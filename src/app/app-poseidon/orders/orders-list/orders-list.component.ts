@@ -12,15 +12,16 @@ import { Subscription } from 'rxjs';
 import { DialogViewOrdersComponent } from '../dialog-view-orders/dialog-view-orders.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogCreateOrdersComponent } from '../dialog-create-orders/dialog-create-orders.component';
+import { OrdersStore } from './orders.store';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-orders-list',
   templateUrl: './orders-list.component.html',
-  styleUrls: ['./orders-list.component.scss']
+  styleUrls: ['./orders-list.component.scss'],
 })
 export class OrdersListComponent {
-  private languageSubscription!: Subscription;
-
+  currentDir: string = 'asc'; // Default sorting direction
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   pageSizeOptions: number[] = [50, 100, 200]; // Opciones de tamaño de página
   pageSize: number = 50; // Tamaño de página predeterminado
@@ -28,11 +29,18 @@ export class OrdersListComponent {
 
   @ViewChild('myInput') searchInput!: ElementRef; // Obtiene una referencia al elemento de entrada de búsqueda
 
-  orders: any[] = [];
-  totalOrders: number = 0;
+  private languageSubscription!: Subscription;
+
+  // Observables del store
+  orders$: Observable<any[]> = this.store.orders$;
+  total$: Observable<number> = this.store.total$;
+  page$: Observable<number> = this.store.page$;
+  pageSize$: Observable<number> = this.store.pageSize$;
+  loading$: Observable<boolean> = this.store.loading$;
+
   isLoading = false;
 
-  searchForm!: FormGroup;
+  searchForm: FormGroup;
 
   constructor(
     private authService: AuthService,
@@ -42,7 +50,8 @@ export class OrdersListComponent {
     private router: Router,
     private translate: TranslateService,
     private languageService: LanguageService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private store: OrdersStore,
   ) {
     translate.addLangs(['en', 'es', 'pt']);
     translate.setDefaultLang(this.languageService.getLanguage());
@@ -61,7 +70,13 @@ export class OrdersListComponent {
   }
 
   ngOnInit(): void {
-    this.fetchOrders();
+    this.store.loadOrders();        // carga inicial
+  }
+
+  onPageChange(event: any) {
+    this.store.setPage(event.pageIndex + 1);
+    this.store.setPageSize(event.pageSize);
+    this.store.loadOrders();
   }
 
   ngAfterViewInit() {
@@ -70,12 +85,6 @@ export class OrdersListComponent {
         this.onPageChange(event);
       });
     }
-  }
-
-  onPageChange(event: any) {
-    this.pageIndex = event.pageIndex + 1; // Angular Material paginator is zero-based
-    this.pageSize = event.pageSize;
-    this.fetchOrders();
   }
 
   initializeSearchFilter() {
@@ -92,38 +101,17 @@ export class OrdersListComponent {
   }
 
   fetchOrders() {
-    this.isLoading = true;
-    const pageData = {
-      pageData: {
-        page: this.pageIndex,
-        limit: this.pageSize
-      }
-    };
-
-    this.ordersService.getAll(pageData).subscribe(
-      response => {
-        this.isLoading = false;
-        if (response.statusCode == 200) {
-          this.pageIndex = response.data.page;
-          this.pageSize = response.data.limit;
-          this.totalOrders = response.data.total; // Total de elementos para la paginación
-          this.orders = response.data.orders.sort((a: any, b: any) => {
-            let dateA = new Date(a.folio); // o a.update dependiendo de qué fecha quieres usar
-            let dateB = new Date(b.folio); // o b.update dependiendo de qué fecha quieres usar
-            return dateB.getTime() - dateA.getTime(); // Ordena en orden descendente
-          });
-
-        } else {
-          this.toastr.info('No se han encontrado pedidos');
-        }
-      }, (error) => {
-        this.toastr.error('Ha ocurrido un error al consultar los pedidos: ', error);
-      }
-    );
+    // Reset filtros y recargar todo
+    this.searchForm.reset();
+    this.store.setSearchDates({ from: null, to: null });
+    this.store.loadOrders();
   }
 
-  getEndIndex(): number {
-    return Math.min((this.pageIndex * this.pageSize) + this.pageSize, this.totalOrders);
+  makeQuerySearch() {
+    const dateFrom = this.searchForm.value.date;
+    const dateTo = this.searchForm.value.date2 || dateFrom;
+    this.store.setSearchDates({ from: dateFrom, to: dateTo });
+    this.store.loadOrders();
   }
 
   toEditOrder(order: any) { }
@@ -151,32 +139,9 @@ export class OrdersListComponent {
       });
   }
 
-  sortData(data: string) {
-    const keys = data.split('.'); // Divide la cadena en partes
-    this.orders.sort((a: any, b: any) => {
-      let valueA = a;
-      let valueB = b;
-
-      // Navega a través de las claves para obtener el valor final
-      keys.forEach(key => {
-        if (key.includes('[')) {
-          const [arrayKey, index] = key.split(/[\[\]]/).filter(Boolean);
-          valueA = valueA[arrayKey][index];
-          valueB = valueB[arrayKey][index];
-        } else {
-          valueA = valueA[key];
-          valueB = valueB[key];
-        }
-      });
-
-      if (valueA < valueB) {
-        return -1;
-      }
-      if (valueA > valueB) {
-        return 1;
-      }
-      return 0; // Los valores son iguales
-    });
+  onSortChange(by: string) {
+    const dir = this.currentDir === 'asc' ? 'desc' : 'asc';
+    this.store.setSort({ by, dir });
   }
 
   toViewOrder(order: any) {
@@ -206,39 +171,6 @@ export class OrdersListComponent {
         });
       }
     });
-  }
-
-  makeQuerySearch() {
-    const date = this.searchForm.get('date')?.value;
-    const date2 = this.searchForm.get('date2')?.value;
-
-    const searchQuery = {
-      date: date,
-      date2: date2
-    };
-
-    this.isLoading = true;
-
-    this.ordersService.getByQuery(searchQuery).subscribe(
-      response => {
-        this.isLoading = false;
-        if (response.statusCode === 200) {
-          this.totalOrders = response.data.length;
-          this.orders = response.data.sort((a: any, b: any) => {
-            let dateA = new Date(a.internal_folio);
-            let dateB = new Date(b.internal_folio);
-            return dateB.getTime() - dateA.getTime();
-          });
-          this.toastr.success(response.message, 'Éxito');
-        } else {
-          this.toastr.info('No se han encontrado pedidos');
-        }
-      },
-      error => {
-        this.isLoading = false;
-        this.toastr.error('Ha ocurrido un error al consultar los pedidos: ', error);
-      }
-    );
   }
 
   infoFilter() {

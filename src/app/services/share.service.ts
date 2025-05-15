@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ShareService {
+  // Primer conjunto de datos
   private datosSource = new BehaviorSubject<any>(null);
   datos$ = this.datosSource.asObservable();
 
@@ -18,5 +19,13 @@ export class ShareService {
 
   emit_second_data(data: any) {
     this.secondDataSource.next(data);
+  }
+
+  // Tercer conjunto de datos (orders)
+  private ordersDataSource = new BehaviorSubject<any>(null);
+  ordersData$ = this.ordersDataSource.asObservable();
+
+  emit_orders_data(data: any) {
+    this.ordersDataSource.next(data);
   }
 }

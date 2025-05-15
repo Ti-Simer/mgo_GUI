@@ -10,7 +10,8 @@ import { LanguageService } from 'src/app/services/language.service';
 import { Subscription } from 'rxjs';
 import { DialogService } from 'src/app/services/dialog.service';
 import * as XLSX from 'xlsx';
-
+import { RequestStore } from './request.store';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-request-list',
@@ -24,13 +25,19 @@ export class RequestListComponent {
   pageSizeOptions: number[] = [50, 100, 200]; // Opciones de tamaño de página
   pageSize: number = 50; // Tamaño de página predeterminado
   pageIndex: number = 1; // Página actual
-  totalRequests: number = 0;
 
   @ViewChild('myInput') searchInput!: ElementRef; // Obtiene una referencia al elemento de entrada de búsqueda
 
-  searchForm!: FormGroup;
-  request: any[] = [];
+  // Observables del store
+  currentDir: string = 'asc'; // Default sorting direction
+  request$: Observable<any[]> = this.store.request$;
+  total$: Observable<number> = this.store.total$;
+  page$: Observable<number> = this.store.page$;
+  pageSize$: Observable<number> = this.store.pageSize$;
+  loading$: Observable<boolean> = this.store.loading$;
+
   csvData: any[] = [];
+  searchForm!: FormGroup;
 
   isLoading = false;
 
@@ -42,6 +49,7 @@ export class RequestListComponent {
     private translate: TranslateService,
     private languageService: LanguageService,
     private dialogService: DialogService,
+    private store: RequestStore,
   ) {
     translate.addLangs(['en', 'es', 'pt']);
     translate.setDefaultLang(this.languageService.getLanguage());
@@ -61,7 +69,13 @@ export class RequestListComponent {
   }
 
   ngOnInit(): void {
-    this.fetchRequests();
+    this.store.loadRequest();        // carga inicial
+  }
+
+  onPageChange(event: any) {
+    this.store.setPage(event.pageIndex + 1);
+    this.store.setPageSize(event.pageSize);
+    this.store.loadRequest();
   }
 
   ngAfterViewInit() {
@@ -71,13 +85,6 @@ export class RequestListComponent {
       });
     }
   }
-
-  onPageChange(event: any) {
-    this.pageIndex = event.pageIndex + 1; // Angular Material paginator is zero-based
-    this.pageSize = event.pageSize;
-    this.fetchRequests();
-  }
-
 
   initializeSearchFilter() {
     if (this.searchInput) {
@@ -93,103 +100,31 @@ export class RequestListComponent {
   }
 
   fetchRequests() {
-    this.isLoading = true;
-    const pageData = {
-      pageData: {
-        page: this.pageIndex,
-        limit: this.pageSize
-      }
-    };
-
-    this.requestService.getAll(pageData).subscribe(
-      response => {
-        this.isLoading = false;
-        if (response.statusCode === 200) {
-          this.pageIndex = response.data.page;
-          this.pageSize = response.data.limit;
-          this.totalRequests = response.data.total; // Total de elementos para la paginación
-          this.request = response.data.requests.sort((a: any, b: any) => {
-            let dateA = new Date(a.internal_folio);
-            let dateB = new Date(b.internal_folio);
-            return dateB.getTime() - dateA.getTime();
-          });
-        } else {
-          this.toastr.info('No se han encontrado servicios');
-        }
-      },
-      error => {
-        this.isLoading = false;
-        this.toastr.error('Ha ocurrido un error al consultar los servicios: ', error);
-      }
-    );
+    // Reset filtros y recargar todo
+    this.searchForm.reset();
+    this.store.setFilters({ from: null, to: null, propane_truck: null });
+    this.store.loadRequest();
   }
 
-  setPageSizeToTotal() {
-    this.pageSize = this.totalRequests;
-    this.fetchRequests();
-  }
-
-  sortData(data: string) {
-    const keys = data.split('.'); // Divide la cadena en partes
-    this.request.sort((a: any, b: any) => {
-      let valueA = a;
-      let valueB = b;
-
-      // Navega a través de las claves para obtener el valor final
-      keys.forEach(key => {
-        if (key.includes('[')) {
-          const [arrayKey, index] = key.split(/[\[\]]/).filter(Boolean);
-          valueA = valueA[arrayKey][index];
-          valueB = valueB[arrayKey][index];
-        } else {
-          valueA = valueA[key];
-          valueB = valueB[key];
-        }
-      });
-
-      if (valueA < valueB) {
-        return -1;
-      }
-      if (valueA > valueB) {
-        return 1;
-      }
-      return 0; // Los valores son iguales
-    });
+  onSortChange(by: string) {
+    const dir = this.currentDir === 'asc' ? 'desc' : 'asc';
+    this.store.setSort({ by, dir });
   }
 
   makeQuerySearch() {
-    const propane_truck = this.searchForm.get('propane_truck')?.value;
-    const date = this.searchForm.get('date')?.value;
-    const date2 = this.searchForm.get('date2')?.value;
+    const { date, date2, propane_truck } = this.searchForm.value;
 
-    const searchQuery = {
-      propane_truck: propane_truck,
-      date: date,
-      date2: date2
-    };
+    if(propane_truck && !date) {
+      this.toastr.warning('Debes seleccionar una fecha para filtrar por camión de propano');
+      return;
+    }
 
-    this.isLoading = true;
-
-    this.requestService.getByQuery(searchQuery).subscribe(
-      response => {
-        this.isLoading = false;
-        if (response.statusCode === 200) {
-          this.totalRequests = response.data.length;
-          this.request = response.data.sort((a: any, b: any) => {
-            let dateA = new Date(a.internal_folio);
-            let dateB = new Date(b.internal_folio);
-            return dateB.getTime() - dateA.getTime();
-          });
-          this.toastr.success(response.message, 'Éxito');
-        } else {
-          this.toastr.info(response.message, 'Información');
-        }
-      },
-      error => {
-        this.isLoading = false;
-        this.toastr.error('Ha ocurrido un error al consultar los servicios: ', error);
-      }
-    );
+    this.store.setFilters({
+      from: date,
+      to: date2 || date,
+      propane_truck
+    });
+    this.store.loadRequest();
   }
 
   infoFilter() {
@@ -229,10 +164,6 @@ export class RequestListComponent {
     }
 
     this.dialogService.openInfoDialog(message, title);
-  }
-
-  getEndIndex(): number {
-    return Math.min((this.pageIndex * this.pageSize) + this.pageSize, this.totalRequests);
   }
 
   exportToExcelPaginator() {

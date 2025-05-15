@@ -23,13 +23,13 @@
             </div>
         </div>
 
-        <div class="row mt-4 d-flex justify-content-center" *ngIf="request.length == 0">
+        <div class="row mt-4 d-flex justify-content-center" *ngIf="(request$ | async)!.length == 0">
             <div class="col-sm-4 text-center">
                 <p style="font-size: 14px; color: #a8a8a8;">{{'Presione Añadir para crear registros en esta sección' | translate}}</p>
             </div>
         </div>
 
-        <div class="row d-flex justify-content-center mb-3 mt-4 bg-white p-2 mb-1 rounded mx-auto shadow-sm" style="width: 90%;" *ngIf="request.length > 0" form [formGroup]="searchForm">
+        <div class="row d-flex justify-content-center mb-3 mt-4 bg-white p-2 mb-1 rounded mx-auto shadow-sm" style="width: 90%;" *ngIf="(request$ | async)!.length > 0" form [formGroup]="searchForm">
             <details>
                 <summary class="text-center text-secondary">{{'Búsqueda Avanzada' | translate}}</summary>
                 <hr style="width: 75%; margin: 2rem auto;">
@@ -78,10 +78,14 @@
 
         <div class="row p-1 buttons-group-landscape">
             <div class="col-sm-12 d-flex">
-                <div class="col-md-11" style="justify-items: baseline;">
-                    <mat-paginator [length]="totalRequests" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"(page)="onPageChange($event)" showFirstLastButtons></mat-paginator>
+                <div class="col-md-10" style="justify-items: baseline;">
+                    <mat-paginator *ngIf="(request$ | async)!.length > 0" [length]="total$ | async" [pageSize]="pageSize$ | async" [pageIndex]="(page$ | async)! - 1" [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" showFirstLastButtons></mat-paginator>
+                    <p *ngIf="(request$ | async)!.length < 1" style="font-size: 14px; color: #a8a8a8;">{{'No se han encontrado registros' | translate}}</p>
                 </div>
-                <div class="col-md-1 float-end" id="responsive-container">
+                <div class="col-md-2 float-end" id="responsive-container">
+                    <button *ngIf="(request$ | async)!.length < 1" (click)="fetchRequests()" class="btn btn-sm btn-secondary float-end" id="items">
+                        <lucide-icon name="rotate-cw" style="cursor: pointer"></lucide-icon> {{'Reestablecer' | translate}}
+                    </button>
                     <button (click)="toOrders()" class="btn btn-sm btn-info float-end" id="items">
                         {{'Pedidos' | translate}}
                     </button>
@@ -89,8 +93,11 @@
             </div>
         </div>
 
-        <label class="text-length px-1" style="font-size: 10px; color: #a8a8a8;">{{pageIndex * pageSize + 1}} - {{(pageIndex + 1) * pageSize}} {{'de' | translate}} {{request.length}} {{'registros' | translate}}</label>
+        <label class="text-length px-1" style="font-size: 10px; color: #a8a8a8;">{{pageIndex * pageSize + 1}} - {{(pageIndex + 1) * pageSize}} {{'de' | translate}} {{(request$ | async)!.length}} {{'registros' | translate}}</label>
         <div class="buttons-group-portrait">
+            <button *ngIf="(request$ | async)!.length < 1" (click)="fetchRequests()" class="btn btn-sm btn-secondary float-end" id="items">
+                <lucide-icon name="rotate-cw" style="cursor: pointer"></lucide-icon> {{'Reestablecer' | translate}}
+            </button>
             <button (click)="toOrders()" class="btn btn-sm btn-info float-end">{{'Pedidos' | translate}}</button>
         </div>
 
@@ -105,23 +112,23 @@
             </div>
         </div>
 
-        <div class="row mt-1 table-list" *ngIf="request.length > 0">
+        <div class="row mt-1 table-list" *ngIf="(request$ | async)!.length > 0">
             <div class="col-md">
-                <table class="table table-striped table-bordered" *ngIf="request.length > 0">
+                <table class="table table-striped table-bordered" *ngIf="(request$ | async)!.length > 0">
                     <thead>
                         <tr>
-                            <th class="custom-header" (click)="sortData('folio')" id="encabezado">{{'Folio' | translate}}</th>
-                            <th class="custom-header" (click)="sortData('internal_folio')" id="encabezado">{{'N° Servicio' | translate}}</th>
-                            <th class="custom-header" (click)="sortData('create')" id="encabezado">{{'Fecha (Recepción-Sistema)' | translate}}</th>
-                            <th class="custom-header" (click)="sortData('data_series.fechaInicial')" id="encabezado">{{'Fecha (Creación-Remisión)' | translate}}</th>
-                            <th class="custom-header" (click)="sortData('operator.firstName')" id="encabezado">{{'Responsable' | translate}}</th>
-                            <th class="custom-header" (click)="sortData('branch_office.name')" id="encabezado">{{'Establecimiento' | translate}}</th>
-                            <th class="custom-header" (click)="sortData('data_series.masaTotal')" id="encabezado">{{'Total GLP entregado' | translate}}</th>
+                            <th class="custom-header" (click)="onSortChange('folio')" id="encabezado">{{'Folio' | translate}}</th>
+                            <th class="custom-header" (click)="onSortChange('internal_folio')" id="encabezado">{{'N° Servicio' | translate}}</th>
+                            <th class="custom-header" (click)="onSortChange('create')" id="encabezado">{{'Fecha (Recepción-Sistema)' | translate}}</th>
+                            <th class="custom-header" (click)="onSortChange('data_series.fechaInicial')" id="encabezado">{{'Fecha (Creación-Remisión)' | translate}}</th>
+                            <th class="custom-header" (click)="onSortChange('operator.firstName')" id="encabezado">{{'Responsable' | translate}}</th>
+                            <th class="custom-header" (click)="onSortChange('branch_office.name')" id="encabezado">{{'Establecimiento' | translate}}</th>
+                            <th class="custom-header" (click)="onSortChange('data_series.masaTotal')" id="encabezado">{{'Total GLP entregado' | translate}}</th>
                             <th class="custom-header">{{'Acciones' | translate}}</th>
                         </tr>
                     </thead>
                     <tbody id="myTable">
-                        <tr *ngFor="let request of request">
+                        <tr *ngFor="let request of (request$ | async)">
                             <td class="custom-td">{{ request.folio }}</td>
                             <td class="custom-td">{{ request.internal_folio }}</td>
                             <td class="custom-td">{{ request.create | date: 'medium' }}</td>
@@ -144,8 +151,7 @@
                 </table>
             </div>
         </div>
-        <mat-paginator [length]="totalRequests" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"(page)="onPageChange($event)" showFirstLastButtons></mat-paginator>
-
+        <mat-paginator *ngIf="(request$ | async)!.length > 0" [length]="total$ | async" [pageSize]="pageSize$ | async" [pageIndex]="(page$ | async)! - 1" [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" showFirstLastButtons></mat-paginator>
     </div>
     <app-footer class="hide-on-mobile"></app-footer>
 </div>
