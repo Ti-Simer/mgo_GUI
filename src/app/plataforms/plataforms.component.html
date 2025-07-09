@@ -1,56 +1,88 @@
-<div class="container">
-    <div class="row d-flex justify-content-center text-center">
-        <div class="row title justify-content-center">
-            <div class="col-md-6">
-                <h2>{{'Seleccione el sistema para ingresar' | translate}}</h2>
-                <p>({{'SYSTEMS_INFO' | translate}})</p>
-            </div>
-        </div>
-
-        <div class="col-md-2 slot text-center">
-            <img class="atenea" src="assets/images/atenea-logo-plataform.svg" (click)="toLoginAthenea()">
-            <p class="atenea-text">
+<div class="transition-all duration-300" [class.ml-36]="!sidebarCollapsed">
+    <h1 class="text-4xl font-bold text-gray-600 text-center mb-2 mt-8 sm: px-8 py-8">
+        {{'¡Bienvenido! Seleccione el sistema para ingresar' | translate}}
+        <p class="text-gray-600 text-lg text-center mb-12 sm: px-8">
+            ({{'SYSTEMS_INFO' | translate}})
+        </p>
+    </h1>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4 md:p-12 w-full p-4 mb-4">
+        <div class="p-6 bg-gray-100 cursor-pointer hover:bg-gray-200 rounded" (click)="toLoginAthenea()">
+            <p class="text-center text-4xl">
+                <img class="atenea h-16 mx-auto" src="assets/images/atenea-logo-plataform.svg">
+            </p>
+    
+            <h2 class="font-semibold text-lg text-center text-gray-800 mt-2">
                 ATHENEA <br>
                 ({{'Tanques estacionarios' | translate}})
+            </h2>
+    
+            <p class="mt-2 text-gray-800 text-center">
+                {{'Plataforma de telemetría que mide niveles en tanques. Genera alertas al llegar a umbrales críticos, evitando desabastecimientos.' | translate}}
             </p>
-            <lucide-icon name="help-circle" color='#a8a8a8' [size]="14" (click)="toAtheneaInfo()"></lucide-icon>
         </div>
-
-        <div class="col-md-2 slot text-center" (click)="toPoseidonLogin()">
-            <img class="poseidon" src="assets/images/poseidon-logo-plataform.svg">
-            <p class="poseidon-text">
+    
+        <div class="p-6 bg-gray-100 cursor-pointer hover:bg-gray-200 rounded" (click)="toPoseidonLogin()">
+            <p class="text-center text-4xl">
+                <img class="poseidon h-16 mx-auto" src="assets/images/poseidon-logo-plataform.svg">
+            </p>
+    
+            <h2 class="font-semibold text-lg text-center text-gray-800 mt-2">
                 POSEIDON-GLP <br>
                 ({{'Auto tanques' | translate}})
+            </h2>
+    
+            <p class="mt-2 text-gray-800 text-center">
+                {{'Solución para controlar entregas de GLP con autotanque. Monitorea en tiempo real usando comunicación inalámbrica para una distribución eficiente.' | translate}}
             </p>
-            <lucide-icon name="help-circle" color='#a8a8a8' [size]="14" (click)="toPoseidonInfo()"></lucide-icon>
         </div>
-
-        <div class="col-md-2 slot text-center" (click)="toLoginFenix()">
-            <img class="fenix" src="assets/images/fenix-logo-plataform.svg">
-            <p class="fenix-text">
+    
+        <div class="p-6 bg-gray-100 cursor-pointer hover:bg-gray-200 rounded" (click)="toLoginFenix()">
+            <p class="text-center text-4xl">
+                <img class="fenix h-16 mx-auto" src="assets/images/fenix-logo-plataform.svg">
+            </p>
+    
+            <h2 class="font-semibold text-lg text-center text-gray-800 mt-2">
                 FENIX <br>
                 ({{'Cilindros' | translate}})
+            </h2>
+    
+            <p class="mt-2 text-gray-800 text-center">
+                {{'Sistema de control que integra hardware y software para el llenado preciso de cilindros de GLP. Fácil de instalar, versátil, seguro y trazable.' | translate}}
             </p>
-            <lucide-icon name="help-circle" color='#a8a8a8' [size]="14"></lucide-icon>
         </div>
-        
-        <div class="col-md-2 slot text-center" (click)="toLoginHercules()">
-            <img class="hercules" src="assets/images/hercules-logo-plataform.svg">
-            <p class="fenix-text">
+    
+        <div class="p-6 bg-gray-100 cursor-pointer hover:bg-gray-200 rounded" (click)="toLoginHercules()">
+            <p class="text-center text-4xl">
+                <img class="hercules h-16 mx-auto" src="assets/images/hercules-logo-plataform.svg">
+            </p>
+    
+            <h2 class="font-semibold text-lg text-center text-gray-800 mt-2">
+    
                 HERCULES <br>
                 ({{'Tanques almacenamiento' | translate}})
+            </h2>
+    
+            <p class="mt-2 text-gray-800 text-center">
+                {{'Sistema de monitoreo para tanques de almacenamiento de GLP. Usa sensores de nivel, presión y temperatura para supervisión integral.' | translate}}
             </p>
-            <lucide-icon name="help-circle" color='#a8a8a8' [size]="14"></lucide-icon>
         </div>
-
-        <div class="col-md-2 slot text-center">
-            <img class="poseidon-diesel" src="assets/images/poseidon-diesel-logo-plataform.svg">
-            <p class="poseidon-diesel-text">
+    
+        <div class="p-6 bg-gray-100 cursor-pointer hover:bg-gray-200 rounded">
+            <p class="text-center text-4xl">
+                <img class="poseidon-diesel h-16 mx-auto" src="assets/images/poseidon-diesel-logo-plataform.svg">
+            </p>
+    
+            <h2 class="font-semibold text-lg text-center text-gray-800 mt-2">
                 POSEIDON-DIESEL <br>
                 ({{'EDS' | translate}})
+            </h2>
+    
+            <p class="mt-2 text-gray-800 text-center">
+                {{'Versión adaptada de POSEIDON para el control y monitoreo de entregas de diésel con soporte logístico y comunicación remota.' | translate}}
             </p>
-            <lucide-icon name="help-circle" color='#a8a8a8' [size]="14"></lucide-icon>
         </div>
     </div>
 </div>
-<app-footer class="hide-on-mobile"></app-footer>
+
+<app-footer-lite class="hide-on-mobile"></app-footer-lite>

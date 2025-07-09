@@ -105,6 +105,35 @@ export class AuthService {
     return null;
   }
 
+  // ----------------------------- ** Variables globales del sistema ** ----------------------------- //
+  
+  // Observable y fuente para el estado del menú expandible
+  private menuExpandedSource = new BehaviorSubject<boolean>(this.getMenuExpandedFromStorage());
+  menuExpanded$ = this.menuExpandedSource.asObservable();
+  
+  // Lee el estado desde localStorage
+  private getMenuExpandedFromStorage(): boolean {
+    const value = localStorage.getItem('menuExpanded');
+    return value !== null ? JSON.parse(value) : true; // true = expandido por defecto
+  }
+  
+  // Guarda el estado en localStorage y notifica a los suscriptores
+  setMenuExpanded(isExpanded: boolean): void {
+    localStorage.setItem('menuExpanded', JSON.stringify(isExpanded));
+    this.menuExpandedSource.next(isExpanded);
+  }
+  
+  // Cambia el estado (colapsa/expande) y lo propaga
+  toggleMenuExpanded(): void {
+    const current = this.menuExpandedSource.value;
+    this.setMenuExpanded(!current);
+  }
+  
+  // Permite obtener el valor actual (sin subscribirse)
+  getMenuExpanded(): boolean {
+    return this.menuExpandedSource.value;
+  }
+
   // ----------------------------- ** Métodos de encriptación y desencriptación ** ----------------------------- //
 
   encryptData(data: string) {

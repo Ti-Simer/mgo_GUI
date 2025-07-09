@@ -27,6 +27,7 @@ import {
   EyeOff,
   BadgeX
 } from 'lucide-angular';
+import { DialogViewUserComponent } from './dialog-view-user/dialog-view-user.component';
 
 // Factory function for TranslateHttpLoader
 export function HttpLoaderFactory(http: HttpClient) {
@@ -43,6 +44,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ViewUserComponent,
     DialogEditUserComponent,
     DialogCreateUserComponent,
+    DialogViewUserComponent,
   ],
   imports: [
     CommonModule,

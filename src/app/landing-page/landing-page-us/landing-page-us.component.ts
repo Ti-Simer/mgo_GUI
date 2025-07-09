@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/services/language.service';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-landing-page-us',
@@ -14,7 +15,8 @@ export class LandingPageUsComponent {
 
   constructor(
     private translate: TranslateService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private router: Router
   ) {
     translate.addLangs(['en', 'es', 'pt']);
     translate.setDefaultLang(this.languageService.getLanguage());
@@ -31,5 +33,13 @@ export class LandingPageUsComponent {
     if (this.languageSubscription) {
       this.languageSubscription.unsubscribe();
     }
+  }
+
+  toPlataforms(): void {
+    this.router.navigate(['/plataforms']);
+  }
+
+  toContact(): void {
+    this.router.navigate(['/contact']);
   }
 }

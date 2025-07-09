@@ -5,7 +5,7 @@ import { StationaryTankRoutingModule } from './stationary-tank-routing.module';
 import { StationaryTankCreateComponent } from './stationary-tank-create/stationary-tank-create.component';
 import { StationaryTankEditComponent } from './stationary-tank-edit/stationary-tank-edit.component';
 import { StationaryTankListComponent } from './stationary-tank-list/stationary-tank-list.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { StationaryTankImportComponent } from './stationary-tank-import/stationary-tank-import.component';
@@ -44,6 +44,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     StationaryTankRoutingModule,
     SharedModule,
     ReactiveFormsModule,
+    FormsModule,
     MatPaginatorModule,
     LucideAngularModule.pick({
       Cylinder,

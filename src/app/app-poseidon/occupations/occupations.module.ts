@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { OccupationsRoutingModule } from './occupations-routing.module';
 import { OccupationsListComponent } from './occupations-list/occupations-list.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OccupationsCreateComponent } from './occupations-create/occupations-create.component';
 import { OccupationsEditComponent } from './occupations-edit/occupations-edit.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -38,6 +38,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     CommonModule,
     OccupationsRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     SharedModule,
     MatPaginatorModule,
     LucideAngularModule.pick({

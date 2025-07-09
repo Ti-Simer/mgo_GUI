@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PropaneTruckRoutingModule } from './propane-truck-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PropaneTruckListComponent } from './propane-truck-list/propane-truck-list.component';
 import { PropaneTruckCreateComponent } from './propane-truck-create/propane-truck-create.component';
 import { PropaneTruckEditComponent } from './propane-truck-edit/propane-truck-edit.component';
@@ -37,6 +37,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PropaneTruckRoutingModule,
     SharedModule,
     ReactiveFormsModule,
+    FormsModule,
     MatPaginatorModule,
     LucideAngularModule.pick({
       Truck,

@@ -1,22 +1,326 @@
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 content">
-            <h2>{{'title' | translate}}</h2>
-            <hr>
-            <h3>{{'Responsable del Sitio Web' | translate}}</h3>
-            <pre>{{'responsability' | translate}}</pre>
-            <h3>{{'Descripción de la Aplicación' | translate}}</h3>
-            <p>{{'description' | translate}}</p>
-            <h3>{{'Recopilación y Uso de Datos' | translate}}</h3>
-            <p>{{'recopilation' | translate}}</p>
-            <h3>{{'Política de Privacidad' | translate}}</h3>
-            <p>{{'policity' | translate}}</p>
-            <p>{{'laws' | translate}}</p>
-            <h3>{{'Condiciones de Uso' | translate}}</h3>
-            <p>{{'conditions' | translate}}</p>
-            <h3>{{'Limitación de Responsabilidad' | translate}}</h3>
-            <p>{{'limitations' | translate}}</p>
+<body>
+    <div class="min-h-screen">
+        <div class="max-w-4xl mx-auto px-4 py-16">
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <div class="flex justify-between gap-2 mb-4">
+                    <a (click)="toLandingpage()"
+                        class="inline-flex items-center border border-sky-500 px-3 py-1.5 rounded-md text-sky-700 hover:bg-sky-50 cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            class="h-6 w-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 16l-4-4m0 0l4-4m-4 4h18">
+                            </path>
+                        </svg>
+                        <span class="ml-1 font-bold text-lg">Atrás</span>
+                    </a>
+                </div>
+
+                <h1 class="text-3xl font-bold text-gray-900 mb-8 mt-6">Términos y Condiciones</h1>
+                <section class="mb-8">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">1. Responsable del Sitio Web</h2>
+                    <div class="prose text-gray-600">
+                        <p>
+                            SIMER ELECTRONIC S.A.S — Pasto, Nariño, Colombia
+                        </p>
+                        <ul>
+                            <li>Gerente: Carlos Burbano Burbano</li>
+                            <li>Gerente Técnico: Héctor Ancízar Benavides</li>
+                            <li>Director de Tecnología: Reinel Andrés Mora</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">2. Condiciones de Uso</h2>
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <ul class="space-y-4 text-gray-600">
+                            <li class="flex gap-3">
+                                <svg class="h-6 w-6 text-sky-500 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span>Al acceder y usar esta aplicación, el usuario acepta que la información
+                                    proporcionada será utilizada únicamente para los fines aquí descritos.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <svg class="h-6 w-6 text-sky-500 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span>No está permitido compartir credenciales ni información sensible fuera de la
+                                    plataforma.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <svg class="h-6 w-6 text-sky-500 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span>El usuario se compromete a cumplir con las leyes colombianas aplicables y con
+                                    estos términos.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">3. Limitación de Responsabilidad</h2>
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="ml-8">
+                                <ul class="list-disc text-sm text-yellow-700">
+                                    <li>
+                                        SIMER ELECTRONIC S.A.S no responde por el mal uso de la aplicación ni por daños
+                                        directos o indirectos derivados de ella, salvo responsabilidad legalmente
+                                        exigible.
+
+                                    </li>
+                                    <li>
+                                        No se asume responsabilidad por la divulgación de datos fuera de los casos
+                                        permitidos por la legislación colombiana de protección de datos.
+
+                                    </li>
+                                    <li>
+                                        El usuario indemnizará a SIMER ELECTRONIC S.A.S por cualquier reclamo o gasto
+                                        legal
+                                        surgido de un uso indebido de la plataforma.
+
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">4. Legislación Aplicable</h2>
+                    <div class="prose text-gray-600">
+                        <p>Esta sección y sus términos se rigen por la Ley 1581 de 2012 (Protección de Datos Personales)
+                            y demás normativas colombianas pertinentes.</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">5. Contacto</h2>
+                    <div class="bg-gray-50 rounded-lg p-6 flex items-center justify-between">
+                        <p class="text-gray-600">¿Tiene preguntas sobre los Términos de Servicio?</p>
+                        <a href="mailto:contacto@simerelectronics.com"
+                            class="inline-flex items-center text-sky-700 hover:text-sky-600">
+                            <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            Contacta con nosotros
+                        </a>
+                    </div>
+                </section>
+            </div>
         </div>
     </div>
-</div>
-<app-footer class="hide-on-mobile"></app-footer>
+</body>
+
+<body>
+    <div class="min-h-screen">
+        <div class="max-w-4xl mx-auto px-4 py-16">
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+
+                <div class="flex justify-between gap-2 mb-4">
+                    <a (click)="toLandingpage()"
+                        class="inline-flex items-center border border-sky-500 px-3 py-1.5 rounded-md text-sky-700 hover:bg-sky-50 cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            class="h-6 w-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 16l-4-4m0 0l4-4m-4 4h18">
+                            </path>
+                        </svg>
+                        <span class="ml-1 font-bold text-lg">Atrás</span>
+                    </a>
+                </div>
+
+                <h1 class="text-3xl font-bold text-gray-900 mb-8 mt-6">Política de Privacidad</h1>
+
+                <section class="mb-8">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Recopilación y Uso de Datos</h2>
+                    <p class="text-gray-600 leading-relaxed">
+                        Los datos de usuarios se almacenan en una base de datos central y todas las contraseñas se
+                        cifran con bcrypt. Cada solicitud de información se atiende a través de una API REST sobre HTTP,
+                        utilizando únicamente endpoints autorizados. Esta información se emplea de forma exclusiva para
+                        los fines definidos en la aplicación, garantizando así la seguridad y confidencialidad de la
+                        información de nuestros usuarios.
+
+                        Los datos se utilizan exclusivamente para:
+                    </p>
+                    <div class="mt-4 space-y-2">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-6 w-6 text-blue-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <span class="ml-3 text-gray-600">Optimizar la entrega y facturación de GLP.</span>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-6 w-6 text-blue-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <span class="ml-3 text-gray-600">Control de acceso y roles de usuario.</span>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-6 w-6 text-blue-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <span class="ml-3 text-gray-600">Gestión de ubicaciones, clientes y vehículos.</span>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-6 w-6 text-blue-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <span class="ml-3 text-gray-600">Generación de reportes operativos y alertas de ruta.</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Derechos de los Usuarios</h2>
+                    <p class="text-gray-600 leading-relaxed mb-2">De acuerdo con la Ley 1581 de 2012, los usuarios
+                        tienen
+                        derecho a:</p>
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 text-blue-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                            d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                </div>
+                                <span class="ml-3 text-gray-600">Acceder a sus datos.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 text-blue-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                            d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                </div>
+                                <span class="ml-3 text-gray-600">Actualizarlos o rectificarlos.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 text-blue-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                            d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                </div>
+                                <span class="ml-3 text-gray-600">Cancelar su tratamiento.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-6 w-6 text-blue-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                            d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                </div>
+                                <span class="ml-3 text-gray-600">Oponerse a su uso.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Confidencialidad y Terceros</h2>
+                    <div class="prose text-gray-600">
+                        <p class="mb-4">
+                            No compartimos datos con terceros, salvo cuando sea necesario para prestar los servicios de
+                            la aplicación.
+                        </p>
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                            <p class="text-blue-700">
+                                En esos casos, se aplican medidas de seguridad acordes a la legislación colombiana.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Tus Derechos</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <h3 class="font-medium text-gray-900 mb-2">Acceso</h3>
+                            <p class="text-gray-600">
+                                Puedes solicitar información sobre los datos personales que hemos recopilado y el
+                                propósito de su tratamiento.
+                            </p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <h3 class="font-medium text-gray-900 mb-2">Rectificación</h3>
+                            <p class="text-gray-600">
+                                Tienes derecho a corregir datos inexactos o incompletos sobre tu persona en nuestra base
+                                de datos.
+                            </p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <h3 class="font-medium text-gray-900 mb-2">Cancelación</h3>
+                            <p class="text-gray-600">
+                                Puedes pedir la eliminación de tus datos cuando consideres que no están siendo tratados
+                                conforme a la ley.
+                            </p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <h3 class="font-medium text-gray-900 mb-2">Oposición</h3>
+                            <p class="text-gray-600">
+                                Tienes derecho a oponerte al tratamiento de tus datos por motivos legítimos y
+                                específicos.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Contacta con nosotros</h2>
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <p class="text-gray-600 mb-4">
+                            Si tiene alguna pregunta sobre esta Política de privacidad, contáctenos en:
+                        </p>
+                        <div class="flex items-center space-x-2 text-blue-600">
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            <a href="mailto:contacto@simerelectronics.com"
+                                class="hover:underline">{{'contacto@simerelectronics.com'}}</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</body>

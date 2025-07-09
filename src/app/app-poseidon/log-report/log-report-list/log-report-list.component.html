@@ -1,161 +1,138 @@
-<div class="general-container d-flex justify-content-center" id="responsive-container">
-
-    <!-- sección1 -->
-
-    <div class="col-lg-6 m-1 tank-section" id="items">
-        <div class="col-lg-12 p-2 mb-2 bg-light shadow-sm shortcut-subsection rounded">
-            <div class="row d-flex justify-content-center">
-                <div class="text-center fw-bold display-6 mb-2" style="color: #014e87;">
-                    {{'Accesos directos' | translate}}
-                </div>
-                <hr class="w-50 text-gray">
+<div class="min-h-[40vh] grid grid-cols-1 xl:grid-cols-2 gap-2.5 px-4 py-3  ">
+    <!-- Seccion 1 -->
+    <div class="w-full bg-gray-100 rounded-xl p-4">
+        <div class="flex flex-col items-center">
+            <div class="text-center font-bold text-2xl mb-2" style="color: #014e87;">
+                {{'Accesos directos' | translate}}
             </div>
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-6">
-                    <a (click)="toCourses()" class="text-decoration-none" style="cursor: pointer;">
-                        <div class="bg-primary text-white p-4 rounded text-center mb-4"
-                            style="background-color: #014e87 !important;">
-                            {{'Derroteros' | translate}}
-                        </div>
-                    </a>
-                </div>
+            <hr class="w-1/2 border-gray-400 mb-4">
+        </div>
 
-                <div class="col-md-6">
-                    <a (click)="toReports()" class="text-decoration-none" style="cursor: pointer;">
-                        <div class="text-white p-4 rounded text-center mb-4" style="background-color: #0267B5;">
-                            {{'Reportes' | translate}}
-                        </div>
-                    </a>
-                </div>
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-2.5 px-2 py-2">
+            <div class="w-full h-24 rounded-xl text-center text-white text-semibold cursor-pointer flex items-center justify-center"
+                style="background-color: #014e87;" (click)="toCourses()">
+                {{'Derroteros' | translate}}
             </div>
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-6">
-                    <a (click)="toOrders()" class="text-decoration-none" style="cursor: pointer;">
-                        <div class="text-white p-4 rounded text-center mb-4" style="background-color: #027FDE;">
-                            {{'Pedidos' | translate}}
-                        </div>
-                    </a>
-                </div>
+            <div class="w-full h-24 rounded-xl text-center text-white text-semibold cursor-pointer flex items-center justify-center"
+                style="background-color: #0267B5;" (click)="toReports()">
+                {{'Reportes' | translate}}
+            </div>
+            <div class="w-full h-24 rounded-xl text-center text-white text-semibold cursor-pointer flex items-center justify-center"
+                style="background-color: #027FDE;" (click)="toOrders()">
+                {{'Pedidos' | translate}}
+            </div>
+            <div class="w-full h-24 rounded-xl text-center text-white text-semibold cursor-pointer flex items-center justify-center"
+                style="background-color: #01213B;" (click)="toRequest()">
+                {{'Servicios' | translate}}
+            </div>
+        </div>
+    </div>
 
-                <div class="col-md-6">
-                    <a (click)="toRequest()" class="text-decoration-none" style="cursor: pointer;">
-                        <div class="text-white p-4 rounded text-center" style="background-color: #01213B;">
-                            {{'Servicios' | translate}}
-                        </div>
-                    </a>
+
+    <!-- Seccion 2 -->
+    <div class="w-full bg-gray-100 rounded-xl">
+        <!-- Header -->
+        <div class="w-full bg-gray-100 p-4 mb-4">
+            <div class="flex flex-col items-center">
+                <div class="text-center font-bold text-2xl" style="color: #014e87;">
+                    {{'Eventos de ruta' | translate}}
+                    <p class="text-gray-500 font-light mt-1 text-base">
+                        {{dateToday}}
+                    </p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-2 mt-4 w-full" *ngIf="log_reports.length > 0">
+                    <button type="button"
+                        class="relative p-2 shadow rounded text-white flex items-center justify-center"
+                        style="background-color: #014e87;">
+                        <lucide-icon name="flame" color="#36a9ff"></lucide-icon>
+                        <span class="ml-2">{{'Baja' | translate}}</span>
+                        <span
+                            class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-xs font-bold">
+                            {{criticalityLow}}
+                        </span>
+                    </button>
+                    <button type="button"
+                        class="relative p-2 shadow rounded text-white flex items-center justify-center"
+                        style="background-color: #014e87;">
+                        <lucide-icon name="flame" color="#f19538"></lucide-icon>
+                        <span class="ml-2">{{'Media' | translate}}</span>
+                        <span
+                            class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-xs font-bold">
+                            {{criticalityMedium}}
+                        </span>
+                    </button>
+                    <button type="button"
+                        class="relative p-2 shadow rounded text-white flex items-center justify-center"
+                        style="background-color: #014e87;">
+                        <lucide-icon name="flame" color="#c61f1f"></lucide-icon>
+                        <span class="ml-2">{{'Alta' | translate}}</span>
+                        <span
+                            class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-xs font-bold">
+                            {{criticalityHigh}}
+                        </span>
+                    </button>
+                    <button
+                        class="ml-auto px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-700 rounded text-sm font-semibold transition"
+                        *ngIf="log_reports.length > 0">
+                        {{'Ver todo' | translate}}
+                    </button>
+                </div>
+                <div class="flex justify-center w-full" *ngIf="log_reports.length < 1">
+                    <p class="text-xl text-gray-500 text-center p-4 rounded border border-dotted border-gray-400 mt-4">
+                        {{'No se han presentado eventos de ruta' | translate}}
+                    </p>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-12 p-2 bg-light shadow-sm tank-card-section rounded">
+        <!-- Eventos -->
+        <div class="space-y-3">
+            <div class="shadow rounded bg-white p-3" *ngFor="let log_report of log_reports">
+                <div class="mb-2 text-gray-500 text-sm">
+                    {{log_report.propane_truck.plate}} <br>
+                    {{log_report.user.firstName}} {{log_report.user.lastName}}
+                </div>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <div class="p-2 shadow rounded text-white flex-1" style="background-color: #014e87;"
+                        *ngIf="log_report.route_event.criticality == 0">
+                        <lucide-icon name="flame" color="#36a9ff"></lucide-icon> {{'Baja' | translate}} <br>
+                        {{log_report.route_event.name}} <br>
+                        {{log_report.create | date: 'medium'}}
+                    </div>
+                    <div class="p-2 shadow rounded text-white flex-1" style="background-color: #014e87;"
+                        *ngIf="log_report.route_event.criticality == 1">
+                        <lucide-icon name="flame" color="#f19538"></lucide-icon> {{'Media' | translate}} <br>
+                        {{log_report.route_event.name}} <br>
+                        {{log_report.create | date: 'medium'}}
+                    </div>
+                    <div class="p-2 shadow rounded text-white flex-1" style="background-color: #014e87;"
+                        *ngIf="log_report.route_event.criticality == 2">
+                        <lucide-icon name="flame" color="#c61f1f"></lucide-icon> {{'Alta' | translate}} <br>
+                        {{log_report.route_event.name}} <br>
+                        {{log_report.create | date: 'medium'}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            <div class="title display-6 text-center fw-bold" style="color: #014e87">
+    <!-- Seccion 3 -->
+    <div class="w-full bg-gray-100 rounded-xl p-4">
+        <div class="w-full p-2">
+            <div class="text-center font-bold text-2xl" style="color: #014e87;">
                 {{'Auto tanques en curso' | translate}}
-                <p class="text-secondary fw-light mt-1" style="font-size: 18px">
+                <p class="text-gray-500 font-light mt-1 text-base">
                     {{dateToday}}
                 </p>
             </div>
-            <div class="tank-list">
+            <div class="tank-list mt-2">
                 <app-log-report-list-propanetrucks></app-log-report-list-propanetrucks>
             </div>
         </div>
     </div>
 
-    <!-- sección2 -->
-
-    <div class="col-lg-6 m-1 event-section" id="items">
-        <div class="col-lg-12 mb-2 bg-light shadow-sm event-routes-section rounded">
-            <!-- Header -->
-            <div class="header">
-                <div class="row d-flex justify-content-center mb-2 p-2"
-                    id="responsive-container">
-                    <span class="display-6 text-center fw-bold" style="color: #014e87">
-                        {{'Eventos de ruta' | translate}}
-                        <p class="text-secondary fw-light mt-1" style="font-size: 18px">
-                            {{dateToday}}
-                        </p>
-                    </span>
-                    <div class="col-sm d-flex justify-content-around" id="items" *ngIf="log_reports.length > 0">
-                        <button type="button"
-                            class="btn btn-primary position-relative p-2 shadow-sm rounded text-white w-25"
-                            style="background-color: #014e87;">
-                            <lucide-icon name="flame" color="#36a9ff"></lucide-icon> {{'Baja' | translate}}
-                            <span
-                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                {{criticalityLow}}
-                                <span class="visually-hidden"></span>
-                            </span>
-                        </button>
-                        <button type="button"
-                            class="btn btn-primary position-relative p-2 shadow-sm rounded text-white w-25"
-                            style="background-color: #014e87;">
-                            <lucide-icon name="flame" color="#f19538"></lucide-icon> {{'Media' | translate}}
-                            <span
-                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                {{criticalityMedium}}
-                                <span class="visually-hidden"></span>
-                            </span>
-                        </button>
-                        <button type="button"
-                            class="btn btn-primary position-relative p-2 shadow-sm rounded text-white w-25"
-                            style="background-color: #014e87;">
-                            <lucide-icon name="flame" color="#c61f1f"></lucide-icon> {{'Alta' | translate}}
-                            <span
-                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                {{criticalityHigh}}
-                                <span class="visually-hidden"></span>
-                            </span>
-                        </button>
-                    </div>
-                    <div class="col-sm" id="items" *ngIf="log_reports.length > 0">
-                        <button class="btn btn-sm btn-secondary float-end w-25" id="items" >
-                            {{'Ver todo' | translate}}
-                        </button>
-                    </div>
-                    <div class="container d-flex justify-content-center" *ngIf="log_reports.length < 1">
-                        <p class="display-6 text-secondary text-center p-4 rounded" style="border: dotted 1px #8e8f8f;">
-                            {{'No se han presentado eventos de ruta' | translate}}
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Eventos -->
-
-            <div class="events">
-                <div class="shadow-sm event-card rounded bg-white p-2" *ngFor="let log_report of log_reports">
-                    <span class="mb-3 text-muted">
-                        {{log_report.propane_truck.plate}} <br>
-                        {{log_report.user.firstName}} {{log_report.user.lastName}} <br>
-                    </span>
-                    <span class="d-flex">
-                        <span class="p-2 shadow-sm rounded text-white w-100" style="background-color: #014e87;"
-                            *ngIf="log_report.route_event.criticality == 0">
-                            <lucide-icon name="flame" color="#36a9ff"></lucide-icon> Baja <br>
-                            {{log_report.route_event.name}} <br>
-                            {{log_report.create | date: 'medium'}} <br>
-                        </span>
-                        <span class="p-2 shadow-sm rounded text-white w-100" style="background-color: #014e87;"
-                            *ngIf="log_report.route_event.criticality == 1">
-                            <lucide-icon name="flame" color="#f19538"></lucide-icon> Media <br>
-                            {{log_report.route_event.name}} <br>
-                            {{log_report.create | date: 'medium'}} <br>
-                        </span>
-                        <span class="p-2 shadow-sm rounded text-white w-100" style="background-color: #014e87;"
-                            *ngIf="log_report.route_event.criticality == 2">
-                            <lucide-icon name="flame" color="#c61f1f"></lucide-icon> Alta <br>
-                            {{log_report.route_event.name}} <br>
-                            {{log_report.create | date: 'medium'}} <br>
-                        </span>
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-12 p-2 bg-light shadow-sm map-subsection rounded">
-            <app-log-report-list-map></app-log-report-list-map>
-        </div>
-
+    <!-- Seccion 4 -->
+    <div class="w-full bg-gray-100 rounded-xl p-4">
+        <app-log-report-list-map></app-log-report-list-map>
     </div>
 </div>

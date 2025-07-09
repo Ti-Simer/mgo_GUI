@@ -33,15 +33,13 @@
               "src/environments/environment.prod.ts"
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/indigo-pink.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.scss",
-              "node_modules/ngx-toastr/toastr.css"
+              "src/tailwind.css",
+              "node_modules/ngx-toastr/toastr.css",
+              "@angular/material/prebuilt-themes/indigo-pink.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/@popperjs/core/dist/umd/popper.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/html2canvas/dist/html2canvas.min.js",
               "node_modules/apexcharts/dist/apexcharts.min.js"
             ],
@@ -120,10 +118,12 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "node_modules/cropperjs/dist/cropper.css",
+              "src/tailwind.css",
               "src/styles.scss",
               "./node_modules/pdfmake/build/vfs_fonts.css"
             ],
             "scripts": [
+              "node_modules/flowbite/dist/flowbite.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/googlemaps/dist/index.min.js"
             ]

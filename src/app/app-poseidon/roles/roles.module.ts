@@ -13,6 +13,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DialogCreateRolesComponent } from './dialog-create-roles/dialog-create-roles.component';
 import { DialogEditRolesComponent } from './dialog-edit-roles/dialog-edit-roles.component';
+import { FormsModule } from '@angular/forms';
 import {
   LucideAngularModule,
   Contact,
@@ -39,6 +40,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SharedModule,
     ReactiveFormsModule,
     MatPaginatorModule,
+    FormsModule,
     LucideAngularModule.pick({
       Contact,
       ArrowBigLeftDash,

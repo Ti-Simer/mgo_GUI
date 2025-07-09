@@ -31,6 +31,9 @@ export class OrdersListComponent {
 
   private languageSubscription!: Subscription;
 
+  collapsed = true;
+  private menuSub!: Subscription;
+
   // Observables del store
   orders$: Observable<any[]> = this.store.orders$;
   total$: Observable<number> = this.store.total$;
@@ -70,6 +73,10 @@ export class OrdersListComponent {
   }
 
   ngOnInit(): void {
+    this.menuSub = this.authService.menuExpanded$.subscribe(expanded => {
+      this.collapsed = expanded; // O usa collapsed = !expanded si collapsed significa "colapsado"
+    });
+
     this.store.loadOrders();        // carga inicial
   }
 

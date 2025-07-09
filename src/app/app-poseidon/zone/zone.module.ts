@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ZoneRoutingModule } from './zone-routing.module';
 import { ZoneListComponent } from './zone-list/zone-list.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ZoneCreateComponent } from './zone-create/zone-create.component';
 import { ZoneEditComponent } from './zone-edit/zone-edit.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -37,6 +37,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     CommonModule,
     ZoneRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     SharedModule,
     MatPaginatorModule,
     LucideAngularModule.pick({

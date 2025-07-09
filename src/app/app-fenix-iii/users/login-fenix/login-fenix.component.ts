@@ -13,6 +13,7 @@ import { UserService } from 'src/app/services/fenix-services/user.service';
 export class LoginFenixComponent {
   
   loginForm: FormGroup;
+  showPassword: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,6 +29,10 @@ export class LoginFenixComponent {
   }
 
   ngOnInit(): void { }
+
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
+  }
 
   toPlataforms() {
     this.router.navigate(['/plataforms']);

@@ -104,7 +104,7 @@ export class EditUserComponent {
     );
   }
 
-  updateUser(): void {
+  onSubmit(): void {
     if (this.updateForm.value.idNumber !== this.updateForm.value.confirmIdNumber) {
       this.updateForm.setErrors({ mismatch: true });
       this.toastr.info('El numero de identificación no coincide, por favor verifique', 'Advertencia!');

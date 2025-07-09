@@ -29,6 +29,10 @@ export class StationaryTankListComponent {
   stationaryTanks: any[] = [];
   isLoading = false;
 
+  public Math = Math;
+  collapsed = true;
+  private menuSub!: Subscription;
+
   constructor(
     private authService: AuthService,
     private stationaryTankService: StationaryTankService,
@@ -51,8 +55,12 @@ export class StationaryTankListComponent {
   }
 
   ngOnInit(): void {
-
     this.fetchStationaryTanks();
+
+    this.menuSub = this.authService.menuExpanded$.subscribe(expanded => {
+      this.collapsed = expanded; // O usa collapsed = !expanded si collapsed significa "colapsado"
+    });
+
     if (this.paginator) {
       this.paginator.page.subscribe((event: any) => {
         // Actualizar los datos de la tabla según la página seleccionada
@@ -87,6 +95,24 @@ export class StationaryTankListComponent {
         (row as HTMLElement).style.display = rowText.includes(value) ? 'table-row' : 'none';
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.menuSub?.unsubscribe();
+  }
+
+  get totalPages(): number {
+    return Math.max(1, Math.ceil(this.stationaryTanks.length / this.pageSize));
+  }
+
+  onPageSizeChange() {
+    this.pageIndex = 0;
+  }
+
+  goToPage(page: number) {
+    if (page < 0) page = 0;
+    if (page > this.totalPages - 1) page = this.totalPages - 1;
+    this.pageIndex = page;
   }
 
   fetchStationaryTanks() {
@@ -173,7 +199,7 @@ export class StationaryTankListComponent {
         const dialogRef = this.dialog.open(DialogCreateStationaryTankComponent, {
           width: '750px',
         });
-    
+
         dialogRef.afterClosed().subscribe(result => {
           this.fetchStationaryTanks();
         });
@@ -190,7 +216,7 @@ export class StationaryTankListComponent {
           width: '750px',
           data: { stationaryTankId: stationaryTank.id }
         });
-    
+
         dialogRef.afterClosed().subscribe(result => {
           this.fetchStationaryTanks();
         });

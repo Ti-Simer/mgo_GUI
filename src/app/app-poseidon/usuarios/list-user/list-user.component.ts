@@ -29,6 +29,11 @@ export class ListUserComponent {
   users: any[] = [];
   isLoading = false;
 
+  public Math = Math;
+  collapsed = true;
+  private menuSub!: Subscription;
+
+
   constructor(
     private usuarioService: UsuarioService,
     private router: Router,
@@ -51,7 +56,12 @@ export class ListUserComponent {
   }
 
   ngOnInit(): void {
+    this.menuSub = this.authService.menuExpanded$.subscribe(expanded => {
+      this.collapsed = expanded; // O usa collapsed = !expanded si collapsed significa "colapsado"
+    });
+
     this.fetchUsers();
+
     if (this.paginator) {
       this.paginator.page.subscribe((event: any) => {
         // Actualizar los datos de la tabla según la página seleccionada
@@ -86,6 +96,20 @@ export class ListUserComponent {
         (row as HTMLElement).style.display = rowText.includes(value) ? 'table-row' : 'none';
       });
     }
+  }
+
+  get totalPages(): number {
+    return Math.max(1, Math.ceil(this.users.length / this.pageSize));
+  }
+
+  onPageSizeChange() {
+    this.pageIndex = 0;
+  }
+
+  goToPage(page: number) {
+    if (page < 0) page = 0;
+    if (page > this.totalPages - 1) page = this.totalPages - 1;
+    this.pageIndex = page;
   }
 
   fetchUsers(): void {

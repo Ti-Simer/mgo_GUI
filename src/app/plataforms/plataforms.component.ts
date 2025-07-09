@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../services/language.service';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-plataforms',
@@ -11,14 +12,20 @@ import { Subscription } from 'rxjs';
 })
 export class PlataformsComponent {
   private languageSubscription!: Subscription;
+  sidebarCollapsed = false;
 
   constructor(
     private router: Router,
     private translate: TranslateService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private authService: AuthService
   ) {
     translate.addLangs(['en', 'es', 'pt']);
     translate.setDefaultLang(this.languageService.getLanguage());
+
+    this.authService.menuExpanded$.subscribe(expanded => {
+      this.sidebarCollapsed = expanded;
+    });
   }
 
   ngOnInit(): void {

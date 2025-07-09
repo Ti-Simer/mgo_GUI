@@ -1,17 +1,25 @@
-<div class="wrapper">
-    <div class="container content">
-        <div class="row justify-content-center align-items-center">
-            <div class="col-12 text-center">
-                <img src="assets/images/simer_corp.png" alt="Simer Electronic" class="img-fluid">
-                <h1>{{'MGO (Marco de gestión Operativo)' | translate}}</h1>
-                <p>{{'¡Inicia sesión para continuar!' | translate}}</p>
-            </div>
-            <div class="col-12 text-center mt-4">
-                <a (click)="toPlataforms()" class="btn btn-secondary mx-2">{{'Ingresar' | translate}}</a>
-                <button (click)="closeWindow()" class="btn btn-danger mx-2">{{'Cerrar' | translate}}</button>
+<section class="text-gray-600 body-font py-11 transition-all duration-300" [class.ml-64]="!sidebarCollapsed">
+    <div
+        class="container mx-auto flex px-16 md:flex-row flex-col items-center pt-[6rem] pb-[14rem] sm:pt-[14rem] sm:pb-[6rem]">
+        <div
+            class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
+            <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-sky-900">{{'MARCO DE GESTIÓN OPERATIVO' | translate}}
+                <br class="hidden lg:inline-block">
+                <h2 class="title-font sm:text-3xl text-2xl mb-4 font-normal text-sky-900">{{'Soluciones que te permiten avanzar con seguridad y precisión.' | translate}}</h2>
+            </h1>
+            <p class="mb-8 leading-relaxed">{{'Empresa Colombiana especializada en el desarrollo de HARDWARE y SOFTWARE para la SEGURIDAD, OPTIMIZACIÓN Y AUTOMATIZACIÓN de procesos industriales y residenciales. Contamos con una amplia variedad de servicios y productos' | translate}}</p>
+            <div class="flex justify-center mx-auto">
+                <button
+                    class="inline-flex text-white bg-sky-600 border-0 py-2 px-6 focus:outline-none hover:bg-sky-700 rounded text-lg"
+                    (click)="toPlataforms()">{{'Ingresar' | translate}}</button>
+                <button
+                    class="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg"
+                    (click)="closeWindow()">{{'Cerrar' | translate}}</button>
             </div>
         </div>
+        <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
+            <img class="object-cover object-center hidden sm:block rounded mx-auto w-64" alt="hero"
+                src="assets/images/simer_corp.png">
+        </div>
     </div>
-
-    <app-footer class="hide-on-mobile"></app-footer>
-</div>
+</section>

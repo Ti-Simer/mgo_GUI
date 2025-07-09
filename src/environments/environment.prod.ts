@@ -3,15 +3,15 @@ export const environment = {
 
     /// ----------------------------------- ** URL de los servicios de despliegue **  ----------------------------------- ///
 
-    apiPoseidonGasco: 'http://localhost:3000', // URL del servicio para desarrollo
-    apiAtheneaMontagas: 'http://localhost:4001', // URL del servicio para desarrollo
-    apiPoseidonMontagas: 'http://localhost:4002', // URL del servicio para desarrollo
-    apiPoseidonGasneiva: 'http://localhost:4003', // URL del servicio para desarrollo
-    apiFenixLocal: 'http://localhost:4004', // URL del servicio para desarrollo
-    apiPoseidonDigaspro: 'http://localhost:4005', // URL del servicio para desarrollo
-    apiPoseidonEgsa: 'http://localhost:4006', // URL del servicio para desarrollo
-    apiHerculesMontagas: 'http://localhost:4007', // URL del servicio para desarrollo
-    apiPoseidonSimer: 'http://localhost:4008', // URL del servicio para desarrollo
+    apiPoseidonGasco: 'http://192.168.0.18:3000', // URL del servicio para desarrollo
+    apiAtheneaMontagas: 'http://192.168.0.18:4001', // URL del servicio para desarrollo
+    apiPoseidonMontagas: 'http://192.168.0.18:4002', // URL del servicio para desarrollo
+    apiPoseidonGasneiva: 'http://192.168.0.18:4003', // URL del servicio para desarrollo
+    apiFenixLocal: 'http://192.168.0.18:4004', // URL del servicio para desarrollo
+    apiPoseidonDigaspro: 'http://192.168.0.18:4005', // URL del servicio para desarrollo
+    apiPoseidonEgsa: 'http://192.168.0.18:4006', // URL del servicio para desarrollo
+    apiHerculesMontagas: 'http://192.168.0.18:4007', // URL del servicio para desarrollo
+    apiPoseidonSimer: 'http://192.168.0.18:4008', // URL del servicio para desarrollo
 
     // apiPoseidonGasco: 'http://172.105.153.203:3000', // URL del servicio para despliegue
     // apiAtheneaMontagas: 'http://172.105.153.203:4001', // URL del servicio para despliegue

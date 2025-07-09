@@ -7,6 +7,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateUsersFenixComponent } from './create-users-fenix/create-users-fenix.component';
 import { ListUsersFenixComponent } from './list-users-fenix/list-users-fenix.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { EditUsersFenixComponent } from './edit-users-fenix/edit-users-fenix.component';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {
   LucideAngularModule,
   Users,
@@ -15,7 +19,11 @@ import {
   Eye,
   EyeOff 
 } from 'lucide-angular';
-import { EditUsersFenixComponent } from './edit-users-fenix/edit-users-fenix.component';
+
+// Factory function for TranslateHttpLoader
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -31,6 +39,13 @@ import { EditUsersFenixComponent } from './edit-users-fenix/edit-users-fenix.com
       ArrowBigRightDash,
       Eye,
       EyeOff 
+    }),
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
     }),
     CommonModule,
     UsersRoutingModule,

@@ -1,91 +1,204 @@
-<button class="matbutton" mat-button [matMenuTriggerFor]="ctrlNotify" style="margin-right: -20px;" (click)="fetchNotifications()">
-    <img *ngIf="!notifications" class="visible-in-landscape" src="assets/images/icons/bell.svg"
-        alt="" style="margin-right: 15px; width: 20px;">
-    <img *ngIf="notifications" class="visible-in-landscape" src="assets/images/icons/bell-fill.svg"
-        alt="" style="margin-right: 15px; width: 20px;">
-    <span *ngIf="notifications && notifications.length < 49"
-        style="position: absolute; top: -6px; right: 25px; color: #fff; font-size: 8px;">
-        {{notifications.length}} </span>
-    <span *ngIf="notifications && notifications.length > 49"
-        style="position: absolute; top: -6px; right: 25px; color: #fff; font-size: 8px;">
-        49+ </span>
-</button>
+<!-- Sidebar vertical -->
 
-<mat-menu #ctrlNotify="matMenu">
-    <app-notifications *ngIf="notifications"></app-notifications>
-    <p style="width: 250px; text-align: center; padding-top: 15px;" *ngIf="!notifications"> {{'No tiene notificaciones' | translate}}
-    </p>
-</mat-menu>
+<div class="drawer">
+  <div class="drawer-side">
+    <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+    <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+      <!-- Sidebar content here -->
 
-<button class="matbutton" mat-button (click)="redirectToHome()">
-    {{'Inicio' | translate}}
-</button>
+      <!-- Notificaciones -->
+      <li>
+        <div class="relative mb-2">
+          <button [class.hidden]="sidebarCollapsed"
+            class="flex items-center px-3 py-2 rounded hover:bg-sky-800 transition" (click)="toggleNotifyMenu()">
+            <!-- Notificaciones: campana con contador en la esquina superior derecha -->
+            <div class="relative inline-block">
+              <img *ngIf="!notifications" class="w-5" src="assets/images/icons/bell.svg" alt="" />
+              <img *ngIf="notifications" class="w-5" src="assets/images/icons/bell-fill.svg" alt="" />
+              <span *ngIf="notifications && notifications.length < 49"
+                class="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 bg-red-700 text-white rounded-full px-1 text-[10px] font-bold min-w-[1.2em] text-center">
+                {{ notifications.length }}
+              </span>
+              <span *ngIf="notifications && notifications.length > 49"
+                class="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 bg-red-700 text-white rounded-full px-1 text-[10px] font-bold min-w-[1.2em] text-center">
+                49+
+              </span>
+            </div>
+            <span class="flex-1 ml-6">{{ 'Notificaciones' | translate }}</span>
+          </button>
 
-<button class="matbutton" mat-button [matMenuTriggerFor]="ctrlConfig">
-    <span>&blacktriangledown;</span>
-    <span class="ml-2">{{'Administración' | translate}}</span>
-</button>
+          <button [class.hidden]="!sidebarCollapsed"
+            class="py-2 rounded hover:bg-sky-800 transition text-left font-normal mb-2"
+            (click)="toggleNotifyMenu()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
+            </svg>
+          </button>
+          <div *ngIf="showNotifyMenu"
+            class="absolute left-full top-0 mt-0 w-64 bg-white rounded shadow z-50 text-gray-900">
+            <app-notifications *ngIf="notifications"></app-notifications>
+            <p class="w-full text-center pt-4" *ngIf="!notifications">
+              {{ 'No tiene notificaciones' | translate }}
+            </p>
+          </div>
+        </div>
+      </li>
 
-<mat-menu #ctrlConfig="matMenu">
-    <button mat-menu-item [matMenuTriggerFor]="ctrlUsers">{{'Control usuarios' | translate}}</button>
-    <button mat-menu-item [matMenuTriggerFor]="ctrlUbication">{{'Control ubicación' | translate}}</button>
-    <button mat-menu-item [matMenuTriggerFor]="ctrlClients">{{'Control clientes' | translate}}</button>
-    <button mat-menu-item [matMenuTriggerFor]="ctrlMaquinaria">{{'Control entregas' | translate}}</button>
-</mat-menu>
+      <!-- Inicio -->
+      <li>
+        <button [class.hidden]="sidebarCollapsed"
+          class="px-3 py-2 rounded hover:bg-sky-800 transition text-left font-normal mb-2" (click)="redirectToHome()">
+          {{ 'Inicio' | translate }}
+        </button>
+        <button [class.hidden]="!sidebarCollapsed"
+          class="py-2 rounded hover:bg-sky-800 transition text-left font-normal mb-2" (click)="redirectToHome()">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+          </svg>
+        </button>
+      </li>
 
-<mat-menu #ctrlUsers="matMenu">
-    <a (click)="toUsers()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Usuarios' | translate}}</a>
-    <a (click)="toRoles()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Roles' | translate}}</a>
-    <a (click)="toPermissions()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Permisos' | translate}}</a>
-</mat-menu>
+      <!-- Administración -->
+      <li>
+        <div class="relative mb-2">
+          <button [class.hidden]="sidebarCollapsed"
+            class="px-3 py-2 rounded hover:bg-sky-800 transition flex items-center font-normal"
+            (click)="toggleAdminMenu()">
+            <span class="mr-2">&blacktriangledown;</span>
+            <span>{{ 'Administración' | translate }}</span>
+          </button>
+          <button [class.hidden]="!sidebarCollapsed"
+            class="py-2 rounded hover:bg-sky-800 transition text-left font-normal mb-2"
+            (click)="toggleAdminMenu()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+            </svg>
+          </button>
+          <div *ngIf="showAdminMenu" class="ml-4 mt-1 bg-sky-700 rounded shadow text-gray-200">
+            <button class="block w-full text-left px-4 py-2 hover:bg-sky-800 hover:rounded" (click)="showUsersMenu = !showUsersMenu">
+              {{ 'Control usuarios' | translate }}
+            </button>
+            <button class="block w-full text-left px-4 py-2 hover:bg-sky-800 hover:rounded"
+              (click)="showUbicationMenu = !showUbicationMenu">
+              {{ 'Control ubicación' | translate }}
+            </button>
+            <button class="block w-full text-left px-4 py-2 hover:bg-sky-800 hover:rounded"
+              (click)="showClientsMenu = !showClientsMenu">
+              {{ 'Control clientes' | translate }}
+            </button>
+            <button class="block w-full text-left px-4 py-2 hover:bg-sky-800 hover:rounded"
+              (click)="showMaquinariaMenu = !showMaquinariaMenu">
+              {{ 'Control entregas' | translate }}
+            </button>
+          </div>
+          <!-- Submenús -->
+          <div *ngIf="showUsersMenu" class="ml-8 mt-1 bg-sky-700 rounded shadow text-gray-200">
+            <a (click)="toUsers()" class="block cursor-pointer px-4 py-2 hover:bg-sky-800 hover:rounded">{{ 'Usuarios' | translate
+              }}</a>
+            <a (click)="toRoles()" class="block cursor-pointer px-4 py-2 hover:bg-sky-800 hover:rounded">{{ 'Roles' | translate }}</a>
+            <a (click)="toPermissions()" class="block cursor-pointer px-4 py-2 hover:bg-sky-800 hover:rounded">{{ 'Permisos' |
+              translate }}</a>
+          </div>
+          <div *ngIf="showUbicationMenu" class="ml-8 mt-1 bg-sky-700 rounded shadow text-gray-200">
+            <a (click)="toDepartments()" class="block cursor-pointer px-4 py-2 hover:bg-sky-800 hover:rounded">{{ 'Estados' |
+              translate }}</a>
+            <a (click)="toCities()" class="block cursor-pointer px-4 py-2 hover:bg-sky-800 hover:rounded">{{ 'Ciudades' | translate
+              }}</a>
+            <a (click)="toZones()" class="block cursor-pointer px-4 py-2 hover:bg-sky-800 hover:rounded">{{ 'Zonas' | translate }}</a>
+          </div>
+          <div *ngIf="showClientsMenu" class="ml-8 mt-1 bg-sky-700 rounded shadow text-gray-200">
+            <a (click)="toOccupations()" class="block cursor-pointer px-4 py-2 hover:bg-sky-800 hover:rounded">{{ 'Cargos' | translate
+              }}</a>
+            <a (click)="toClients()" class="block cursor-pointer px-4 py-2 hover:bg-sky-800 hover:rounded">{{ 'Clientes' | translate}}</a>
+            <a (click)="toStationaryTanks()" class="block cursor-pointer px-4 py-2 hover:bg-sky-800 hover:rounded">{{ 'Tanques Estacionarios' | translate }}</a>
+            <a (click)="toBranchOffices()" class="block cursor-pointer px-4 py-2 hover:bg-sky-800 hover:rounded">{{ 'Establecimientos' | translate }}</a>
+          </div>
+          <div *ngIf="showMaquinariaMenu" class="ml-8 mt-1 bg-sky-700 rounded shadow text-gray-200">
+            <a (click)="toOrders()" class="block cursor-pointer px-4 py-2 hover:bg-sky-800 hover:rounded">{{ 'Pedidos' | translate }}</a>
+            <a (click)="toPropaneTrucks()" class="block cursor-pointer px-4 py-2 hover:bg-sky-800 hover:rounded">{{ 'Auto Tanques' | translate }}</a>
+            <a (click)="toCourses()" class="block cursor-pointer px-4 py-2 hover:bg-sky-800 hover:rounded">{{ 'Derroteros' | translate }}</a>
+            <a (click)="toRequest()" class="block cursor-pointer px-4 py-2 hover:bg-sky-800 hover:rounded">{{ 'Servicios' | translate }}</a>
+          </div>
+        </div>
+      </li>
 
-<mat-menu #ctrlUbication="matMenu">
-    <a (click)="toDepartments()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Estados' | translate}}</a>
-    <a (click)="toCities()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Ciudades' | translate}}</a>
-    <a (click)="toZones()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Zonas' | translate}}</a>
-</mat-menu>
+      <!-- Cuenta -->
+      <li>
+        <div class="relative mb-2">
+          <button [class.hidden]="sidebarCollapsed"
+            class="px-3 py-2 rounded hover:bg-sky-800 transition flex items-center font-normal"
+            (click)="toggleAccountMenu()">
+            <span class="mr-2">&blacktriangledown;</span>
+            <span>{{ 'Cuenta' | translate }}</span>
+          </button>
+          <button [class.hidden]="!sidebarCollapsed"
+            class="py-2 rounded hover:bg-sky-800 transition text-left font-normal mb-2"
+            (click)="toggleAccountMenu()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+            </svg>
+          </button>
+          <div *ngIf="showAccountMenu" class="ml-4 mt-1 bg-sky-700 rounded shadow text-gray-200">
+            <a (click)="toProfile()" class="block cursor-pointer px-4 py-2 flex items-center hover:bg-sky-800 hover:rounded">
+              <lucide-icon name="user" [size]="13" class="mr-2"></lucide-icon> {{ 'Perfil' | translate }}
+            </a>
+            <a (click)="toNotifications()" class="block cursor-pointer px-4 py-2 flex items-center hover:bg-sky-800 hover:rounded">
+              <lucide-icon name="bell" [size]="13" class="mr-2"></lucide-icon> {{ 'Notificaciones' | translate }}
+            </a>
+            <a (click)="logout()"
+              class="block cursor-pointer px-4 py-2 flex items-center text-red-600 hover:bg-sky-800 hover:rounded">
+              <lucide-icon name="log-out" [size]="13" class="mr-2"></lucide-icon> {{ 'Cerrar sesión' | translate }}
+            </a>
+          </div>
+        </div>
+      </li>
 
-<mat-menu #ctrlClients="matMenu">
-    <a (click)="toOccupations()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Cargos' | translate}}</a>
-    <a (click)="toClients()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Clientes' | translate}}</a>
-    <a (click)="toStationaryTanks()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Tanques Estacionarios' | translate}}</a>
-    <a (click)="toBranchOffices()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Establecimientos' | translate}}</a>
-</mat-menu>
-
-<mat-menu #ctrlMaquinaria="matMenu">
-    <a (click)="toOrders()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Pedidos' | translate}}</a>
-    <a (click)="toPropaneTrucks()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Auto Tanques' | translate}}</a>
-    <a (click)="toCourses()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Derroteros' | translate}}</a>
-    <a (click)="toRequest()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem; padding-right: 1rem;">{{'Servicios' | translate}}</a>
-</mat-menu>
-
-<button class="matbutton" mat-button [matMenuTriggerFor]="ctrlAccount">
-    <span>&blacktriangledown;</span>
-    <span class="ml-2">{{'Cuenta' | translate}}</span>
-</button>
-
-<mat-menu #ctrlAccount="matMenu">
-    <a (click)="toProfile()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"><lucide-icon name="user"
-            [size]=13></lucide-icon> {{'Perfil' | translate}}</a>
-    <a (click)="toNotifications()" class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"><lucide-icon
-            name="bell" [size]=13></lucide-icon> {{'Notificaciones' | translate}}</a>
-    <a (click)="logout()" class="dropdown-item"
-        style="cursor: pointer; padding-left: 1rem; color: #e13411;"><lucide-icon name="log-out"
-            [size]=13></lucide-icon> {{'Cerrar sesión' | translate}}</a>
-</mat-menu>
-
-<button class="matbutton" mat-button [matMenuTriggerFor]="ctrlConfigLanguage">
-    <span>&blacktriangledown;</span>
-    <span class="ml-2"><i-lucide [img]="Languages" [size]="12" class="Languages-icon"></i-lucide>
-        {{language |
-        uppercase}}</span>
-</button>
-
-<mat-menu #ctrlConfigLanguage="matMenu" style="display: block;">
-    <a class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"
-        (click)="switchLanguage('es')">{{'Spanish' | translate}}</a>
-    <a class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"
-        (click)="switchLanguage('en')">{{'English' | translate}}</a>
-    <a class="dropdown-item" style="cursor: pointer; padding-left: 1rem;"
-        (click)="switchLanguage('pt')">{{'Portuguese' | translate}}</a>
-</mat-menu>
+      <!-- Idioma -->
+      <div class="relative mt-2">
+        <button (click)="toggleDropdown()" [class.w-46]="!sidebarCollapsed"
+          class="inline-flex items-center px-3 py-2 text-sm font-normal text-blue-900 bg-sky-200 rounded-lg hover:bg-sky-300 focus:ring-4 focus:outline-none focus:ring-sky-100 dark:bg-sky-700 dark:hover:bg-sky-600 dark:text-gray-200 dark:focus:ring-sky-700">
+          <i-lucide [img]="Languages" [size]="12" class="mr-1"></i-lucide>
+          <span [class.hidden]="sidebarCollapsed">
+            {{language | uppercase}}
+          </span>
+          <svg class="w-2.5 h-2.5 ml-2 hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 10 6">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="m1 1 4 4 4-4" />
+          </svg>
+        </button>
+        <div *ngIf="dropdownOpen"
+          class="absolute left-0 top-full mt-1 w-44 bg-white divide-y divide-sky-100 rounded-lg shadow-sm z-50 dark:bg-sky-700">
+          <ul class="py-2 text-sm text-sky-700 dark:text-sky-200">
+            <li>
+              <a class="block cursor-pointer pl-4 py-1 hover:text-pink-400"
+                (click)="switchLanguage('es'); dropdownOpen = false">
+                {{'Spanish' | translate}}
+              </a>
+            </li>
+            <li>
+              <a class="block cursor-pointer pl-4 py-1 hover:text-pink-400"
+                (click)="switchLanguage('en'); dropdownOpen = false">
+                {{'English' | translate}}
+              </a>
+            </li>
+            <li>
+              <a class="block cursor-pointer pl-4 py-1 hover:text-pink-400"
+                (click)="switchLanguage('pt'); dropdownOpen = false">
+                {{'Portuguese' | translate}}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </ul>
+  </div>
+</div>

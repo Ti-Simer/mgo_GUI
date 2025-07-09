@@ -5,7 +5,7 @@ import { CoursesRoutingModule } from './courses-routing.module';
 import { CoursesOperatorComponent } from './courses-operator/courses-operator.component';
 import { CoursesAdminComponent } from './courses-admin/courses-admin.component';
 import { CoursesCreateComponent } from './courses-create/courses-create.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { CoursesViewComponent } from './courses-view/courses-view.component';
 import { GoogleMapsModule } from '@angular/google-maps';
@@ -65,6 +65,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     CoursesRoutingModule,
     SharedModule,
     ReactiveFormsModule,
+    FormsModule,
     GoogleMapsModule,
     MatSlideToggleModule,
     MatCardModule,

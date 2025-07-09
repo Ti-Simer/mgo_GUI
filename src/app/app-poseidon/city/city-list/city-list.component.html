@@ -1,110 +1,202 @@
-<div class="general-container">
-    <div class="container mt-4">
-
-        <div class="row header-mobile">
-            <div class="col-sm-10 d-flex justify-content-center">
-                <h2 class="text-title"><lucide-icon name="pin" [size]="60"></lucide-icon> {{'Ciudades' | translate}}</h2>
-            </div>
-            <div class="col-md-8 d-flex justify-content-center text-center">
-                <p style="font-size: 10px; color: #b9b9b9;">{{'Las Ciudades son registros necesarios para la creación de sucursales y establecer a donde pertenecen' | translate}}</p>
-            </div>
-        </div>
-
-        <div class="row header mb-4 display-5">
-            <div class="row d-flex justify-content-center">
-                <div class="col-sm-10 d-flex justify-content-center">
-                    <div class="text-title fw-bold"><lucide-icon name="pin" [size]="60"></lucide-icon> {{'Ciudades' | translate}}</div>
+<!-- tabla de datos -->
+<div class="desktop w-full flex items-center justify-center max-h-full p-2 my-2 transtion-all duration-300" [ngClass]="{'pl-36': !collapsed }">
+    <div class="container max-w-7xl mb-16">
+        <div class="bg-white rounded-xl shadow-md overflow-hidden">
+            <!-- Table Header -->
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between bg-gray-50 p-4 rounded">
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-800">
+                            <h2 class="text-2xl font-bold flex items-center gap-2 text-sky-900">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-16">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 3.03v.568c0 .334.148.65.405.864l1.068.89c.442.369.535 1.01.216 1.49l-.51.766a2.25 2.25 0 0 1-1.161.886l-.143.048a1.107 1.107 0 0 0-.57 1.664c.369.555.169 1.307-.427 1.605L9 13.125l.423 1.059a.956.956 0 0 1-1.652.928l-.679-.906a1.125 1.125 0 0 0-1.906.172L4.5 15.75l-.612.153M12.75 3.031a9 9 0 0 0-8.862 12.872M12.75 3.031a9 9 0 0 1 6.69 14.036m0 0-.177-.529A2.25 2.25 0 0 0 17.128 15H16.5l-.324-.324a1.453 1.453 0 0 0-2.328.377l-.036.073a1.586 1.586 0 0 1-.982.816l-.99.282c-.55.157-.894.702-.8 1.267l.073.438c.08.474.49.821.97.821.846 0 1.598.542 1.865 1.345l.215.643m5.276-3.67a9.012 9.012 0 0 1-5.276 3.67m0 0a9 9 0 0 1-10.275-4.835M15.75 9c0 .896-.393 1.7-1.016 2.25" />
+                                </svg>
+                                {{'Ciudades' | translate}}
+                            </h2>
+                        </h2>
+                        <p class="text-gray-500 mt-1">
+                            {{'Las Ciudades son registros necesarios para la creación de sucursales y establecer a donde pertenecen' | translate}}
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class="row text-content text-center mb-2 mt-3">
-                <div class="col-md-12">
-                    <p style="font-size: 12px; color: #b9b9b9;">{{'Las Ciudades son registros necesarios para la creación de sucursales y establecer a donde pertenecen' | translate}}</p>
-                </div>
-            </div>
-        </div>
 
-        <div class="row mt-4 d-flex justify-content-center" *ngIf="cities.length == 0">
-            <div class="col-sm-4 text-center">
-                <p style="font-size: 14px; color: #a8a8a8;">{{'Presione Añadir para crear registros en esta sección' | translate}}</p>
-            </div>
-        </div>
+                <!-- Buttons group landscape (full) -->
+                <div class="hidden md:grid mx-auto w-full grid-cols-1 xl:grid-cols-2 gap-2 py-3">
+                    <div class="h-11 bg-gray-50 rounded-xl flex gap-1">
+                        <button type="button"
+                            class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-2 py-1 rounded text-xs"
+                            (click)="setPageSizeToTotal()">
+                            {{'Mostrar todo' | translate}}
+                        </button>
+                        <span class="text-xs text-gray-400 flex items-center">
+                            {{pageIndex * pageSize + 1}} - {{(pageIndex + 1) * pageSize}} {{'de' | translate}}
+                            {{cities.length}}
+                            {{'registros' | translate}}
+                        </span>
+                    </div>
 
-        <div class="row d-flex justify-content-center search-filter" *ngIf="cities.length > 0">
-            <div class="col-lg-4 filter text-center">
-                <input class="form-control" #myInput type="text" placeholder="{{'Buscar..' | translate}}"
-                    (input)="initializeSearchFilter()">
-                <p style="font-size: 10px; color: #a8a8a8;">{{'Para utilizar correctamente el buscador por favor desplegar todos los registros con el paginador' | translate}}</p>
-            </div>
-        </div>
-        
-        <div class="row p-1 buttons-group-landscape">
-            <div class="col-sm-12 d-flex">
-                <div class="col-md-8" style="justify-items: baseline;">
-                    <p style="font-size: 12px; color: #a8a8a8;">
-                        <button type="button" class="btn btn-secondary btn-sm" (click)="setPageSizeToTotal()">{{'Mostrar todo' | translate}}</button>
-                        {{pageIndex * pageSize + 1}} - {{(pageIndex + 1) * pageSize}} {{'de' | translate}} {{cities.length}} {{'registros' | translate}} 
-                    </p>              
+                    <div class="h-11 bg-gray-50 rounded-xl flex gap-2 justify-end">
+                        <button class="bg-sky-700 rounded text-white px-3 py-1 hover:bg-sky-800"
+                            (click)="toDepartments()">{{'Estados' |
+                            translate}}</button>
+                        <button class="bg-sky-700 rounded text-white px-3 py-1 hover:bg-sky-800"
+                            (click)="toZones()">{{'Zonas' |
+                            translate}}</button>
+                        <button
+                            class="bg-green-600 rounded text-white px-3 py-1 hover:bg-green-700 flex gap-1 items-center"
+                            (click)="toCreateCity()">
+                            <img src="assets/images/icons/add.svg" class="w-4 h-4" />
+                            {{'Añadir' | translate}}
+                        </button>
+                    </div>
                 </div>
-                <div class="col-md-4 float-end" id="responsive-container">
-                    <button (click)="toDepartments()" class="btn btn-sm btn-info float-end"id="items">
+
+                <!-- Buttons group portrait (mobile) -->
+                <div class="md:hidden grid mx-auto w-full grid-cols-3 gap-1 py-3 flex px-2">
+                    <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-2 py-1 rounded text-xs"
+                        (click)="setPageSizeToTotal()">
+                        {{'Mostrar todo' | translate}}
+                    </button>
+                    <button class="bg-sky-700 hover:bg-sky-800 text-white px-3 py-1 rounded text-xs"
+                        (click)="toDepartments()">
                         {{'Estados' | translate}}
                     </button>
-                    <button (click)="toZones()" class="btn btn-sm btn-info float-end"id="items">
+                    <button class="bg-sky-700 hover:bg-sky-800 text-white px-3 py-1 rounded text-xs"
+                        (click)="toZones()">
                         {{'Zonas' | translate}}
                     </button>
-                    <button (click)="toCreateCity()" class="btn btn-sm btn-success float-end"id="items">
-                        <img src="assets/images/icons/add.svg"> {{'Añadir' | translate}}
+                    <button
+                        class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs flex items-center gap-1"
+                        (click)="toCreateCity()">
+                        <img src="assets/images/icons/add.svg" class="w-4 h-4" />
+                        {{'Añadir' | translate}}
                     </button>
                 </div>
-            </div>
-        </div>
 
-        <label class="text-length px-1" style="font-size: 10px; color: #a8a8a8;">{{pageIndex * pageSize + 1}} - {{(pageIndex + 1) * pageSize}} {{'de' | translate}} {{cities.length}} {{'registros' | translate}}</label>
-        <div class="buttons-group-portrait">
-            <button class="btn btn-sm btn-secondary" (click)="setPageSizeToTotal()">{{'Mostrar todo' | translate}}</button>
-            <button class="btn btn-sm btn-info" (click)="toDepartments()">{{'Estados' | translate}}</button>
-            <button class="btn btn-sm btn-info" (click)="toZones()">{{'Zonas' | translate}}</button>
-            <button class="btn btn-sm btn-success" (click)="toCreateCity()"><img src="assets/images/icons/add.svg"> {{'Añadir' | translate}}</button>
-        </div>
-
-        <div class="row mt-1 d-flex justify-content-center" *ngIf="isLoading">
-            <div class="col-sm-1">
-                <div class="spinner-grow text-secondary" role="status">
-                    <span class="sr-only"></span>
+                <!-- Empty state -->
+                <div class="flex justify-center mt-6" *ngIf="cities.length == 0">
+                    <div class="text-center">
+                        <p class="text-base text-gray-400">
+                            {{'Presione Añadir para crear registros en esta sección' | translate}}
+                        </p>
+                    </div>
                 </div>
-                <div class="spinner-grow text-light" role="status">
-                    <span class="sr-only"></span>
+
+                <!-- Search -->
+                <div class="flex justify-center mb-4" *ngIf="cities.length > 0">
+                    <div class="w-full max-w-xs sm:max-w-sm md:max-w-md text-center">
+                        <input
+                            class="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-300"
+                            #myInput type="text" placeholder="{{'Buscar..' | translate}}"
+                            (input)="initializeSearchFilter()" />
+                        <p class="text-xs text-gray-400 mt-1">
+                            {{'Para utilizar correctamente el buscador por favor desplegar todos los registros con el paginador' | translate}}
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row mt-1 table-list">
-            <div class="col-md">
-                <table class="table table-striped table-bordered" *ngIf="cities.length > 0">
-                    <thead>
+            <!-- Table -->
+            <div class="overflow-x-auto overflow-y-auto max-w-[90vw] max-h-[90vh]">
+                <table class="min-w-full divide-y divide-gray-200" id="myTable">
+                    <thead class="bg-gray-50">
                         <tr>
-                            <th class="custom-header" (click)="sortData('name')" id="encabezado">{{'Nombre' | translate}}</th>
-                            <th class="custom-header" (click)="sortData('department[0].name')" id="encabezado">{{'Estado/provincia' | translate}}</th>
-                            <th class="custom-header" style="width: 16%;">{{'Acciones' | translate}}</th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                                (click)="sortData('name')">{{'Nombre' |
+                                translate}}</th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                                (click)="sortData('state')">{{'Estado' |
+                                translate}}</th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer">
+                                {{'Acciones' | translate}}</th>
                         </tr>
                     </thead>
-                    <tbody id="myTable">
-                        <tr *ngFor="let city of cities.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)">
-                            <td>{{ city.name }}</td>
-                            <td *ngFor="let department of city.department">{{ department.name }}</td>
-                            <td id="buttons-table" > 
-                                <button class="btn btn-sm btn-info" (click)="toEditCity(city)">{{'Editar' | translate}}</button>
-                                <button class="btn btn-sm btn-danger" *ngIf="city.state == 'ACTIVO'" (click)="deleteCity(city)">{{'Desactivar' | translate}}</button>
-                                <button class="btn btn-sm btn-success" *ngIf="city.state == 'INACTIVO'" (click)="activteCity(city)">{{'Activar' | translate}}</button>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <!-- Row 1 -->
+                        <tr class="hover:bg-gray-50 transition-colors duration-150"
+                            *ngFor="let item of cities.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{ item.name }}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-normal rounded-full" [ngClass]="{
+                                        'bg-green-100 text-green-800': item.state === 'ACTIVO',
+                                        'bg-red-100 text-red-800': item.state === 'INACTIVO'
+                                    }">
+                                    {{item.state}}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex gap-1">
+                                <button class="bg-sky-500 hover:bg-sky-600 text-white px-2 py-1 rounded text-xs"
+                                    (click)="toEditCity(item)">
+                                    {{'Editar' | translate}}
+                                </button>
+                                <button *ngIf="item.state == 'ACTIVO'"
+                                    class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-xs"
+                                    (click)="deleteCity(item)">
+                                    {{'Desactivar' | translate}}
+                                </button>
+                                <button *ngIf="item.state == 'INACTIVO'"
+                                    class="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded text-xs"
+                                    (click)="activteCity(item)">
+                                    {{'Activar' | translate}}
+                                </button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <mat-paginator [length]="cities.length" [pageSizeOptions]="[25, 50, 100, cities.length]"
-                    showFirstLastButtons></mat-paginator>
+            </div>
+
+            <!-- Pagination -->
+            <div
+                class="flex flex-col sm:flex-row items-center justify-between gap-2 px-4 py-6 border-t border-gray-200 bg-white rounded-b-xl">
+                <div class="text-sm text-gray-700">
+                    {{ 'Mostrando' | translate }}
+                    <span class="font-medium">{{ cities.length === 0 ? 0 : pageIndex * pageSize + 1 }}</span>
+                    {{ 'a' | translate }}
+                    <span class="font-medium">{{ Math.min((pageIndex + 1) * pageSize, cities.length) }}</span>
+                    {{ 'de' | translate }}
+                    <span class="font-medium">{{ cities.length }}</span>
+                    {{ 'resultados' | translate }}
+                </div>
+                <div class="flex items-center gap-2">
+                    <!-- Tamaño de página -->
+                    <select class="border rounded px-2 py-1 text-sm" [(ngModel)]="pageSize"
+                        (change)="onPageSizeChange()">
+                        <option *ngFor="let size of pageSizeOptions" [value]="size">{{size}}</option>
+                        <option *ngIf="cities.length > 0 && !pageSizeOptions.includes(cities.length)"
+                            [value]="cities.length">
+                            {{ cities.length }}
+                        </option>
+                    </select>
+                    <!-- Botón mostrar todo -->
+                    <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-2 py-1 rounded text-xs"
+                        (click)="setPageSizeToTotal()">
+                        {{'Mostrar todo' | translate}}
+                    </button>
+                    <!-- Navegación -->
+                    <button class="px-2 py-1 rounded border border-gray-300 bg-white text-gray-500 hover:bg-gray-50"
+                        [disabled]="pageIndex === 0" (click)="goToPage(0)">
+                        «
+                    </button>
+                    <button class="px-2 py-1 rounded border border-gray-300 bg-white text-gray-500 hover:bg-gray-50"
+                        [disabled]="pageIndex === 0" (click)="goToPage(pageIndex - 1)">
+                        ‹
+                    </button>
+                    <span class="px-2 text-gray-700">{{ pageIndex + 1 }} / {{ totalPages }}</span>
+                    <button class="px-2 py-1 rounded border border-gray-300 bg-white text-gray-500 hover:bg-gray-50"
+                        [disabled]="pageIndex >= totalPages - 1" (click)="goToPage(pageIndex + 1)">
+                        ›
+                    </button>
+                    <button class="px-2 py-1 rounded border border-gray-300 bg-white text-gray-500 hover:bg-gray-50"
+                        [disabled]="pageIndex >= totalPages - 1" (click)="goToPage(totalPages - 1)">
+                        »
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-
-    <app-footer class="hide-on-mobile" ></app-footer>
 </div>

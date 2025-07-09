@@ -1,0 +1,16 @@
+<footer class="bg-gray-200 text-white py-4 px-3 mt-16 fixed bottom-0 w-full left-0">
+    <div class="flex justify-center items-center w-full">
+        <span
+          [ngClass]="{
+            'pl-0': sidebarCollapsed,
+            'md:pl-36': sidebarCollapsed,
+            'pl-64': !sidebarCollapsed
+          }"
+          class="block text-sm text-gray-500 text-center dark:text-gray-400 transition-all duration-300"
+        >
+            © 2023
+            <a href="https://simerelectronics.com/" class="hover:underline" target="_blank">{{'Simer Electronics SAS.'}}</a>
+            {{'Todos los derechos reservados.' | translate}}
+        </span>
+    </div>
+</footer>

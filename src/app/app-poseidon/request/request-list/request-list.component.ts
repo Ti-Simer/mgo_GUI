@@ -20,6 +20,7 @@ import { Observable } from 'rxjs';
 })
 export class RequestListComponent {
   private languageSubscription!: Subscription;
+  private menuSub!: Subscription;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   pageSizeOptions: number[] = [50, 100, 200]; // Opciones de tamaño de página
@@ -36,6 +37,7 @@ export class RequestListComponent {
   pageSize$: Observable<number> = this.store.pageSize$;
   loading$: Observable<boolean> = this.store.loading$;
 
+  collapsed = true;
   csvData: any[] = [];
   searchForm!: FormGroup;
 
@@ -69,6 +71,10 @@ export class RequestListComponent {
   }
 
   ngOnInit(): void {
+    this.menuSub = this.authService.menuExpanded$.subscribe(expanded => {
+      this.collapsed = expanded; // O usa collapsed = !expanded si collapsed significa "colapsado"
+    });
+
     this.store.loadRequest();        // carga inicial
   }
 
@@ -114,7 +120,7 @@ export class RequestListComponent {
   makeQuerySearch() {
     const { date, date2, propane_truck } = this.searchForm.value;
 
-    if(propane_truck && !date) {
+    if (propane_truck && !date) {
       this.toastr.warning('Debes seleccionar una fecha para filtrar por camión de propano');
       return;
     }
@@ -179,6 +185,10 @@ export class RequestListComponent {
 
   toOrders() {
     this.router.navigate(['/poseidon/orders/list']);
+  }
+
+  toReports() {
+    this.router.navigate(['/poseidon/reports/list']);
   }
 
   toCreateOrder() {

@@ -17,6 +17,8 @@ export class LoginAtheneaComponent {
   private languageSubscription!: Subscription;
 
   loginForm: FormGroup;
+  showPassword: boolean = false;
+  showServer: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -41,6 +43,14 @@ export class LoginAtheneaComponent {
 
   toPlataforms() {
     this.router.navigate(['/plataforms']);
+  }
+
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleShowServer() {
+    this.showServer = !this.showServer;
   }
 
   onSubmit() {

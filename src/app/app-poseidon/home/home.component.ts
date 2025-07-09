@@ -24,10 +24,12 @@ export class HomeComponent {
   markers: any[] = [];
   mapCenter: google.maps.LatLngLiteral = { lat: 1.264773397887801, lng: -77.2786796092987 };
 
+  activeTab: string = 'seguimiento';
+
   // Define una matriz de modos de transporte para cada marcador
   travelModes: google.maps.TravelMode[] = [];
   @ViewChild('map') map: any; // Esta es la referencia al mapa
-
+  
   userId: any;
   user: any;
   nameText: any;
@@ -41,6 +43,7 @@ export class HomeComponent {
   criticalityMedium: any;
   criticalityHigh: any;
   notifications: any = [];
+  sidebarCollapsed = false;
 
   constructor(
     private usuarioService: UsuarioService,
@@ -59,6 +62,10 @@ export class HomeComponent {
 
     this.userId = this.authService.getUserFromToken();
     this.getUserById();
+
+    this.authService.menuExpanded$.subscribe(expanded => {
+      this.sidebarCollapsed = expanded;
+    });
   }
 
   ngOnInit(): void {

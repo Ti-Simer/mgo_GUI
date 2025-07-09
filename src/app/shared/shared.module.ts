@@ -26,6 +26,7 @@ import {
   Globe,
   Dot
 } from 'lucide-angular';
+import { FooterLiteComponent } from './footer-lite/footer-lite.component';
 
 // Factory function for TranslateHttpLoader
 export function HttpLoaderFactory(http: HttpClient) {
@@ -45,7 +46,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TruncatePipe,
     MenuPoseidonComponent,
     MenuHerculesComponent,
-    PositiveNumberPipe
+    PositiveNumberPipe,
+    FooterLiteComponent
   ],
   imports: [
     CommonModule,
@@ -77,7 +79,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     NotificationsComponent,
     MenuPoseidonComponent,
     MenuHerculesComponent,
-    PositiveNumberPipe
+    PositiveNumberPipe,
+    FooterLiteComponent
   ]
 })
 export class SharedModule { }

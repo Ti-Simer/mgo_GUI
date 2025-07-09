@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PermissionsRoutingModule } from './permissions-routing.module';
 import { PermissionsListComponent } from './permissions-list/permissions-list.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PermissionsCreateComponent } from './permissions-create/permissions-create.component';
 import { PermissionsEditComponent } from './permissions-edit/permissions-edit.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -33,6 +33,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SharedModule,
     ReactiveFormsModule,
     MatPaginatorModule,
+    FormsModule,
     LucideAngularModule.pick({
       ListTodo,
       ArrowBigLeftDash

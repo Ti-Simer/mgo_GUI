@@ -29,6 +29,10 @@ export class CityListComponent {
   @ViewChild('myInput') searchInput!: ElementRef; // Obtiene una referencia al elemento de entrada de búsqueda
   cities: any[] = [];
   isLoading = false;
+  public Math = Math;
+
+  collapsed = true;
+  private menuSub!: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -54,11 +58,20 @@ export class CityListComponent {
 
   ngOnInit(): void {
     this.fetchCities();
+
+    this.menuSub = this.authService.menuExpanded$.subscribe(expanded => {
+      this.collapsed = expanded; // O usa collapsed = !expanded si collapsed significa "colapsado"
+    });
+
     if (this.paginator) {
       this.paginator.page.subscribe((event: any) => {
         // Actualizar los datos de la tabla según la página seleccionada
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.menuSub?.unsubscribe();
   }
 
   // Método para manejar el cambio de página
@@ -88,6 +101,20 @@ export class CityListComponent {
         (row as HTMLElement).style.display = rowText.includes(value) ? 'table-row' : 'none';
       });
     }
+  }
+
+  get totalPages(): number {
+    return Math.max(1, Math.ceil(this.cities.length / this.pageSize));
+  }
+
+  onPageSizeChange() {
+    this.pageIndex = 0;
+  }
+
+  goToPage(page: number) {
+    if (page < 0) page = 0;
+    if (page > this.totalPages - 1) page = this.totalPages - 1;
+    this.pageIndex = page;
   }
 
   fetchCities() {
@@ -223,11 +250,11 @@ export class CityListComponent {
     });
   }
 
-  toDepartments(){
+  toDepartments() {
     this.router.navigate(['/poseidon/department/list']);
   }
 
-  toZones(){
+  toZones() {
     this.router.navigate(['/poseidon/zone/list']);
   }
 

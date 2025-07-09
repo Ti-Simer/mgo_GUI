@@ -19,8 +19,20 @@ export class MenuPoseidonComponent {
   userId: any;
   language: string = 'es';
   isLogged: boolean = false;
+  sidebarCollapsed = false;
   configuration: any;
   readonly Languages = Languages;
+
+  // Ejemplo para el componente TS
+  showNotifyMenu = false;
+  showAdminMenu = false;
+  showUsersMenu = false;
+  showUbicationMenu = false;
+  showClientsMenu = false;
+  showMaquinariaMenu = false;
+  showAccountMenu = false;
+  showLangMenu = false;
+  dropdownOpen = false;
 
   constructor(
     private router: Router,
@@ -30,15 +42,79 @@ export class MenuPoseidonComponent {
     private notificationService: NotificationService,
     private dialogService: DialogService,
     private configurationService: ConfigurationService
-  ) { }
+  ) {
+    this.authService.menuExpanded$.subscribe(expanded => {
+      this.sidebarCollapsed = expanded;
+    });
+  }
 
   ngOnInit(): void {
     this.fetchNotifications();
   }
 
+  ngOnChanges(): void {
+    this.sidebarCollapsed = this.authService.getMenuExpanded();
+    console.log('Sidebar collapsed:', this.sidebarCollapsed);
+  }
+
+  // Notificaciones
+  toggleNotifyMenu() {
+    if (this.showNotifyMenu === true) {
+      this.showNotifyMenu = false;
+      return;
+    }
+
+    this.closeAllMenus();
+    this.showNotifyMenu = true;
+    this.fetchNotifications();
+    return;
+  }
+
+  toggleAdminMenu() {
+    if (this.showAdminMenu) {
+      this.showAdminMenu = false;
+      return;
+    }
+    this.closeAllMenus();
+    this.showAdminMenu = true;
+  }
+
+  toggleAccountMenu() {
+    if (this.showAccountMenu) {
+      this.showAccountMenu = false;
+      return;
+    }
+    this.closeAllMenus();
+    this.showAccountMenu = true;
+  }
+
+  toggleLangMenu() {
+    if (this.showLangMenu) {
+      this.showLangMenu = false;
+      return;
+    }
+    this.closeAllMenus();
+    this.showLangMenu = true;
+  }
+
+  closeAllMenus() {
+    this.showNotifyMenu = false;
+    this.showAdminMenu = false;
+    this.showUsersMenu = false;
+    this.showUbicationMenu = false;
+    this.showClientsMenu = false;
+    this.showMaquinariaMenu = false;
+    this.showAccountMenu = false;
+    this.showLangMenu = false;
+  }
+
   switchLanguage(language: string) {
     this.languageService.switchLanguage(language);
     this.language = language;
+  }
+
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
   }
 
   fetchNotifications() {

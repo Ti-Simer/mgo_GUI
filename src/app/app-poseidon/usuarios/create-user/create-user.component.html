@@ -1,67 +1,87 @@
-<div class="general-container">
-    <div class="container mt-2">
-        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-            <div class="row justify-content-center">
-                <h1>{{'Registrar Usuario' | translate}}</h1>
-                <div class="col-lg-6">
+<div class="flex items-center justify-center p-12 overflow-auto max-h-[42rem]">
+    <div class="mx-auto w-full max-w-[550px] bg-white">
+      
+      <form class="mt-36" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+            <div class="text-center mb-8">
+              <label class="block text-2xl font-medium text-sky-800">{{ 'Registrar Usuario' | translate }}</label>
+              <p class="text-sm text-gray-500 mt-2">{{ 'Complete el formulario para registrar un nuevo usuario' | translate }}</p>
+            </div>
 
-                    <div class="mb-3">
-                        <label for="firstName" class="form-label">-- {{'Nombre' | translate}}</label>
-                        <input type="text" id="firstName" class="form-control" formControlName="firstName"
-                            placeholder="{{'Escriba aquí su nombre' | translate}}">
+            <div class="mb-3">
+                <label for="firstName" class="mb-3 block text-base font-medium text-sky-800">
+                    {{ 'Nombres' | translate }}
+                </label>
+                <input id="firstName" type="text" formControlName="firstName" placeholder="{{ 'Escriba aquí sus nombres' | translate }}"
+                    class="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-6 text-base text-sm text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+            </div>
+            <div class="mb-3">
+                <label for="lastName" class="mb-3 block text-base font-medium text-sky-800">
+                    {{ 'Apellidos' | translate }}
+                </label>
+                <input id="lastName" type="text" formControlName="lastName" placeholder="{{ 'Escriba aquí sus apellidos' | translate }}"
+                    class="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-6 text-base text-sm text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+            </div>
+            <div class="mb-3">
+                <label for="lastName" class="mb-3 block text-base font-medium text-sky-800">
+                    {{ 'Correo Electrónico' | translate }}
+                </label>
+                <input id="email" type="email" formControlName="email" placeholder="{{ 'ejemplo@gmail.com' | translate }}"
+                    class="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-6 text-base text-sm text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+            </div>
+            <div class="mb-3">
+                <label for="lastName" class="mb-3 block text-base font-medium text-sky-800">
+                    {{ 'Rol' | translate }}/{{'Función'| translate }}
+                </label>
+                <select id="role" formControlName="role"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400 transition">
+                    <option value="" disabled selected>{{ 'Seleccione un rol' | translate }}</option>
+                    <option *ngFor="let role of roles" [value]="role.id">{{ role.name }}</option>
+                </select>
+            </div>
+
+            <div class="mb-5 pt-3">
+                <label class="mb-5 block text-base font-semibold text-sky-800 sm:font-medium">
+                    {{'Credenciales/Acceso' | translate}}
+                </label>
+                <div class="-mx-3 flex flex-wrap">
+                    <div class="w-full px-3 sm:w-1/2">
+                        <div class="mb-5">
+                            <input input id="idNumber" type="text" formControlName="idNumber" placeholder="{{ 'Número de identificación' | translate }}"
+                                class="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-6 text-base text-sm text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="lastName" class="form-label">-- {{'Apellido' | translate}}</label>
-                        <input type="text" id="lastName" class="form-control" formControlName="lastName"
-                            placeholder="{{'Escriba aquí su apellido' | translate}}">
+                    <div class="w-full px-3 sm:w-1/2">
+                        <div class="mb-5">
+                            <input id="confirmIdNumber" type="text" formControlName="confirmIdNumber" placeholder="{{ 'Confirmar N° de identificación' | translate }}"
+                                class="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-6 text-base text-sm text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="idNumber" class="form-label">-- {{'Número de identificación' | translate}}</label>
-                        <input type="text" id="idNumber" class="form-control" formControlName="idNumber"
-                            placeholder="{{'Escriba aquí su numero de identificación' | translate}}">
+                    <div class="w-full px-3 sm:w-1/2">
+                        <div class="mb-5">
+                            <input id="password" type="password" formControlName="password" placeholder="{{ 'Escriba aquí su contraseña' | translate }}"
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-6 text-base text-sm text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+                        </div>
                     </div>
-
-                    <div class="mb-3">
-                        <label for="confirmIdNumber" class="form-label">-- {{'Número de identificación' | translate}}</label>
-                        <input type="text" id="confirmIdNumber" class="form-control" formControlName="confirmIdNumber"
-                            placeholder="{{'Confirme su numero de identificación' | translate}}">
-                    </div>
-                </div>
-
-                <div class="col-lg-6">
                     
-                    <div class="mb-3">
-                        <label for="role" class="form-label">-- {{'Rol' | translate}}</label>
-                        <select id="role" class="form-select" formControlName="role">
-                            <option value="" disabled selected>{{'Seleccione un rol' | translate}}</option>
-                            <option *ngFor="let role of roles" [value]="role.id"
-                                (ngValueChange)="onRoleSelectionChange(role.id)">{{ role.name }}</option>
-                        </select>
+                    <div class="w-full px-3 sm:w-1/2">
+                        <div class="mb-5">
+                            <input id="confirmPassword" type="password" formControlName="confirmPassword" placeholder="{{ 'Confirme su contraseña' | translate }}"
+                                class="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-6 text-base text-sm text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+                        </div>
                     </div>
-
-                    <div class="mb-3">
-                        <label for="email" class="form-label">-- {{'Correo Electrónico' | translate}}</label>
-                        <input type="email" id="email" class="form-control" formControlName="email"
-                            placeholder="{{'ejemplo@gmail.com' | translate}}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="password" class="form-label">-- {{'Contraseña' | translate}}</label>
-                        <input type="password" id="password" class="form-control" formControlName="password"
-                            placeholder="{{'Escriba aquí su contraseña' | translate}}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="confirmPassword" class="form-label">-- {{'Confirmar Contraseña' | translate}}</label>
-                        <input type="password" id="confirmPassword" class="form-control"
-                            formControlName="confirmPassword" placeholder="{{'Confirme su contraseña' | translate}}">
-                    </div>
-
-                    <button type="submit" class="btn btn-success" style="float: right;" [disabled]="!signupForm.valid">{{'Registrar Usuario' | translate}}</button>
                 </div>
+            </div>
+
+            <div>
+                <button [disabled]="!signupForm.valid"
+                    class="hover:shadow-form w-full rounded-md bg-green-600 py-3 px-8 text-center text-base font-semibold text-white outline-none disabled:opacity-50 disabled:font-normal">
+                    {{ 'Registrar Usuario' | translate }}
+                </button>
             </div>
         </form>
     </div>
 </div>
+
+

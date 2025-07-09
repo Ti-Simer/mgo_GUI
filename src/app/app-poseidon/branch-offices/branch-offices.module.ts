@@ -10,13 +10,11 @@ import { BranchOfficesEditComponent } from './branch-offices-edit/branch-offices
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { NgStyle } from '@angular/common';
-import { BranchOfficesActivedComponent } from './branch-offices-list/branch-offices-actived/branch-offices-actived.component';
-import { BranchOfficesPendingComponent } from './branch-offices-list/branch-offices-pending/branch-offices-pending.component';
 import { BranchOfficesImportComponent } from './branch-offices-import/branch-offices-import.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -44,8 +42,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     BranchOfficesListComponent,
     BranchOfficesCreateComponent,
     BranchOfficesEditComponent,
-    BranchOfficesActivedComponent,
-    BranchOfficesPendingComponent,
     BranchOfficesImportComponent,
     DialogCreateBranchOfficeComponent,
     DialogEditBranchOfficeComponent,

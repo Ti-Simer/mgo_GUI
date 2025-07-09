@@ -1,28 +1,60 @@
-<app-menu-home></app-menu-home>
-<div class="general-container">
-    <div class="row d-flex justify-content-center">
-        <div class="col-md-10">
-            <div class="card" style="width: 100%;" *ngIf="user">
-                <img class="card-img-top" style="height: 200px;" src="../../../assets/images/cover.svg" alt="Card image cap">
-                <div class="card-body">
-                    <h3 class="card-title" style="font-weight: bold;">{{user.firstName}} {{user.lastName}}</h3>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's
-                        content.</p>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">{{'Estado' | translate}}: {{user.state}}</li>
-                    <li class="list-group-item">{{'Rol' | translate}}: {{user.role.name}}</li>
-                    <li class="list-group-item">{{'C.C.' | translate}}: {{user.idNumber}}</li>
-                    <li class="list-group-item">{{'Email' | translate}}: {{user.email}}</li>
-                </ul>
-                <div class="card-body">
-                    <button class="btn btn-sm btn-secondary m-2" (click)="toEditUser(user)">{{'Editar' | translate}}</button>
-                    <button class="btn btn-sm btn-danger m-2" (click)="deleteUser()" *ngIf="user.state == 'ACTIVO'" >{{'Desactivar usuario' | translate}}</button>
-                    <button class="btn btn-sm btn-success m-2" (click)="activateUser()" *ngIf="user.state == 'INACTIVO'" >{{'Activar usuario' | translate}}</button>
-                    <button class="btn btn-sm btn-info m-2" (click)="toUserList()">{{'Lista de usuarios' | translate}}</button>
-                </div>
-            </div>
-        </div>
+<div class="flex justify-center px-4 py-8" *ngIf="user">
+  <div class="w-full max-w-4xl bg-white rounded-xl shadow-lg overflow-hidden">
+    
+    <!-- Imagen de portada -->
+    <div class="h-48 w-full bg-cover bg-center" [ngStyle]="{ 'background-image': 'url(../../../assets/images/cover.svg)' }"></div>
+    
+    <!-- Información principal -->
+    <div class="p-6">
+      <h2 class="text-2xl font-bold text-sky-800">{{ user.firstName }} {{ user.lastName }}</h2>
+        <p class="text-sm text-gray-600 mt-1">
+            {{ 'Información general del usuario registrado en el sistema' | translate }}
+        </p>
     </div>
+
+    <!-- Detalles -->
+    <div class="px-6 pb-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
+        <div class="flex items-center">
+          <span class="font-semibold w-24">{{ 'Estado' | translate }}:</span>
+          <span class="ml-2">{{ user.state }}</span>
+        </div>
+        <div class="flex items-center">
+          <span class="font-semibold w-24">{{ 'Rol' | translate }}:</span>
+          <span class="ml-2">{{ user.role.name }}</span>
+        </div>
+        <div class="flex items-center">
+          <span class="font-semibold w-24">{{ 'C.C.' | translate }}:</span>
+          <span class="ml-2">{{ user.idNumber }}</span>
+        </div>
+        <div class="flex items-center">
+          <span class="font-semibold w-24">{{ 'Email' | translate }}:</span>
+          <span class="ml-2">{{ user.email }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="border-t px-6 py-4 flex flex-wrap justify-end gap-3">
+      <button (click)="toEditUser(user)"
+        class="bg-gray-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-gray-700 transition">
+        {{ 'Editar' | translate }}
+      </button>
+
+      <button *ngIf="user.state == 'ACTIVO'" (click)="deleteUser()"
+        class="bg-red-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-red-700 transition">
+        {{ 'Desactivar usuario' | translate }}
+      </button>
+
+      <button *ngIf="user.state == 'INACTIVO'" (click)="activateUser()"
+        class="bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-green-700 transition">
+        {{ 'Activar usuario' | translate }}
+      </button>
+
+      <button (click)="toUserList()"
+        class="bg-sky-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-sky-700 transition">
+        {{ 'Lista de usuarios' | translate }}
+      </button>
+    </div>
+  </div>
 </div>

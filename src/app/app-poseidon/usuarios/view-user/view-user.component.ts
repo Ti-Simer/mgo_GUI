@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
@@ -19,8 +19,8 @@ import { DialogEditUserComponent } from '../dialog-edit-user/dialog-edit-user.co
 export class ViewUserComponent {
   private languageSubscription!: Subscription;
   private subscription!: Subscription;
+  @Input() userId!: string;
 
-  userId: any;
   user: any;
 
   constructor(

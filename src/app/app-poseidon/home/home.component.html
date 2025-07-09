@@ -1,186 +1,171 @@
-<div class="new-content mb-4">
+<div
+  class="mb-0 ml-0 p-4 transition-all duration-300 sm:mb-4 sm:ml-11"
+  [class.sm:ml-36]="!sidebarCollapsed"
+  [class.sm:ml-11]="sidebarCollapsed">
+    <!-- Tabs -->
     <nav class="mt-4">
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-          <button class="nav-link active" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="true">{{'Seguimiento' | translate}}</button>
-          <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="false">{{'Panel' | translate}}</button>
-          <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{{'Control/inventario' | translate}}</button>
+        <div class="flex border-b border-gray-200" role="tablist">
+            <button
+                class="py-2 px-4 -mb-px border-b-2 font-normal border-transparent text-gray-500 hover:text-sky-700 hover:border-sky-700 focus:outline-none"
+                [ngClass]="{
+                    'text-sky-700 bg-gray-100 rounded': activeTab === 'seguimiento'
+                }" (click)="activeTab = 'seguimiento'" role="tab" [attr.aria-selected]="activeTab === 'seguimiento'">
+                {{'Seguimiento' | translate}}
+            </button>
+            <button
+                class="py-2 px-4 -mb-px border-b-2 font-normal border-transparent text-gray-500 hover:text-sky-700 hover:border-sky-700 focus:outline-none"
+                [ngClass]="{
+                    'text-sky-700 bg-gray-100 rounded': activeTab === 'panel'
+                }" (click)="activeTab = 'panel'" role="tab" [attr.aria-selected]="activeTab === 'panel'">
+                {{'Panel' | translate}}
+            </button>
+            <button
+                class="py-2 px-4 -mb-px border-b-2 font-normal border-transparent text-gray-500 hover:text-sky-700 hover:border-sky-700 focus:outline-none"
+                [ngClass]="{
+                    'text-sky-700 bg-gray-100 rounded': activeTab === 'control'
+                }" (click)="activeTab = 'control'" role="tab" [attr.aria-selected]="activeTab === 'control'">
+                {{'Control/inventario' | translate}}
+            </button>
         </div>
     </nav>
-    <div class="tab-content mt-3" id="nav-tabContent" style="padding-bottom: 100px;">
-        <div class="tab-pane fade show active" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+
+    <!-- Tab Content -->
+    <div class="mt-3 pb-24">
+        <!-- Seguimiento -->
+        <div *ngIf="activeTab === 'seguimiento'">
             <app-log-report-list></app-log-report-list>
         </div>
-        
-        <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                <div class="headerLandscape card mb-3 mx-auto" id="responsive-container" style="height: 50px !important; width: 98.4% !important; background: linear-gradient(to right, #142938, #014e87) !important; color: #fff;">
-                    <div class="card-body d-flex justify-content-center align-items-center p-0 h-50">
-                        <div class="col-xl-2 col-lg-2 d-flex justify-content-around align-items-center" id="items" style="font-weight: bold;">
-                            -- {{roleText}}
-                        </div>
-                        <div class="col-xl-5 col-lg-5" id="items"></div>
-                        <div class="col-xl-1 col-lg-1 d-flex justify-content-around align-items-center" id="items">
-                            {{nameText}}
-                            <lucide-icon name="circle-user-round" style="cursor: pointer"></lucide-icon>
-                            <lucide-icon name="bolt" style="cursor: pointer"></lucide-icon>
-                        </div>
-                    </div>
+
+        <!-- Panel -->
+        <div *ngIf="activeTab === 'panel'">
+            <!-- Header -->
+            <div
+                class="hidden md:flex items-center justify-between w-[98%] mx-auto mb-3 h-12 rounded bg-gradient-to-r from-[#142938] to-[#014e87] text-white px-4 font-bold">
+                <div>-- {{roleText}}</div>
+                <div></div>
+                <div class="flex items-center space-x-2">
+                    {{nameText}}
+                    <lucide-icon name="circle-user-round" class="cursor-pointer"></lucide-icon>
+                    <lucide-icon name="bolt" class="cursor-pointer"></lucide-icon>
                 </div>
-                <div class="headerPortrait card mb-3 mx-auto" id="responsive-container" style="height: 50px !important; width: 98.4% !important; background: linear-gradient(to right, #142938, #014e87) !important; color: #fff;">
-                    <div class="card-body d-flex justify-content-center align-items-center p-0 h-50">
-                        <div class="col-xl-5 col-lg-5 d-flex justify-content-around align-items-center" id="items">
-                            {{nameText}}
-                            <lucide-icon name="circle-user-round" style="cursor: pointer"></lucide-icon>
-                            <lucide-icon name="bolt" style="cursor: pointer"></lucide-icon>
-                        </div>
-                    </div>
+            </div>
+            <div
+                class="md:hidden flex items-center justify-end w-[98%] mx-auto mb-3 h-12 rounded bg-gradient-to-r from-[#142938] to-[#014e87] text-white px-4">
+                <div class="flex items-center space-x-2">
+                    {{nameText}}
+                    <lucide-icon name="circle-user-round" class="cursor-pointer"></lucide-icon>
+                    <lucide-icon name="bolt" class="cursor-pointer"></lucide-icon>
                 </div>
-                <div class="row d-flex justify-content-center mb-1">
-                    <div class="row ">
-                        <div class="col-xl-4 col-lg-4 d-flex justify-content-center">
-                            <div class="card l-bg-cherry">
-                                <div class="card-statistic-3 p-4">
-                                    <div class="card-icon card-icon-large"><i class="fas fa-shopping-cart"></i></div>
-                                    <div class="mb-4">
-                                        <h2 class="card-title mb-0">{{'Masa/día' | translate}}</h2>
-                                    </div>
-                                    <div class="row align-items-center mb-2 d-flex">
-                                        <div class="col-8">
-                                            <h2 class="d-flex align-items-center mb-0">
-                                                <span class="text1" *ngIf="massData">
-                                                    {{massData.mass | number}} Kg
-                                                </span>
-                                                <span class="text1" *ngIf="!massData">
-                                                    {{'No hay datos' | translate}}
-                                                </span>
-                                            </h2>
-                                            <h4 class="d-flex align-items-center mb-0">
-                                                <span class="text1" *ngIf="massData">
-                                                    {{massData.volume | number}} Gl
-                                                </span>
-                                                <span class="text1" *ngIf="!massData">
-                                                    {{'No hay datos' | translate}}
-                                                </span>
-                                            </h4>
-                                        </div>
-                                        <div class="col-4 text-right" *ngIf="massData">
-                                            <span>{{massData.today | date: 'mediumDate'}} <br> {{massData.percentageEffective}}% <i
-                                                    class="fa fa-arrow-up"></i></span>
-                                        </div>
-                                        <div class="col-4 text-right" *ngIf="!massData">
-                                            <span>{{'No hay datos registrados' | translate}} <br> 2025 
-                                                <i class="fa fa-arrow-up"></i></span>
-                                        </div>
-                                    </div>
-                                    <div class="progress mt-1" data-height="8" style="height: 8px;" *ngIf="massData">
-                                        <div class="progress-bar l-bg-cyan" role="progressbar"
-                                            [attr.data-width]="massData.percentageEffective + '%'" aria-valuenow="25"
-                                            aria-valuemin="0" aria-valuemax="100" [style.width.%]="massData.percentageEffective">
-                                        </div>
-                                    </div>
+            </div>
+
+            <!-- Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <!-- Card 1 -->
+                <div class="bg-gradient-to-br from-pink-500 to-red-400 rounded shadow p-4 text-white">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-shopping-cart text-2xl mr-2"></i>
+                        <h2 class="font-bold text-lg">{{'Masa/día' | translate}}</h2>
+                    </div>
+                    <div>
+                        <div *ngIf="massData; else noMass">
+                            <div class="text-2xl font-bold">{{massData.mass | number}} Kg</div>
+                            <div class="text-lg">{{massData.volume | number}} Gl</div>
+                            <div class="flex justify-between text-xs mt-2">
+                                <span>{{massData.today | date: 'mediumDate'}}</span>
+                                <span>{{massData.percentageEffective}}% <i class="fa fa-arrow-up"></i></span>
+                            </div>
+                            <div class="w-full bg-white bg-opacity-20 rounded h-2 mt-2">
+                                <div class="bg-cyan-400 h-2 rounded" [style.width.%]="massData.percentageEffective">
                                 </div>
                             </div>
                         </div>
-            
-                        <div class="col-xl-4 col-lg-4 d-flex justify-content-center">
-                            <div class="card l-bg-blue-dark">
-                                <div class="card-statistic-3 p-4">
-                                    <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
-                                    <div class="mb-4" *ngIf="orders">
-                                        <h2 class="card-title mb-0">{{'Pedidos desde' | translate}} {{orders.dayAgo | date: 'mediumDate'}}</h2>
-                                    </div>
-                                    <div class="mb-4" *ngIf="!orders">
-                                        <h2 class="card-title mb-0">{{'Pedidos' | translate}}</h2>
-                                    </div>
-                                    <div class="row align-items-center mb-2 d-flex">
-                                        <div class="col-8">
-                                            <h2 class="d-flex align-items-center mb-0">
-                                                <span class="text1" *ngIf="orders">
-                                                    {{orders.ordersOnCourse | number}} / {{orders.ordersSuccess | number}}
-                                                </span>
-                                            </h2>
-                                            <h4 class="d-flex align-items-center mb-0">
-                                                <span class="text1" *ngIf="orders">
-                                                    {{'En curso' | translate}} / {{'Finalizado' | translate}}
-                                                </span>
-                                                <span class="text1" *ngIf="!orders">
-                                                    {{'No hay datos' | translate}}
-                                                </span>
-                                            </h4>
-                                        </div>
-                                        <div class="col-4 text-right" *ngIf="orders">
-                                            <span>{{orders.today | date: 'mediumDate'}} <br> {{orders.percentageSuccess | number}}% <i
-                                                    class="fa fa-arrow-up"></i></span>
-                                        </div>
-                                    </div>
-                                    <div class="progress mt-1 " data-height="8" style="height: 8px;" *ngIf="orders">
-                                        <div class="progress-bar l-bg-green" role="progressbar"
-                                            [attr.data-width]="orders.percentageSuccess + '%'" aria-valuenow="25" aria-valuemin="0"
-                                            aria-valuemax="100" [style.width.%]="orders.percentageSuccess"></div>
-                                    </div>
+                        <ng-template #noMass>
+                            <div class="text-lg">{{'No hay datos' | translate}}</div>
+                            <div class="flex justify-between text-xs mt-2">
+                                <span>{{'No hay datos registrados' | translate}} <br>2025 <i
+                                        class="fa fa-arrow-up"></i></span>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-gradient-to-br from-blue-800 to-blue-400 rounded shadow p-4 text-white">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-users text-2xl mr-2"></i>
+                        <h2 class="font-bold text-lg">
+                            <span *ngIf="orders">{{'Pedidos desde' | translate}} {{orders.dayAgo | date:
+                                'mediumDate'}}</span>
+                            <span *ngIf="!orders">{{'Pedidos' | translate}}</span>
+                        </h2>
+                    </div>
+                    <div>
+                        <div *ngIf="orders; else noOrders">
+                            <div class="text-2xl font-bold">{{orders.ordersOnCourse | number}} / {{orders.ordersSuccess
+                                | number}}</div>
+                            <div class="text-lg">{{'En curso' | translate}} / {{'Finalizado' | translate}}</div>
+                            <div class="flex justify-between text-xs mt-2">
+                                <span>{{orders.today | date: 'mediumDate'}}</span>
+                                <span>{{orders.percentageSuccess | number}}% <i class="fa fa-arrow-up"></i></span>
+                            </div>
+                            <div class="w-full bg-white bg-opacity-20 rounded h-2 mt-2">
+                                <div class="bg-green-400 h-2 rounded" [style.width.%]="orders.percentageSuccess"></div>
+                            </div>
+                        </div>
+                        <ng-template #noOrders>
+                            <div class="text-lg">{{'No hay datos' | translate}}</div>
+                        </ng-template>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-gradient-to-br from-orange-500 to-yellow-400 rounded shadow p-4 text-white">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-dollar-sign text-2xl mr-2"></i>
+                        <h2 class="font-bold text-lg">
+                            <span *ngIf="courses">{{'Derroteros' | translate}} {{courses[0].today | date:
+                                'mediumDate'}}</span>
+                            <span *ngIf="!courses">{{'Derroteros' | translate}}</span>
+                        </h2>
+                    </div>
+                    <div>
+                        <div *ngIf="courses; else noCourses">
+                            <div class="text-2xl font-bold">{{courses[0].courses}} / {{courses[0].fullEfficiencyCount}}
+                            </div>
+                            <div class="text-lg">{{'En curso' | translate}} / {{'Finalizado' | translate}}</div>
+                            <div class="flex justify-between text-xs mt-2">
+                                <span>{{courses[0].percentageSuccess}}% <i class="fa fa-arrow-up"></i></span>
+                            </div>
+                            <div class="w-full bg-white bg-opacity-20 rounded h-2 mt-2">
+                                <div class="bg-cyan-400 h-2 rounded" [style.width.%]="courses[0].percentageSuccess">
                                 </div>
                             </div>
                         </div>
-            
-                        <div class="col-xl-4 col-lg-4 d-flex justify-content-center">
-                            <div class="card l-bg-orange-dark">
-                                <div class="card-statistic-3 p-4">
-                                    <div class="card-icon card-icon-large"><i class="fas fa-dollar-sign"></i></div>
-                                    <div class="mb-4">
-                                        <h2 class="card-title mb-0" *ngIf="courses">{{'Derroteros' | translate}} {{courses[0].today | date: 'mediumDate'}}</h2>
-                                        <h2 class="card-title mb-0" *ngIf="!courses">{{'Derroteros' | translate}}</h2>
-                                    </div>
-                                    <div class="row align-items-center mb-2 d-flex">
-                                        <div class="col-8">
-                                            <h2 class="d-flex align-items-center mb-0" *ngIf="!courses">
-                                                {{'No hay datos' | translate}}
-                                            </h2>
-                                            <h2 class="d-flex align-items-center mb-0" *ngIf="courses">
-                                                {{courses[0].courses}} / {{courses[0].fullEfficiencyCount}}
-                                            </h2>
-                                            <h4 class="d-flex align-items-center mb-0">
-                                                <span class="text1" *ngIf="courses">
-                                                    {{'En curso' | translate}} / {{'Finalizado' | translate}}
-                                                </span>
-                                                <span class="text1" *ngIf="!courses">
-                                                    {{'No hay datos' | translate}}
-                                                </span>
-                                            </h4>
-                                        </div>
-                                        <div class="col-4 text-right" *ngIf="courses">
-                                            <span>{{courses[0].percentageSuccess}}% <i class="fa fa-arrow-up"></i></span>
-                                        </div>
-                                        <div class="col-4 text-right" *ngIf="!courses">
-                                            <span>{{'No hay datos registrados' | translate}} <br> 2025 
-                                                <i class="fa fa-arrow-up"></i></span>
-                                        </div>
-                                    </div>
-                                    <div class="progress mt-1" data-height="8" style="height: 8px;" *ngIf="courses">
-                                        <div class="progress-bar l-bg-cyan" role="progressbar"
-                                            [attr.data-width]="courses[0].percentageSuccess + '%'" aria-valuenow="25"
-                                            aria-valuemin="0" aria-valuemax="100" [style.width.%]="courses[0].percentageSuccess">
-                                        </div>
-                                    </div>
-                                </div>
+                        <ng-template #noCourses>
+                            <div class="text-lg">{{'No hay datos' | translate}}</div>
+                            <div class="flex justify-between text-xs mt-2">
+                                <span>{{'No hay datos registrados' | translate}} <br>2025 <i
+                                        class="fa fa-arrow-up"></i></span>
                             </div>
-                        </div>
+                        </ng-template>
                     </div>
                 </div>
-                <div class="row d-flex justify-content-center mb-1 mx-auto" id="responsive-container" style="width: 98.4% !important;">
-                    <div class="col-xl-5 col-lg-5 p-4 bg-light rounded shadow" id="items" style="background: linear-gradient(to right, #142938, #014e87) !important;">
-                        <app-home-chart></app-home-chart>
-                    </div>
-                    <div class="col-xl-5 col-lg-5 p-4 rounded shadow" id="items" style="background:  #014e87 !important;">
-                        <app-home-trackingmap></app-home-trackingmap>
-                    </div>
+            </div>
+
+            <!-- Charts and Map -->
+            <div class="flex flex-col md:flex-row justify-center gap-4 w-[98%] mx-auto">
+                <div class="flex-1 bg-gradient-to-r from-[#142938] to-[#014e87] rounded shadow p-4">
+                    <app-home-chart></app-home-chart>
                 </div>
+                <div class="flex-1 bg-[#014e87] rounded shadow p-4">
+                    <app-home-trackingmap></app-home-trackingmap>
+                </div>
+            </div>
         </div>
-    
-        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+        <!-- Control/Inventario -->
+        <div *ngIf="activeTab === 'control'">
             <app-control-inventory></app-control-inventory>
         </div>
     </div>
 </div>
 
-<app-footer class="hide-on-mobile"></app-footer>
-
-
+<app-footer-lite class="hide-on-mobile"></app-footer-lite>

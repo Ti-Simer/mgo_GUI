@@ -26,6 +26,10 @@ export class PermissionsListComponent {
   permissions: any[] = [];
   isLoading = false;
 
+  public Math = Math;
+  collapsed = true;
+  private menuSub!: Subscription;
+
   constructor(
     private permissionsService: PermissionsService,
     private router: Router,
@@ -47,6 +51,10 @@ export class PermissionsListComponent {
   }
 
   ngOnInit() {
+    this.menuSub = this.authService.menuExpanded$.subscribe(expanded => {
+      this.collapsed = expanded; // O usa collapsed = !expanded si collapsed significa "colapsado"
+    });
+
     this.fetchRoles();
 
     if (this.paginator) {
@@ -83,6 +91,20 @@ export class PermissionsListComponent {
         (row as HTMLElement).style.display = rowText.includes(value) ? 'table-row' : 'none';
       });
     }
+  }
+  
+  get totalPages(): number {
+    return Math.max(1, Math.ceil(this.permissions.length / this.pageSize));
+  }
+
+  onPageSizeChange() {
+    this.pageIndex = 0;
+  }
+
+  goToPage(page: number) {
+    if (page < 0) page = 0;
+    if (page > this.totalPages - 1) page = this.totalPages - 1;
+    this.pageIndex = page;
   }
 
   fetchRoles(): void {

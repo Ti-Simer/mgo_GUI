@@ -28,6 +28,10 @@ export class DepartmentListComponent {
   @ViewChild('myInput') searchInput!: ElementRef; // Obtiene una referencia al elemento de entrada de búsqueda
   departments: any[] = [];
   isLoading = false;
+  public Math = Math;
+
+  collapsed = true;
+  private menuSub!: Subscription;
 
   constructor(
     private router: Router,
@@ -52,6 +56,11 @@ export class DepartmentListComponent {
 
   ngOnInit(): void {
     this.fetchDepartments();
+
+    this.menuSub = this.authService.menuExpanded$.subscribe(expanded => {
+      this.collapsed = expanded; // O usa collapsed = !expanded si collapsed significa "colapsado"
+    });
+
     if (this.paginator) {
       this.paginator.page.subscribe((event: any) => {
         // Actualizar los datos de la tabla según la página seleccionada
@@ -59,6 +68,9 @@ export class DepartmentListComponent {
     }
   }
 
+  ngOnDestroy(): void {
+    this.menuSub?.unsubscribe();
+  }
   // Método para manejar el cambio de página
   onPageChange(event: any) {
     this.pageIndex = event.pageIndex;
@@ -86,6 +98,20 @@ export class DepartmentListComponent {
         (row as HTMLElement).style.display = rowText.includes(value) ? 'table-row' : 'none';
       });
     }
+  }
+
+  get totalPages(): number {
+    return Math.max(1, Math.ceil(this.departments.length / this.pageSize));
+  }
+
+  onPageSizeChange() {
+    this.pageIndex = 0;
+  }
+
+  goToPage(page: number) {
+    if (page < 0) page = 0;
+    if (page > this.totalPages - 1) page = this.totalPages - 1;
+    this.pageIndex = page;
   }
 
   fetchDepartments() {
@@ -196,7 +222,11 @@ export class DepartmentListComponent {
     });
   }
 
-  toCities(){
+  activateDepartment(department: any) {
+
+  }
+
+  toCities() {
     this.router.navigate(['/poseidon/city/list']);
   }
 

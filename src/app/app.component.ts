@@ -255,6 +255,7 @@ const TREE_DATA_HER: MenuNode[] = [
   },
 ];
 
+
 /** Flat node with expandable and level information */
 interface ExampleFlatNode {
   expandable: boolean;
@@ -304,6 +305,8 @@ export class AppComponent {
   language: string = 'es';
   configuration: any = {};
   isLogged: boolean = false;
+  dropdownOpen = false;
+  sidebarCollapsed = false;
   notifications: any;
   userId: any;
   system: any;
@@ -338,16 +341,28 @@ export class AppComponent {
       this.isLogged = true;
       this.updateMenu();
     }
+
+    this.authService.menuExpanded$.subscribe(expanded => {
+      this.sidebarCollapsed = expanded;
+    });
   }
 
   ngOnInit() {
     this.getLogoSrc();
   }
 
+  toggleSidebar() {
+    this.authService.toggleMenuExpanded();
+  }
+
   ngOnDestroy() {
     if (this.authSubscription) {
       this.authSubscription.unsubscribe();
     }
+  }
+
+  public get isDesktop(): boolean {
+    return window.innerWidth >= 768; // md breakpoint
   }
 
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
@@ -382,6 +397,10 @@ export class AppComponent {
     } catch (error) {
       this.toastr.error('No se pudo cargar la configuración del sistema');
     }
+  }
+
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
   }
 
   switchLanguage(language: string) {
@@ -446,7 +465,7 @@ export class AppComponent {
     const tokenData = this.authService.getTokenData();
 
     if (!tokenData) {
-      return '#026ec1';
+      return 'oklch(44.3% 0.11 240.79)';
     }
 
     switch (tokenData.system) {
@@ -460,7 +479,7 @@ export class AppComponent {
         return tokenData.color;
 
       default:
-        return '#026ec1';
+        return 'oklch(44.3% 0.11 240.79)';
     }
   }
 
@@ -468,10 +487,10 @@ export class AppComponent {
     const tokenData = this.authService.getTokenData();
 
     if (!tokenData) {
-      this.logoSrc =  'assets/images/logonav.png';
+      this.logoSrc = 'assets/images/logonav.png';
       return;
     }
-    
+
     switch (tokenData.system) {
       case 'Poseidon':
         this.logoSrc = 'assets/images/poseidon-logo.svg';

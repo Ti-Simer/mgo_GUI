@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DepartmentRoutingModule } from './department-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DepartmentCreateComponent } from './department-create/department-create.component';
 import { DepartmentListComponent } from './department-list/department-list.component';
 import { DepartmentEditComponent } from './department-edit/department-edit.component';
@@ -39,6 +39,7 @@ import { DialogEditDepartmentComponent } from './dialog-edit-department/dialog-e
     SharedModule,
     ReactiveFormsModule,
     MatPaginatorModule,
+    FormsModule,
     LucideAngularModule.pick({
       Disc,
       ArrowBigLeftDash,

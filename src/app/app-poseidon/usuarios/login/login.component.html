@@ -1,54 +1,110 @@
-<div class="wrapper">
-    <div class="container content">
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <h3>{{'Sistema Poseidon' | translate}}</h3>
-                <h2>{{'Inicio de sesión' | translate}}</h2>
-                <div class="col-12 mt-4">
-                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-                        <div class="mb-3">
-                            <label for="server" class="form-label">-- {{'Servidor' | translate}}</label>
-                            <div class="input-group">
-                                <input [type]="showServer ? 'text' : 'password'" id="server" class="form-control"
-                                    formControlName="server" placeholder="{{'Id único de servidor' | translate}}">
-                                <button type="button" class="btn btn-outline-secondary" (click)="toggleShowServer()">
-                                    <lucide-icon [name]="showServer ? 'eye-off' : 'eye'"></lucide-icon>
-                                </button>
-                            </div>
-                        </div>
+<div class="min-h-[90vh] flex items-center justify-center px-4">
+    <div class="bg-gray-50 rounded-lg shadow-lg flex flex-col md:flex-row w-full max-w-4xl p-8">
+        <!-- Formulario -->
+        <div class="w-full md:w-2/3 flex flex-col justify-center">
+            <h3 class="text-3xl font-bold text-[#014e87] mb-0">
+                {{'Sistema Poseidon' | translate}}
+                <h2 class="text-xl font-normal text-gray-500 mb-6">{{'Inicio de sesión' | translate}}</h2>
+            </h3>
+            
 
-                        <div class="mb-3">
-                            <label for="credentials" class="form-label">-- {{'Usuario' | translate}}</label>
-                            <input type="text" id="credentials" class="form-control" formControlName="credentials"
-                                placeholder="{{'Numero de id o correo' | translate}}">
-                        </div>
+            <form class="grid grid-cols-1 gap-4 sm:grid-cols-2" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
+                <!-- Server input con botón para mostrar/ocultar -->
+                <div class="sm:col-span-2 mt-4 mb-2">
+                    <div class="relative">
+                        <input [type]="showServer ? 'text' : 'password'" id="server" formControlName="server"
+                            class="peer w-full rounded border border-gray-400 bg-gray-50 py-2 px-3 pr-10 text-base leading-8 text-gray-800 placeholder-transparent outline-none transition-colors duration-200 ease-in-out focus:border-sky-500 focus:bg-white focus:ring-2 focus:ring-sky-100"
+                            placeholder="Servidor" />
+                        <label for="password"
+                            class="absolute left-3 -top-6 bg-transparent text-sm leading-7 text-sky-500 transition-all peer-placeholder-shown:left-3 peer-placeholder-shown:top-2 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:left-3 peer-focus:-top-6 peer-focus:text-sm peer-focus:text-sky-700">
+                            {{'Servidor' | translate}}
+                        </label>
+                        <!-- Botón para mostrar/ocultar contraseña -->
+                        <button type="button" (click)="toggleShowServer()"
+                            class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-sky-700 focus:outline-none"
+                            tabindex="-1">
+                            <svg *ngIf="!showServer" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                            </svg>
+                            <svg *ngIf="showServer" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                            </svg>
 
-                        <div class="mb-3">
-                            <label for="server" class="form-label">-- {{'Contraseña' | translate}}</label>
-                            <div class="input-group">
-                                <input [type]="showPassword ? 'text' : 'password'" id="password" class="form-control"
-                                    formControlName="password" placeholder="{{'Escriba aquí su contraseña' | translate}}">
-                                <button type="button" class="btn btn-outline-secondary" (click)="toggleShowPassword()">
-                                    <lucide-icon [name]="showPassword ? 'eye-off' : 'eye'"></lucide-icon>
-                                </button>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-success" [disabled]="!loginForm.valid">{{'Iniciar Sesión' | translate}}
-                            </button>
-                        <button class="btn btn-secondary" style="margin-left: 1rem;"
-                            (click)="toPlataforms()">{{'Cancelar' | translate}}</button>
-
-                    </form>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-3 visible-on-landscape">
-                <img src="assets/images/esquema-poseidon.svg" alt="" style="width: 425px;">
-            </div>
+
+                <!-- user -->
+                <div class="sm:col-span-1 mb-2">
+                    <div class="relative">
+                        <input type="text" id="credentials" formControlName="credentials"
+                            class="peer w-full rounded border border-gray-400 bg-gray-50 py-2 px-3 text-base leading-8 text-gray-800 placeholder-transparent outline-none transition-colors duration-200 ease-in-out focus:border-sky-500 focus:bg-white focus:ring-2 focus:ring-sky-100"
+                            placeholder="Name" />
+                        <label for="name"
+                            class="absolute left-3 -top-6 bg-transparent text-sm leading-7 text-sky-500 transition-all peer-placeholder-shown:left-3 peer-placeholder-shown:top-2 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:left-3 peer-focus:-top-6 peer-focus:text-sm peer-focus:text-sky-700">{{'Usuario'
+                            | translate}}</label>
+                    </div>
+                </div>
+
+                <!-- Password input con botón para mostrar/ocultar -->
+                <div class="sm:col-span-1 mb-2">
+                    <div class="relative">
+                        <input [type]="showPassword ? 'text' : 'password'" id="password" formControlName="password"
+                            class="peer w-full rounded border border-gray-400 bg-gray-50 py-2 px-3 pr-10 text-base leading-8 text-gray-800 placeholder-transparent outline-none transition-colors duration-200 ease-in-out focus:border-sky-500 focus:bg-white focus:ring-2 focus:ring-sky-100"
+                            placeholder="Contraseña" />
+                        <label for="password"
+                            class="absolute left-3 -top-6 bg-transparent text-sm leading-7 text-sky-500 transition-all peer-placeholder-shown:left-3 peer-placeholder-shown:top-2 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:left-3 peer-focus:-top-6 peer-focus:text-sm peer-focus:text-sky-700">
+                            {{'Contraseña' | translate}}
+                        </label>
+                        <!-- Botón para mostrar/ocultar contraseña -->
+                        <button type="button" (click)="toggleShowPassword()"
+                            class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-sky-700 focus:outline-none"
+                            tabindex="-1">
+                            <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                            </svg>
+                            <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <div class="flex items-center space-x-4 mt-2">
+                    <button type="submit"
+                        class="bg-sky-700 hover:bg-sky-800 text-white font-normal py-2 px-2 rounded transition disabled:opacity-50"
+                        [disabled]="!loginForm.valid">
+                        {{'Iniciar Sesión' | translate}}
+                    </button>
+                    <button type="button"
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-700 font-normal py-2 px-6 rounded transition"
+                        (click)="toPlataforms()">
+                        {{'Cancelar' | translate}}
+                    </button>
+                </div>
+            </form>
+
+        </div>
+        <!-- Imagen -->
+        <div class="hidden ml-12 md:flex md:w-1/4 items-center justify-center">
+            <img src="assets/images/poseidon-logo-plataform.svg" alt="" class="w-60 max-w-full">
         </div>
     </div>
-
-    <app-footer class="hide-on-mobile"></app-footer>
 </div>
+
+<app-footer-lite class="hide-on-mobile"></app-footer-lite>

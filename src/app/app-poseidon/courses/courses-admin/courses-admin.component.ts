@@ -34,6 +34,12 @@ export class CoursesAdminComponent {
   courses: any[] = [];
   isLoading = false;
 
+  activeTab: string = 'derroteros';
+
+  public Math = Math;
+  collapsed = true;
+  private menuSub!: Subscription;
+  
   constructor(
     private router: Router,
     private courseService: CourseService,
@@ -46,7 +52,7 @@ export class CoursesAdminComponent {
   ) {
     translate.addLangs(['en', 'es', 'pt']);
     translate.setDefaultLang(this.languageService.getLanguage());
-
+    
     this.authService.readChecker().subscribe(flag => {
       if (!flag) {
         this.toHome();
@@ -55,15 +61,19 @@ export class CoursesAdminComponent {
     });
     this.getCourses();
   }
-
+  
   ngOnInit(): void {
+    this.menuSub = this.authService.menuExpanded$.subscribe(expanded => {
+      this.collapsed = expanded; // O usa collapsed = !expanded si collapsed significa "colapsado"
+    });
+
     if (this.paginator) {
       this.paginator.page.subscribe((event: any) => {
         // Actualizar los datos de la tabla según la página seleccionada
       });
     }
   }
-
+  
   // Método para manejar el cambio de página
   onPageChange(event: any) {
     this.pageIndex = event.pageIndex;
@@ -75,22 +85,40 @@ export class CoursesAdminComponent {
       this.paginator.page.subscribe((event: any) => {
         this.onPageChange(event);
       });
-
+      
       this.initializeSearchFilter();
     }
   }
-
+  
   initializeSearchFilter() {
     if (this.searchInput) {
       const inputElement = this.searchInput.nativeElement as HTMLInputElement;
       const value = inputElement.value.toLowerCase();
       const tableRows = document.querySelectorAll('#myTable tr');
-
+      
       tableRows.forEach((row) => {
         const rowText = row.textContent!.toLowerCase();
         (row as HTMLElement).style.display = rowText.includes(value) ? 'table-row' : 'none';
       });
     }
+  }
+  
+  ngOnDestroy(): void {
+    this.menuSub?.unsubscribe();
+  }
+  
+  get totalPages(): number {
+    return Math.max(1, Math.ceil(this.courses.length / this.pageSize));
+  }
+  
+  onPageSizeChange() {
+    this.pageIndex = 0;
+  }
+  
+  goToPage(page: number) {
+    if (page < 0) page = 0;
+    if (page > this.totalPages - 1) page = this.totalPages - 1;
+    this.pageIndex = page;
   }
 
   setPageSizeToTotal() {

@@ -28,6 +28,11 @@ export class ZoneListComponent {
   @ViewChild('myInput') searchInput!: ElementRef; // Obtiene una referencia al elemento de entrada de búsqueda
   zones: any[] = [];
   isLoading = false;
+  public Math = Math;
+
+  collapsed = true;
+  private menuSub!: Subscription;
+
 
   constructor(
     private authService: AuthService,
@@ -41,7 +46,7 @@ export class ZoneListComponent {
   ) {
     translate.addLangs(['en', 'es', 'pt']);
     translate.setDefaultLang(this.languageService.getLanguage());
-
+    
     this.authService.readChecker().subscribe(flag => {
       if (!flag) {
         this.toHome();
@@ -52,11 +57,20 @@ export class ZoneListComponent {
 
   ngOnInit(): void {
     this.fetchZones();
+
+    this.menuSub = this.authService.menuExpanded$.subscribe(expanded => {
+      this.collapsed = expanded; // O usa collapsed = !expanded si collapsed significa "colapsado"
+    });
+
     if (this.paginator) {
       this.paginator.page.subscribe((event: any) => {
         // Actualizar los datos de la tabla según la página seleccionada
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.menuSub?.unsubscribe();
   }
 
   // Método para manejar el cambio de página
@@ -86,6 +100,20 @@ export class ZoneListComponent {
         (row as HTMLElement).style.display = rowText.includes(value) ? 'table-row' : 'none';
       });
     }
+  }
+
+  get totalPages(): number {
+    return Math.max(1, Math.ceil(this.zones.length / this.pageSize));
+  }
+
+  onPageSizeChange() {
+    this.pageIndex = 0;
+  }
+
+  goToPage(page: number) {
+    if (page < 0) page = 0;
+    if (page > this.totalPages - 1) page = this.totalPages - 1;
+    this.pageIndex = page;
   }
 
   fetchZones() {

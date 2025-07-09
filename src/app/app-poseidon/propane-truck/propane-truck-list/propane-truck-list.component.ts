@@ -29,6 +29,10 @@ export class PropaneTruckListComponent {
   propaneTrucks: any[] = [];
   isLoading = false;
 
+  public Math = Math;
+  collapsed = true;
+  private menuSub!: Subscription;
+
   constructor(
     private authService: AuthService,
     private propaneTruckService: PropaneTruckService,
@@ -51,7 +55,12 @@ export class PropaneTruckListComponent {
   }
 
   ngOnInit(): void {
+    this.menuSub = this.authService.menuExpanded$.subscribe(expanded => {
+      this.collapsed = expanded; // O usa collapsed = !expanded si collapsed significa "colapsado"
+    });
+
     this.fetchPropaneTrucks();
+
     if (this.paginator) {
       this.paginator.page.subscribe((event: any) => {
         // Actualizar los datos de la tabla según la página seleccionada
@@ -86,6 +95,24 @@ export class PropaneTruckListComponent {
         (row as HTMLElement).style.display = rowText.includes(value) ? 'table-row' : 'none';
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.menuSub?.unsubscribe();
+  }
+
+  get totalPages(): number {
+    return Math.max(1, Math.ceil(this.propaneTrucks.length / this.pageSize));
+  }
+
+  onPageSizeChange() {
+    this.pageIndex = 0;
+  }
+
+  goToPage(page: number) {
+    if (page < 0) page = 0;
+    if (page > this.totalPages - 1) page = this.totalPages - 1;
+    this.pageIndex = page;
   }
 
   fetchPropaneTrucks() {
@@ -206,7 +233,7 @@ export class PropaneTruckListComponent {
             width: '750px',
             data: { propaneTruckId: propaneTruck.id }
           });
-  
+
           dialogRef.afterClosed().subscribe(result => {
             this.fetchPropaneTrucks();
           });

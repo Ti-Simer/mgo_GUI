@@ -5,27 +5,28 @@
 
             <div class="col-sm-6 p-2" *ngFor="let propaneTruck of data">
 
-                <div class="shadow-sm rounded display-6 d-flex justify-content-between p-2" style="background-color: #014e87;">
+                <div class="shadow-sm rounded display-6 d-flex justify-content-between p-2"
+                    style="background-color: #014e87;">
                     <div class="w-50" id="items2">
                         <div class="mb-4 d-flex justify-content-center">
-                            <div 
-                            [ngClass]="{
+                            <div [ngClass]="{
                                 'color-changing-square-green': propaneTruck.last_criticality === 0,
                                 'color-changing-square-orange': propaneTruck.last_criticality === 1,
                                 'color-changing-square-red': propaneTruck.last_criticality === 2
-                            }" 
-                            class="rounded shadow-sm">
+                            }" class="rounded shadow-sm">
+                            </div>
                         </div>
-                        </div>
-                        <div class="text-white align-baseline text-center" style="font-size: 18px" *ngIf="propaneTruck.last_delivery === ''">
+                        <div class="text-white align-baseline text-center" style="font-size: 18px"
+                            *ngIf="propaneTruck.last_delivery === ''">
                             {{'Sin entregas' | translate}}
                         </div>
 
-                        <div class="text-white align-baseline text-center" style="font-size: 18px" *ngIf="propaneTruck.last_delivery != ''">
+                        <div class="text-white align-baseline text-center" style="font-size: 18px"
+                            *ngIf="propaneTruck.last_delivery != ''">
                             {{propaneTruck.last_delivery}}
                         </div>
                     </div>
-    
+
                     <div class="bg-light rounded text-secondary p-2 shadow-sm w-50" id="items2">
                         <p class="text-secondary fw-bold m-0" style="font-size: 24px">
                             {{propaneTruck.plate}}
@@ -36,7 +37,7 @@
                         <hr class="mx-auto w-75">
                         <span style="font-size: 18px">
                             <p class="text-secondary m-0">
-                                Masa total:  <br>
+                                Masa total: <br>
                                 {{propaneTruck.delivered_mass}} Kg
                             </p>
                             <p class="text-secondary m-0">
@@ -59,31 +60,32 @@
 
             <div class="col-sm-12 p-2" *ngFor="let propaneTruck of data">
 
-                <div class="shadow-sm rounded display-6 d-flex justify-content-between p-2" style="background-color: #014e87;">
+                <div class="shadow-sm rounded display-6 d-flex justify-content-between p-2"
+                    style="background-color: #014e87;">
                     <div class="w-50" id="items2">
                         <div class="mb-4 d-flex justify-content-center">
                             <!-- <img class="propane_truck_green w-100 mx-auto rounded shadow-sm" src="assets/images/tank_black.svg"> -->
-                            <div 
-                                [ngClass]="{
+                            <div [ngClass]="{
                                     'color-changing-square-green': propaneTruck.last_criticality === 0,
                                     'color-changing-square-orange': propaneTruck.last_criticality === 1,
                                     'color-changing-square-red': propaneTruck.last_criticality === 2
-                                }" 
-                                class="rounded shadow-sm">
+                                }" class="rounded shadow-sm">
                             </div>
                         </div>
-                        <div class="text-white align-baseline text-center" style="font-size: 18px" *ngIf="propaneTruck.last_delivery === ''">
+                        <div class="text-white align-baseline text-center" style="font-size: 18px"
+                            *ngIf="propaneTruck.last_delivery === ''">
                             {{'Sin entregas' | translate}}
                         </div>
 
-                        <div class="text-white align-baseline text-center" style="font-size: 18px" *ngIf="propaneTruck.last_delivery != ''">
+                        <div class="text-white align-baseline text-center" style="font-size: 18px"
+                            *ngIf="propaneTruck.last_delivery != ''">
                             <p class="text-center text-white align-baseline m-0">
                                 {{'Ultima entrega:' | translate}}
                             </p>
                             {{propaneTruck.last_delivery}}
                         </div>
                     </div>
-    
+
                     <div class="bg-light rounded text-secondary p-2 shadow-sm w-50" id="items2">
                         <p class="text-secondary fw-bold m-0" style="font-size: 24px">
                             {{propaneTruck.plate}}
@@ -94,7 +96,7 @@
                         <hr class="mx-auto w-75">
                         <span style="font-size: 18px">
                             <p class="text-secondary m-0">
-                                Masa total:  <br>
+                                Masa total: <br>
                                 {{propaneTruck.delivered_mass}} Kg
                             </p>
                             <p class="text-secondary m-0">
@@ -115,7 +117,7 @@
     </div>
 
     <div class="container d-flex justify-content-center" *ngIf="data.length < 1">
-        <p class="display-6 text-secondary text-center p-4 rounded" style="border: dotted 1px #8e8f8f;">
+        <p class="text-xl text-gray-500 text-center p-4 rounded border border-dotted border-gray-400 mt-4">
             {{'No hay Auto Tanques en curso' | translate}}
         </p>
     </div>

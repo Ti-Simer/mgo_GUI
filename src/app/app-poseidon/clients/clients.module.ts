@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ClientsRoutingModule } from './clients-routing.module';
 import { ClientsListComponent } from './clients-list/clients-list.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClientsCreateComponent } from './clients-create/clients-create.component';
 import { ClientsEditComponent } from './clients-edit/clients-edit.component';
 import { ClientsImportComponent } from './clients-import/clients-import.component';
@@ -45,6 +45,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     CommonModule,
     ClientsRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     SharedModule,
     MatPaginatorModule,
     LucideAngularModule.pick({
