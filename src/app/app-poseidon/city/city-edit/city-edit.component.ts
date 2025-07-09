@@ -32,7 +32,8 @@ export class CityEditComponent {
   departments: any
   updateForm: FormGroup
   city: any;
-
+  selectedTab: 'map' | 'latlang' = 'map';
+  
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,

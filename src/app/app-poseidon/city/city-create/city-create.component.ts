@@ -32,6 +32,7 @@ export class CityCreateComponent {
 
   cityForm: FormGroup;
   departments: any[] = [];
+  selectedTab: 'map' | 'latlang' = 'map';
 
   constructor(
     private authService: AuthService,

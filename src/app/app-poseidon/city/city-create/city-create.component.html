@@ -1,77 +1,122 @@
-<div class="general-container">
-    <div class="container mt-2">
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <h1>{{'Registrar Ciudad' | translate}}</h1>
-                <div class="col-12 mt-4">
-                    <form [formGroup]="cityForm" (ngSubmit)="onSubmit()">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">-- {{'Nombre de la ciudad' | translate}}</label>
-                            <input type="text" id="name" class="form-control" formControlName="name"
-                                placeholder="{{'Escriba aquí el nombre de la ciudad' | translate}}">
-                        </div>
-    
-                        <div class="mb-3">
-                            <label for="department" class="form-label">-- {{'Departamento' | translate}}</label>
-                            <div class="input-group" *ngIf="departments.length != 0">
-                                <select id="department" class="form-select" formControlName="department" *ngIf="departments.length != 0">
-                                    <option value="" disabled selected>{{'Seleccione un departamento' | translate}}</option>
-                                    <option *ngFor="let deparment of departments" [value]="deparment.id"
-                                        (ngValueChange)="onDepartmentSelectionChange(deparment.id)">{{ deparment.name }}</option>
-                                </select>
-                                <button type="button" class="btn btn-outline-secondary" (click)="toCreateDepartments()">
-                                    +
-                                </button>
-                            </div>
-                        </div>
+<div class="flex items-center justify-center p-12 overflow-auto max-h-[42rem]">
+  <div class="mx-auto w-full max-w-[650px] bg-white p-6 rounded-xl">
+    <form class="mt-[8rem]" [formGroup]="cityForm" (ngSubmit)="onSubmit()">
+      <!-- Encabezado -->
+      <div class="text-center mb-8">
+        <label class="block text-2xl font-medium text-sky-800">
+          {{ 'Registrar Ciudad' | translate }}
+        </label>
+        <p class="text-sm text-gray-500 mt-2">
+          {{ 'Complete el formulario para registrar una nueva ciudad' | translate }}
+        </p>
+      </div>
 
-                        <div class="mb-1 selector text-center" *ngIf="departments.length == 0">
-                            <label>No se han encontrado departamentos,</label> <label style="cursor: pointer; font-weight: bold;" (click)="toCreateDepartments()"> CREAR </label> 
-                        </div>
+      <!-- Nombre Ciudad -->
+      <div class="mb-4">
+        <label for="name" class="mb-2 block text-base font-medium text-sky-800">
+          {{ 'Nombre de la ciudad' | translate }}
+        </label>
+        <input id="name" type="text" formControlName="name"
+          placeholder="{{ 'Escriba aquí el nombre de la ciudad' | translate }}"
+          class="w-full rounded-md border border-gray-300 py-2 px-4 text-sm text-gray-700 outline-none focus:border-blue-500 focus:shadow-md" />
+      </div>
 
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item" role="Mapa">
-                              <button class="nav-link active" id="map-tab" data-bs-toggle="tab" data-bs-target="#map" type="button" role="tab" aria-controls="map" aria-selected="true">Mapa</button>
-                            </li>
-                            <li class="nav-item" role="Latitud y Longitud">
-                              <button class="nav-link" id="latlang-tab" data-bs-toggle="tab" data-bs-target="#latlang" type="button" role="tab" aria-controls="latlang" aria-selected="false">Latitud y Longitud</button>
-                            </li>
-                        </ul>
-                        <div class="tab-content mt-2" id="myTabContent">
-                            <div class="tab-pane fade show active" id="map" role="tabpanel" aria-labelledby="map-tab">
-                                <div class="map mb-3">
-                                    <label for="nit" class="form-label">-- {{'Ubicación' | translate}}</label>
-                                    <input class="form-control mb-1" #geoCode type="text"
-                                        placeholder="{{'Buscar... (lat, lng, plus code)' | translate}}" (input)="codeAddress()"
-                                        style="width: 100%; background-color: #ebebeb;">
-            
-                                    <!-- Agrega aquí el componente de mapa de Google Maps -->
-                                    <google-map id="mapContainer" (mapClick)="onMapClick($event)" [width]="'100%'"
-                                        [height]="'250px'" [center]="mapCenter">
-                                        <!-- Marcador condicional -->
-                                        <map-marker *ngIf="markerVisible" [position]="markerPosition"></map-marker>
-                                    </google-map>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="latlang" role="tabpanel" aria-labelledby="latlang-tab">
-                                <div class="mb-3">
-                                    <label for="latitude" class="form-label">-- {{'Latitud' | translate}}</label>
-                                    <input type="text" id="latitude" class="form-control" formControlName="latitude"
-                                    placeholder="{{'Latitud' | translate}}">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="longitude" class="form-label">-- {{'Longitude' | translate}}</label>
-                                    <input type="text" id="longitude" class="form-control" formControlName="longitude"
-                                    placeholder="{{'Longitud' | translate}}">
-                                </div>
-                            </div>
-                        </div>
-    
-                        <!-- Puedes agregar más campos aquí según los atributos de la entidad Roles -->
-                        <button type="submit" class="btn btn-success m-1" [disabled]="!cityForm.valid">{{'Registrar ciudad' | translate}}</button>
-                    </form>
-                </div>
-            </div>
+      <!-- Departamento -->
+      <div class="mb-4">
+        <label for="department" class="mb-2 block text-base font-medium text-sky-800">
+          {{ 'Estado' | translate }}
+        </label>
+
+        <div *ngIf="departments.length !== 0" class="flex gap-2">
+          <select id="department" formControlName="department"
+            class="w-full rounded-md border border-gray-300 py-2 px-4 text-sm text-gray-700 outline-none focus:border-blue-500 focus:shadow-md">
+            <option value="" disabled selected>{{ 'Seleccione un estado' | translate }}</option>
+            <option *ngFor="let deparment of departments" [value]="deparment.id"
+              (ngValueChange)="onDepartmentSelectionChange(deparment.id)">
+              {{ deparment.name }}
+            </option>
+          </select>
+          <button type="button" (click)="toCreateDepartments()"
+            class="rounded-md border border-gray-400 px-3 text-gray-700 hover:bg-gray-100">
+            +
+          </button>
         </div>
-    </div>
+      </div>
+
+      <!-- Si no hay departamentos -->
+      <div class="text-center text-sm text-red-500 mb-4" *ngIf="departments.length === 0">
+        <label>No se han encontrado departamentos, </label>
+        <label (click)="toCreateDepartments()" class="cursor-pointer font-bold underline">
+          {{ 'CREAR' | translate }}
+        </label>
+      </div>
+
+      <!-- Tabs -->
+      <div class="mb-4">
+        <div class="flex border-b">
+          <button
+            type="button"
+            (click)="selectedTab = 'map'"
+            [ngClass]="{
+              'border-blue-500 text-blue-600': selectedTab === 'map',
+              'text-gray-500 hover:text-blue-600': selectedTab !== 'map'
+            }"
+            class="py-2 px-4 border-b-2 font-medium focus:outline-none">
+            Mapa
+          </button>
+          <button
+            type="button"
+            (click)="selectedTab = 'latlang'"
+            [ngClass]="{
+              'border-blue-500 text-blue-600': selectedTab === 'latlang',
+              'text-gray-500 hover:text-blue-600': selectedTab !== 'latlang'
+            }"
+            class="py-2 px-4 border-b-2 font-medium focus:outline-none">
+            Latitud y Longitud
+          </button>
+        </div>
+      </div>
+
+      <!-- Contenido Tabs -->
+      <div>
+        <!-- Tab: Mapa -->
+        <div *ngIf="selectedTab === 'map'" class="mb-4">
+          <label class="mb-2 block text-base font-medium text-sky-800">{{ 'Ubicación' | translate }}</label>
+          <input #geoCode type="text"
+            class="w-full rounded-md bg-gray-100 border border-gray-300 px-4 py-2 text-sm text-gray-700 mb-3"
+            placeholder="{{ 'Buscar... (lat, lng, plus code)' | translate }}" (input)="codeAddress()" />
+
+          <google-map id="mapContainer" [width]="'100%'" [height]="'250px'" [center]="mapCenter" (mapClick)="onMapClick($event)">
+            <map-marker *ngIf="markerVisible" [position]="markerPosition"></map-marker>
+          </google-map>
+        </div>
+
+        <!-- Tab: Latitud y Longitud -->
+        <div *ngIf="selectedTab === 'latlang'" class="mb-4">
+          <label for="latitude" class="mb-2 block text-base font-medium text-sky-800">
+            {{ 'Latitud' | translate }}
+          </label>
+          <input id="latitude" type="text" formControlName="latitude"
+            placeholder="{{ 'Latitud' | translate }}"
+            class="w-full rounded-md border border-gray-300 py-2 px-4 text-sm text-gray-700 outline-none focus:border-blue-500 focus:shadow-md mb-4" />
+
+          <label for="longitude" class="mb-2 block text-base font-medium text-sky-800">
+            {{ 'Longitud' | translate }}
+          </label>
+          <input id="longitude" type="text" formControlName="longitude"
+            placeholder="{{ 'Longitud' | translate }}"
+            class="w-full rounded-md border border-gray-300 py-2 px-4 text-sm text-gray-700 outline-none focus:border-blue-500 focus:shadow-md" />
+        </div>
+      </div>
+
+      <!-- Botón de enviar -->
+      <div class="mt-6">
+        <button type="submit"
+          [disabled]="!cityForm.valid"
+          class="w-full rounded-md bg-green-600 py-3 px-8 text-white font-semibold text-base hover:shadow-md transition disabled:opacity-50 disabled:cursor-not-allowed">
+          {{ 'Registrar ciudad' | translate }}
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
