@@ -1,8 +1,8 @@
 <div class="flex justify-center px-4 py-8" *ngIf="user">
-  <div class="w-full max-w-4xl bg-white rounded-xl shadow-lg overflow-hidden">
+  <div class="w-full max-w-4xl overflow-hidden">
     
     <!-- Imagen de portada -->
-    <div class="h-48 w-full bg-cover bg-center" [ngStyle]="{ 'background-image': 'url(../../../assets/images/cover.svg)' }"></div>
+    <div class="h-[19rem] w-full bg-cover bg-center" [ngStyle]="{ 'background-image': 'url(../../../assets/images/cover.svg)' }"></div>
     
     <!-- Información principal -->
     <div class="p-6">
@@ -16,20 +16,25 @@
     <div class="px-6 pb-4">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
         <div class="flex items-center">
-          <span class="font-semibold w-24">{{ 'Estado' | translate }}:</span>
-          <span class="ml-2">{{ user.state }}</span>
+          <span class="font-normal w-24">{{ 'Estado' | translate }}:</span>
+          <span class="ml-2 px-2 inline-flex text-xs leading-5 font-normal rounded-full" [ngClass]="{
+                  'bg-green-100 text-green-800': user.state === 'ACTIVO',
+                  'bg-red-100 text-red-800': user.state === 'INACTIVO'
+              }">
+              {{user.state}}
+          </span>
         </div>
         <div class="flex items-center">
-          <span class="font-semibold w-24">{{ 'Rol' | translate }}:</span>
-          <span class="ml-2">{{ user.role.name }}</span>
+          <span class="font-normal w-24">{{ 'Rol' | translate }}:</span>
+          <span class="ml-2 px-2 inline-flex text-xs leading-5 font-normal rounded-full bg-green-100 text-green-800">{{ user.role.name }}</span>
         </div>
         <div class="flex items-center">
-          <span class="font-semibold w-24">{{ 'C.C.' | translate }}:</span>
-          <span class="ml-2">{{ user.idNumber }}</span>
+          <span class="font-normal w-24">{{ 'C.C.' | translate }}:</span>
+          <span class="ml-2 px-2 inline-flex text-xs leading-5 font-normal rounded-full bg-green-100 text-green-800">{{ user.idNumber }}</span>
         </div>
         <div class="flex items-center">
-          <span class="font-semibold w-24">{{ 'Email' | translate }}:</span>
-          <span class="ml-2">{{ user.email }}</span>
+          <span class="font-normal w-24">{{ 'Email' | translate }}:</span>
+          <span class="ml-2 px-2 inline-flex text-xs leading-5 font-normal rounded-full bg-green-100 text-green-800">{{ user.email }}</span>
         </div>
       </div>
     </div>
@@ -37,7 +42,7 @@
     <!-- Botones -->
     <div class="border-t px-6 py-4 flex flex-wrap justify-end gap-3">
       <button (click)="toEditUser(user)"
-        class="bg-gray-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-gray-700 transition">
+        class="bg-gray-500 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-gray-600 transition">
         {{ 'Editar' | translate }}
       </button>
 
@@ -49,11 +54,6 @@
       <button *ngIf="user.state == 'INACTIVO'" (click)="activateUser()"
         class="bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-green-700 transition">
         {{ 'Activar usuario' | translate }}
-      </button>
-
-      <button (click)="toUserList()"
-        class="bg-sky-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-sky-700 transition">
-        {{ 'Lista de usuarios' | translate }}
       </button>
     </div>
   </div>

@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogEditUserComponent } from '../dialog-edit-user/dialog-edit-user.component';
 import { DialogCreateUserComponent } from '../dialog-create-user/dialog-create-user.component';
+import { DialogViewUserComponent } from '../dialog-view-user/dialog-view-user.component';
 
 @Component({
   selector: 'app-list-user',
@@ -245,8 +246,21 @@ export class ListUserComponent {
     });
   }
 
-  toViewUser(id: any) {
-    this.router.navigate(['/poseidon/usuarios/view/', this.authService.encryptData(id)]);
+  toViewUser(user: any) {
+    this.authService.readChecker().subscribe(flag => {
+      if (!flag) {
+        this.toastr.warning('No tienes permisos para leer');
+      } else {
+        const dialogRef = this.dialog.open(DialogViewUserComponent, {
+          width: '600px',
+          data: { userId: user.id }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          this.fetchUsers();
+        });
+      }
+    });
   }
 
   toHome() {
