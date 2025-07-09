@@ -1,19 +1,28 @@
-<div class="general-container">
-    <div class="container mt-2">
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <h3>{{'Departamentos' | translate}}</h3>
-                <h2>{{'Actualización de información' | translate}}</h2>
-                <div class="col-12 mt-4">
-                    <form [formGroup]="updateForm" (ngSubmit)="updateDepartment()">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">-- {{'Nombre' | translate}}</label>
-                            <input type="text" id="name" class="form-control" formControlName="name" required>
-                        </div>
-                        <button type="submit" class="btn btn-success" [disabled]="!updateForm.valid">{{'Guardar cambios' | translate}}</button>
-                    </form>
-                </div>
+<div class="flex items-center justify-center p-12 overflow-auto max-h-[42rem]">
+    <div class="mx-auto w-full max-w-[550px] bg-white">
+      
+      <form class="mt-2" [formGroup]="updateForm" (ngSubmit)="updateDepartment()">
+            <div class="text-center mb-8">
+              <label class="block text-2xl font-medium text-sky-800">{{ 'Actualización de información' | translate }}</label>
+              <p class="text-sm text-gray-500 mt-2">{{ 'Estados' | translate }}</p>
             </div>
-        </div>
+
+            <div class="mb-3">
+                <label for="name" class="mb-3 block text-base font-medium text-sky-800">
+                    {{ 'Nombre' | translate }}
+                </label>
+                <input id="name" type="text" formControlName="name" placeholder="{{ 'Escriba aquí el nombre del departamento' | translate }}"
+                    class="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-6 text-base text-sm text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+            </div>
+
+            <div>
+                <button [disabled]="!updateForm.valid"
+                    class="hover:shadow-form w-full rounded-md bg-green-600 py-3 px-8 text-center text-base font-semibold text-white outline-none disabled:opacity-50 disabled:font-normal">
+                    {{ 'Guardar cambios' | translate }}
+                </button>
+            </div>
+        </form>
     </div>
 </div>
+
+
