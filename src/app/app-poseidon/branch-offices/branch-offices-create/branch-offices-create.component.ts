@@ -48,7 +48,8 @@ export class BranchOfficesCreateComponent {
   factor: any;
   radius: any;
   selectedstationaryTank: any[] = [];
-
+  activeClientTab: 'listado' | 'manual' = 'listado';
+  
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,

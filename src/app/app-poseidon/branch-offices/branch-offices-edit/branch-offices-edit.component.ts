@@ -49,7 +49,8 @@ export class BranchOfficesEditComponent {
   selectedstationaryTank: any[] = [];
   previousSelectedstationaryTank: any[] = [];
   radius: any;
-
+  activeClientTab: 'listado' | 'manual' = 'listado';
+  
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,

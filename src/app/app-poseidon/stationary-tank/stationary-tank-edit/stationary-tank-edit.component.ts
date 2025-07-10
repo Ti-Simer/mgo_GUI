@@ -59,7 +59,6 @@ export class StationaryTankEditComponent {
       response => {
         if (response.statusCode == 200) {
           this.stationaryTank = response.data;
-
           this.updateForm.patchValue({
             serial: this.stationaryTank.serial,
             capacity: this.stationaryTank.capacity,

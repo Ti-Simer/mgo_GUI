@@ -1,227 +1,244 @@
-<div class="general-container">
-    <div class="container mt-2">
-        <form [formGroup]="branchOfficeForm" (ngSubmit)="onSubmit()">
-
-            <div class="row justify-content-center">
-                <h1 class="mb-4">{{'Registrar Establecimiento' | translate}}</h1>
-                <div class="col-lg-6">
-
-                    <div class="mb-3">
-                        <label for="city" class="form-label">-- {{'Ciudad' | translate}}</label>
-                        <div class="input-group" *ngIf="cities.length != 0">
-                            <select id="city" class="form-select" formControlName="city" [(ngModel)]="selectedCity"
-                                (change)="onCityChange(selectedCity)">
-                                <option value="" disabled selected>{{'Seleccione una ciudad' | translate}}</option>
-                                <option *ngFor="let city of cities" [value]="city.id">{{ city.name }},
-                                    {{city.department[0].name}} </option>
-                            </select>
-                            <button type="button" class="btn btn-outline-secondary" (click)="toCreateCities()">
-                                +
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="mb-1 selector text-center" *ngIf="cities.length == 0">
-                        <label>{{'No se han encontrado ciudades creadas' | translate}},</label> <br>
-                        <label style="cursor: pointer; font-weight: bold;" (click)="toCreateCities()"> {{'CREAR' | translate}} </label>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="zone" class="form-label">-- {{'Zona' | translate}}</label>
-                        <div class="input-group" *ngIf="zones.length != 0">
-                            <select id="zone" class="form-select" formControlName="zone">
-                                <option value="" disabled selected>{{'Seleccione una zona' | translate}}</option>
-                                <option *ngFor="let zone of zones" [value]="zone.id">{{ zone.name }}</option>
-                            </select>
-                            <button type="button" class="btn btn-outline-secondary" (click)="toCreateZones()">
-                                +
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="mb-1 selector text-center" *ngIf="zones.length == 0">
-                        <label>{{'No se han encontrado zonas creadas' | translate}},</label> <br>
-                        <label style="cursor: pointer; font-weight: bold;" (click)="toCreateZones()"> {{'CREAR' | translate}} </label>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="zone" class="form-label">-- {{'Cliente' | translate}}</label>
-                        <ul class="nav nav-tabs" id="clientTab" role="tablist" *ngIf="clients.length != 0">
-                            <li class="nav-item" role="Mapa">
-                              <button class="nav-link active" id="client-list" data-bs-toggle="tab" data-bs-target="#client-listing" type="button" role="tab" aria-controls="client-listing" aria-selected="true">{{'Listado' | translate}}</button>
-                            </li>
-                            <li class="nav-item" role="Latitud y Longitud">
-                              <button class="nav-link" id="client-manual" data-bs-toggle="tab" data-bs-target="#client-manualing" type="button" role="tab" aria-controls="client-manualing" aria-selected="false">{{'Manual' | translate}}</button>
-                            </li>
-                        </ul>
-                        <div class="tab-content mt-2" id="clientTabContent">
-                            <div class="tab-pane fade show active" id="client-listing" role="tabpanel" aria-labelledby="client-list">
-                                <div class="input-group" *ngIf="clients.length != 0">
-                                    <select id="client" class="form-select" formControlName="client">
-                                        <option value="" disabled selected>{{'Seleccione el cliente' | translate}}</option>
-                                        <option *ngFor="let client of clients" [value]="client.id">{{ client.firstName }}
-                                            {{client.lastName}} | {{client.cc}}</option>
-                                    </select>
-                                    <button type="button" class="btn btn-outline-secondary" (click)="toCreateClients()">
-                                        +
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="client-manualing" role="tabpanel" aria-labelledby="client-manual">
-                                <div class="input-group" *ngIf="clients.length != 0">
-                                    <input type="text" id="client" class="form-control" formControlName="client"
-                                    placeholder="{{'Escriba aquí la identificación del cliente' | translate}}">
-                                    <button type="button" class="btn btn-outline-secondary" (click)="toCreateClients()">
-                                        +
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mb-1 selector text-center" *ngIf="clients.length == 0">
-                        <label>{{'No se han encontrado clientes creados' | translate}},</label> <br>
-                        <label style="cursor: pointer; font-weight: bold;" (click)="toCreateClients()"> {{'CREAR' | translate}} </label>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="name" class="form-label">-- {{'Nombre de la Sucursal' | translate}}</label>
-                        <input type="text" id="name" class="form-control" formControlName="name"
-                            placeholder="{{'Escriba aquí el nombre de la sucursal' | translate}}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="kilogramValue" class="form-label">-- {{'Valor por kilo' | translate}}</label>
-                        <input type="number" id="kilogramValue" class="form-control" formControlName="kilogramValue"
-                            placeholder="{{'Digite aquí el valor por kilo' | translate}}">
-                    </div>
-
-                    <div class="row mb-2 search">
-                        <label class="form-label">-- {{'Tanques estacionarios' | translate}}</label>
-                        <div class="input-group" *ngIf="stationaryTanks.length != 0">
-                            <input class="form-control" #myInput type="text" placeholder="{{'Buscar..' | translate}}"
-                            (input)="initializeSearchFilter()" *ngIf="stationaryTanks.length != 0">
-                            <button type="button" class="btn btn-outline-secondary" (click)="toCreateStationaryTank()">
-                                +
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="mb-1 selector text-center" *ngIf="stationaryTanks.length == 0">
-                        <label>{{'No se han encontrado tanques estacionarios disponibles' | translate}},</label> <br>
-                        <label
-                            style="cursor: pointer; font-weight: bold;" (click)="toCreateStationaryTank()"> {{'CREAR' | translate}}
-                        </label>
-                    </div>
-    
-                    <div class="mb-1 selector" *ngIf="stationaryTanks.length != 0">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th class="custom-header">{{'Serial' | translate}}</th>
-                                    <th class="custom-header">{{'Capacidad' | translate}}</th>
-                                    <th class="custom-header">{{'Selección' | translate}}</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tableStationaryTanks">
-                                <tr *ngFor="let stationaryTank of stationaryTanks">
-                                    <td>
-                                        <label class="form-check-label" [for]="stationaryTank.id">{{
-                                            stationaryTank.serial }}</label>
-                                    </td>
-                                    <td>
-                                        <label for="" class="form-check-label">
-                                            {{stationaryTank.capacity}}kg
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" class="form-check-input" [id]="stationaryTank.id"
-                                            [value]="stationaryTank.id"
-                                            (change)="onStationaryTankChange(stationaryTank)">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
+<div class="w-full max-w-7xl bg-white rounded-xl pb-2 overflow-y-auto max-h-[calc(80vh-1rem)]">
+    <form [formGroup]="branchOfficeForm" (ngSubmit)="onSubmit()">
+        <div class="flex items-center justify-center min-h-screen">
+            <div class="w-full max-w-7xl bg-white rounded-xl p-8">
+                <div class="text-center">
+                    <label class="block text-2xl font-medium text-sky-800">
+                        {{ 'Registrar Establecimiento' | translate }}
+                    </label>
+                    <p class="text-sm text-gray-500 mt-2">
+                        {{ 'Complete el formulario para registrar uno nuevo establecimiento' | translate }}
+                    </p>
                 </div>
 
-                <div class="col-lg-6">
-
-                    <div class="mb-3">
-                        <label for="nit" class="form-label">-- {{'NIT' | translate}}</label>
-                        <input type="text" id="nit" class="form-control" formControlName="nit"
-                            placeholder="{{'Escriba aquí el NIT de la sucursal' | translate}}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="address" class="form-label">-- {{'Dirección' | translate}}</label>
-                        <input type="text" id="address" class="form-control" formControlName="address"
-                            placeholder="{{'Escriba aquí la dirección de la sucursal' | translate}}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="phone" class="form-label">-- {{'Teléfono' | translate}}</label>
-                        <input type="text" id="phone" class="form-control" formControlName="phone"
-                            placeholder="{{'Escriba aquí el teléfono de la sucursal' | translate}}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="email" class="form-label">-- {{'E-mail' | translate}}</label>
-                        <input type="email" id="email" class="form-control" formControlName="email"
-                            placeholder="{{'Escriba aquí el correo electrónico' | translate}}">
-                    </div>
-
-                    <ul class="nav nav-tabs" id="mapTab" role="tablist">
-                        <li class="nav-item" role="Mapa">
-                          <button class="nav-link active" id="map-tab" data-bs-toggle="tab" data-bs-target="#map" type="button" role="tab" aria-controls="map" aria-selected="true">{{'Mapa' | translate}}</button>
-                        </li>
-                        <li class="nav-item" role="Latitud y Longitud">
-                          <button class="nav-link" id="latlang-tab" data-bs-toggle="tab" data-bs-target="#latlang" type="button" role="tab" aria-controls="latlang" aria-selected="false">{{'Latitud y Longitud' | translate}}</button>
-                        </li>
-                    </ul>
-                    <div class="tab-content mt-2" id="mapTabContent">
-                        <div class="tab-pane fade show active" id="map" role="tabpanel" aria-labelledby="map-tab">
-                            <div class="map mb-3">
-                                <label for="nit" class="form-label">-- {{'Ubicación' | translate}}</label>
-                                <input class="form-control mb-1" #geoCode type="text"
-                                    placeholder="{{'Buscar... (lat, lng, plus code)' | translate}}" (input)="codeAddress()"
-                                    style="width: 100%; background-color: #ebebeb;">
-        
-                                <!-- Agrega aquí el componente de mapa de Google Maps -->
-                                <google-map id="mapContainer" (mapClick)="onMapClick($event)" [width]="'100%'"
-                                    [height]="'250px'" [center]="mapCenter">
-        
-                                    <!-- Marcador condicional -->
-                                    <map-marker *ngIf="markerVisible" [position]="markerPosition"></map-marker>
-                                    <!-- <map-circle *ngIf="markerVisible" [center]="markerPosition" [radius]="radius" /> -->
-                                    <map-circle *ngIf="markerVisible" [center]="markerPosition" [radius]="radius" />
-                                </google-map>
-                                <p *ngIf="branchOfficeForm.value.latitude" style="font-size: 14px; color: #a8a8a8;"
-                                    for="latitude">Latitud:
-                                    {{branchOfficeForm.value.latitude}}, Longitud:
-                                    {{branchOfficeForm.value.longitude}}</p>
+                <!-- ORGANIZACIÓN EN 2 COLUMNAS -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <!-- Columna 1 -->
+                    <div>
+                        <!-- Ciudad -->
+                        <div class="mb-4">
+                            <label class="block text-sky-800 font-medium mb-1">{{'Ciudad' | translate}}</label>
+                            <div *ngIf="cities.length !== 0" class="flex gap-2">
+                                <select class="w-full border rounded px-3 py-2 text-sm" formControlName="city"
+                                    [(ngModel)]="selectedCity" (change)="onCityChange(selectedCity)">
+                                    <option value="" disabled selected>{{'Seleccione una ciudad' | translate}}</option>
+                                    <option *ngFor="let city of cities" [value]="city.id">
+                                        {{ city.name }}, {{ city.department[0].name }}
+                                    </option>
+                                </select>
+                                <button type="button" (click)="toCreateCities()"
+                                    class="px-3 border rounded text-gray-600 hover:bg-gray-100">+</button>
+                            </div>
+                            <div *ngIf="cities.length === 0" class="text-center text-sm text-red-500 mt-2">
+                                {{'No se han encontrado ciudades creadas' | translate}},
+                                <span class="cursor-pointer font-bold underline" (click)="toCreateCities()">{{'CREAR' |
+                                    translate}}</span>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="latlang" role="tabpanel" aria-labelledby="latlang-tab">
-                            <div class="mb-3">
-                                <label for="latitude" class="form-label">-- {{'Latitud' | translate}}</label>
-                                <input type="text" id="latitude" class="form-control" formControlName="latitude"
-                                placeholder="{{'Latitud' | translate}}">
+
+                        <!-- Zona -->
+                        <div class="mb-4">
+                            <label class="block text-sky-800 font-medium mb-1">{{'Zona' | translate}}</label>
+                            <div *ngIf="zones.length !== 0" class="flex gap-2">
+                                <select class="w-full border rounded px-3 py-2 text-sm" formControlName="zone">
+                                    <option value="" disabled selected>{{'Seleccione una zona' | translate}}</option>
+                                    <option *ngFor="let zone of zones" [value]="zone.id">{{ zone.name }}</option>
+                                </select>
+                                <button type="button" (click)="toCreateZones()"
+                                    class="px-3 border rounded text-gray-600 hover:bg-gray-100">+</button>
                             </div>
-                            <div class="mb-3">
-                                <label for="longitude" class="form-label">-- {{'Longitude' | translate}}</label>
-                                <input type="text" id="longitude" class="form-control" formControlName="longitude"
-                                placeholder="{{'Longitud' | translate}}">
+                            <div *ngIf="zones.length === 0" class="text-center text-sm text-red-500 mt-2">
+                                {{'No se han encontrado zonas creadas' | translate}},
+                                <span class="cursor-pointer font-bold underline" (click)="toCreateZones()">{{'CREAR' |
+                                    translate}}</span>
+                            </div>
+                        </div>
+
+                        <!-- Cliente -->
+                        <div class="mb-4">
+                            <label class="block text-sky-800 font-medium mb-1">{{'Cliente' | translate}}</label>
+                            <div class="flex border-b mb-2">
+                                <button type="button" (click)="activeClientTab = 'listado'"
+                                    [ngClass]="{'border-blue-500 text-blue-600': activeClientTab === 'listado', 'text-gray-500': activeClientTab !== 'listado'}"
+                                    class="py-2 px-4 border-b-2 font-medium">Listado</button>
+                                <button type="button" (click)="activeClientTab = 'manual'"
+                                    [ngClass]="{'border-blue-500 text-blue-600': activeClientTab === 'manual', 'text-gray-500': activeClientTab !== 'manual'}"
+                                    class="py-2 px-4 border-b-2 font-medium">Manual</button>
+                            </div>
+                            <div *ngIf="activeClientTab === 'listado'">
+                                <div *ngIf="clients.length !== 0" class="flex gap-2">
+                                    <select class="w-full border rounded px-3 py-2 text-sm" formControlName="client">
+                                        <option value="" disabled selected>{{'Seleccione el cliente' | translate}}
+                                        </option>
+                                        <option *ngFor="let client of clients" [value]="client.id">
+                                            {{ client.firstName }} {{ client.lastName }} | {{ client.cc }}
+                                        </option>
+                                    </select>
+                                    <button type="button" (click)="toCreateClients()"
+                                        class="px-3 border rounded text-gray-600 hover:bg-gray-100">+</button>
+                                </div>
+                                <div *ngIf="clients.length === 0" class="text-center text-sm text-red-500 mt-2">
+                                    {{'No se han encontrado clientes creados' | translate}},
+                                    <span class="cursor-pointer font-bold underline"
+                                        (click)="toCreateClients()">{{'CREAR' | translate}}</span>
+                                </div>
+                            </div>
+                            <div *ngIf="activeClientTab === 'manual'">
+                                <input type="text" class="w-full border rounded px-3 py-2 text-sm"
+                                    placeholder="{{'Nombre del cliente manual' | translate}}">
+                            </div>
+                        </div>
+
+                        <!-- Nombre sucursal -->
+                        <div class="mb-4">
+                            <label class="block text-sky-800 font-medium mb-1">{{'Nombre de la Sucursal' |
+                                translate}}</label>
+                            <input type="text" class="w-full border rounded px-3 py-2 text-sm" formControlName="name"
+                                placeholder="{{'Escriba aquí el nombre de la sucursal' | translate}}">
+                        </div>
+
+                        <!-- Valor por kilo -->
+                        <div class="mb-4">
+                            <label class="block text-sky-800 font-medium mb-1">{{'Valor por kilo' | translate}}</label>
+                            <input type="number" class="w-full border rounded px-3 py-2 text-sm"
+                                formControlName="kilogramValue"
+                                placeholder="{{'Digite aquí el valor por kilo' | translate}}">
+                        </div>
+
+                        <!-- Tanques -->
+                        <div class="mb-4">
+                            <label class="block text-sky-800 font-medium mb-1">
+                                {{ 'Tanques estacionarios' | translate }}
+                            </label>
+
+                            <!-- Input búsqueda -->
+                            <div *ngIf="stationaryTanks.length !== 0" class="flex items-center gap-2 mb-2">
+                                <input type="text" #myInput class="w-full border rounded px-3 py-2 text-sm"
+                                    placeholder="{{ 'Buscar por serial...' | translate }}"
+                                    (input)="initializeSearchFilter()" />
+                                <button type="button" (click)="toCreateStationaryTank()"
+                                    class="px-3 py-2 border rounded text-gray-600 hover:bg-gray-100">+</button>
+                            </div>
+
+                            <!-- Si no hay tanques -->
+                            <div *ngIf="stationaryTanks.length === 0" class="text-center text-sm text-red-500 mt-2">
+                                {{ 'No se han encontrado tanques estacionarios disponibles' | translate }},
+                                <span class="cursor-pointer font-bold underline" (click)="toCreateStationaryTank()">
+                                    {{ 'CREAR' | translate }}
+                                </span>
+                            </div>
+
+                            <!-- Tabla de tanques -->
+                            <div *ngIf="stationaryTanks.length !== 0" class="border rounded overflow-y-auto max-h-64">
+                                <table class="w-full text-sm" id="tableStationaryTanks">
+                                    <thead class="bg-sky-100 text-sky-800 font-semibold sticky top-0 z-10">
+                                        <tr>
+                                            <th class="px-4 py-2 text-left">{{ 'Serial' | translate }}</th>
+                                            <th class="px-4 py-2 text-left">{{ 'Capacidad' | translate }}</th>
+                                            <th class="px-4 py-2 text-left">{{ 'Selección' | translate }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Primero muestra el tanque seleccionado (si existe) -->
+                                        <ng-container *ngIf="selectedstationaryTank.length > 0">
+                                            <tr *ngFor="let tank of stationaryTanks" class="border-t"
+                                                [style.display]="selectedstationaryTank.includes(tank.id) ? 'table-row' : 'none'">
+                                                <td class="px-4 py-2">{{ tank.serial }}</td>
+                                                <td class="px-4 py-2">{{ tank.capacity }}kg</td>
+                                                <td class="px-4 py-2">
+                                                    <input type="checkbox" class="form-check-input" [id]="tank.id"
+                                                        [value]="tank.id" [checked]="true"
+                                                        (change)="onStationaryTankChange(tank)" />
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+
+                                        <!-- Luego muestra el resto de tanques -->
+                                        <tr *ngFor="let tank of stationaryTanks" class="border-t"
+                                            [style.display]="!selectedstationaryTank.includes(tank.id) ? 'table-row' : 'none'">
+                                            <td class="px-4 py-2">{{ tank.serial }}</td>
+                                            <td class="px-4 py-2">{{ tank.capacity }}kg</td>
+                                            <td class="px-4 py-2">
+                                                <input type="checkbox" class="form-check-input" [id]="tank.id"
+                                                    [value]="tank.id"
+                                                    [checked]="selectedstationaryTank.includes(tank.id)"
+                                                    (change)="onStationaryTankChange(tank)" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-success m-1" [disabled]="!branchOfficeForm.valid"
-                        style="float: right;">{{'Registrar Sucursal' | translate}}</button>
+                    <!-- Columna 2 -->
+                    <div>
+                        <!-- NIT -->
+                        <div class="mb-4">
+                            <label class="block text-sky-800 font-medium mb-1">{{'NIT' | translate}}</label>
+                            <input type="text" class="w-full border rounded px-3 py-2 text-sm" formControlName="nit"
+                                placeholder="{{'Escriba aquí el NIT de la sucursal' | translate}}">
+                        </div>
+
+                        <!-- Dirección -->
+                        <div class="mb-4">
+                            <label class="block text-sky-800 font-medium mb-1">{{'Dirección' | translate}}</label>
+                            <input type="text" class="w-full border rounded px-3 py-2 text-sm" formControlName="address"
+                                placeholder="{{'Escriba aquí la dirección de la sucursal' | translate}}">
+                        </div>
+
+                        <!-- Teléfono -->
+                        <div class="mb-4">
+                            <label class="block text-sky-800 font-medium mb-1">{{'Teléfono' | translate}}</label>
+                            <input type="text" class="w-full border rounded px-3 py-2 text-sm" formControlName="phone"
+                                placeholder="{{'Escriba aquí el teléfono de la sucursal' | translate}}">
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-4">
+                            <label class="block text-sky-800 font-medium mb-1">{{'E-mail' | translate}}</label>
+                            <input type="email" class="w-full border rounded px-3 py-2 text-sm" formControlName="email"
+                                placeholder="{{'Escriba aquí el correo electrónico' | translate}}">
+                        </div>
+
+                        <!-- Mapa -->
+                        <div class="mb-4">
+                            <label class="block text-sky-800 font-medium mb-1">{{'Ubicación' | translate}}</label>
+                            <input class="w-full border bg-gray-100 rounded px-3 py-2 text-sm mb-2" #geoCode type="text"
+                                placeholder="{{'Buscar... (lat, lng, plus code)' | translate}}" (input)="codeAddress()">
+                            <google-map id="mapContainer" [width]="'100%'" [height]="'250px'" [center]="mapCenter"
+                                (mapClick)="onMapClick($event)">
+                                <map-marker *ngIf="markerVisible" [position]="markerPosition"></map-marker>
+                                <map-circle *ngIf="markerVisible" [center]="markerPosition"
+                                    [radius]="radius"></map-circle>
+                            </google-map>
+                            <p *ngIf="branchOfficeForm.value.latitude" class="text-xs text-gray-500 mt-1">
+                                Latitud: {{branchOfficeForm.value.latitude}}, Longitud:
+                                {{branchOfficeForm.value.longitude}}
+                            </p>
+                        </div>
+
+                        <!-- Coordenadas manuales -->
+                        <div class="mb-4">
+                            <label class="block text-sky-800 font-medium mb-1">{{'Latitud' | translate}}</label>
+                            <input type="text" class="w-full border rounded px-3 py-2 text-sm mb-2"
+                                formControlName="latitude" placeholder="{{'Latitud' | translate}}">
+                            <label class="block text-sky-800 font-medium mb-1">{{'Longitud' | translate}}</label>
+                            <input type="text" class="w-full border rounded px-3 py-2 text-sm"
+                                formControlName="longitude" placeholder="{{'Longitud' | translate}}">
+                        </div>
+
+                        <!-- Botón enviar -->
+                        <div class="text-right mt-6">
+                            <button type="submit" [disabled]="!branchOfficeForm.valid"
+                                class="bg-green-600 text-white px-6 py-2 rounded font-semibold hover:shadow-md disabled:opacity-50">
+                                {{'Registrar Sucursal' | translate}}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </form>
+        </div>
 
-    </div>
+    </form>
 </div>

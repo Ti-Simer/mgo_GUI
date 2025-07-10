@@ -1,22 +1,26 @@
-<div class="general-container">
-    <div class="container mt-2">
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <h1>{{'Registrar Cargo' | translate}}</h1>
-                <div class="col-12 mt-4">
-                    <form [formGroup]="occupationsForm" (ngSubmit)="onSubmit()">
-    
-                        <div class="mb-3">
-                            <label for="name" class="form-label">-- {{'Nombre de la ocupación' | translate}}</label>
-                            <input type="text" id="name" class="form-control" formControlName="name"
-                                placeholder="{{'Escriba aquí el nombre' | translate}}">
-                        </div>
-    
-                        <!-- Puedes agregar más campos aquí según los atributos de la entidad Roles -->
-                        <button type="submit" class="btn btn-success m-1" [disabled]="!occupationsForm.valid">{{'Registrar cargo' | translate}}</button>
-                    </form>
-                </div>
+<div class="flex items-center justify-center p-12 overflow-auto max-h-[42rem]">
+    <div class="mx-auto w-full max-w-[550px] bg-white">
+      
+      <form class="mt-1" [formGroup]="occupationsForm" (ngSubmit)="onSubmit()">
+            <div class="text-center mb-8">
+              <label class="block text-2xl font-medium text-sky-800">{{ 'Registrar Cargo' | translate }}</label>
+              <p class="text-sm text-gray-500 mt-2">{{ 'Complete el formulario para registrar un nuevo cargo' | translate }}</p>
             </div>
-        </div>
+
+            <div class="mb-3">
+                <label for="name" class="mb-3 block text-base font-medium text-sky-800">
+                    {{ 'Nombre de la ocupación' | translate }}
+                </label>
+                <input id="name" type="text" formControlName="name" placeholder="{{ 'Escriba aquí el nombre' | translate }}"
+                    class="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-6 text-base text-sm text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+            </div>
+
+            <div>
+                <button [disabled]="!occupationsForm.valid"
+                    class="hover:shadow-form w-full rounded-md bg-green-600 py-3 px-8 text-center text-base font-semibold text-white outline-none disabled:opacity-50 disabled:font-normal">
+                    {{ 'Registrar cargo' | translate }}
+                </button>
+            </div>
+        </form>
     </div>
 </div>

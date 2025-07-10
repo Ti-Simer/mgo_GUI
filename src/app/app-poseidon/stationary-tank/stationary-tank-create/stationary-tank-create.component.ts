@@ -55,6 +55,8 @@ export class StationaryTankCreateComponent {
   }
 
   onSubmit() {
+    console.log("Funciona submit")
+
     if (this.stationaryTankForm.valid) {
       this.stationaryTankService.create(this.stationaryTankForm.value).subscribe(
         response => {

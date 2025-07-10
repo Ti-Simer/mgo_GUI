@@ -11,7 +11,6 @@
         </p>
       </div>
 
-      <!-- Nombre Ciudad -->
       <div class="mb-4">
         <label for="name" class="mb-2 block text-base font-medium text-sky-800">
           {{ 'Nombre de la ciudad' | translate }}
@@ -21,7 +20,6 @@
           class="w-full rounded-md border border-gray-300 py-2 px-4 text-sm text-gray-700 outline-none focus:border-blue-500 focus:shadow-md" />
       </div>
 
-      <!-- Departamento -->
       <div class="mb-4">
         <label for="department" class="mb-2 block text-base font-medium text-sky-800">
           {{ 'Estado' | translate }}
@@ -43,7 +41,6 @@
         </div>
       </div>
 
-      <!-- Si no hay departamentos -->
       <div class="text-center text-sm text-red-500 mb-4" *ngIf="departments.length === 0">
         <label>No se han encontrado departamentos, </label>
         <label (click)="toCreateDepartments()" class="cursor-pointer font-bold underline">
@@ -51,7 +48,6 @@
         </label>
       </div>
 
-      <!-- Tabs -->
       <div class="mb-4">
         <div class="flex border-b">
           <button
@@ -77,9 +73,7 @@
         </div>
       </div>
 
-      <!-- Contenido Tabs -->
       <div>
-        <!-- Tab: Mapa -->
         <div *ngIf="selectedTab === 'map'" class="mb-4">
           <label class="mb-2 block text-base font-medium text-sky-800">{{ 'Ubicación' | translate }}</label>
           <input #geoCode type="text"
@@ -91,7 +85,6 @@
           </google-map>
         </div>
 
-        <!-- Tab: Latitud y Longitud -->
         <div *ngIf="selectedTab === 'latlang'" class="mb-4">
           <label for="latitude" class="mb-2 block text-base font-medium text-sky-800">
             {{ 'Latitud' | translate }}
@@ -109,7 +102,6 @@
         </div>
       </div>
 
-      <!-- Botón de enviar -->
       <div class="mt-6">
         <button type="submit"
           [disabled]="!cityForm.valid"

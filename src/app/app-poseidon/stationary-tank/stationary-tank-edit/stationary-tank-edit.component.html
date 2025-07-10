@@ -1,41 +1,75 @@
-<div class="general-container">
-    <div class="container mt-2">
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <h3>{{'Tanques Estacionarios' | translate}}</h3>
-                <h2>{{'Actualización de información' | translate}}</h2>
-                <div class="col-12 mt-4">
-                    <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
-                        <div class="mb-3">
-                            <label for="serial" class="form-label">--{{'Placa del Auto Tanque' | translate}}</label>
-                            <input type="text" inputmode="upperCase" id="serial"
-                                class="form-control" formControlName="serial"
-                                placeholder="{{'Escriba aquí la placa del Auto Tanque' | translate}}">
-                        </div>
-    
-                        <div class="mb-3">
-                            <label for="capacity" class="form-label">--{{'Capacidad' | translate}}</label>
-                            <input type="number" id="capacity" class="form-control" formControlName="capacity"
-                                placeholder="{{'Digite aqui la capacidad del Auto Tanque' | translate}}">
-                        </div>
-                    </form>
-                </div>
-            </div>
+<div class="flex items-center justify-center overflow-auto max-h-[42rem]">
+  <div class="mx-auto w-full max-w-[850px] bg-white p-6 rounded-xl">
+    <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+      <div class="text-center mb-6">
+        <label class="block text-2xl font-medium text-sky-800">
+          {{ 'Actualización de información' | translate }}
+        </label>
+        <p class="text-sm text-gray-500 mt-2">
+          {{ 'Tanques Estacionarios' | translate }}
+        </p>
+      </div>
 
-            <div class="col-lg-6 p-4 aditional-info">
-                <label style="font-weight: bold; font-size: 18px;">Asignación</label>
-                <br>
-                <br>
-                <div class="mb-3" *ngIf="stationaryTank">
-                        <label for="" style="font-size: 16px;">{{'Establecimiento' | translate}}: {{stationaryTank.branchOffices[0].name}}</label> <br>
-                        <label for="" style="font-size: 16px;">{{'Estado' | translate}}: {{stationaryTank.branchOffices[0].state}}</label> <br>
-                </div>
-            </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Columna izquierda: inputs del formulario -->
+        <div>
+          <div class="mb-4">
+            <label for="serial" class="mb-2 block text-base font-medium text-sky-800">
+              {{ 'Placa del Auto Tanque' | translate }}
+            </label>
+            <input
+              id="serial"
+              type="text"
+              inputmode="upperCase"
+              formControlName="serial"
+              placeholder="{{ 'Escriba aquí la placa del Auto Tanque' | translate }}"
+              class="w-full rounded-md border border-gray-300 bg-white py-2 px-4 text-sm text-gray-700 outline-none focus:border-blue-500 focus:shadow-md"
+            />
+          </div>
 
-            <div class="col-sm-4 mt-2">
-                <!-- Puedes agregar más campos aquí según los atributos de la entidad Roles -->
-                <button type="submit" class="btn btn-success m-1" [disabled]="!updateForm.valid">{{'Guardar cambios' | translate}}</button>
-            </div>
+          <div class="mb-4">
+            <label for="capacity" class="mb-2 block text-base font-medium text-sky-800">
+              {{ 'Capacidad' | translate }}
+            </label>
+            <input
+              id="capacity"
+              type="number"
+              formControlName="capacity"
+              placeholder="{{ 'Digite aquí la capacidad del Auto Tanque' | translate }}"
+              class="w-full rounded-md border border-gray-300 bg-white py-2 px-4 text-sm text-gray-700 outline-none focus:border-blue-500 focus:shadow-md"
+            />
+          </div>
         </div>
-    </div>
+
+        <!-- Columna derecha: información de asignación -->
+        <div class="p-6 rounded-lg bg-gray-100 shadow-md hover:shadow-lg transition-shadow duration-300">
+          <p class="text-lg font-bold text-sky-800 mb-5">
+            {{ 'Asignación' | translate }}
+          </p>
+
+          <div class="text-sm text-gray-700 space-y-2" *ngIf="stationaryTank?.branchOffices?.length > 0">
+            <p>
+              <span class="font-medium">{{ 'Establecimiento' | translate }}:</span>
+              {{ stationaryTank.branchOffices[0].name }}
+            </p>
+            <p>
+              <span class="font-medium">{{ 'Estado' | translate }}:</span>
+              {{ stationaryTank.branchOffices[0].state }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botón de guardar -->
+      <div class="mt-8 text-right">
+        <button
+          type="submit"
+          [disabled]="updateForm.invalid"
+          class="rounded-md bg-green-600 py-2 px-6 text-white font-semibold text-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {{ 'Guardar cambios' | translate }}
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
