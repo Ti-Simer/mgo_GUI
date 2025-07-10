@@ -23,6 +23,7 @@ import { LoadingSmallDialogComponent } from 'src/app/dialog/loading-small-dialog
 export class OrdersCreateComponent {
   private languageSubscription!: Subscription;
   private loadingDialogRef!: MatDialogRef<LoadingSmallDialogComponent>;
+  selectedTab: 'listado' | 'manual' = 'listado';
 
   orderForm: FormGroup;
   selectedPayment: any;
@@ -156,6 +157,7 @@ export class OrdersCreateComponent {
             this.toastr.success(`Pedido ${response.data.folio} en ${this.branch_office.name} ha sido creado satisfactoriamente`, `Exito!`);
             this.resetForm();
           } else {
+            console.log('Error al crear el Pedido:', response.message);
             this.toastr.warning(response.message, 'Ha ocurrido un problema al crear el Pedido');
           }
         }, (error) => {

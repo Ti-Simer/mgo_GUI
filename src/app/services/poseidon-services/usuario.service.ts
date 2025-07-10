@@ -74,6 +74,7 @@ export class UsuarioService {
       case 'poseidon-M0NT4645+.6040': apiUrl = environment.apiPoseidonMontagas; break;
       case 'poseidon-3654*.5050': apiUrl = environment.apiPoseidonEgsa; break;
       case 'poseidon-5lm3r+.4060': apiUrl = environment.apiPoseidonSimer; break;
+      case 'poseidon-5up3r645*.3070': apiUrl = environment.apiPoseidonSupergas; break;
       default: this.toastr.warning('Ingrese un servidor válido', 'Servidor no válido'); break;
     }
 

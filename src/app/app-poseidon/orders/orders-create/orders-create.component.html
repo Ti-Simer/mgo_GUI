@@ -1,93 +1,148 @@
-<div class="general-container">
-    <div class="container mt-2">
-        <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+<div class="flex items-center justify-center overflow-auto max-h-[42rem]">
+  <div class="mx-auto w-full max-w-[850px] bg-white p-6 rounded-xl">
+    <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="mt-2">
 
-            <div class="row justify-content-center">
-                <h1>{{'Registrar Pedido' | translate}}</h1>
-                <label for="name" class="form-label" style="margin: 0; font-weight: bold;"
-                    *ngIf="branch_office">{{branch_office.name}}</label>
+        <!-- Título -->
+        <div class="text-center mb-8">
+            <h1 class="text-2xl font-semibold text-sky-800">{{ 'Registrar Pedido' | translate }}</h1>
+            <p class="text-sm text-gray-500 mt-1">{{ 'Complete el formulario para registrar un nuevo pedido' | translate }}</p>
+        </div>
 
-                <div class="col-lg-6">
-                    <div class="mb-3">
-                        <label class="form-label" *ngIf="!branch_office">-- {{'Establecimiento' | translate}}</label>
-                        <ul class="nav nav-tabs" id="clientTab" role="tablist">
-                            <li class="nav-item" role="Mapa">
-                              <button class="nav-link active" id="client-list" data-bs-toggle="tab" data-bs-target="#client-listing" type="button" role="tab" aria-controls="client-listing" aria-selected="true">{{'Listado' | translate}}</button>
-                            </li>
-                            <li class="nav-item" role="Latitud y Longitud">
-                              <button class="nav-link" id="client-manual" data-bs-toggle="tab" data-bs-target="#client-manualing" type="button" role="tab" aria-controls="client-manualing" aria-selected="false">{{'Manual' | translate}}</button>
-                            </li>
-                        </ul>
-                        <div class="tab-content mt-2" id="clientTabContent">
-                            <div class="tab-pane fade show active" id="client-listing" role="tabpanel" aria-labelledby="client-list">
-                                <div class="input-group">
-                                    <input type="text" id="branch_office_code" class="form-control" formControlName="branch_office_code" [matAutocomplete]="auto" placeholder="{{'Establecimientos' | translate}}">
-                                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                                    <mat-option *ngFor="let branch_office of filteredBranchOffices | async" [value]="branch_office">
-                                        {{ branch_office.name }} - {{ branch_office.nit }}
-                                    </mat-option>
-                                    </mat-autocomplete>
-                                    <button type="button" class="btn btn-outline-secondary" (click)="toCreateBranchOffices()">
-                                        +
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="client-manualing" role="tabpanel" aria-labelledby="client-manual">
-                                <div class="input-group">
-                                    <input type="number" id="branch_office_code" class="form-control"
-                                    formControlName="branch_office_code" placeholder="{{'Digite el código del establecimiento' | translate}}">
-                                    <button type="button" class="btn btn-outline-secondary" (click)="toCreateBranchOffices()">
-                                        +
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+        <!-- Tabs para selección de establecimiento -->
+        <div *ngIf="!branch_office" class="mb-4">
+            <label class="block text-base font-medium text-sky-800 mb-2">{{ 'Establecimiento' | translate }}</label>
+            <!-- TABS - SELECCIÓN DE ESTABLECIMIENTO -->
+            <div class="mb-6">
+            <label *ngIf="!branch_office" class="block text-base font-semibold text-sky-800 mb-2">
+                {{ 'Establecimiento' | translate }}
+            </label>
+
+            <!-- Botones de Tabs -->
+            <div class="flex border-b border-gray-300 mb-4">
+                <button type="button"
+                        (click)="selectedTab = 'listado'"
+                        class="py-2 px-4 text-sm font-medium border-b-2 transition"
+                        [ngClass]="{
+                        'border-sky-600 text-sky-800 font-semibold': selectedTab === 'listado',
+                        'text-gray-500 hover:text-sky-600 border-transparent': selectedTab !== 'listado'
+                        }">
+                {{ 'Listado' | translate }}
+                </button>
+                <button type="button"
+                        (click)="selectedTab = 'manual'"
+                        class="py-2 px-4 text-sm font-medium border-b-2 transition"
+                        [ngClass]="{
+                        'border-sky-600 text-sky-800 font-semibold': selectedTab === 'manual',
+                        'text-gray-500 hover:text-sky-600 border-transparent': selectedTab !== 'manual'
+                        }">
+                {{ 'Manual' | translate }}
+                </button>
+            </div>
+
+            <!-- Contenido del tab seleccionado -->
+            <div *ngIf="selectedTab === 'listado'">
+                <div class="flex gap-2">
+                <input type="text" id="branch_office_code" formControlName="branch_office_code"
+                        [matAutocomplete]="auto"
+                        placeholder="{{ 'Establecimientos' | translate }}"
+                        class="w-full rounded-md border border-gray-300 py-2 px-4 text-sm text-gray-700 focus:border-sky-500 focus:shadow-md outline-none" />
+                <button type="button" (click)="toCreateBranchOffices()"
+                        class="rounded-md border border-gray-400 px-3 py-1 hover:bg-gray-100 text-lg">+</button>
+                </div>
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let branch_office of filteredBranchOffices | async" [value]="branch_office">
+                    {{ branch_office.name }} - {{ branch_office.nit }}
+                </mat-option>
+                </mat-autocomplete>
+            </div>
+
+            <div *ngIf="selectedTab === 'manual'" class="flex gap-2 mt-4">
+                <input type="number" id="branch_office_code" formControlName="branch_office_code"
+                    placeholder="{{ 'Digite el código del establecimiento' | translate }}"
+                    class="w-full rounded-md border border-gray-300 py-2 px-4 text-sm text-gray-700 focus:border-sky-500 focus:shadow-md outline-none" />
+                <button type="button" (click)="toCreateBranchOffices()"
+                        class="rounded-md border border-gray-400 px-3 py-1 hover:bg-gray-100 text-lg">+</button>
+            </div>
+            </div>
+
+            <!-- Botón buscar -->
+            <div class="text-right mb-4">
+            <button type="button" (click)="getBranchOfficeById()"
+                    [disabled]="!orderForm.value.branch_office_code"
+                    class="bg-green-600 text-white px-4 py-2 rounded-md text-sm hover:bg-green-700 transition disabled:opacity-50">
+                {{ 'Buscar' | translate }}
+            </button>
+            </div>
+        </div>
+
+        <!-- Información adicional de la sucursal -->
+        <div *ngIf="branch_office" class="mb-6">
+            <label class="block text-base font-semibold text-sky-800 mb-3">
+                {{ 'Información adicional' | translate }}
+            </label>
+
+            <div class="bg-white shadow-md rounded-lg border border-gray-200 p-5 space-y-2 text-sm text-gray-700">
+                <div class="font-medium text-lg text-sky-900">
+                    {{ branch_office.name }}
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div>
+                        <span class="font-semibold text-gray-600">{{ 'NIT' | translate }}:</span>
+                        <span class="ml-1">{{ branch_office.nit }}</span>
                     </div>
-
-                    <div class="mb-3" *ngIf="!branch_office">
-                        <button class="btn btn-success m-1" [disabled]="!orderForm.value.branch_office_code"
-                            (click)="getBranchOfficeById()" *ngIf="!branch_office">{{'Buscar' | translate}}</button>
-                    </div>
-
-                    <div class="mb-3 aditional-info" *ngIf="branch_office">
-                        <label for="info" class="form-label">-- {{'Información adicional' | translate}}</label>
-                        <textarea class="form-control" id="info" rows="3" readonly>
-                            {{branch_office.name}}
-                            {{'NIT' | translate}}: {{branch_office.nit}}
-                            {{'Teléfono' | translate}}: {{branch_office.phone}}
-                            ______________________________________
-                            {{'Cliente' | translate}}: {{branch_office.client[0].firstName}} {{branch_office.client[0].lastName}}
-                            {{'Contacto' | translate}}: {{branch_office.client[0].phone}} / {{branch_office.client[0].email}}
-                            {{'Dirección' | translate}}: {{branch_office.address}} - {{branch_office.zone[0].name}}
-                            {{'Ciudad' | translate}}: {{branch_office.city[0].name}}, {{branch_office.city[0].department[0].name}}
-                        </textarea>
+                    <div>
+                        <span class="font-semibold text-gray-600">{{ 'Teléfono' | translate }}:</span>
+                        <span class="ml-1">{{ branch_office.phone }}</span>
                     </div>
                 </div>
 
-                <div class="col-lg-6">
-                    <div class="mb-3" *ngIf="branch_office">
+                <hr class="my-2 border-gray-300" />
 
-                        <div class="mb-3">
-                            <label for="city" class="form-label">-- {{'Tipo de pago' | translate}}</label>
-                            <select id="city" class="form-select" formControlName="payment_type">
-                                <option value="" disabled selected>{{'Seleccione una tipo de pago' | translate}}</option>
-                                <option *ngFor="let item of payment_type" [value]="item.name">{{ item.name }}
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="row">
-                            <button class="btn btn-info m-1" [disabled]="!orderForm.value.branch_office_code"
-                                (click)="getBranchOfficeById()" *ngIf="!branch_office">{{'Buscar' | translate}}</button>
-                            <button (click)="toOrders()" class="btn btn-secondary"
-                                *ngIf="!branch_office">Cancelar</button>
-                        </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div>
+                        <span class="font-semibold text-gray-600">{{ 'Cliente' | translate }}:</span>
+                        <span class="ml-1">{{ branch_office.client[0].firstName }} {{ branch_office.client[0].lastName }}</span>
                     </div>
+                    <div>
+                        <span class="font-semibold text-gray-600">{{ 'Contacto' | translate }}:</span>
+                        <span class="ml-1">{{ branch_office.client[0].phone }} / {{ branch_office.client[0].email }}</span>
+                    </div>
+                </div>
 
-                    <button type="submit" class="btn btn-success m-1" [disabled]="!orderForm.valid"
-                        *ngIf="branch_office" style="float: right;">{{'Registrar Pedido' | translate}}</button>
+                <div>
+                    <span class="font-semibold text-gray-600">{{ 'Dirección' | translate }}:</span>
+                    <span class="ml-1">{{ branch_office.address }} - {{ branch_office.zone[0].name }}</span>
+                </div>
+
+                <div>
+                    <span class="font-semibold text-gray-600">{{ 'Ciudad' | translate }}:</span>
+                    <span class="ml-1">{{ branch_office.city[0].name }}, {{ branch_office.city[0].department[0].name }}</span>
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+
+        <!-- Tipo de pago -->
+        <div *ngIf="branch_office" class="mb-6">
+            <label for="payment_type" class="block text-base font-medium text-sky-800 mb-2">{{ 'Tipo de pago' | translate }}</label>
+            <select id="payment_type" formControlName="payment_type"
+                    class="w-full rounded-md border border-gray-300 py-2 px-4 text-sm text-gray-700 focus:border-sky-500 focus:shadow-md outline-none">
+            <option value="" disabled selected>{{ 'Seleccione una tipo de pago' | translate }}</option>
+            <option *ngFor="let item of payment_type" [value]="item.name">
+                {{ item.name }}
+            </option>
+            </select>
+        </div>
+
+        <!-- Botones -->
+        <div class="flex justify-between mt-6" *ngIf="branch_office">
+            <button type="submit"
+                    [disabled]="!orderForm.valid"
+                    class="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 text-sm disabled:opacity-50">
+            {{ 'Registrar Pedido' | translate }}
+            </button>
+        </div>
+
+    </form>
+  </div>
 </div>

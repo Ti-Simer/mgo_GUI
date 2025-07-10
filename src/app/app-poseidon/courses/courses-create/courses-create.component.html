@@ -1,265 +1,164 @@
-<div class="general-container">
-    <div class="container mt-2">
+<div class="flex justify-center overflow-auto">
+    <div class="w-full max-w-[7xl] max-h-[40rem] bg-white rounded-xl p-6">
         <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <h1>{{'Registro de derrotero' | translate}}</h1>
-                    <div class="col-12 mt-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-                        <div class="mb-3">
-                            <label for="propane_truck" class="form-label">-- {{'Auto Tanque' | translate}}</label>
-                            <div class="input-group">
-                                <input type="text" id="propane_truck" class="form-control" formControlName="propane_truck" [matAutocomplete]="auto" placeholder="{{ visualForm.value.propane_truck }}">
-                                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onPropaneTruckSelected($event)">
-                                    <mat-option *ngFor="let propaneTruck of filteredpropaneTrucks | async" [value]="propaneTruck">
-                                        {{ propaneTruck.plate }}
-                                    </mat-option>
-                                </mat-autocomplete>
-                                <button type="button" class="btn btn-outline-secondary" (click)="toCreatePropaneTrucks()">
-                                    +
-                                </button>
-                            </div>
+                <!-- Columna izquierda -->
+                <div>
+                    <h2 class="text-2xl font-bold text-sky-800 mb-4">{{ 'Registro de derrotero' | translate }}</h2>
+
+                    <!-- Autotanque -->
+                    <div class="mb-4">
+                        <label for="propane_truck" class="block text-sm font-normal text-gray-500 mb-1">
+                            {{ 'Auto Tanque' | translate }}
+                        </label>
+                        <div class="flex gap-2">
+                            <input type="text" id="propane_truck" class="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 focus:ring-sky-400 focus:border-sky-500" formControlName="propane_truck" [matAutocomplete]="auto" [placeholder]="visualForm.value.propane_truck"
+                            />
+                            <button type="button" class="rounded-md border border-gray-400 px-3 text-gray-700 hover:bg-gray-100" (click)="toCreatePropaneTrucks()">+</button>
                         </div>
+                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onPropaneTruckSelected($event)">
+                            <mat-option *ngFor="let propaneTruck of filteredpropaneTrucks | async" [value]="propaneTruck">
+                                {{ propaneTruck.plate }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </div>
 
-                        <div class="mb-3" *ngIf="operators.length > 1">
-                            <label for="department" class="form-label">-- {{'Operario' | translate}}</label>
-                            <div class="input-group">
-                                <select id="department" class="form-select" formControlName="operator_id" (change)="onOperatorSelectionChange($event)">
-                                    <option value="" disabled selected>{{'Seleccione un operario' | translate}}</option>
-                                    <option *ngFor="let operator of operators" [value]="operator.idNumber">
-                                        {{ operator.firstName }} {{ operator.lastName }}
-                                    </option>
-                                </select>
-                                <button type="button" class="btn btn-outline-secondary" (click)="toCreateUser()">
-                                    +
-                                </button>
-                            </div>
+                    <!-- Operario -->
+                    <div class="mb-4" *ngIf="operators.length > 1">
+                        <label class="block text-sm font-normal text-gray-500 mb-1">
+                            {{ 'Operario' | translate }}
+                        </label>
+                        <div class="flex gap-2">
+                            <select class="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 focus:ring-sky-400 focus:border-sky-500" formControlName="operator_id" (change)="onOperatorSelectionChange($event)">
+                                <option value="" disabled selected>{{ 'Seleccione un operario' | translate }}</option>
+                                <option *ngFor="let operator of operators" [value]="operator.idNumber">
+                                    {{ operator.firstName }} {{ operator.lastName }}
+                                </option>
+                            </select>
+                            <button type="button" class="rounded-md border border-gray-400 px-3 text-gray-700 hover:bg-gray-100" (click)="toCreateUser()">+</button>
                         </div>
+                    </div>
 
-                        <div class="row mb-2 search d-flex justify-content-center">
-                            <label for="orders" class="form-label">-- {{'Pedidos' | translate}}</label>
-                            <div class="input-group w-50" [formGroup]="searchForm">
-                                <input class="form-control" formControlName="branch_office" type="text" placeholder="{{'Buscar..' | translate}}">
-                                <button type="button" class="btn btn-outline-secondary" (click)="searchOrders()">
+                    <!-- Búsqueda de pedidos -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4" [formGroup]="searchForm">
+                        <div>
+                            <label class="block text-sm font-normal text-gray-500 mb-1">
+                                {{ 'Buscar pedidos' | translate }}
+                            </label>
+                            <div class="flex gap-2">
+                                <input type="text" formControlName="branch_office" class="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 focus:ring-sky-400 focus:border-sky-500" placeholder="{{ 'Buscar..' | translate }}" />
+                                <button type="button" class="rounded-md border border-gray-400 px-3 text-gray-700 hover:bg-gray-100" (click)="searchOrders()">
                                     <lucide-icon name="search" [size]="20"></lucide-icon>
                                 </button>
                             </div>
-                            <div class="input-group w-50">
-                                <input class="form-control" #myInput type="text" placeholder="{{'Filtrar..' | translate}}"
-                                (input)="initializeSearchFilter()">
-                                <button type="button" class="btn btn-outline-secondary" (click)="toCreateOrders()">
-                                    +
-                                </button>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-normal text-gray-500 mb-1">
+                                {{ 'Filtrar pedidos' | translate }}
+                            </label>
+                            <div class="flex gap-2">
+                                <input type="text" #myInput class="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 focus:ring-sky-400 focus:border-sky-500" placeholder="{{ 'Filtrar..' | translate }}" (input)="initializeSearchFilter()" />
+                                <button type="button" class="rounded-md border border-gray-400 px-3 text-gray-700 hover:bg-gray-100" (click)="toCreateOrders()">+</button>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="mb-3 selector">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th class="custom-header">{{'Folio' | translate}}</th>
-                                        <th class="custom-header">{{'Establecimiento' | translate}}</th>
-                                        <th class="custom-header">{{'Fecha' | translate}}</th>
-                                        <th class="custom-header">{{'Tipo pago' | translate}}</th>
-                                        <th class="custom-header">{{'Estado' | translate}}</th>
-                                        <th class="custom-header">{{'Selección' | translate}}</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="myTable">
-                                    <tr *ngFor="let order of orders">
-                                        <td>
-                                            <label class="form-check-label" [for]="order.id">{{
-                                                order.folio }}</label>
-                                        </td>
-                                        <td>
-                                            <label class="form-check-label" [for]="order.id">
-                                                {{ order.branch_office.name }}
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="form-check-label" [for]="order.id">
-                                                {{ order.create | date: 'dd - MMMM - y H:mm' }}
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="form-check-label" [for]="order.id">
-                                                {{ order.payment_type }}
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="form-check-label" [for]="order.state">
-                                                {{ order.state }}
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="form-check-input" [id]="order.id"
-                                                [value]="order.id" (change)="onOrderChange(order)">
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <mat-paginator [length]="totalOrders" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"(page)="onPageChange($event)" showFirstLastButtons></mat-paginator>
+                    <!-- Tabla de pedidos -->
+                    <div class="overflow-auto mb-4">
+                        <table class="min-w-full border border-gray-300 text-sm text-gray-700">
+                            <thead class="bg-gray-100 text-gray-500 font-normal">
+                                <tr>
+                                    <th class="p-2 border">{{ 'Folio' | translate }}</th>
+                                    <th class="p-2 border">{{ 'Establecimiento' | translate }}</th>
+                                    <th class="p-2 border">{{ 'Fecha' | translate }}</th>
+                                    <th class="p-2 border">{{ 'Tipo pago' | translate }}</th>
+                                    <th class="p-2 border">{{ 'Estado' | translate }}</th>
+                                    <th class="p-2 border">{{ 'Selección' | translate }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let order of orders" class="hover:bg-gray-50">
+                                    <td class="p-2 border">{{ order.folio }}</td>
+                                    <td class="p-2 border">{{ order.branch_office.name }}</td>
+                                    <td class="p-2 border">{{ order.create | date: 'dd - MMMM - y H:mm' }}</td>
+                                    <td class="p-2 border">{{ order.payment_type }}</td>
+                                    <td class="p-2 border">{{ order.state }}</td>
+                                    <td class="p-2 border text-center">
+                                        <input type="checkbox" class="form-checkbox text-green-600" [value]="order.id" (change)="onOrderChange(order)" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-                        <label for="info" class="form-label mt-2">-- {{'Fecha de programación' | translate}}:</label>
-                        <div class="col-md-4 date-picker">
-                            <mat-form-field color="accent" class="calendar">
-                                <mat-label>{{'Fecha' | translate}}</mat-label>
-                                <input matInput [matDatepicker]="campaignOnePicker" placeholder="{{ visualForm.value.fecha }}" formControlName="fecha" />
-                                <mat-datepicker-toggle [for]="campaignOnePicker" matIconSuffix></mat-datepicker-toggle>
-                                <mat-datepicker #campaignOnePicker></mat-datepicker>
-                            </mat-form-field>
-                        </div>
+                    <!-- Paginador -->
+                    <!-- Solo visible en orientación vertical (portrait) -->
+                    <mat-paginator class="portrait-only" [length]="totalOrders" [pageSize]="pageSize" 
+                        (page)="onPageChange($event)">
+                    </mat-paginator>
 
-                        <button type="submit" class="btn btn-success">{{'Registrar' | translate}}</button>
+                    <!-- Solo visible en orientación horizontal (landscape) -->
+                    <mat-paginator class="landscape-only" [length]="totalOrders" [pageSize]="pageSize" 
+                        [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" showFirstLastButtons>
+                    </mat-paginator>
+
+                    <!-- Fecha de programación -->
+                    <div class="mt-6">
+                        <label class="block text-base font-medium text-sky-800 mb-2">
+                            {{ 'Fecha de programación' | translate }}
+                        </label>
+
+                        <mat-form-field appearance="outline" color="accent" class="w-full bg-white rounded-md shadow-sm">
+                            <mat-label class="text-sm text-gray-600 tracking-wide">
+                                {{ 'Seleccione una fecha' | translate }}
+                            </mat-label>
+                            <input matInput [matDatepicker]="campaignOnePicker" formControlName="fecha" [placeholder]="visualForm.value.fecha" class="placeholder-gray-400 text-gray-700 text-sm" />
+                            <mat-datepicker-toggle matSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
+                            <mat-datepicker #campaignOnePicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Botón submit -->
+                    <div class="mt-6">
+                        <button type="submit" class="w-full rounded-md bg-green-600 py-3 px-8 text-white text-base hover:shadow-md transition disabled:opacity-50 disabled:cursor-not-allowed">
+                            {{ 'Registrar' | translate }}
+                        </button>
                     </div>
                 </div>
 
-                <div class="col-lg-6 p-4 aditional-info">
-                    <label style="font-weight: bold; font-size: 18px;">--Derrotero--</label>
-                    <br>
-                    <br>
-                    <div class="mb-3">
-                            <label for="" style="font-size: 16px;">{{'Vehículo' | translate}}: <br> {{visualForm.value.propane_truck}} - {{'Operario' | translate}}: {{visualForm.value.operator}}</label> <br><br>
-                            <label for="" style="font-size: 16px;">{{'Pedidos' | translate}}:</label> 
-                            <ul class="m-0" *ngFor="let orders of visualForm.value.orders">
-                                <li class="list-group-item m-0"><label for="" style="font-size: 16px;">{{orders}}</label></li>
+                <!-- Columna derecha (Vista resumen) -->
+                <div class="bg-white border border-gray-200 p-6 rounded-xl shadow-sm">
+                    <h3 class="text-xl font-semibold text-sky-800 mb-4 tracking-wide">
+                    {{ 'Derrotero' | translate }}
+                </h3>
+
+                    <div class="space-y-4 text-sm text-gray-700 leading-relaxed">
+                        <div>
+                            <p>
+                                <span class="font-medium text-gray-800">{{ 'Vehículo' | translate }}:</span> {{ visualForm.value.propane_truck }}
+                            </p>
+                            <p>
+                                <span class="font-medium text-gray-800">{{ 'Operario' | translate }}:</span> {{ visualForm.value.operator }}
+                            </p>
+                        </div>
+
+                        <div>
+                            <p class="font-medium text-gray-800">{{ 'Pedidos' | translate }}:</p>
+                            <ul class="list-disc list-inside pl-2">
+                                <li *ngFor="let order of visualForm.value.orders">{{ order }}</li>
                             </ul>
-                            <br>
-                            <label for="" style="font-size: 16px;">{{'Fecha de programación' | translate}}: <br> {{courseForm.value.fecha | date: 'fullDate'}}</label> <br> <br>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div class="general-container-mobile">
-    <div class="container mt-2">
-        <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <h1>{{'Registro de derrotero' | translate}}</h1>
-                    <div class="col-12 mt-4">
-
-                        <div class="mb-3">
-                            <label for="propane_truck" class="form-label">-- {{'Auto Tanque' | translate}}</label>
-                            <div class="input-group">
-                                <input type="text" id="propane_truck" class="form-control" formControlName="propane_truck" [matAutocomplete]="auto" placeholder="{{visualForm.value.propane_truck}}" style="font-size: 11px !important;">
-                                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onPropaneTruckSelected($event)" style="font-size: 11px !important;">
-                                    <mat-option *ngFor="let propaneTruck of filteredpropaneTrucks | async" [value]="propaneTruck" style="font-size: 11px !important;">
-                                        {{ propaneTruck.plate }}
-                                    </mat-option>
-                                </mat-autocomplete>
-                                <button type="button" class="btn btn-outline-secondary" (click)="toCreatePropaneTrucks()">
-                                    +
-                                </button>
-                            </div>
                         </div>
 
-                        <div class="mb-3" *ngIf="operators.length > 1">
-                            <label for="department" class="form-label">-- {{'Operario' | translate}}</label>
-                            <div class="input-group">
-                                <select id="department" class="form-select" formControlName="operator_id" (change)="onOperatorSelectionChange($event)">
-                                    <option value="" disabled selected style="font-size: 11px !important;" style="font-size: 11px !important;">{{'Seleccione un operario' | translate}}</option>
-                                    <option *ngFor="let operator of operators" [value]="operator.idNumber" style="font-size: 11px !important;">
-                                        {{ operator.firstName }} {{ operator.lastName }}
-                                    </option>
-                                </select>
-                                <button type="button" class="btn btn-outline-secondary" (click)="toCreateUser()">
-                                    +
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="row mb-2 search" style="font-size: 11px !important;">
-                            <label for="orders" class="form-label">-- {{'Pedidos' | translate}}</label>
-                            <div class="input-group mb-2" [formGroup]="searchForm">
-                                <input class="form-control" formControlName="branch_office" type="text" placeholder="{{'Buscar..' | translate}}"
-                                style="font-size: 11px !important;">
-                                <button type="button" class="btn btn-outline-secondary" (click)="searchOrders()">
-                                    <lucide-icon name="search" [size]="20"></lucide-icon>
-                                </button>
-                            </div>
-                            <div class="input-group">
-                                <input class="form-control" #myInput2 type="text" placeholder="{{'Filtrar..' | translate}}"
-                                (input)="initializeSearchFilter2()" style="font-size: 11px !important;">
-                                <button type="button" class="btn btn-outline-secondary" (click)="toCreateOrders()">
-                                    +
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="mb-3 selector">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th class="custom-header">{{'Selección' | translate}}</th>
-                                        <th class="custom-header">{{'Folio' | translate}}</th>
-                                        <th class="custom-header">{{'Establecimiento' | translate}}</th>
-                                        <th class="custom-header">{{'Fecha' | translate}}</th>
-                                        <th class="custom-header">{{'Tipo pago' | translate}}</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="myTable2">
-                                    <tr *ngFor="let order of orders">
-                                        <td>
-                                            <input type="checkbox" class="form-check-input" [id]="order.id"
-                                                [value]="order.id" (change)="onOrderChange(order)">
-                                        </td>
-                                        <td>
-                                            <label class="form-check-label" [for]="order.id">{{
-                                                order.folio }}</label>
-                                        </td>
-                                        <td>
-                                            <label class="form-check-label" [for]="order.id">
-                                                {{ order.branch_office.name }}
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="form-check-label" [for]="order.id">
-                                                {{ order.create | date: 'dd - MMMM - y H:mm' }}
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="form-check-label" [for]="order.id">
-                                                {{ order.payment_type }}
-                                            </label>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <mat-paginator [length]="totalOrders" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"(page)="onPageChange($event)"></mat-paginator>
-
-                        <label for="info" class="form-label mt-2">-- {{'Fecha de programación' | translate}}:</label>
-                        <div class="col-md-4 date-picker" style="font-size: 11px !important;">
-                            <mat-form-field color="accent" class="calendar">
-                                <mat-label style="font-size: 11px !important;">{{'Fecha' | translate}}</mat-label>
-                                <input matInput [matDatepicker]="campaignOnePicker" placeholder="{{ visualForm.value.fecha }}" formControlName="fecha" style="font-size: 11px !important;" />
-                                <mat-datepicker-toggle [for]="campaignOnePicker" matIconSuffix style="font-size: 11px !important;"></mat-datepicker-toggle>
-                                <mat-datepicker #campaignOnePicker style="font-size: 11px !important;"></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="col-lg-6 p-4 aditional-info">
-                            <label style="font-weight: bold; font-size: 11px;">--Derrotero--</label>
-                            <br>
-                            <br>
-                            <div class="mb-3">
-                                    <label for="" style="font-size: 11px;">{{'Vehículo' | translate}}: <br> {{visualForm.value.propane_truck}} - {{'Operario' | translate}}: {{visualForm.value.operator}}</label> <br><br>
-                                    <label for="" style="font-size: 11px;">{{'Pedidos' | translate}}:</label> 
-                                    <ul class="m-0" *ngFor="let orders of visualForm.value.orders">
-                                        <li class="list-group-item m-0"><label for="" style="font-size: 11px;">{{orders}}</label></li>
-                                    </ul>
-                                    <br>
-                                    <label for="" style="font-size: 11px;">{{'Fecha de programación' | translate}}: <br> {{courseForm.value.fecha | date: 'fullDate'}}</label> <br> <br>
-                            </div>
-                        </div>
-                        <div class="buttons-submit">
-                            <button type="submit" class="btn btn-success">{{'Registrar' | translate}}</button>
+                        <div>
+                            <p>
+                                <span class="font-medium text-gray-800">{{ 'Fecha de programación' | translate }}:</span> {{ courseForm.value.fecha | date: 'fullDate' }}
+                            </p>
                         </div>
                     </div>
+
+
                 </div>
             </div>
         </form>

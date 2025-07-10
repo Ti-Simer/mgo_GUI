@@ -12,6 +12,7 @@ export const environment = {
     // apiPoseidonEgsa: 'http://192.168.0.18:4006', // URL del servicio para desarrollo
     // apiHerculesMontagas: 'http://192.168.0.18:4007', // URL del servicio para desarrollo
     // apiPoseidonSimer: 'http://192.168.0.18:4008', // URL del servicio para desarrollo
+    // apiPoseidonSupergas: 'http://192.168.0.18:4010', // URL del servicio para desarrollo
 
     // apiPoseidonGasco: 'http://172.105.153.203:3000', // URL del servicio para despliegue
     // apiAtheneaMontagas: 'http://172.105.153.203:4001', // URL del servicio para despliegue
@@ -22,6 +23,7 @@ export const environment = {
     // apiPoseidonEgsa: 'http://172.105.153.203:4006', // URL del servicio para despliegue
     // apiHerculesMontagas: 'http://172.105.153.203:4007', // URL del servicio para despliegue
     // apiPoseidonSimer: 'http://172.105.153.203:4008', // URL del servicio para despliegue
+    // apiPoseidonSupergas: 'http://172.105.153.203:4010', // URL del servicio para despliegue
 
     apiPoseidonGasco: 'http://5.189.160.98:3000', // URL del servicio para test-pruebas
     apiAtheneaMontagas: 'http://5.189.160.98:4001', // URL del servicio para test-pruebas
@@ -32,6 +34,7 @@ export const environment = {
     apiPoseidonEgsa: 'http://5.189.160.98:4006', // URL del servicio para test-pruebas
     apiHerculesMontagas: 'http://5.189.160.98:4007', // URL del servicio para test-pruebas
     apiPoseidonSimer: 'http://5.189.160.98:4008', // URL del servicio para test-pruebas
+    apiPoseidonSupergas: 'http://5.189.160.98:4010', // URL del servicio para test-pruebas
 
     /// ----------------------------------- ** Api-Key MiddleWare ** ----------------------------------- ///
 
