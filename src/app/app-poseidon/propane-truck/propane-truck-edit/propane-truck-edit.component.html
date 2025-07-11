@@ -1,93 +1,131 @@
-<div class="general-container">
-    <div class="container mt-2">
-        <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
-        <div class="row justify-content-center">
-            <h3>{{'Auto Tanques' | translate}}</h3>
-            <h2>{{'Actualización de información' | translate}}</h2>
-            <div class="col-lg-6">
-                        <div class="mb-3">
-                            <label for="plate" class="form-label">-- {{'Placa del Auto Tanque' | translate}}</label>
-                            <input #plateInput (input)="onPlateInputChange()" type="text" inputmode="upperCase"
-                                id="plate" class="form-control" formControlName="plate"
-                                placeholder="{{'Escriba aquí la placa del Auto Tanque' | translate}}">
-                        </div>
+<div class="flex items-center justify-center overflow-auto">
+  <div class="mt-2 mx-auto w-full max-w-[1000px] bg-white p-6 rounded-xl">
+    <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+      
+      <div class="text-center mb-8">
+        <label class="block text-2xl font-medium text-sky-800">{{ 'Actualización de información' | translate }}</label>
+        <p class="text-sm text-gray-500 mt-2">{{ 'Auto Tanques' | translate }}</p>
+      </div>
 
-                        <div class="mb-3">
-                            <label for="capacity" class="form-label">-- {{'Capacidad' | translate}} (kg)</label>
-                            <input type="number" id="capacity" class="form-control" formControlName="capacity"
-                                placeholder="{{'Digite aqui la capacidad del Auto Tanque' | translate}}">
-                        </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                        <div class="mb-3">
-                            <label for="value" class="form-label">-- {{'Porcentaje del factor' | translate}}</label>
-                            <input type="number" id="value" class="form-control" formControlName="factor"
-                                placeholder="{{'Digite el porcentaje a aplicar' | translate}}">
-                        </div>
+        <!-- Columna izquierda -->
+        <div>
+          <label for="plate" class="mb-2 block text-base font-medium text-sky-800">
+            {{ 'Placa del Auto Tanque' | translate }}
+          </label>
+          <input #plateInput (input)="onPlateInputChange()" type="text" inputmode="upperCase" id="plate"
+            formControlName="plate"
+            placeholder="{{ 'Escriba aquí la placa del Auto Tanque' | translate }}"
+            class="w-full rounded-md border border-gray-300 bg-white py-2 px-4 text-sm text-gray-700 outline-none focus:border-blue-500 focus:shadow-md" />
+
+          <label for="capacity" class="mt-4 mb-2 block text-base font-medium text-sky-800">
+            {{ 'Capacidad' | translate }} (kg)
+          </label>
+          <input type="number" id="capacity" formControlName="capacity"
+            placeholder="{{ 'Digite aqui la capacidad del Auto Tanque' | translate }}"
+            class="w-full rounded-md border border-gray-300 bg-white py-2 px-4 text-sm text-gray-700 outline-none focus:border-blue-500 focus:shadow-md" />
+
+          <label for="value" class="mt-4 mb-2 block text-base font-medium text-sky-800">
+            {{ 'Porcentaje del factor' | translate }}
+          </label>
+          <input type="number" id="value" formControlName="factor"
+            placeholder="{{ 'Digite el porcentaje a aplicar' | translate }}"
+            class="w-full rounded-md border border-gray-300 bg-white py-2 px-4 text-sm text-gray-700 outline-none focus:border-blue-500 focus:shadow-md" />
+        </div>
+
+        <!-- Columna derecha -->
+        <div>
+          <!-- Tabs -->
+          <div class="flex mb-4 border-b border-gray-200">
+            <button type="button" (click)="!multipleSelection && toggleMultipleSelection()"
+              class="px-4 py-2 text-sm font-medium rounded-t-md transition-all" [ngClass]="multipleSelection
+              ? 'bg-white border-x border-t border-gray-300 text-sky-800'
+              : 'bg-gray-100 text-gray-500 hover:text-sky-600'">
+              {{ 'Selección Múltiple' | translate }}
+            </button>
+
+            <button type="button" (click)="multipleSelection && toggleMultipleSelection()"
+              class="ml-2 px-4 py-2 text-sm font-medium rounded-t-md transition-all" [ngClass]="!multipleSelection
+              ? 'bg-white border-x border-t border-gray-300 text-sky-800'
+              : 'bg-gray-100 text-gray-500 hover:text-sky-600'">
+              {{ 'Operador (listado)' | translate }}
+            </button>
+          </div>
+
+          <!-- Múltiple -->
+          <div *ngIf="operators.length != 0 && multipleSelection">
+            <div class="flex gap-2 mb-4">
+              <input #myInput type="text"
+                placeholder="{{ 'Buscar..' | translate }}"
+                (input)="initializeSearchFilter()"
+                class="w-full rounded-md border border-gray-300 bg-white py-2 px-4 text-sm text-gray-700 outline-none focus:border-blue-500 focus:shadow-md" />
+              <button type="button" (click)="toCreateOperators()"
+                class="px-3 py-1 border rounded-md text-gray-700 hover:bg-gray-100">+</button>
             </div>
-                
-                <div class="col-lg-6">
 
-                    <label *ngIf="!multipleSelection" id="operator-label" (click)="toggleMultipleSelection()"style="cursor: pointer">{{'Selección Múltiple' | translate}}</label>
-                    <label *ngIf="multipleSelection" class="mb-2" id="operator-label" (click)="toggleMultipleSelection()"style="cursor: pointer">{{'Selección Unitaria' | translate}}</label>
-
-                    <div class="input-group mb-1" *ngIf="operators.length != 0 && multipleSelection">
-                        <input class="form-control" #myInput type="text" placeholder="{{'Buscar..' | translate}}"
-                        (input)="initializeSearchFilter()">
-                        <button type="button" class="btn btn-outline-secondary" (click)="toCreateOperators()">
-                            +
-                        </button>
-                    </div>
-    
-                    <label class="form-label" *ngIf="multipleSelection">-- {{'Operario(s)' | translate}}</label>
-                    <div class="mb-1 selector" *ngIf="operators.length != 0 && multipleSelection">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th class="custom-header">{{'Nombre' | translate}}</th>
-                                    <th class="custom-header">{{'Selección' | translate}}</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tableOperators">
-                                <tr *ngFor="let operator of operators">
-                                    <td>
-                                        <label class="form-check-label" [for]="operator.id">{{ operator.firstName }}
-                                            {{operator.lastName}}</label>
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" class="form-check-input" [id]="operator.id" [value]="operator.id"
-                                        (change)="onOperatorChange(operator)">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-    
-                    <label *ngIf="!operatorInput && !multipleSelection" id="operator-label" class="form-label" (click)="toggleInputOperator()"style="cursor: pointer"> -- {{'Operador (listado)' | translate}}</label>
-                    <label *ngIf="operatorInput && !multipleSelection" id="operator-label" class="form-label" (click)="toggleInputOperator()"style="cursor: pointer"> -- {{'Operador (manual)' | translate}}</label>
-                    <div class="mb-3" *ngIf="!multipleSelection">
-                        <div class="input-group" *ngIf="operators.length != 0">
-                            <select *ngIf="!operatorInput" id="client" class="form-select" formControlName="operator">
-                                <option value="" disabled selected>{{'Seleccione el cliente' | translate}}</option>
-                                <option *ngFor="let operator of operators" [value]="operator.id">{{ operator.firstName }}
-                                    {{operator.lastName}}</option>
-                            </select>
-                            <input *ngIf="operatorInput" type="text" id="client" class="form-control" formControlName="operator"
-                            placeholder="{{'Identificación' | translate}}">
-                            <button type="button" class="btn btn-outline-secondary" (click)="toCreateOperators()">
-                                +
-                            </button>
-                        </div>
-                    </div>
-    
-                    <div class="mb-1 selector text-center" *ngIf="operators.length == 0">
-                        <label>No se han encontrado operadores creados,</label> <br>
-                        <label style="cursor: pointer; font-weight: bold;" (click)="toCreateOperators()"> CREAR </label>
-                    </div>
-
-                    <!-- Puedes agregar más campos aquí según los atributos de la entidad Roles -->
-                    <button type="submit" class="btn btn-success m-1" [disabled]="!updateForm.valid">{{'Guardar cambios' | translate}}</button>
-                </div>
+            <label class="block text-sm font-medium text-sky-800 mb-2">{{ 'Operario(s)' | translate }}</label>
+            <div class="overflow-auto max-h-56 border rounded-md">
+              <table class="w-full text-sm text-gray-700">
+                <thead class="bg-gray-100">
+                  <tr>
+                    <th class="text-left p-2">{{ 'Nombre' | translate }}</th>
+                    <th class="text-left p-2">{{ 'Selección' | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody id="tableOperators">
+                  <tr *ngFor="let operator of operators" class="border-t">
+                    <td class="p-2">{{ operator.firstName }} {{ operator.lastName }}</td>
+                    <td class="p-2">
+                      <input type="checkbox" class="form-check-input" [id]="operator.id"
+                        [value]="operator.id" (change)="onOperatorChange(operator)" />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-        </form>
-    </div>
+          </div>
+
+          <!-- Unitaria -->
+          <div *ngIf="!multipleSelection">
+            <label (click)="toggleInputOperator()" style="cursor: pointer"
+              class="mt-4 block text-base font-medium text-sky-800 mb-2">
+              {{ operatorInput ? 'Operador (manual)' : 'Operador (listado)' | translate }}
+            </label>
+
+            <div class="flex gap-2 items-center" *ngIf="operators.length != 0">
+              <select *ngIf="!operatorInput" id="client" formControlName="operator"
+                class="w-full rounded-md border border-gray-300 py-2 px-3 text-sm text-gray-700 bg-white focus:outline-none focus:border-blue-500 focus:shadow-md">
+                <option value="" disabled selected>{{ 'Seleccione el cliente' | translate }}</option>
+                <option *ngFor="let operator of operators" [value]="operator.id">
+                  {{ operator.firstName }} {{ operator.lastName }}
+                </option>
+              </select>
+
+              <input *ngIf="operatorInput" type="text" id="client" formControlName="operator"
+                placeholder="{{ 'Identificación' | translate }}"
+                class="w-full rounded-md border border-gray-300 py-2 px-3 text-sm text-gray-700 bg-white focus:outline-none focus:border-blue-500 focus:shadow-md" />
+
+              <button type="button" (click)="toCreateOperators()"
+                class="px-3 py-1 border rounded-md text-gray-700 hover:bg-gray-100">+</button>
+            </div>
+          </div>
+
+          <div class="text-center text-sm text-red-500 mt-4" *ngIf="operators.length == 0">
+            <label>No se han encontrado operadores creados, </label>
+            <span (click)="toCreateOperators()" class="cursor-pointer font-bold underline">
+              {{ 'CREAR' | translate }}
+            </span>
+          </div>
+
+          <div class="mt-6 text-right">
+            <button type="submit" [disabled]="!updateForm.valid"
+              class="rounded-md bg-green-600 py-2 px-6 text-white font-semibold text-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
+              {{ 'Guardar cambios' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
