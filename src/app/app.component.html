@@ -133,7 +133,7 @@
             class="text-white shadow-md min-h-[4.5rem] h-[5.5rem] pt-2 transition-colors duration-300">
             <mat-toolbar-row class="w-full flex flex-wrap items-center">
                 <div class="w-1/6 sm:w-1/5">
-                    <button *ngIf="isMobile" (click)="sidenav.toggle()"
+                    <button *ngIf="isMobile" (click)="sidenav.toggle()" (click)="toggleSidebar()"
                         class="hover:text-pink-400 transition-colors duration-300">
                         <mat-icon class="text-white">menu</mat-icon>
                     </button>
@@ -149,8 +149,8 @@
         </mat-toolbar>
         <!-- Sidenav móvil -->
         <mat-sidenav-container class="bg-transparent">
-            <mat-sidenav #sidenav mode="over" class="bg-sky-900 text-white w-[260px]"
-                style="position: fixed; left: 0; top: 0; height: 100vh; padding-top: 6.5rem; z-index: 999;">
+            <mat-sidenav #sidenav mode="over" class="bg-sky-900 text-white w-[270px]"
+                style="position: fixed; left: 0; top: 0; height: 100vh; padding-top: 6.5rem; z-index: 999; background-color: #014e87 !important;">
                 <div class="flex flex-col gap-2 px-2">
                     <ng-container *ngIf="isLogged">
                         <app-menu-poseidon *ngIf="system === 'Poseidon'"></app-menu-poseidon>

@@ -33,7 +33,9 @@ export class MenuPoseidonComponent {
   showAccountMenu = false;
   showLangMenu = false;
   dropdownOpen = false;
-
+  activeSubMenu: string | null = null;
+  isMobileScreen: boolean = false;
+  
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -48,9 +50,16 @@ export class MenuPoseidonComponent {
     });
   }
 
-  ngOnInit(): void {
-    this.fetchNotifications();
-  }
+  
+  ngOnInit() {
+  this.checkScreenSize();
+  window.addEventListener('resize', this.checkScreenSize.bind(this));
+}
+checkScreenSize() {
+  const isMobile = window.innerWidth < 768;
+  this.sidebarCollapsed = !isMobile ? this.sidebarCollapsed : false;
+}
+
 
   ngOnChanges(): void {
     this.sidebarCollapsed = this.authService.getMenuExpanded();
@@ -71,12 +80,15 @@ export class MenuPoseidonComponent {
   }
 
   toggleAdminMenu() {
-    if (this.showAdminMenu) {
-      this.showAdminMenu = false;
-      return;
+    this.showAdminMenu = !this.showAdminMenu;
+    if (!this.showAdminMenu) {
+      this.activeSubMenu = null;
     }
-    this.closeAllMenus();
-    this.showAdminMenu = true;
+  }
+
+
+  toggleSubMenu(subMenu: string) {
+    this.activeSubMenu = this.activeSubMenu === subMenu ? null : subMenu;
   }
 
   toggleAccountMenu() {
