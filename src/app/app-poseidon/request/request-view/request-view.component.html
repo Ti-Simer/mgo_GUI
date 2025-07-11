@@ -1,186 +1,82 @@
-<div class="general-container">
-    <div class="container">
+<div *ngIf="request" class="max-w-4xl mx-auto px-4 py-6 space-y-8">
 
-        <div class="row request d-flex justify-content-center mb-2" *ngIf="request">
-            <p class="m-0" style="color: #9e9e9e; font-size: 12px;"> {{request.data_series.fechaInicial }}</p>
-            <h1 class="m-0"> {{request.branch_office.name}}</h1>
-            <p class="m-0"> {{'N° Servicio' | translate}}: {{request.internal_folio}} </p>
-            <div class="col-lg-10 request d-flex">
-
-                <div class="col-md-5 d-flex">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="row d-flex">
-                                <div class="col-sm-6">
-                                    <h3>
-                                        {{'Responsable' | translate}}:
-                                    </h3>
-                                </div>
-                                <div class="col-sm-6">
-                                    <p class="m-0 text-bold">
-                                        {{ request.operator.firstName }}
-                                        {{ request.operator.lastName }}
-                                    </p>
-                                    <p style="color: #9e9e9e; font-size: 12px;">
-                                        {{ request.plate }}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row d-flex">
-                                <div class="col-sm-6">
-                                    <h3>
-                                        {{'Pedido' | translate}}:
-                                    </h3>
-                                </div>
-                                <div class="col-sm-6">
-                                    <p class="m-0">
-                                        {{'N° de folio' | translate}}: {{ request.folio }}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row d-flex">
-                                <div class="col-sm-6">
-                                    <h3>
-                                        {{'Tipo de pago' | translate}}:
-                                    </h3>
-                                </div>
-                                <div class="col-sm-6">
-                                    <p>
-                                        {{ request.payment_type }}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row d-flex">
-                                <div class="col-sm-6">
-                                    <h3>
-                                        {{'Tiempo de servicio' | translate}}:
-                                    </h3>
-                                </div>
-                                <div class="col-sm-6">
-                                    <p>
-                                        {{ request.data_series.service_time }}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row d-flex">
-                                <div class="col-sm-6">
-                                    <h3>
-                                        {{'Fecha de pedido' | translate}}:
-                                    </h3>
-                                </div>
-                                <div class="col-sm-6">
-                                    <p>
-                                        {{ request.order.create | date: 'medium' }}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-5">
-                    <div class="row d-flex">
-                        <div class="col-sm-6">
-                            <h3>
-                                {{'GLP entregado' | translate}}:
-                            </h3>
-                        </div>
-                        <div class="col-sm-6">
-                            <p>
-                                {{ request.data_series.masaTotal | number:'1.2-2' }} Kg
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row d-flex">
-                        <div class="col-sm-6">
-                            <h3>
-                                {{'Dirección' | translate}}:
-                            </h3>
-                        </div>
-                        <div class="col-sm-6">
-                            <p>
-                                {{ request.branch_office.address}} Kg
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row d-flex">
-                        <div class="col-sm-6">
-                            <h3>
-                                {{'Valor por Kg' | translate}}:
-                            </h3>
-                        </div>
-                        <div class="col-sm-6">
-                            <p>
-                                {{ request.branch_office.kilogramValue | currency:currencyCode:'symbol':'1.0-0' }}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row d-flex">
-                        <div class="col-sm-6">
-                            <h3>
-                                {{'Geocerca' | translate}}:
-                            </h3>
-                        </div>
-                        <div class="col-sm-6">
-                            <p>
-                                {{validate_geofence()}}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row d-flex">
-                        <div class="col-sm-6">
-                            <h3>
-                                {{'Token' | translate}}:
-                            </h3>
-                        </div>
-                        <div class="col-sm-6">
-                            <p>
-                                {{validate_token()}}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row d-flex">
-                        <div class="col-sm-6">
-                            <h3>
-                                {{'Total' | translate}}:
-                            </h3>
-                        </div>
-                        <div class="col-sm-6">
-                            <p>
-                                {{ request.data_series.total | currency:currencyCode:'symbol':'1.0-0' }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="row d-flex buttons-group-landscape">
-            <div class="col-sm-8"></div>
-            <div class="col-sm-2 float-end">
-                <button (click)="exportToExcel()" class="btn btn-success d-flex">
-                    <lucide-icon name="sheet" [size]="20" style="margin-right: 5px;"></lucide-icon>
-                    {{'Descargar' | translate}}
-                </button>
-            </div>
-            <div class="col-sm-1 float-end">
-                <button (click)="findBillByFolio()" class="btn btn-info">{{'Remisión' | translate}}</button>
-            </div>
-            <div class="col-sm-1 float-end">
-                <button (click)="toRequest()" class="btn btn-secondary">{{'Volver' | translate}}</button>
-            </div>
-        </div>
-
-        <div class="buttons-group-portrait">
-            <button (click)="toRequest()" class="btn btn-secondary">{{'Volver' | translate}}</button>
-            <button (click)="exportToExcel()" class="btn btn-success d-flex">
-                <lucide-icon name="sheet" [size]="20" style="margin-right: 5px;"></lucide-icon>
-                {{'Descargar' | translate}}
-            </button>
-            <button (click)="findBillByFolio()" class="btn btn-info">{{'Remisión' | translate}}</button>
-        </div>
-
+    <!-- Encabezado del servicio -->
+    <div class="text-center space-y-1">
+        <p class="text-xs text-gray-500">{{ request.data_series.fechaInicial }}</p>
+        <h1 class="text-2xl font-bold text-sky-800">{{ request.branch_office.name }}</h1>
+        <p class="text-sm text-gray-600">
+            {{ 'N° Servicio' | translate }}: {{ request.internal_folio }}
+        </p>
     </div>
-    <app-footer class="hide-on-mobile"></app-footer>
+
+    <!-- Información principal en dos columnas -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-lg shadow">
+
+        <!-- Columna izquierda -->
+        <div class="space-y-4 text-sm text-gray-700">
+            <div class="flex justify-between">
+                <span class="font-medium">{{ 'Responsable' | translate }}:</span>
+                <div class="text-right">
+                    <p>{{ request.operator.firstName }} {{ request.operator.lastName }}</p>
+                    <p class="text-xs text-gray-500">{{ request.plate }}</p>
+                </div>
+            </div>
+            <div class="flex justify-between">
+                <span class="font-medium">{{ 'Pedido' | translate }}:</span>
+                <p class="text-right">{{ 'N° de folio' | translate }}: {{ request.folio }}</p>
+            </div>
+            <div class="flex justify-between">
+                <span class="font-medium">{{ 'Tipo de pago' | translate }}:</span>
+                <p class="text-right">{{ request.payment_type }}</p>
+            </div>
+            <div class="flex justify-between">
+                <span class="font-medium">{{ 'Tiempo de servicio' | translate }}:</span>
+                <p class="text-right">{{ request.data_series.service_time }}</p>
+            </div>
+            <div class="flex justify-between">
+                <span class="font-medium">{{ 'Fecha de pedido' | translate }}:</span>
+                <p class="text-right">{{ request.order.create | date: 'medium' }}</p>
+            </div>
+        </div>
+
+        <!-- Columna derecha -->
+        <div class="space-y-4 text-sm text-gray-700">
+            <div class="flex justify-between">
+                <span class="font-medium">{{ 'GLP entregado' | translate }}:</span>
+                <p class="text-right">{{ request.data_series.masaTotal | number:'1.2-2' }} Kg</p>
+            </div>
+            <div class="flex justify-between">
+                <span class="font-medium">{{ 'Dirección' | translate }}:</span>
+                <p class="text-right">{{ request.branch_office.address }}</p>
+            </div>
+            <div class="flex justify-between">
+                <span class="font-medium">{{ 'Valor por Kg' | translate }}:</span>
+                <p class="text-right">{{ request.branch_office.kilogramValue | currency:currencyCode:'symbol':'1.0-0' }}</p>
+            </div>
+            <div class="flex justify-between">
+                <span class="font-medium">{{ 'Geocerca' | translate }}:</span>
+                <p class="text-right">{{ validate_geofence() }}</p>
+            </div>
+            <div class="flex justify-between">
+                <span class="font-medium">{{ 'Token' | translate }}:</span>
+                <p class="text-right">{{ validate_token() }}</p>
+            </div>
+            <div class="flex justify-between">
+                <span class="font-medium">{{ 'Total' | translate }}:</span>
+                <p class="text-right">{{ request.data_series.total | currency:currencyCode:'symbol':'1.0-0' }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="flex flex-col sm:flex-row justify-end gap-3">
+        <button (click)="findBillByFolio()" class="w-full sm:w-auto bg-sky-700 hover:bg-sky-800 text-white px-4 py-2 rounded-md text-sm transition">
+            {{ 'Remisión' | translate }}
+        </button>
+        <button (click)="exportToExcel()" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm transition">
+            <lucide-icon name="sheet" [size]="20"></lucide-icon>
+            {{ 'Descargar' | translate }}
+        </button>
+    </div>
+
 </div>

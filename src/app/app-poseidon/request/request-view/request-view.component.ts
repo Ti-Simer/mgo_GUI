@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
@@ -20,7 +20,7 @@ export class RequestViewComponent {
   private languageSubscription!: Subscription;
   currencyCode: string = 'COP'; // Valor predeterminado
 
-  requestId: any;
+  @Input() requestId: string = '';
   request: any;
 
   service_time: any;
@@ -41,7 +41,6 @@ export class RequestViewComponent {
 
     this.authService.readChecker().subscribe(flag => {
       if (!flag) {
-        this.toRequest();
         this.toastr.warning('No tienes permisos para leer esta información');
       }
     });
@@ -70,7 +69,6 @@ export class RequestViewComponent {
             enableHtml: true
           });
           console.log(response.message);
-          this.toRequest();
         }
       }, error => {
         this.toastr.error('Ha ocurrido un error al consultar el servicio', 'Error!', {
@@ -171,10 +169,6 @@ export class RequestViewComponent {
       }
     }
     return toReturn;
-  }
-
-  toRequest() {
-    this.router.navigate(['/poseidon/request/list']);
   }
 
 }

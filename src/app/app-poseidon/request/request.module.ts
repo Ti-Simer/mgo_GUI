@@ -20,6 +20,7 @@ import {
   RotateCw
 } from 'lucide-angular';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DialogViewRequestComponent } from './dialog-view-request/dialog-view-request.component';
 
 // Factory function for TranslateHttpLoader
 export function HttpLoaderFactory(http: HttpClient) {
@@ -29,7 +30,8 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     RequestListComponent,
-    RequestViewComponent
+    RequestViewComponent,
+    DialogViewRequestComponent
   ],
   imports: [
     CommonModule,

@@ -1,128 +1,106 @@
-<div class="general-container" *ngIf="data">
-    <div class="row d-flex justify-content-center module">
+<div *ngIf="data" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10 overflow-y-auto max-h-[90vh]">
 
-        <div class="px-4 mb-3" id="responsive-container">
-            <div id="items" class="mb-3">
-                <div class="title display-6">
-                    <span class="text1">
-                        {{data.courseLog.plate}}
-                        <p style="font-size: 20px; color: #9b9b9b; font-weight: 100;">
-                            {{data.courseLog.operator}} <br>
-                            {{'Ultima actualización' | translate}}: {{data.courseLog.update | date: 'medium'}}
-                        </p>
-                    </span>
-                </div>
-            </div>
-    
+    <!-- Encabezado -->
+    <div class="bg-white p-6 rounded-xl shadow-md flex flex-col sm:flex-row sm:items-center sm:justify-between text-center sm:text-left">
+        <div>
+            <h2 class="text-2xl font-bold text-sky-800">{{ data.courseLog.plate }}</h2>
+            <p class="text-sm text-gray-500 mt-1">
+                {{ data.courseLog.operator }}
+            </p>
         </div>
-        
-        <div class="p-4 shadow-sm bg-light rounded mx-auto w-75" id="responsive-container">
-            <div id="items">
-                <div class="title display-6">
-                    <span class="text2">
-                        {{'Pedidos' | translate}}: {{data.courseLog.orders.length}} <br>
-                        {{'Entregas' | translate}}: {{data.courseLog.charges}} <br>
-                        {{'Masa total' | translate}}: {{data.courseLog.delivered_mass}} Kg <br>
-                        {{'Volumen total' | translate}}: {{data.courseLog.delivered_volume}} Gl
-                    </span>
-                </div>
-            </div>
+        <p class="text-xs text-gray-400 mt-4 sm:mt-0">
+            {{ 'Última actualización' | translate }}: {{ data.courseLog.update | date: 'medium' }}
+        </p>
+    </div>
 
-            <div id="items">
-                <div class="title display-6">
-                    <span class="text2">
-                        {{'Responsable' | translate}}: <br>
-                        {{data.courseLog.creator}}, <br>
-                        {{'Programado' | translate}}: {{data.courseLog.scheduling_date}}
-                    </span>
-                </div>
-            </div>
-
+    <!-- Estadísticas -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 text-sm text-gray-800">
+        <div class="bg-white rounded-lg shadow-sm p-4 text-center">
+            <p class="text-xs text-gray-500">{{ 'Pedidos' | translate }}</p>
+            <p class="text-lg font-semibold">{{ data.courseLog.orders.length }}</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-sm p-4 text-center">
+            <p class="text-xs text-gray-500">{{ 'Entregas' | translate }}</p>
+            <p class="text-lg font-semibold">{{ data.courseLog.charges }}</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-sm p-4 text-center">
+            <p class="text-xs text-gray-500">{{ 'Masa total' | translate }}</p>
+            <p class="text-lg font-semibold">{{ data.courseLog.delivered_mass }} kg</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-sm p-4 text-center">
+            <p class="text-xs text-gray-500">{{ 'Volumen total' | translate }}</p>
+            <p class="text-lg font-semibold">{{ data.courseLog.delivered_volume }} gl</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-sm p-4 text-center col-span-1 sm:col-span-2 lg:col-span-1">
+            <p class="text-xs text-gray-500">{{ 'Responsable' | translate }}</p>
+            <p class="text-sm font-medium truncate">{{ data.courseLog.creator }}</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-sm p-4 text-center col-span-2 sm:col-span-3 lg:col-span-2">
+            <p class="text-xs text-gray-500">{{ 'Programado' | translate }}</p>
+            <p class="text-sm font-medium">{{ data.courseLog.scheduling_date }}</p>
         </div>
     </div>
 
-    <hr class="w-75 mx-auto text-gray">
-    
-    <div class="row module">
-        <div class="title display-6 text-center mb-3">
-            <span class="text1">
-                {{'Pedidos' | translate}}
-            </span>
-        </div>
+    <!-- Sección Pedidos -->
+    <div class="space-y-6">
+        <h3 class="text-xl font-semibold text-center text-gray-800">{{ 'Pedidos' | translate }}</h3>
 
-        <div class="px-4" id="responsive-container">
-            <div id="items">
-                <div class="title display-6">
-                    <span class="text3">
-                        {{'En curso' | translate}}
-                    </span>
-                </div>
-    
-                <div class="row mt-1 table-list" *ngIf="ordersOnCourse.length > 0">
-                    <div class="col-md">
-                        <table class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th class="custom-header" id="encabezado">{{'Folio' | translate}}</th>
-                                    <th class="custom-header" id="encabezado">{{'Establecimiento' | translate}}</th>
-                                    <th class="custom-header" id="encabezado">{{'Nit' | translate}}</th>
-                                    <th class="custom-header" id="encabezado">{{'Creación' | translate}}</th>
-                                </tr>
-                            </thead>
-                            <tbody id="myTable">
-                                <tr *ngFor="let order of ordersOnCourse">
-                                    <td class="custom-td">{{ order.folio }}</td>
-                                    <td class="custom-td" title="{{ order.branch_office.name }}">{{ order.branch_office.name | truncate:21}}</td>
-                                    <td class="custom-td">{{ order.branch_office.nit}}</td>
-                                    <td class="custom-td">{{ order.create | date: 'medium' }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-    
-            <div id="items">
-                <div class="title display-6">
-                    <span class="text3">
-                        {{'Finalizados' | translate}}
-                    </span>
-                </div>
-    
-                <div class="row mt-1 table-list" *ngIf="ordersCompleted.length > 0">
-                    <div class="col-md">
-                        <table class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th class="custom-header" id="encabezado">{{'Folio' | translate}}</th>
-                                    <th class="custom-header" id="encabezado">{{'Establecimiento' | translate}}</th>
-                                    <th class="custom-header" id="encabezado">{{'Nit' | translate}}</th>
-                                    <th class="custom-header" id="encabezado">{{'Creación' | translate}}</th>
-                                </tr>
-                            </thead>
-                            <tbody id="myTable">
-                                <tr *ngFor="let order of ordersCompleted">
-                                    <td class="custom-td">{{ order.folio }}</td>
-                                    <td class="custom-td" title="{{ order.branch_office.name }}">{{ order.branch_office.name | truncate:21}}</td>
-                                    <td class="custom-td">{{ order.branch_office.nit}}</td>
-                                    <td class="custom-td">{{ order.create | date: 'medium' }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-    
+        <!-- Pedidos en curso -->
+        <div *ngIf="ordersOnCourse.length > 0" class="bg-white p-4 rounded-xl shadow-sm space-y-4">
+            <h4 class="text-lg font-semibold text-sky-600">{{ 'En curso' | translate }}</h4>
+            <div class="overflow-x-auto">
+                <table class="min-w-full table-auto text-sm text-left text-gray-700 border border-gray-200 rounded-md">
+                    <thead class="bg-sky-50 text-sky-700">
+                        <tr>
+                            <th class="px-4 py-2 border">{{ 'Folio' | translate }}</th>
+                            <th class="px-4 py-2 border">{{ 'Establecimiento' | translate }}</th>
+                            <th class="px-4 py-2 border">{{ 'Nit' | translate }}</th>
+                            <th class="px-4 py-2 border">{{ 'Creación' | translate }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let order of ordersOnCourse" class="hover:bg-sky-50 transition">
+                            <td class="px-4 py-2 border">{{ order.folio }}</td>
+                            <td class="px-4 py-2 border truncate" title="{{ order.branch_office.name }}">{{ order.branch_office.name | truncate:25 }}</td>
+                            <td class="px-4 py-2 border">{{ order.branch_office.nit }}</td>
+                            <td class="px-4 py-2 border">{{ order.create | date: 'medium' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
+        <!-- Pedidos finalizados -->
+        <div *ngIf="ordersCompleted.length > 0" class="bg-white p-4 rounded-xl shadow-sm space-y-4">
+            <h4 class="text-lg font-semibold text-green-700">{{ 'Finalizados' | translate }}</h4>
+            <div class="overflow-x-auto">
+                <table class="min-w-full table-auto text-sm text-left text-gray-700 border border-gray-200 rounded-md">
+                    <thead class="bg-green-50 text-green-700">
+                        <tr>
+                            <th class="px-4 py-2 border">{{ 'Folio' | translate }}</th>
+                            <th class="px-4 py-2 border">{{ 'Establecimiento' | translate }}</th>
+                            <th class="px-4 py-2 border">{{ 'Nit' | translate }}</th>
+                            <th class="px-4 py-2 border">{{ 'Creación' | translate }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let order of ordersCompleted" class="hover:bg-green-50 transition">
+                            <td class="px-4 py-2 border">{{ order.folio }}</td>
+                            <td class="px-4 py-2 border truncate" title="{{ order.branch_office.name }}">{{ order.branch_office.name | truncate:25 }}</td>
+                            <td class="px-4 py-2 border">{{ order.branch_office.nit }}</td>
+                            <td class="px-4 py-2 border">{{ order.create | date: 'medium' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
-    <div class="row module d-flex justify-content-center">
-        <div class="col-lg-10"></div>
-        <div class="col-lg-2" id="responsive-container">
-            <button class="btn btn-success" id="items" (click)="downloadData()">
-                <lucide-icon name="sheet"></lucide-icon> {{'Descargar' | translate}}
-            </button>
-        </div>
+    <!-- Descargar -->
+    <div class="text-center pt-6">
+        <button (click)="downloadData()" class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-md shadow transition text-sm">
+            <lucide-icon name="sheet"></lucide-icon>
+            {{ 'Descargar' | translate }}
+        </button>
     </div>
 </div>

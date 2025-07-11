@@ -12,6 +12,8 @@ import { DialogService } from 'src/app/services/dialog.service';
 import * as XLSX from 'xlsx';
 import { RequestStore } from './request.store';
 import { Observable } from 'rxjs';
+import { DialogViewRequestComponent } from '../dialog-view-request/dialog-view-request.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-request-list',
@@ -52,6 +54,7 @@ export class RequestListComponent {
     private languageService: LanguageService,
     private dialogService: DialogService,
     private store: RequestStore,
+    private dialog: MatDialog
   ) {
     translate.addLangs(['en', 'es', 'pt']);
     translate.setDefaultLang(this.languageService.getLanguage());
@@ -195,8 +198,17 @@ export class RequestListComponent {
     this.router.navigate(['/poseidon/orders/create']);
   }
 
-  toViewRequest(id: any) {
-    this.router.navigate(['/poseidon/request/view', this.authService.encryptData(id)]);
+  toViewRequest(request: any) {
+    this.authService.writeChecker().subscribe(flag => {
+      if (!flag) {
+        this.toastr.warning('No tienes permisos para editar');
+      } else {
+        const dialogRef = this.dialog.open(DialogViewRequestComponent, {
+          width: '750px',
+          data: { requestId: request.id }
+        });
+      }
+    });
   }
 
 
