@@ -1,102 +1,173 @@
-<div class="general-container">
-    <div class="container">
-        <div class="row d-flex justify-content-center" *ngIf="notifications">
-
-            <div class="row header mb-4" *ngIf="notifications">
-                <div class="row">
-                    <div class="col-sm-1">
-                    </div>
-                    <div class="col-sm-10 d-flex justify-content-center">
-                        <h2 class="text-title"><lucide-icon name="bell" [size]="60"></lucide-icon> {{'Notificaciones' | translate}}</h2>
-                    </div>
-                    <div class="col-sm-1">
-                    </div>
-                </div>
-                <div class="row text-content text-center mb-2">
-                    <div class="col-md-12">
-                        <p style="font-size: 12px; color: #b9b9b9;">{{'Aquí se muestra un listado de las notificaciones generadas por el sistema' | translate}}</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row d-flex justify-content-center" *ngIf="notifications.length > 0">
-                <div class="col-lg-4 filter text-center">
-                    <input class="form-control" #myInput type="text" placeholder="{{'Buscar..' | translate}}"
-                        (input)="initializeSearchFilter()">
-                    <p style="font-size: 10px; color: #a8a8a8;">{{'Para utilizar correctamente el buscador por favor desplegar todos los registros con el paginador' | translate}}</p>
-                </div>
-            </div>
-
-            <div class="row mt-1 d-flex justify-content-center" *ngIf="isLoading">
-                <div class="col-sm-1">
-                    <div class="spinner-grow text-secondary" role="status">
-                        <span class="sr-only"></span>
-                    </div>
-                    <div class="spinner-grow text-light" role="status">
-                        <span class="sr-only"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-12 content">
-                <div class="row p-1" *ngIf="notifications.length > 0">
-                    <div class="col-sm-4">
-                        <p style="font-size: 12px; color: #a8a8a8;">
-                            <button type="button" class="btn btn-secondary btn-sm" (click)="setPageSizeToTotal()">{{'Mostrar todo' | translate}}</button>
-                            {{pageIndex * pageSize + 1}} - {{(pageIndex + 1) * pageSize}} {{'de' | translate}} {{notifications.length}} {{'registros' | translate}} 
+<div class="desktop w-full flex items-center justify-center max-h-full p-2 my-2 transtion-all duration-300"
+    [ngClass]="{'pl-36': !collapsed }">
+    <div class="container max-w-[72rem] mb-16">
+        <div class="bg-white rounded-xl shadow-md overflow-hidden">
+            <!-- Header -->
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between bg-gray-50 p-4 rounded">
+                    <div>
+                        <h2 class="text-2xl font-bold flex items-center gap-2 text-sky-900">
+                            <lucide-icon name="bell" [size]="60"></lucide-icon>
+                            {{ 'Notificaciones' | translate }}
+                        </h2>
+                        <p class="text-gray-500 mt-1">
+                            {{ 'Aquí se muestra un listado de las notificaciones generadas por el sistema' | translate
+                            }}
                         </p>
                     </div>
                 </div>
 
-                <table class="table table-striped table-bordered" *ngIf="notifications.length > 0">
-                    <thead>
+                <!-- Botones en desktop -->
+                <div class="hidden md:grid mx-auto w-full grid-cols-1 xl:grid-cols-2 gap-2 py-3">
+                    <div class="h-11 bg-gray-50 rounded-xl flex gap-1">
+                        <button type="button"
+                            class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-2 py-1 rounded text-xs"
+                            (click)="setPageSizeToTotal()">
+                            {{ 'Mostrar todo' | translate }}
+                        </button>
+                        <span class="text-xs text-gray-400">
+                            {{ pageIndex * pageSize + 1 }} - {{ (pageIndex + 1) * pageSize }} {{ 'de' | translate }}
+                            {{ notifications.length }} {{ 'registros' | translate }}
+                        </span>
+                    </div>
+
+                </div>
+
+                <!-- Botones en mobile -->
+                <div class="md:hidden grid mx-auto w-full grid-cols-2 gap-2 py-3 px-2">
+                    <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-2 py-1 rounded text-xs"
+                        (click)="setPageSizeToTotal()">
+                        {{ 'Mostrar todo' | translate }}
+                    </button>
+                </div>
+
+                <!-- Search -->
+                <div class="flex justify-center mb-4" *ngIf="notifications.length > 0">
+                    <div class="w-full max-w-xs sm:max-w-sm md:max-w-md text-center">
+                        <input
+                            class="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-300"
+                            #myInput type="text" placeholder="{{ 'Buscar..' | translate }}"
+                            (input)="initializeSearchFilter()" />
+                        <p class="text-xs text-gray-400 mt-1">
+                            {{ 'Para utilizar correctamente el buscador por favor desplegar todos los registros con elpaginador' | translate }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla -->
+            <div class="overflow-x-auto overflow-y-auto max-w-[90vw] max-h-[90vh]">
+                <table class="min-w-full divide-y divide-gray-200" id="myTable" *ngIf="notifications.length > 0">
+                    <thead class="bg-gray-50">
                         <tr>
-                            <th class="custom-header" (click)="sortData('title')" id="encabezado">{{'Titulo' | translate}}</th>
-                            <th class="custom-header" (click)="sortData('type')" id="encabezado">{{'Tipo' | translate}}</th>
-                            <th class="custom-header" (click)="sortData('message')" id="encabezado">{{'Descripción' | translate}}</th>
-                            <th class="custom-header">{{'Acciones' | translate}}</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase cursor-pointer"
+                                (click)="sortData('title')">{{ 'Titulo' | translate }}</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase cursor-pointer"
+                                (click)="sortData('type')">{{ 'Tipo' | translate }}</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase cursor-pointer"
+                                (click)="sortData('message')">{{ 'Descripción' | translate }}</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ 'Acciones' |
+                                translate }}</th>
                         </tr>
                     </thead>
-                    <tbody id="myTable">
-                        <tr
-                            *ngFor="let notification of notifications.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)">
-                            <td>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr *ngFor="let notification of notifications.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)"
+                            class="hover:bg-gray-50">
+                            <td class="px-6 py-4 text-sm text-gray-700">
                                 {{ notification.title }}
-                                <br>
-                                <span (click)="sortData('create')" style="cursor: pointer">{{notification.create | date:
-                                    'dd - MMMM - y H:mm'}}</span>
+                                <br />
+                                <span class="text-xs text-gray-400 cursor-pointer" (click)="sortData('create')">
+                                    {{ notification.create | date: 'dd - MMMM - y H:mm' }}
+                                </span>
                             </td>
-                            <td>{{notification.type | translate}}</td>
-                            <td>{{notification.message}}</td>
-                            <td>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <button class="btn btn-sm btn-info"
-                                            (click)="toViewNotification(notification.id)">{{'Ver detalles' | translate}}</button>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <a class="nav-link" *ngIf="notification.status == 'NO LEIDO'"
-                                            (click)="readUnreadNotification(notification)">
-                                            <img [src]="toggleOn">
-                                            {{'No leído' | translate}}
-                                        </a>
-                                        <a class="nav-link" *ngIf="notification.status == 'LEIDO'"
-                                            (click)="readUnreadNotification(notification)">
-                                            <img [src]="toggleOff">
-                                            {{'Leído' | translate}}
-                                        </a>
-                                    </div>
-                                </div>
+                            <td class="px-6 py-4 text-sm text-gray-700">{{ notification.type | translate }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">{{ notification.message }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-700 flex gap-1">
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-700 space-y-1">
+                                <!-- Botón para NO LEÍDO -->
+                                <button
+                                    class="bg-sky-600 hover:bg-sky-500 text-white px-3 py-1 h-11 rounded text-xs w-full"
+                                    (click)="toViewNotification(notification.id)">
+                                    {{ 'Ver detalles' | translate }}
+                                </button>
+                                
+                                <button *ngIf="notification.status == 'NO LEIDO'"
+                                    class="bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 h-11 rounded text-xs w-full flex items-center gap-2 justify-center"
+                                    (click)="readUnreadNotification(notification)">
+
+                                    <!-- Toggle visual -->
+                                    <label class="relative cursor-pointer">
+                                        <input type="checkbox" class="peer sr-only" />
+                                        <div
+                                            class="peer h-5 w-9 rounded-full bg-gray-400 after:absolute after:top-[2px] after:left-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-indigo-900 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-200">
+                                        </div>
+                                    </label>
+
+                                    {{ 'No leído' | translate }}
+                                </button>
+
+                                <!-- Botón para LEÍDO -->
+                                <button *ngIf="notification.status == 'LEIDO'"
+                                    class="bg-gray-400 hover:bg-gray-300 text-white px-3 py-1 h-11 rounded text-xs w-full flex items-center gap-2 justify-center"
+                                    (click)="readUnreadNotification(notification)">
+
+
+                                    <!-- Toggle visual -->
+                                    <label class="relative cursor-pointer">
+                                        <input type="checkbox" checked class="peer sr-only" />
+                                        <div
+                                            class="peer h-5 w-9 rounded-full bg-green-500 after:absolute after:top-[2px] after:left-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-green-700 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-green-300">
+                                        </div>
+                                    </label>
+
+                                    {{ 'Leído' | translate }}
+                                </button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <mat-paginator [length]="notifications.length" [pageSizeOptions]="[25, 50, 100, notifications.length]"
-                showFirstLastButtons></mat-paginator>
+
+            <!-- Paginador -->
+            <div
+                class="flex flex-col sm:flex-row items-center justify-between gap-2 px-4 py-6 border-t border-gray-200 bg-white rounded-b-xl">
+                <div class="text-sm text-gray-700">
+                    {{ 'Mostrando' | translate }}
+                    <span class="font-medium">{{ notifications.length === 0 ? 0 : pageIndex * pageSize + 1 }}</span>
+                    {{ 'a' | translate }}
+                    <span class="font-medium">{{ Math.min((pageIndex + 1) * pageSize, notifications.length) }}</span>
+                    {{ 'de' | translate }}
+                    <span class="font-medium">{{ notifications.length }}</span>
+                    {{ 'resultados' | translate }}
+                </div>
+                <div class="flex items-center gap-2">
+                    <!-- Tamaño de página -->
+                    <select class="border rounded px-2 py-1 text-sm" [(ngModel)]="pageSize"
+                        (change)="onPageSizeChange()">
+                        <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+                        <option *ngIf="notifications.length > 0 && !pageSizeOptions.includes(notifications.length)"
+                            [value]="notifications.length">
+                            {{ notifications.length }}
+                        </option>
+                    </select>
+                    <!-- Botón mostrar todo -->
+                    <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-2 py-1 rounded text-xs"
+                        (click)="setPageSizeToTotal()">
+                        {{ 'Mostrar todo' | translate }}
+                    </button>
+                    <!-- Navegación -->
+                    <button class="px-2 py-1 rounded border border-gray-300 bg-white text-gray-500 hover:bg-gray-50"
+                        [disabled]="pageIndex === 0" (click)="goToPage(0)">«</button>
+                    <button class="px-2 py-1 rounded border border-gray-300 bg-white text-gray-500 hover:bg-gray-50"
+                        [disabled]="pageIndex === 0" (click)="goToPage(pageIndex - 1)">‹</button>
+                    <span class="px-2 text-gray-700">{{ pageIndex + 1 }} / {{ totalPages }}</span>
+                    <button class="px-2 py-1 rounded border border-gray-300 bg-white text-gray-500 hover:bg-gray-50"
+                        [disabled]="pageIndex >= totalPages - 1" (click)="goToPage(pageIndex + 1)">›</button>
+                    <button class="px-2 py-1 rounded border border-gray-300 bg-white text-gray-500 hover:bg-gray-50"
+                        [disabled]="pageIndex >= totalPages - 1" (click)="goToPage(totalPages - 1)">»</button>
+                </div>
+            </div>
         </div>
-
     </div>
-
-    <app-footer></app-footer>
 </div>

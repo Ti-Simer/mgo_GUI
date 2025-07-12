@@ -24,7 +24,8 @@ import {
   User,
   LogOut,
   Globe,
-  Dot
+  Dot,
+  Languages
 } from 'lucide-angular';
 import { FooterLiteComponent } from './footer-lite/footer-lite.component';
 
@@ -58,7 +59,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       User,
       LogOut,
       Globe,
-      Dot
+      Dot,
+      Languages
     }),
     TranslateModule.forChild({
       loader: {

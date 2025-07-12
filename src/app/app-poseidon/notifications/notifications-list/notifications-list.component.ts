@@ -22,10 +22,15 @@ export class NotificationsListComponent {
   pageSizeOptions: number[] = [25, 50, 100]; // Opciones de tamaño de página
   pageSize: number = 25; // Tamaño de página predeterminado
   pageIndex: number = 0; // Página actual
-
+  sidebarCollapsed = false;
   notificationForm: FormGroup;
   toggleOn: string = 'assets/images/toggle-on.svg';
   toggleOff: string = 'assets/images/toggle-off.svg';
+  collapsed = true;
+  
+  private menuSub!: Subscription;
+  public Math = Math;
+
 
   notifications: any[] = [];
   isLoading = false;
@@ -39,10 +44,16 @@ export class NotificationsListComponent {
     private translate: TranslateService,
     private languageService: LanguageService
   ) {
+
+
     translate.addLangs(['en', 'es', 'pt']);
     translate.setDefaultLang(this.languageService.getLanguage());
-    
-    this.authService.readChecker().subscribe(flag => {      
+
+    this.authService.menuExpanded$.subscribe(expanded => {
+      this.sidebarCollapsed = expanded;
+    });
+
+    this.authService.readChecker().subscribe(flag => {
       if (!flag) {
         this.toHome();
         toastr.warning('No tienes permisos para leer esta información');
@@ -52,6 +63,8 @@ export class NotificationsListComponent {
     this.notificationForm = this.formbuilder.group({
       status: ['']
     })
+
+
   }
 
   ngOnInit(): void {
@@ -113,6 +126,20 @@ export class NotificationsListComponent {
         (row as HTMLElement).style.display = rowText.includes(value) ? 'table-row' : 'none';
       });
     }
+  }
+
+  get totalPages(): number {
+    return Math.max(1, Math.ceil(this.notifications.length / this.pageSize));
+  }
+
+  onPageSizeChange() {
+    this.pageIndex = 0;
+  }
+
+  goToPage(page: number) {
+    if (page < 0) page = 0;
+    if (page > this.totalPages - 1) page = this.totalPages - 1;
+    this.pageIndex = page;
   }
 
   readUnreadNotification(notification: any) {
@@ -179,4 +206,5 @@ export class NotificationsListComponent {
   toReports() {
     this.router.navigate(['/poseidon/reports/list']);
   }
+
 }

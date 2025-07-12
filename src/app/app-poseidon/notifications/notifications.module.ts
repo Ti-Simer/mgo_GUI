@@ -21,6 +21,7 @@ import {
   ArrowBigLeftDash,
   ArrowBigRightDash
 } from 'lucide-angular';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import {
     CommonModule,
     NotificationsRoutingModule,
     SharedModule,
+    FormsModule,
     MatPaginatorModule,
     LucideAngularModule.pick({
       Bell,

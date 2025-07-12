@@ -7,6 +7,7 @@ import { NotificationService } from 'src/app/services/poseidon-services/notifica
 import { LucideAngularModule, Codepen, Building2, Mail, Languages } from 'lucide-angular';
 import { DialogService } from 'src/app/services/dialog.service';
 import { ConfigurationService } from 'src/app/services/poseidon-services/configuration.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-menu-poseidon',
@@ -22,7 +23,8 @@ export class MenuPoseidonComponent {
   sidebarCollapsed = false;
   configuration: any;
   readonly Languages = Languages;
-
+  collapsed = true;
+  private menuSub!: Subscription;
   // Ejemplo para el componente TS
   showNotifyMenu = false;
   showAdminMenu = false;
@@ -35,7 +37,7 @@ export class MenuPoseidonComponent {
   dropdownOpen = false;
   activeSubMenu: string | null = null;
   isMobileScreen: boolean = false;
-  
+
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -50,15 +52,20 @@ export class MenuPoseidonComponent {
     });
   }
 
-  
+
   ngOnInit() {
-  this.checkScreenSize();
-  window.addEventListener('resize', this.checkScreenSize.bind(this));
-}
-checkScreenSize() {
-  const isMobile = window.innerWidth < 768;
-  this.sidebarCollapsed = !isMobile ? this.sidebarCollapsed : false;
-}
+    this.checkScreenSize();
+
+    this.menuSub = this.authService.menuExpanded$.subscribe(expanded => {
+      this.collapsed = expanded; // O usa collapsed = !expanded si collapsed significa "colapsado"
+    });
+
+    window.addEventListener('resize', this.checkScreenSize.bind(this));
+  }
+  checkScreenSize() {
+    const isMobile = window.innerWidth < 768;
+    this.sidebarCollapsed = !isMobile ? this.sidebarCollapsed : false;
+  }
 
 
   ngOnChanges(): void {

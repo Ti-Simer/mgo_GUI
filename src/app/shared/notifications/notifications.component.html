@@ -1,29 +1,46 @@
-<div class="general-container" *ngIf="flag">
-    <ul>
-        <li *ngFor="let notification of notifications">
-            <p class="text-title" (click)="toViewNotification(notification.id)">
-                {{ notification.title }}
-            </p>
-            <p class="text-body" (click)="toViewNotification(notification.id)"
-                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                {{ notification.message }} <br>
-                <span class="text-date">
-                    {{notification.create | date: 'dd - MMMM - y H:mm'}}
-                </span>
-            </p>
+<div class="bg-slate-800/75 rounded-lg shadow-lg text-gray-200 overflow-hidden" *ngIf="flag">
+    <!-- Lista de notificaciones -->
+    <ul class="divide-y divide-slate-700 max-h-96 overflow-y-auto scrollbar-custom">
+        <li *ngFor="let notification of notifications" class="hover:bg-slate-700/50 transition-colors duration-200">
+            <div class="px-4 py-3 cursor-pointer" (click)="toViewNotification(notification.id)">
+                <div class="flex justify-between items-start">
+                    <p class="font-medium text-sky-300">{{ notification.title }}</p>
+                    <span class="text-xs text-slate-400 ml-2">
+                        {{notification.create | date: 'dd - MMMM - y H:mm'}}
+                    </span>
+                </div>
+                <p class="mt-1 text-sm text-gray-300 truncate">
+                    {{ notification.message }}
+                </p>
+            </div>
         </li>
     </ul>
-</div>
+    
+    <!-- Sin notificaciones -->
+    <div *ngIf="!notifications || notifications.length === 0" class="p-6 text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" 
+             stroke="currentColor" class="w-10 h-10 mx-auto text-slate-500 mb-2">
+            <path stroke-linecap="round" stroke-linejoin="round" 
+                  d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+        </svg>
+        <p class="text-slate-400">{{'No tienes notificaciones' | translate}}</p>
+    </div>
 
-<div class="row footer justify-content-center text-center align-items-center" *ngIf="flag">
-    <div class="col-sm-7 m-0">
-        <button class="btn btn-outline-secondary btn-md" (click)="toNotifications()">{{'Ver todo' | translate}}</button>
+    <!-- Botón Ver todo -->
+    <div class="px-4 py-3 border-t border-slate-700 text-center">
+        <button class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm font-medium transition-colors duration-200"
+                (click)="toNotifications()">
+            {{'Ver todo' | translate}}
+        </button>
     </div>
 </div>
 
-<div class="general-container" *ngIf="flag == false">
-    <div class="row d-flex justify-content-center"></div>
-    <span class="text-center">
-        {{'no tienes Permiso para ver las notificaciones' | translate}}
-    </span>
+<!-- Mensaje sin permisos -->
+<div *ngIf="flag === false" class="bg-slate-800/75 rounded-lg shadow-lg text-gray-200 p-6 text-center">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" 
+         stroke="currentColor" class="w-10 h-10 mx-auto text-red-400 mb-3">
+        <path stroke-linecap="round" stroke-linejoin="round" 
+              d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+    </svg>
+    <p class="text-slate-300">{{'no tienes Permiso para ver las notificaciones' | translate}}</p>
 </div>
