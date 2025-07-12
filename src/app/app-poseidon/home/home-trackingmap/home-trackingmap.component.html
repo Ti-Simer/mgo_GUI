@@ -1,17 +1,19 @@
-<div class="row d-flex justify-content-center">
-    <div class="row section1 d-flex justify-content-center align-items-center">
-        <div class="row d-flex justify-content-center">
-            <div class="col-sm-10">
-                <h1 class="text-center text-white">{{'Registro de GLP entregado' | translate}}</h1>
-                <hr class="w-50 text-white mx-auto">
-            </div>
+<div class="w-full max-w-6xl mx-auto px-4">
+    <div class="flex flex-col items-center justify-center space-y-6 min-h-[60vh]">
+
+        <!-- Título -->
+        <div class="w-full text-center">
+            <h1 class="text-2xl font-bold text-gray-200">
+                {{ 'Registro de GLP entregado' | translate }}
+            </h1>
+            <hr class="w-1/2 mx-auto border-gray-400 my-3" />
         </div>
-        <div class="row d-flex justify-content-center">
-            <div class="row section1" *ngIf="chartOptions">
-                <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
-                    [title]="chartOptions.title" [stroke]="chartOptions.stroke"
-                    [yaxis]="chartOptions.yaxis"></apx-chart>
-            </div>
+
+        <!-- Gráfico -->
+        <div *ngIf="chartOptions" class="w-full max-w-4xl">
+            <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+                [title]="chartOptions.title" [stroke]="chartOptions.stroke" [yaxis]="chartOptions.yaxis"></apx-chart>
         </div>
+
     </div>
 </div>

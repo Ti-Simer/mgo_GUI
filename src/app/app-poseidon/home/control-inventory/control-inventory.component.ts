@@ -302,7 +302,6 @@ export class ControlInventoryComponent {
     
     try {
       const data = this.inventoryReport.value;
-      
       this.reportService.control_inventory(data).subscribe(
         response => {
           if (response.statusCode == 200) {

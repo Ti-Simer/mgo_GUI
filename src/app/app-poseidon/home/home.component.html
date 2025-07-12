@@ -37,128 +37,140 @@
         </div>
 
         <!-- Panel -->
-        <div *ngIf="activeTab === 'panel'">
+        <div *ngIf="activeTab==='panel'" class="space-y-8 px-4 py-6">
+
             <!-- Header -->
-            <div
-                class="hidden md:flex items-center justify-between w-[98%] mx-auto mb-3 h-12 rounded bg-gradient-to-r from-[#142938] to-[#014e87] text-white px-4 font-bold">
-                <div>-- {{roleText}}</div>
-                <div></div>
-                <div class="flex items-center space-x-2">
-                    {{nameText}}
-                    <lucide-icon name="circle-user-round" class="cursor-pointer"></lucide-icon>
-                    <lucide-icon name="bolt" class="cursor-pointer"></lucide-icon>
-                </div>
-            </div>
-            <div
-                class="md:hidden flex items-center justify-end w-[98%] mx-auto mb-3 h-12 rounded bg-gradient-to-r from-[#142938] to-[#014e87] text-white px-4">
-                <div class="flex items-center space-x-2">
-                    {{nameText}}
-                    <lucide-icon name="circle-user-round" class="cursor-pointer"></lucide-icon>
-                    <lucide-icon name="bolt" class="cursor-pointer"></lucide-icon>
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-sky-900 text-white rounded-xl px-6 py-4 shadow">
+                <div class="text-lg font-semibold">-- {{ roleText }}</div>
+                <div class="flex items-center space-x-4 mt-4 md:mt-0">
+                    <span class="text-sm">{{ nameText }}</span>
+                    <lucide-icon name="circle-user-round" class="cursor-pointer text-white"></lucide-icon>
+                    <lucide-icon name="bolt" class="cursor-pointer text-white"></lucide-icon>
                 </div>
             </div>
 
             <!-- Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                <!-- Card 1 -->
-                <div class="bg-gradient-to-br from-pink-500 to-red-400 rounded shadow p-4 text-white">
-                    <div class="flex items-center mb-2">
-                        <i class="fas fa-shopping-cart text-2xl mr-2"></i>
-                        <h2 class="font-bold text-lg">{{'Masa/día' | translate}}</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Card 1: Masa/día -->
+                <div class="bg-gray-100 border-l-4 border-primary-500 rounded-xl shadow-soft p-5 hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-500">{{ 'Masa/día' | translate }}</p>
+                            <ng-container *ngIf="massData; else noMass">
+                                <p class="text-2xl font-bold mt-1">{{ massData.mass | number }} Kg</p>
+                                <p class="text-gray-600 mt-1">{{ massData.volume | number }} Gl</p>
+                            </ng-container>
+                        </div>
+                        <div class="bg-primary-100 p-3 rounded-lg">
+                            <i class="fas fa-shopping-cart text-primary-600 text-xl"></i>
+                        </div>
                     </div>
-                    <div>
-                        <div *ngIf="massData; else noMass">
-                            <div class="text-2xl font-bold">{{massData.mass | number}} Kg</div>
-                            <div class="text-lg">{{massData.volume | number}} Gl</div>
-                            <div class="flex justify-between text-xs mt-2">
-                                <span>{{massData.today | date: 'mediumDate'}}</span>
-                                <span>{{massData.percentageEffective}}% <i class="fa fa-arrow-up"></i></span>
+
+                    <ng-container *ngIf="massData">
+                        <div class="mt-4">
+                            <div class="flex justify-between text-sm text-gray-600">
+                                <span>{{ massData.today | date:'mediumDate' }}</span>
+                                <span class="text-green-500 font-medium">{{ massData.percentageEffective }}% <i class="fas fa-arrow-up ml-1"></i></span>
                             </div>
-                            <div class="w-full bg-white bg-opacity-20 rounded h-2 mt-2">
-                                <div class="bg-cyan-400 h-2 rounded" [style.width.%]="massData.percentageEffective">
-                                </div>
+                            <div class="mt-2 w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-primary-500 h-2 rounded-full" [style.width.%]="massData.percentageEffective"></div>
                             </div>
                         </div>
-                        <ng-template #noMass>
-                            <div class="text-lg">{{'No hay datos' | translate}}</div>
-                            <div class="flex justify-between text-xs mt-2">
-                                <span>{{'No hay datos registrados' | translate}} <br>2025 <i
-                                        class="fa fa-arrow-up"></i></span>
-                            </div>
-                        </ng-template>
-                    </div>
+                    </ng-container>
+
+                    <ng-template #noMass>
+                        <p class="text-sm text-gray-500 mt-2">{{ 'No hay datos' | translate }}</p>
+                    </ng-template>
                 </div>
-                <!-- Card 2 -->
-                <div class="bg-gradient-to-br from-blue-800 to-blue-400 rounded shadow p-4 text-white">
-                    <div class="flex items-center mb-2">
-                        <i class="fas fa-users text-2xl mr-2"></i>
-                        <h2 class="font-bold text-lg">
-                            <span *ngIf="orders">{{'Pedidos desde' | translate}} {{orders.dayAgo | date:
-                                'mediumDate'}}</span>
-                            <span *ngIf="!orders">{{'Pedidos' | translate}}</span>
-                        </h2>
+
+                <!-- Card 2: Pedidos -->
+                <div class="bg-gray-100 border-l-4 border-green-500 rounded-xl shadow-soft p-5 hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-500">
+                                <span *ngIf="orders">{{ 'Pedidos desde' | translate }} {{ orders.dayAgo | date:'mediumDate' }}</span>
+                                <span *ngIf="!orders">{{ 'Pedidos' | translate }}</span>
+                            </p>
+                            <ng-container *ngIf="orders; else noOrders">
+                                <p class="text-2xl font-bold mt-1">{{ orders.ordersOnCourse | number }} / {{ orders.ordersSuccess | number }}</p>
+                                <p class="text-gray-600 mt-1">{{ 'En curso' | translate }} / {{ 'Finalizado' | translate }}</p>
+                            </ng-container>
+                        </div>
+                        <div class="bg-green-100 p-3 rounded-lg">
+                            <i class="fas fa-users text-green-600 text-xl"></i>
+                        </div>
                     </div>
-                    <div>
-                        <div *ngIf="orders; else noOrders">
-                            <div class="text-2xl font-bold">{{orders.ordersOnCourse | number}} / {{orders.ordersSuccess
-                                | number}}</div>
-                            <div class="text-lg">{{'En curso' | translate}} / {{'Finalizado' | translate}}</div>
-                            <div class="flex justify-between text-xs mt-2">
-                                <span>{{orders.today | date: 'mediumDate'}}</span>
-                                <span>{{orders.percentageSuccess | number}}% <i class="fa fa-arrow-up"></i></span>
+
+                    <ng-container *ngIf="orders">
+                        <div class="mt-4">
+                            <div class="flex justify-between text-sm text-gray-600">
+                                <span>{{ orders.today | date:'mediumDate' }}</span>
+                                <span class="text-green-500 font-medium">{{ orders.percentageSuccess | number }}% <i class="fas fa-arrow-up ml-1"></i></span>
                             </div>
-                            <div class="w-full bg-white bg-opacity-20 rounded h-2 mt-2">
-                                <div class="bg-green-400 h-2 rounded" [style.width.%]="orders.percentageSuccess"></div>
+                            <div class="mt-2 w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" [style.width.%]="orders.percentageSuccess"></div>
                             </div>
                         </div>
-                        <ng-template #noOrders>
-                            <div class="text-lg">{{'No hay datos' | translate}}</div>
-                        </ng-template>
-                    </div>
+                    </ng-container>
+
+                    <ng-template #noOrders>
+                        <p class="text-sm text-gray-500 mt-2">{{ 'No hay datos' | translate }}</p>
+                    </ng-template>
                 </div>
-                <!-- Card 3 -->
-                <div class="bg-gradient-to-br from-orange-500 to-yellow-400 rounded shadow p-4 text-white">
-                    <div class="flex items-center mb-2">
-                        <i class="fas fa-dollar-sign text-2xl mr-2"></i>
-                        <h2 class="font-bold text-lg">
-                            <span *ngIf="courses">{{'Derroteros' | translate}} {{courses[0].today | date:
-                                'mediumDate'}}</span>
-                            <span *ngIf="!courses">{{'Derroteros' | translate}}</span>
-                        </h2>
+
+                <!-- Card 3: Derroteros -->
+                <div class="bg-gray-100 border-l-4 border-purple-500 rounded-xl shadow-soft p-5 hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-500">
+                                <span *ngIf="courses">{{ 'Derroteros' | translate }} {{ courses[0].today | date:'mediumDate' }}</span>
+                                <span *ngIf="!courses">{{ 'Derroteros' | translate }}</span>
+                            </p>
+                            <ng-container *ngIf="courses; else noCourses">
+                                <p class="text-2xl font-bold mt-1">{{ courses[0].courses }} / {{ courses[0].fullEfficiencyCount }}</p>
+                                <p class="text-gray-600 mt-1">{{ 'En curso' | translate }} / {{ 'Finalizado' | translate }}</p>
+                            </ng-container>
+                        </div>
+                        <div class="bg-purple-100 p-3 rounded-lg">
+                            <i class="fas fa-map text-purple-600 text-xl"></i>
+                        </div>
                     </div>
-                    <div>
-                        <div *ngIf="courses; else noCourses">
-                            <div class="text-2xl font-bold">{{courses[0].courses}} / {{courses[0].fullEfficiencyCount}}
+
+                    <ng-container *ngIf="courses">
+                        <div class="mt-4">
+                            <div class="flex justify-between text-sm text-gray-600">
+                                <span class="text-green-500 font-medium">{{ courses[0].percentageSuccess }}% <i class="fas fa-arrow-up ml-1"></i></span>
                             </div>
-                            <div class="text-lg">{{'En curso' | translate}} / {{'Finalizado' | translate}}</div>
-                            <div class="flex justify-between text-xs mt-2">
-                                <span>{{courses[0].percentageSuccess}}% <i class="fa fa-arrow-up"></i></span>
-                            </div>
-                            <div class="w-full bg-white bg-opacity-20 rounded h-2 mt-2">
-                                <div class="bg-cyan-400 h-2 rounded" [style.width.%]="courses[0].percentageSuccess">
-                                </div>
+                            <div class="mt-2 w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-purple-500 h-2 rounded-full" [style.width.%]="courses[0].percentageSuccess"></div>
                             </div>
                         </div>
-                        <ng-template #noCourses>
-                            <div class="text-lg">{{'No hay datos' | translate}}</div>
-                            <div class="flex justify-between text-xs mt-2">
-                                <span>{{'No hay datos registrados' | translate}} <br>2025 <i
-                                        class="fa fa-arrow-up"></i></span>
-                            </div>
-                        </ng-template>
-                    </div>
+                    </ng-container>
+
+                    <ng-template #noCourses>
+                        <p class="text-sm text-gray-500 mt-2">{{ 'No hay datos' | translate }}</p>
+                    </ng-template>
                 </div>
             </div>
 
-            <!-- Charts and Map -->
-            <div class="flex flex-col md:flex-row justify-center gap-4 w-[98%] mx-auto">
-                <div class="flex-1 bg-gradient-to-r from-[#142938] to-[#014e87] rounded shadow p-4">
+            <!-- Charts & Map -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-sky-800 rounded-xl shadow-soft p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-semibold text-gray-100">{{ 'Tendencia de Pedidos' | translate }}</h2>
+                    </div>
                     <app-home-chart></app-home-chart>
                 </div>
-                <div class="flex-1 bg-[#014e87] rounded shadow p-4">
+
+                <div class="bg-sky-800 rounded-xl shadow-soft p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-semibold text-gray-100">{{ 'Mapa de Seguimiento' | translate }}</h2>
+                    </div>
                     <app-home-trackingmap></app-home-trackingmap>
                 </div>
             </div>
+
         </div>
 
         <!-- Control/Inventario -->
