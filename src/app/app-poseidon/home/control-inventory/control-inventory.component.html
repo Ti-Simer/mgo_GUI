@@ -12,10 +12,10 @@
             <hr class="mx-auto mt-2 w-1/4 border-gray-300" />
         </div>
 
-        <div class="mt-6 w-full max-w-4xl flex flex-wrap gap-2 items-start">
-            <div class="flex-1 min-w-[200px]">
+        <div class="mt-6 w-full max-w-4xl flex flex-wrap gap-2 justify-center gap-2">
+            <div class="flex-1 min-w-[200px]" *ngIf="hasProperties">
                 <input type="date" class="w-full rounded border border-gray-300 px-4 py-1 text-base"
-                    formControlName="day" id="dateInput" *ngIf="hasProperties" />
+                    formControlName="day" id="dateInput" />
             </div>
 
             <div class="flex gap-2 flex-wrap justify-end">

@@ -46,11 +46,13 @@
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-600 mb-1">-- {{ 'Fecha de programación' | translate }}</label>
                 <div class="max-w-xs">
+                    <form [formGroup]="courseForm">
                     <mat-form-field color="accent" class="w-full">
                         <input matInput [matDatepicker]="campaignOnePicker" placeholder="Fecha" formControlName="fecha" />
                         <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
                         <mat-datepicker #campaignOnePicker></mat-datepicker>
                     </mat-form-field>
+                    </form>
                 </div>
             </div>
 

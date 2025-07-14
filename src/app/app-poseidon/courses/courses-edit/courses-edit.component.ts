@@ -270,6 +270,8 @@ export class CoursesEditComponent {
             formValue.fecha = date.toISOString().split('T')[0];
           }
 
+          console.log('Datos del formulario:', formValue);
+
           this.courseService.updateCourse(this.course.id, formValue).subscribe(
             response => {
               if (response.statusCode === 200) {

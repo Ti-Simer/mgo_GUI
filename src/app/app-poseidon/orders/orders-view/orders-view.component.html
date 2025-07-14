@@ -1,13 +1,25 @@
-
-<div class="general-container">
-    <div class="container mt-2" *ngIf="order">
-        <div class="mb-3 aditional-info">
-            <label for="info" class="form-label">-- {{'Pedido' | translate}}</label>
-            <textarea class="form-control" id="info" rows="3" readonly>
-                {{'Establecimiento' | translate}}: {{order.branch_office.name}}
-                {{'Folio' | translate}}: {{order.folio}}
-                {{'Token' | translate}}: {{order.token}}
-            </textarea>
-        </div>
-    </div>
+<div class="" *ngIf="order">
+   <div class="max-w-3xl mx-auto bg-white rounded-lg p-6">
+      <h2 class="text-xl font-bold text-sky-800 mb-4">
+         {{ 'Pedido' | translate }}
+      </h2>
+      <div class="bg-gray-50 border border-gray-300 rounded-md p-5 text-sm text-gray-700 space-y-2">
+         <div>
+            <span class="block text-xs font-medium text-gray-500 uppercase">{{ 'Establecimiento' | translate }}</span>
+            <span class="text-base font-semibold text-gray-800">{{ order.branch_office.name }}</span>
+         </div>
+         <div>
+            <span class="block text-xs font-medium text-gray-500 uppercase">{{ 'Fecha de creación' | translate }}</span>
+            <span class="text-base text-gray-800">{{ order.create | date: 'dd/MM/yyyy HH:mm' }}</span>
+         </div>
+         <div>
+            <span class="block text-xs font-medium text-gray-500 uppercase">{{ 'Folio' | translate }}</span>
+            <span class="text-base text-gray-800">{{ order.folio }}</span>
+         </div>
+         <div>
+            <span class="block text-xs font-medium text-gray-500 uppercase">{{ 'Token' | translate }}</span>
+            <span class="text-base text-gray-800 break-all">{{ order.token }}</span>
+         </div>
+      </div>
+   </div>
 </div>

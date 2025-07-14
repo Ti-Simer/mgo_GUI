@@ -1,83 +1,122 @@
-<div class="general-container">
-    <div class="container mt-2">
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <h1>{{'Hoja de configuración' | translate}}</h1>
-                <div class="col-12 mt-4">
-                    <form [formGroup]="configurationForm" (ngSubmit)="onSubmit()">
+<div class="px-4 py-6 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto space-y-6">
+        <!-- Título -->
+        <div class="text-center">
+            <span class="text-3xl font-normal text-sky-800">{{ 'Hoja de configuración' | translate }}</span>
+        </div>
 
-                        <div class="mb-3">
-                            <label for="name" class="form-label">-- {{'Nombre de la empresa' | translate}}</label>
-                            <input type="text" id="name" class="form-control" formControlName="company" placeholder="{{'Escriba aquí el nombre de la empresa' | translate}}" maxlength="21">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="country_code" class="form-label">-- {{'Código de País' | translate}}</label>
-                            <div class="input-group">
-                                <input type="text" id="country_code" class="form-control" formControlName="country_code" [matAutocomplete]="auto" placeholder="{{configurationForm.value.country}}">
-                                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onCountryCodeSelected($event)">
-                                    <mat-option *ngFor="let country_code of filteredCountryCodes | async" [value]="country_code">
-                                        {{ country_code.name }} ({{ country_code.code }})
-                                    </mat-option>
-                                </mat-autocomplete>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="name" class="form-label">-- {{'Telefono de la empresa' | translate}}</label>
-                            <input type="text" id="name" class="form-control" formControlName="phone"
-                                placeholder="{{'Escriba aquí el Telefono de la empresa' | translate}}">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="name" class="form-label">-- {{'E-mail de la empresa' | translate}}</label>
-                            <input type="text" id="name" class="form-control" formControlName="email"
-                                placeholder="{{'Escriba aquí el E-mail de la empresa' | translate}}">
-                        </div>
-                    </form>
-                    <div class="mb-3">
-                        <label for="image" class="form-label">{{ 'Imagen de la empresa' | translate }}</label>
-                        <input type="file" id="image" class="form-control" (change)="onFileChange($event)">
-                      </div>
-                      
-                      <!-- Canvas para visualizar la imagen y seleccionar el área de recorte -->
-                      <div style="margin-top: 20px; position: relative;">
-                        <canvas #canvas width="630" height="300" style="border: 1px solid #ccc;"></canvas>
-                      </div>
-                      
-                      <!-- Botón para realizar el recorte -->
-                      <div style="margin-top: 10px;">
-                        <button class="btn btn-primary" (click)="cropImage()" [disabled]="!image.src">{{'Recortar Imagen' | translate}}</button>
-                      </div>
+        <!-- Formulario -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <form [formGroup]="configurationForm" (ngSubmit)="onSubmit()" class="space-y-4">
+                <!-- Empresa -->
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
+                        {{ 'Nombre de la empresa' | translate }}
+                    </label>
+                    <input
+                        type="text"
+                        id="name"
+                        formControlName="company"
+                        class="w-full border rounded px-3 py-2 text-sm focus:ring focus:ring-sky-300"
+                        placeholder="{{ 'Escriba aquí el nombre de la empresa' | translate }}"
+                        maxlength="21"
+                    />
                 </div>
-            </div>
-            <div class="col-lg-6 p-4 aditional-info">
-                <label style="font-weight: bold; font-size: 18px;">--{{'Información' | translate}}--</label>
-                <br>
-                <br>
-                <div class="mb-3">
-                    <label for="" style="font-size: 16px;">{{'Hoja de configuración' | translate}}</label> <br><br>
-                    <label for="" style="font-size: 16px;">{{'Empresa' | translate}}:
-                        {{configurationForm.value.company}}</label><br>
-                    <label for="" style="font-size: 16px;">{{'Teléfono' | translate}}:
-                        ({{configurationForm.value.country_code}}) {{configurationForm.value.phone}}</label><br>
-                    <label for="" style="font-size: 16px;">{{'Email' | translate}}:
-                        {{configurationForm.value.email}}</label><br>
-                    <label for="" style="font-size: 16px;">{{'País' | translate}}:
-                        {{configurationForm.value.country}}</label><br>
-                    <label for="" style="font-size: 16px;">{{'Vista previa de la imagen' | translate}}:</label>
-                    <br>
-                    <!-- Vista previa de la imagen recortada -->
-                    <div *ngIf="croppedImage" style="margin-top: 20px;">
-                    <img [src]="croppedImage" alt="Imagen recortada" style="max-width: 100%;">
+
+                <!-- Código de país -->
+                <div>
+                    <label for="country_code" class="block text-sm font-medium text-gray-700 mb-1">
+                        {{ 'Código de País' | translate }}
+                    </label>
+                    <div>
+                        <input
+                            type="text"
+                            id="country_code"
+                            formControlName="country_code"
+                            class="w-full border rounded px-3 py-2 text-sm focus:ring focus:ring-sky-300"
+                            [matAutocomplete]="auto"
+                            placeholder="{{ configurationForm.value.country }}"
+                        />
+                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onCountryCodeSelected($event)">
+                            <mat-option *ngFor="let country_code of filteredCountryCodes | async" [value]="country_code">
+                                {{ country_code.name }} ({{ country_code.code }})
+                            </mat-option>
+                        </mat-autocomplete>
                     </div>
-                    <br>
-                    <label for="" style="font-size: 16px;">{{'Nota' | translate}}: </label>
-                    <label for="" style="font-size: 16px;">"{{'Esta información será utilizada para personalizar y dar identidad a los mensajes generados por el sistema, los cuales incluyen notificaciones dirigidas a los clientes y comunicaciones con terceros. Tenga en cuenta que sin esta información el sistema no podrá enviar correos para información de token o validación de cargue al cliente.' | translate}}"</label> <br> <br>
                 </div>
-                <button type="submit" class="btn btn-success m-1"
-                    (click)="onSubmit()">{{'Registrar configuración' | translate}}</button>
+
+                <!-- Teléfono -->
+                <div>
+                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">
+                        {{ 'Telefono de la empresa' | translate }}
+                    </label>
+                    <input type="text" id="phone" formControlName="phone" class="w-full border rounded px-3 py-2 text-sm focus:ring focus:ring-sky-300" placeholder="{{ 'Escriba aquí el Telefono de la empresa' | translate }}" />
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+                        {{ 'E-mail de la empresa' | translate }}
+                    </label>
+                    <input type="text" id="email" formControlName="email" class="w-full border rounded px-3 py-2 text-sm focus:ring focus:ring-sky-300" placeholder="{{ 'Escriba aquí el E-mail de la empresa' | translate }}" />
+                </div>
+
+                <!-- Imagen -->
+                <div>
+                    <label for="image" class="block text-sm font-medium text-gray-700 mb-1">
+                        {{ 'Imagen de la empresa' | translate }}
+                    </label>
+                    <input type="file" id="image" (change)="onFileChange($event)" class="w-full border rounded px-3 py-2 text-sm" />
+                </div>
+
+                <!-- Canvas -->
+                <div class="mt-4">
+                    <canvas #canvas width="630" height="300" class="border border-gray-300 rounded shadow-sm"></canvas>
+                </div>
+
+                <!-- Botón recorte -->
+                <div>
+                    <button type="button" class="mt-2 px-4 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700" (click)="cropImage()" [disabled]="!image.src">
+                        {{ 'Recortar Imagen' | translate }}
+                    </button>
+                </div>
+            </form>
+
+            <!-- Información -->
+            <div class="bg-white shadow-sm rounded-lg p-4 space-y-3 border border-gray-200 text-sm text-gray-800">
+                <h2 class="text-lg font-semibold text-sky-700">{{ 'Información' | translate }}</h2>
+
+                <p>{{ 'Hoja de configuración' | translate }}</p>
+
+                <div>
+                    <p><strong>{{ 'Empresa' | translate }}:</strong> {{ configurationForm.value.company }}</p>
+                    <p><strong>{{ 'Teléfono' | translate }}:</strong> ({{ configurationForm.value.country_code }}) {{ configurationForm.value.phone }}</p>
+                    <p><strong>{{ 'Email' | translate }}:</strong> {{ configurationForm.value.email }}</p>
+                    <p><strong>{{ 'País' | translate }}:</strong> {{ configurationForm.value.country }}</p>
+                </div>
+
+                <!-- Imagen recortada -->
+                <div *ngIf="croppedImage" class="mt-4">
+                    <p><strong>{{ 'Vista previa de la imagen' | translate }}:</strong></p>
+                    <img [src]="croppedImage" alt="Imagen recortada" class="rounded border border-gray-300 max-w-full" />
+                </div>
+
+                <!-- Nota -->
+                <div class="pt-4">
+                    <p class="font-semibold">{{ 'Nota' | translate }}:</p>
+                    <p class="text-gray-600 text-sm">
+                        "{{ 'Esta información será utilizada para personalizar y dar identidad a los mensajes generados por el sistema, los cuales incluyen notificaciones dirigidas a los clientes y comunicaciones con terceros. Tenga en cuenta que sin esta información el sistema no podrá enviar correos para información de token o validación de cargue al cliente.' | translate }}"
+                    </p>
+                </div>
+
+                <!-- Botón guardar -->
+                <div class="pt-4">
+                    <button type="submit" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm rounded shadow" (click)="onSubmit()">
+                        {{ 'Registrar configuración' | translate }}
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
+

@@ -97,7 +97,11 @@ export class HomeChartComponent implements AfterViewInit, OnDestroy {
             },
             title: {
               display: true,
-              text: 'Eficiencia de Cargues por Operador'
+              text: 'Eficiencia de Cargues por Operador',
+              color: 'white',
+              font: {
+                size: 16
+              }
             }
           }
         }
