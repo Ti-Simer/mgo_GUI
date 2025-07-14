@@ -1,125 +1,156 @@
 <div class="general-container">
+    <!-- Escalado manual visual -->
+    <div class="text-sm origin-top-left transform">
+        <!-- Mostrar tarjetas si hay más de un autotanque -->
+        <div class="container flex flex-col items-center gap-4" *ngIf="data.length > 0">
 
-    <div class="container d-flex justify-content-center" *ngIf="data.length > 0">
-        <div class="row d-flex justify-content-between mx-auto" *ngIf="data.length > 1">
+            <!-- Botón para cambiar de modo -->
+            <button (click)="toggleViewMode()"
+                class="flex items-center gap-2 px-3 py-1 bg-slate-200 hover:bg-slate-300 rounded shadow text-sm text-slate-700 transition">
+                <svg *ngIf="viewMode === 'grid'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path d="M12 3v18" />
+                    <path d="M3 12h18" />
+                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                </svg>
+                <svg *ngIf="viewMode === 'list'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <line x1="4" y1="6" x2="20" y2="6" />
+                    <line x1="4" y1="12" x2="20" y2="12" />
+                    <line x1="4" y1="18" x2="20" y2="18" />
+                </svg>
+                {{ viewMode === 'grid' ? 'Modo listado' : 'Modo grid' }}
+            </button>
 
-            <div class="col-sm-6 p-2" *ngFor="let propaneTruck of data">
+            <!-- MULTIPLES AUTOTANQUES -->
+            <div class="max-h-[500px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-400 scrollbar-track-slate-200 pr-2 rounded-md w-full"
+                *ngIf="data.length > 1">
 
-                <div class="shadow-sm rounded display-6 d-flex justify-content-between p-2"
-                    style="background-color: #014e87;">
-                    <div class="w-50" id="items2">
-                        <div class="mb-4 d-flex justify-content-center">
-                            <div [ngClass]="{
-                                'color-changing-square-green': propaneTruck.last_criticality === 0,
-                                'color-changing-square-orange': propaneTruck.last_criticality === 1,
-                                'color-changing-square-red': propaneTruck.last_criticality === 2
-                            }" class="rounded shadow-sm">
+                <!-- GRID -->
+                <div *ngIf="viewMode === 'grid'" class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-6xl w-full mx-auto">
+                    <ng-container *ngFor="let propaneTruck of data">
+                        <div class="p-1">
+                            <div
+                                class="flex justify-between p-3 bg-white border-l-4 border-green-500 rounded-xl shadow hover:shadow-md transition-shadow text-xs">
+                                <!-- Columna izquierda -->
+                                <div class="w-1/2" id="items2">
+                                    <div class="mb-2 flex justify-center">
+                                        <div [ngClass]="{
+                      'color-changing-square-green': propaneTruck.last_criticality === 0,
+                      'color-changing-square-orange': propaneTruck.last_criticality === 1,
+                      'color-changing-square-red': propaneTruck.last_criticality === 2
+                    }" class="rounded shadow-sm w-4 h-4"></div>
+                                    </div>
+                                    <div class="text-white text-center" *ngIf="propaneTruck.last_delivery === ''">
+                                        {{ 'Sin entregas' | translate }}
+                                    </div>
+                                    <div class="text-white text-center" *ngIf="propaneTruck.last_delivery !== ''">
+                                        {{ propaneTruck.last_delivery }}
+                                    </div>
+                                </div>
+
+                                <!-- Columna derecha -->
+                                <div class="bg-white text-gray-700 p-2 rounded shadow-sm w-1/2" id="items2">
+                                    <span class="font-semibold m-0 truncate">{{ propaneTruck.plate }}</span><br>
+                                    <span class="truncate m-0" title="{{ propaneTruck.operator }}">{{ propaneTruck.operator
+                                        | truncate: 13 }}</span><br>
+                                    <hr class="my-1 w-3/4 mx-auto border-gray-300" />
+                                    <div class="space-y-1">
+                                        <span class="m-0">Masa: {{ propaneTruck.delivered_mass }} Kg</span><br>
+                                        <span class="m-0">Volumen: {{ propaneTruck.delivered_volume }} Gl</span><br>
+                                        <span class="m-0">Pedidos: {{ propaneTruck.orders.length }} / {{
+                                            propaneTruck.completed_orders.length }}</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="text-white align-baseline text-center" style="font-size: 18px"
-                            *ngIf="propaneTruck.last_delivery === ''">
-                            {{'Sin entregas' | translate}}
-                        </div>
-
-                        <div class="text-white align-baseline text-center" style="font-size: 18px"
-                            *ngIf="propaneTruck.last_delivery != ''">
-                            {{propaneTruck.last_delivery}}
-                        </div>
-                    </div>
-
-                    <div class="bg-light rounded text-secondary p-2 shadow-sm w-50" id="items2">
-                        <p class="text-secondary fw-bold m-0" style="font-size: 24px">
-                            {{propaneTruck.plate}}
-                        </p>
-                        <p class="text-secondary m-0" style="font-size: 18px" title="{{propaneTruck.operator}}">
-                            {{propaneTruck.operator | truncate: 13}}
-                        </p>
-                        <hr class="mx-auto w-75">
-                        <span style="font-size: 18px">
-                            <p class="text-secondary m-0">
-                                Masa total: <br>
-                                {{propaneTruck.delivered_mass}} Kg
-                            </p>
-                            <p class="text-secondary m-0">
-                                Volumen total: <br>
-                                {{propaneTruck.delivered_volume}} Gl
-                            </p>
-                            <p class="text-secondary m-0">
-                                Pedidos/Entregas: <br>
-                                {{propaneTruck.orders.length}} / {{propaneTruck.completed_orders.length}}
-                            </p>
-                        </span>
-                    </div>
+                    </ng-container>
                 </div>
 
-            </div>
-
-        </div>
-
-        <div class="row d-flex justify-content-between mx-auto" style="width: 75%;" *ngIf="data.length < 2">
-
-            <div class="col-sm-12 p-2" *ngFor="let propaneTruck of data">
-
-                <div class="shadow-sm rounded display-6 d-flex justify-content-between p-2"
-                    style="background-color: #014e87;">
-                    <div class="w-50" id="items2">
-                        <div class="mb-4 d-flex justify-content-center">
-                            <!-- <img class="propane_truck_green w-100 mx-auto rounded shadow-sm" src="assets/images/tank_black.svg"> -->
-                            <div [ngClass]="{
-                                    'color-changing-square-green': propaneTruck.last_criticality === 0,
-                                    'color-changing-square-orange': propaneTruck.last_criticality === 1,
-                                    'color-changing-square-red': propaneTruck.last_criticality === 2
-                                }" class="rounded shadow-sm">
+                <!-- LISTADO -->
+                <div *ngIf="viewMode === 'list'"
+                    class="flex flex-col divide-y divide-gray-200 max-w-4xl w-full mx-auto bg-white p-3 rounded shadow-sm text-sm text-gray-700">
+                    <div *ngFor="let propaneTruck of data" class="py-2">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
+                            <div>
+                                <span class="font-medium m-0">Placa:</span>
+                                <span class="m-0">{{ propaneTruck.plate }}</span>
+                            </div>
+                            <div>
+                                <span class="font-medium m-0">Operador:</span>
+                                <span class="m-0">{{ propaneTruck.operator }}</span>
+                            </div>
+                            <div>
+                                <span class="font-medium m-0">Última entrega:</span>
+                                <span class="m-0">
+                                    {{ propaneTruck.last_delivery !== '' ? propaneTruck.last_delivery : ('Sin entregas'
+                                    | translate) }}
+                                </span>
+                            </div>
+                            <div>
+                                <span class="font-medium m-0">Masa:</span>
+                                <span class="m-0">{{ propaneTruck.delivered_mass }} Kg</span>
+                            </div>
+                            <div>
+                                <span class="font-medium m-0">Volumen:</span>
+                                <span class="m-0">{{ propaneTruck.delivered_volume }} Gl</span>
+                            </div>
+                            <div>
+                                <span class="font-medium m-0">Pedidos:</span>
+                                <span class="m-0">{{ propaneTruck.orders.length }} / {{
+                                    propaneTruck.completed_orders.length }}</span>
                             </div>
                         </div>
-                        <div class="text-white align-baseline text-center" style="font-size: 18px"
-                            *ngIf="propaneTruck.last_delivery === ''">
-                            {{'Sin entregas' | translate}}
-                        </div>
-
-                        <div class="text-white align-baseline text-center" style="font-size: 18px"
-                            *ngIf="propaneTruck.last_delivery != ''">
-                            <p class="text-center text-white align-baseline m-0">
-                                {{'Ultima entrega:' | translate}}
-                            </p>
-                            {{propaneTruck.last_delivery}}
-                        </div>
-                    </div>
-
-                    <div class="bg-light rounded text-secondary p-2 shadow-sm w-50" id="items2">
-                        <p class="text-secondary fw-bold m-0" style="font-size: 24px">
-                            {{propaneTruck.plate}}
-                        </p>
-                        <p class="text-secondary m-0" style="font-size: 18px" title="{{propaneTruck.operator}}">
-                            {{propaneTruck.operator | truncate: 13}}
-                        </p>
-                        <hr class="mx-auto w-75">
-                        <span style="font-size: 18px">
-                            <p class="text-secondary m-0">
-                                Masa total: <br>
-                                {{propaneTruck.delivered_mass}} Kg
-                            </p>
-                            <p class="text-secondary m-0">
-                                Volumen total: <br>
-                                {{propaneTruck.delivered_volume}} Gl
-                            </p>
-                            <p class="text-secondary m-0">
-                                Pedidos/Entregas: <br>
-                                {{propaneTruck.orders.length}} / {{propaneTruck.completed_orders.length}}
-                            </p>
-                        </span>
                     </div>
                 </div>
-
             </div>
 
+            <!-- SOLO UN AUTOTANQUE -->
+            <div class="flex justify-center w-full" *ngIf="data.length === 1">
+                <div class="w-full sm:w-1/2 p-1" *ngFor="let propaneTruck of data">
+                    <div
+                        class="flex justify-between p-3 bg-white border-l-4 border-green-500 rounded-xl shadow hover:shadow-md transition-shadow text-xs">
+                        <!-- Columna izquierda -->
+                        <div class="w-1/2" id="items2">
+                            <div class="mb-2 flex justify-center">
+                                <div [ngClass]="{
+                  'color-changing-square-green': propaneTruck.last_criticality === 0,
+                  'color-changing-square-orange': propaneTruck.last_criticality === 1,
+                  'color-changing-square-red': propaneTruck.last_criticality === 2
+                }" class="rounded shadow-sm w-4 h-4"></div>
+                            </div>
+                            <div class="text-white text-center" *ngIf="propaneTruck.last_delivery === ''">
+                                {{ 'Sin entregas' | translate }}
+                            </div>
+                            <div class="text-white text-center" *ngIf="propaneTruck.last_delivery !== ''">
+                                <p class="text-center m-0">{{ 'Ultima entrega:' | translate }}</p>
+                                {{ propaneTruck.last_delivery }}
+                            </div>
+                        </div>
+
+                        <!-- Columna derecha -->
+                        <div class="bg-white text-gray-700 p-2 rounded shadow-sm w-1/2" id="items2">
+                            <span class="font-semibold m-0 truncate">{{ propaneTruck.plate }}</span>
+                            <span class="truncate m-0" title="{{ propaneTruck.operator }}">{{ propaneTruck.operator |
+                                truncate: 13 }}</span>
+                            <hr class="my-1 w-3/4 mx-auto border-gray-300" />
+                            <div class="space-y-1">
+                                <span class="m-0">Masa: {{ propaneTruck.delivered_mass }} Kg</span>
+                                <span class="m-0">Volumen: {{ propaneTruck.delivered_volume }} Gl</span>
+                                <span class="m-0">Pedidos: {{ propaneTruck.orders.length }} / {{
+                                    propaneTruck.completed_orders.length }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MENSAJE: sin autotanques -->
+        <div class="container flex justify-center" *ngIf="data.length < 1">
+            <p class="text-sm text-gray-500 text-center p-4 rounded border border-dotted border-gray-400 mt-4">
+                {{ 'No hay Auto Tanques en curso' | translate }}
+            </p>
         </div>
     </div>
-
-    <div class="container d-flex justify-content-center" *ngIf="data.length < 1">
-        <p class="text-xl text-gray-500 text-center p-4 rounded border border-dotted border-gray-400 mt-4">
-            {{'No hay Auto Tanques en curso' | translate}}
-        </p>
-    </div>
-
 </div>

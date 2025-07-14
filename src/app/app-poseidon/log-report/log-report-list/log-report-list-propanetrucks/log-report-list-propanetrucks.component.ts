@@ -12,6 +12,7 @@ import { ShareService } from 'src/app/services/share.service';
 export class LogReportListPropanetrucksComponent {
 
   data: any[] = [];
+  viewMode: 'grid' | 'list' = 'grid';
 
   constructor(
     private authService: AuthService,
@@ -42,4 +43,7 @@ export class LogReportListPropanetrucksComponent {
     }
   }
 
+  toggleViewMode() {
+  this.viewMode = this.viewMode === 'grid' ? 'list' : 'grid';
+  }
 }
