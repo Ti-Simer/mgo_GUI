@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -22,7 +22,8 @@ export class NotificationsDetailsComponent {
   updateForm: FormGroup;
 
   notification: any;
-  notificationId: any;
+  @Input() notificationId!: string;
+
 
   constructor(
     private authService: AuthService,
@@ -42,12 +43,6 @@ export class NotificationsDetailsComponent {
     this.updateForm = this.formBuilder.group({
       status: ['']
     });
-
-    this.route.params.subscribe(params => {
-      this.notificationId = authService.decryptData(params['id']);
-      this.fetchNotification();
-    });
-
   }
 
   ngOnInit(): void {

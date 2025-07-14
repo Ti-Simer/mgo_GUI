@@ -49,7 +49,8 @@
                             #myInput type="text" placeholder="{{ 'Buscar..' | translate }}"
                             (input)="initializeSearchFilter()" />
                         <p class="text-xs text-gray-400 mt-1">
-                            {{ 'Para utilizar correctamente el buscador por favor desplegar todos los registros con elpaginador' | translate }}
+                            {{ 'Para utilizar correctamente el buscador por favor desplegar todos los registros con
+                            elpaginador' | translate }}
                         </p>
                     </div>
                 </div>
@@ -84,23 +85,16 @@
                             <td class="px-6 py-4 text-sm text-gray-700">{{ notification.message }}</td>
                             <td class="px-6 py-4 text-sm text-gray-700 flex gap-1">
                             </td>
-                            <td class="px-6 py-4 text-sm text-gray-700 space-y-1">
-                                <!-- Botón para NO LEÍDO -->
-                                <button
-                                    class="bg-sky-600 hover:bg-sky-500 text-white px-3 py-1 h-11 rounded text-xs w-full"
-                                    (click)="toViewNotification(notification.id)">
-                                    {{ 'Ver detalles' | translate }}
-                                </button>
-                                
+                            <td class="px-6 py-4 text flex gap-2 text-gray-700">
                                 <button *ngIf="notification.status == 'NO LEIDO'"
-                                    class="bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 h-11 rounded text-xs w-full flex items-center gap-2 justify-center"
+                                    class=" hover:bg-gray-200 text-sky-900 px-3 py-1 h-8 rounded text-xs w-full flex items-center gap-2 justify-center"
                                     (click)="readUnreadNotification(notification)">
 
                                     <!-- Toggle visual -->
                                     <label class="relative cursor-pointer">
                                         <input type="checkbox" class="peer sr-only" />
                                         <div
-                                            class="peer h-5 w-9 rounded-full bg-gray-400 after:absolute after:top-[2px] after:left-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-indigo-900 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-200">
+                                            class="peer bg-sky-900 h-5 w-9 rounded-full after:absolute after:top-[2px] after:left-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-indigo-900 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-200">
                                         </div>
                                     </label>
 
@@ -109,7 +103,7 @@
 
                                 <!-- Botón para LEÍDO -->
                                 <button *ngIf="notification.status == 'LEIDO'"
-                                    class="bg-gray-400 hover:bg-gray-300 text-white px-3 py-1 h-11 rounded text-xs w-full flex items-center gap-2 justify-center"
+                                    class="hover:bg-gray-200 text-sky-900 px-3 py-1 h-8 rounded text-xs w-full flex items-center gap-2 justify-center"
                                     (click)="readUnreadNotification(notification)">
 
 
@@ -117,11 +111,25 @@
                                     <label class="relative cursor-pointer">
                                         <input type="checkbox" checked class="peer sr-only" />
                                         <div
-                                            class="peer h-5 w-9 rounded-full bg-green-500 after:absolute after:top-[2px] after:left-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-green-700 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-green-300">
+                                            class="peer h-5 w-9 rounded-full bg-gray-400 after:absolute after:top-[2px] after:left-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-green-700 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring">
                                         </div>
+
                                     </label>
 
                                     {{ 'Leído' | translate }}
+                                </button>
+
+                                <!-- Botón para NO LEÍDO -->
+                                <button
+                                class="bg-sky-900 hover:bg-sky-700 text-white px-3 h-8 rounded text-xs w-full"
+                                (click)="toViewDetailsNotification(notification)">
+                                {{ 'Ver detalles' | translate }}
+                                </button>
+                                
+                                <button
+                                    class="bg-slate-800 hover:bg-rose-700 text-white px-3 py-1 h-8 rounded text-xs w-full flex items-center justify-center gap-2"
+                                    (click)="delete(notification)">
+                                    {{ 'Eliminar' | translate }}
                                 </button>
                             </td>
                         </tr>

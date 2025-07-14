@@ -8,6 +8,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/services/language.service';
 import { Subscription } from 'rxjs';
+import { DialogDetailsNotificationComponent } from '../dialog-details-notification/dialog-details-notification.component';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
   selector: 'app-notifications-list',
@@ -27,7 +30,7 @@ export class NotificationsListComponent {
   toggleOn: string = 'assets/images/toggle-on.svg';
   toggleOff: string = 'assets/images/toggle-off.svg';
   collapsed = true;
-  
+
   private menuSub!: Subscription;
   public Math = Math;
 
@@ -42,7 +45,9 @@ export class NotificationsListComponent {
     private formbuilder: FormBuilder,
     private toastr: ToastrService,
     private translate: TranslateService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private dialog: MatDialog,
+    private dialogService: DialogService,
   ) {
 
 
@@ -91,6 +96,26 @@ export class NotificationsListComponent {
 
       this.initializeSearchFilter();
     }
+  }
+
+  delete(notification: any) {
+    this.dialogService.openConfirmDialog(`¿Estás seguro de eliminar la notificación de ${notification.title} ?`)
+      .subscribe(result => {
+        if (result) {
+          this.notificationService.delete(notification.id).subscribe(
+            (response) => {
+              if (response.statusCode === 200) {
+                this.toastr.success(`Notificación ${notification.title} eliminada exitosamente`, 'Éxito');
+              } else {
+                this.toastr.error('Error al eliminar Notificación', response.message);
+              }
+            },
+            (error) => {
+              this.toastr.error('Error al eliminar Notificación', 'Error');
+            }
+          );
+        }
+      });
   }
 
   fetchNotifications() {
@@ -195,8 +220,17 @@ export class NotificationsListComponent {
     });
   }
 
-  toViewNotification(id: any) {
-    this.router.navigate(['/poseidon/notifications/view', this.authService.encryptData(id)]);
+  toViewDetailsNotification(notification: any) {
+    this.authService.readChecker().subscribe(flag => {
+      if (!flag) {
+        this.toastr.warning('No tienes permisos para leer');
+      } else {
+        const dialogRef = this.dialog.open(DialogDetailsNotificationComponent, {
+          width: '750px',
+          data: { notificationId: notification.id }
+        });
+      }
+    });
   }
 
   toHome() {

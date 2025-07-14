@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
 })
 export class MenuPoseidonComponent {
 
-  notifications = [];
+  notifications: any[] = [];
   userId: any;
   language: string = 'es';
   isLogged: boolean = false;
@@ -25,7 +25,6 @@ export class MenuPoseidonComponent {
   readonly Languages = Languages;
   collapsed = true;
   private menuSub!: Subscription;
-  // Ejemplo para el componente TS
   showNotifyMenu = false;
   showAdminMenu = false;
   showUsersMenu = false;
@@ -52,30 +51,48 @@ export class MenuPoseidonComponent {
     });
   }
 
-
   ngOnInit() {
     this.checkScreenSize();
 
     this.menuSub = this.authService.menuExpanded$.subscribe(expanded => {
-      this.collapsed = expanded; // O usa collapsed = !expanded si collapsed significa "colapsado"
+      this.collapsed = expanded;
     });
 
     window.addEventListener('resize', this.checkScreenSize.bind(this));
-  }
-  checkScreenSize() {
-    const isMobile = window.innerWidth < 768;
-    this.sidebarCollapsed = !isMobile ? this.sidebarCollapsed : false;
+
+    this.loadNotifications();
   }
 
+  checkScreenSize() {
+    const isMobile = window.innerWidth < 768;
+    this.isMobileScreen = isMobile; // ✅ Asegura que se actualice correctamente
+    this.sidebarCollapsed = !isMobile ? this.sidebarCollapsed : false;
+  }
 
   ngOnChanges(): void {
     this.sidebarCollapsed = this.authService.getMenuExpanded();
     console.log('Sidebar collapsed:', this.sidebarCollapsed);
   }
 
-  // Notificaciones
+  loadNotifications(): void {
+    this.notificationService.getUnread().subscribe(
+      response => {
+        this.notifications = response.data || [];
+      },
+      error => {
+        console.error('Error al obtener notificaciones:', error);
+      }
+    );
+  }
+
+  // ✅ MODIFICADO para redirigir directamente si es móvil
   toggleNotifyMenu() {
-    if (this.showNotifyMenu === true) {
+    if (this.isMobileScreen) {
+      this.toNotifications();
+      return;
+    }
+
+    if (this.showNotifyMenu) {
       this.showNotifyMenu = false;
       return;
     }
@@ -83,7 +100,17 @@ export class MenuPoseidonComponent {
     this.closeAllMenus();
     this.showNotifyMenu = true;
     this.fetchNotifications();
-    return;
+  }
+
+  fetchNotifications() {
+    this.notificationService.getUnread().subscribe(
+      response => {
+        this.notifications = response.data || [];
+      },
+      error => {
+        console.error('Error al obtener notificaciones:', error);
+      }
+    );
   }
 
   toggleAdminMenu() {
@@ -92,7 +119,6 @@ export class MenuPoseidonComponent {
       this.activeSubMenu = null;
     }
   }
-
 
   toggleSubMenu(subMenu: string) {
     this.activeSubMenu = this.activeSubMenu === subMenu ? null : subMenu;
@@ -136,14 +162,6 @@ export class MenuPoseidonComponent {
     this.dropdownOpen = !this.dropdownOpen;
   }
 
-  fetchNotifications() {
-    this.notificationService.getUnread().subscribe(
-      response => {
-        this.notifications = response.data;
-      }
-    );
-  }
-
   logout(): void {
     this.dialogService.openConfirmDialog('¿Estás seguro de cerrar la sesión?')
       .subscribe(result => {
@@ -158,9 +176,8 @@ export class MenuPoseidonComponent {
 
   getConfigurationSheet() {
     try {
-      if (!this.isLogged) {
-        return;
-      }
+      if (!this.isLogged) return;
+
       this.configurationService.getAll().subscribe(
         response => {
           console.log('ConfigurationService::', response);
@@ -176,166 +193,70 @@ export class MenuPoseidonComponent {
     }
   }
 
-  ///////////////Rutas del menú de navegación////////////////////
+  //////////////////////// Rutas ////////////////////////////
 
   toRoles() {
-    this.authService.readChecker().subscribe(flag => {
-      if (!flag) {
-        this.toastr.warning('No tienes permisos para leer esta información');
-      } else {
-        this.router.navigate(['/poseidon/roles/list']);
-      }
-    });
+    this.redirectIfAuthorized(() => this.router.navigate(['/poseidon/roles/list']));
   }
 
   toPermissions() {
-    this.authService.readChecker().subscribe(flag => {
-      if (!flag) {
-        this.toastr.warning('No tienes permisos para leer esta información');
-      } else {
-        this.router.navigate(['/poseidon/permissions/list']);
-      }
-    });
+    this.redirectIfAuthorized(() => this.router.navigate(['/poseidon/permissions/list']));
   }
 
   toUsers() {
-    this.authService.readChecker().subscribe(flag => {
-      if (!flag) {
-        this.toastr.warning('No tienes permisos para leer esta información');
-      } else {
-        this.router.navigate(['/poseidon/usuarios/list']);
-      }
-    });
+    this.redirectIfAuthorized(() => this.router.navigate(['/poseidon/usuarios/list']));
   }
 
   toClients() {
-    this.authService.readChecker().subscribe(flag => {
-      if (!flag) {
-        this.toastr.warning('No tienes permisos para leer esta información');
-      } else {
-        this.router.navigate(['/poseidon/client/list']);
-      }
-    });
+    this.redirectIfAuthorized(() => this.router.navigate(['/poseidon/client/list']));
   }
 
   toDepartments() {
-    this.authService.readChecker().subscribe(flag => {
-      if (!flag) {
-        this.toastr.warning('No tienes permisos para leer esta información');
-      } else {
-        this.router.navigate(['/poseidon/department/list']);
-      }
-    });
+    this.redirectIfAuthorized(() => this.router.navigate(['/poseidon/department/list']));
   }
 
   toCities() {
-    this.authService.readChecker().subscribe(flag => {
-      if (!flag) {
-        this.toastr.warning('No tienes permisos para leer esta información');
-      } else {
-        this.router.navigate(['/poseidon/city/list']);
-      }
-    });
+    this.redirectIfAuthorized(() => this.router.navigate(['/poseidon/city/list']));
   }
 
   toZones() {
-    this.authService.readChecker().subscribe(flag => {
-      if (!flag) {
-        this.toastr.warning('No tienes permisos para leer esta información');
-      } else {
-        this.router.navigate(['/poseidon/zone/list']);
-      }
-    });
+    this.redirectIfAuthorized(() => this.router.navigate(['/poseidon/zone/list']));
   }
 
   toBranchOffices() {
-    this.authService.readChecker().subscribe(flag => {
-      if (!flag) {
-        this.toastr.warning('No tienes permisos para leer esta información');
-      } else {
-        this.router.navigate(['/poseidon/branch-offices/list']);
-      }
-    });
+    this.redirectIfAuthorized(() => this.router.navigate(['/poseidon/branch-offices/list']));
   }
 
   toOccupations() {
-    this.authService.readChecker().subscribe(flag => {
-      if (!flag) {
-        this.toastr.warning('No tienes permisos para leer esta información');
-      } else {
-        this.router.navigate(['/poseidon/occupation/list']);
-      }
-    });
+    this.redirectIfAuthorized(() => this.router.navigate(['/poseidon/occupation/list']));
   }
 
   toFactor() {
-    this.authService.readChecker().subscribe(flag => {
-      if (!flag) {
-        this.toastr.warning('No tienes permisos para leer esta información');
-      } else {
-        this.router.navigate(['/poseidon/factor/list']);
-      }
-    });
+    this.redirectIfAuthorized(() => this.router.navigate(['/poseidon/factor/list']));
   }
 
   toCourses() {
-    this.authService.readChecker().subscribe(flag => {
-      if (!flag) {
-        this.toastr.warning('No tienes permisos para leer esta información');
-      } else {
-        this.router.navigate(['/poseidon/courses/admin']);
-      }
-    });
+    this.redirectIfAuthorized(() => this.router.navigate(['/poseidon/courses/admin']));
   }
 
   toPropaneTrucks() {
-    this.authService.readChecker().subscribe(flag => {
-      if (!flag) {
-        this.toastr.warning('No tienes permisos para leer esta información');
-      } else {
-        this.router.navigate(['/poseidon/propane-trucks/list']);
-      }
-    });
+    this.redirectIfAuthorized(() => this.router.navigate(['/poseidon/propane-trucks/list']));
   }
 
   toOrders() {
-    this.authService.readChecker().subscribe(flag => {
-      if (!flag) {
-        this.toastr.warning('No tienes permisos para leer esta información');
-      } else {
-        this.router.navigate(['/poseidon/orders/list']);
-      }
-    });
+    this.redirectIfAuthorized(() => this.router.navigate(['/poseidon/orders/list']));
   }
 
   toRequest() {
-    this.authService.readChecker().subscribe(flag => {
-      if (!flag) {
-        this.toastr.warning('No tienes permisos para leer esta información');
-      } else {
-        this.router.navigate(['/poseidon/request/list']);
-      }
-    });
+    this.redirectIfAuthorized(() => this.router.navigate(['/poseidon/request/list']));
   }
 
   toStationaryTanks() {
-    this.authService.readChecker().subscribe(flag => {
-      if (!flag) {
-        this.toastr.warning('No tienes permisos para leer esta información');
-      } else {
-        this.router.navigate(['/poseidon/stationary-tank/list']);
-      }
-    });
+    this.redirectIfAuthorized(() => this.router.navigate(['/poseidon/stationary-tank/list']));
   }
 
   toTablets() {
-    this.authService.readChecker().subscribe(flag => {
-      if (!flag) {
-        this.toastr.warning('No tienes permisos para leer esta información');
-      } else {
-        this.router.navigate(['/poseidon/tablets/list']);
-      }
-    });
+    this.redirectIfAuthorized(() => this.router.navigate(['/poseidon/tablets/list']));
   }
 
   toProfile() {
@@ -343,17 +264,20 @@ export class MenuPoseidonComponent {
   }
 
   toNotifications() {
-    this.authService.readChecker().subscribe(flag => {
-      if (!flag) {
-        this.toastr.warning('No tienes permisos para leer esta información');
-      } else {
-        this.router.navigate(['/poseidon/notifications/list']);
-      }
-    });
+    this.redirectIfAuthorized(() => this.router.navigate(['/poseidon/notifications/list']));
   }
 
   redirectToHome() {
     this.router.navigate(['/poseidon/home']);
   }
 
+  private redirectIfAuthorized(action: () => void) {
+    this.authService.readChecker().subscribe(flag => {
+      if (!flag) {
+        this.toastr.warning('No tienes permisos para leer esta información');
+      } else {
+        action();
+      }
+    });
+  }
 }

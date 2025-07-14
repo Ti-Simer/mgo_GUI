@@ -22,11 +22,13 @@ import {
   ArrowBigRightDash
 } from 'lucide-angular';
 import { FormsModule } from '@angular/forms';
+import { DialogDetailsNotificationComponent } from './dialog-details-notification/dialog-details-notification.component';
 
 @NgModule({
   declarations: [
     NotificationsListComponent,
     NotificationsDetailsComponent,
+    DialogDetailsNotificationComponent,
   ],
   imports: [
     CommonModule,

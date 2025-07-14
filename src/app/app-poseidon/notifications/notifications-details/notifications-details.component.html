@@ -1,35 +1,39 @@
-<app-menu-home></app-menu-home>
-<div class="general-container">
-    <div class="container">
-        <div class="row d-flex justify-content-center">
-            <div class="col-lg-11">
-                <div class="card text-center" *ngIf="notification">
-                    <div class="card-header">
-                        <ul class="nav nav-pills card-header-pills">
-                            <li class="nav-item" id="date">
-                                <a class="nav-link disabled">{{notification.create | date: 'dd - MMMM - y H:mm'}}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" (click)="delete(notification)">
-                                    <img src="assets/images/trash.svg" style="cursor: pointer;">
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">{{notification.title}}</p>
-                        <h5 class="card-title">{{notification.message}}</h5>
-                        <h5 class="card-title float-end">({{notification.type}})</h5>
-                    </div>
-                    <div class="card-footer">
-                        <a (click)="toNotifications()" class="btn btn-secondary" style="margin-right: 1rem;">{{'Volver' | translate}}</a>
-                        <a (click)="goToReview()" class="btn btn-primary">{{'Revisar' | translate}}</a>
-                    </div>
-                </div>
-
-            </div>
+<div class="container">
+  <div class="flex justify-center">
+    <div class="w-full max-w-5xl">
+      <div *ngIf="notification" class="bg-white shadow-md border-b border-gray-200 overflow-hidden">
+        
+        <!-- Encabezado -->
+        <div class="bg-gradient-to-b from-white to-gray-100 px-6 py-3 border-b border-gray-200">
+          <ul class="flex justify-between items-center">
+            <li id="date">
+              <span class="text-gray-500 text-sm">
+                {{ notification.create | date: 'dd - MMMM - y H:mm' }}
+              </span>
+            </li>
+            <li>
+              <button (click)="delete(notification)" class="focus:outline-none hover:opacity-80 transition">
+                <img src="assets/images/trash.svg" class="w-5 h-5" alt="Eliminar">
+              </button>
+            </li>
+          </ul>
         </div>
-    </div>
 
-    <app-footer></app-footer>
+        <!-- Cuerpo -->
+        <div class="px-6 py-5">
+          <p class="text-gray-700 text-base mb-1">{{ notification.title }}</p>
+          <h5 class="text-xl font-semibold text-gray-800">{{ notification.message }}</h5>
+          <h5 class="text-sm text-gray-400 mt-3 text-right">({{ notification.type }})</h5>
+        </div>
+
+        <!-- Pie -->
+        <div class="bg-gray-50 px-6 py-4 flex justify-end gap-3 border-t border-gray-200">
+          <button (click)="goToReview()" class="bg-sky-900 hover:bg-blue-700 text-white px-4 py-2 text-sm rounded-md transition">
+            {{ 'Revisar' | translate }}
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </div>
