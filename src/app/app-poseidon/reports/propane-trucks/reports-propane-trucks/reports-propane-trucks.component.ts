@@ -26,6 +26,7 @@ export class ReportsPropaneTrucksComponent {
   pageSize: number = 25; // Tamaño de página predeterminado
   pageIndex: number = 0; // Página actual
 
+  public Math = Math;
   propane_trucks: any[] = [];
   isLoading = false;
 
@@ -101,6 +102,10 @@ export class ReportsPropaneTrucksComponent {
 
   setPageSizeToTotal() {
     this.pageSize = this.propane_trucks.length;
+  }
+
+  get totalPages(): number {
+    return Math.max(1, Math.ceil(this.propane_trucks.length / this.pageSize));
   }
 
   sortData(data: string) {

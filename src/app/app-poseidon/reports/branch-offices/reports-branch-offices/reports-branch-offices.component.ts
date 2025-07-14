@@ -22,7 +22,7 @@ export class ReportsBranchOfficesComponent {
   pageSize: number = 25; // Tamaño de página predeterminado
   pageIndex: number = 0; // Página actual
 
-
+  public Math = Math;
   branchOffices: any[] = [];
   isLoading = false;
 
