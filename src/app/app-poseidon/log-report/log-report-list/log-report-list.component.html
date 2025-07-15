@@ -1,4 +1,4 @@
-<div class="min-h-[40vh] grid grid-cols-1 xl:grid-cols-2 gap-2.5 px-4 py-3  ">
+<div class="min-h-[40vh] grid grid-cols-1 xl:grid-cols-2 gap-2.5 py-3  ">
     <!-- Seccion 1 -->
     <div class="w-full bg-gray-100 rounded-xl p-4">
         <div class="flex flex-col items-center">
@@ -132,10 +132,10 @@
                             'border-orange-400': log_report.route_event.criticality === 1,
                             'border-red-600': log_report.route_event.criticality === 2
                         }">
-                        <div class="text-[11px] font-semibold text-slate-700 truncate">
+                        <div class="text-sm font-semibold text-slate-700 truncate">
                             {{ log_report.propane_truck.plate }}
                         </div>
-                        <div class="text-[10px] text-gray-500 truncate mb-1">
+                        <div class="text-xs font-light text-gray-500 truncate mb-1">
                             {{ log_report.user.firstName }} {{ log_report.user.lastName }}
                         </div>
                         <div class="flex items-center gap-1 mb-1">
@@ -144,7 +144,7 @@
                                 'text-blue-500': log_report.route_event.criticality === 0,
                                 'text-red-600': log_report.route_event.criticality === 2
                             }" class="w-4 h-4"></lucide-icon>
-                            <span class="text-[11px] font-medium">
+                            <span class="text-sm font-medium">
                                 {{
                                 log_report.route_event.criticality === 0
                                 ? ('Baja' | translate)
@@ -154,10 +154,10 @@
                                 }}
                             </span>
                         </div>
-                        <div class="text-[11px] text-gray-700 truncate mb-1">
+                        <div class="text-sm text-gray-700 truncate mb-1">
                             {{ log_report.route_event.name }}
                         </div>
-                        <div class="text-[10px] text-gray-400">
+                        <div class="text-xs font-light text-gray-400">
                             {{ log_report.create | date: 'short' }}
                         </div>
                     </div>
@@ -171,7 +171,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 items-start">
                         <div class="font-medium">
                             {{ log_report.propane_truck.plate }}<br />
-                            <span class="text-gray-500 text-[11px]">{{
+                            <span class="text-gray-500 text-xs font-light">{{
                                 log_report.user.firstName
                                 }}
                                 {{ log_report.user.lastName }}</span>
@@ -182,10 +182,10 @@
                                 'text-orange-400': log_report.route_event.criticality === 1,
                                 'text-red-600': log_report.route_event.criticality === 2
                             }" class="w-4 h-4"></lucide-icon>
-                            <span>{{ log_report.route_event.name }}</span>
+                            <span class="font-medium text-sm text-gray-600">{{ log_report.route_event.name }}</span>
                         </div>
-                        <div class="text-gray-500 text-[11px]">
-                            {{ log_report.create | date: 'short' }}
+                        <div class="text-gray-500 text-xs">
+                            {{ log_report.create | date: 'medium' }}
                         </div>
                     </div>
                 </div>
