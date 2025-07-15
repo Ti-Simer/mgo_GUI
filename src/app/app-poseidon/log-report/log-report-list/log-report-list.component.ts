@@ -21,6 +21,7 @@ export class LogReportListComponent {
   criticalityLow: any;
   criticalityMedium: any;
   criticalityHigh: any;
+  viewMode: 'list' | 'grid' = 'list';
   dateToday: any = new Date().toLocaleDateString('es-GB', {
     year: 'numeric',
     month: '2-digit',
@@ -92,7 +93,10 @@ export class LogReportListComponent {
     }
   }
 
-  // Direcciones
+
+  toggleViewMode() {
+    this.viewMode = this.viewMode === 'grid' ? 'list' : 'grid';
+  }
 
   toCourses() {
     this.authService.readChecker().subscribe(flag => {
