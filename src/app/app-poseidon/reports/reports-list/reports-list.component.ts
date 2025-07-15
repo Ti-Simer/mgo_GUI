@@ -41,21 +41,18 @@ export class ReportsListComponent {
       switch (this.languageService.getLanguage()) {
         case 'es':
           this.reports = [
-            { name: "Establecimientos" },
             { name: "Auto Tanques" },
           ]
           break;
 
         case 'en':
           this.reports = [
-            { name: "Establishments" },
             { name: "Auto Tanks" },
           ]
           break;
 
         case 'pt':
           this.reports = [
-            { name: "Estabelecimentos" },
             { name: "Auto Tanques" },
           ]
           break;

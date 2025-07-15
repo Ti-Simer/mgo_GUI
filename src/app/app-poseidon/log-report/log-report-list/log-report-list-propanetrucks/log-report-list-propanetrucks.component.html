@@ -22,7 +22,7 @@
                     <rect x="3" y="3" width="18" height="18" rx="2" />
                 </svg>
 
-                {{ viewMode === 'grid' ? 'Modo listado' : 'Modo tarjetas' }}
+                {{ viewMode === 'grid' ? 'Modo listado' : 'Modo tarjetas' | translate}}
             </button>
 
             <!-- MULTIPLES AUTOTANQUES -->
@@ -61,9 +61,9 @@
                                         | truncate: 13 }}</span><br>
                                     <hr class="my-1 w-3/4 mx-auto border-gray-300" />
                                     <div class="space-y-1">
-                                        <span class="m-0">Masa: {{ propaneTruck.delivered_mass }} Kg</span><br>
-                                        <span class="m-0">Volumen: {{ propaneTruck.delivered_volume }} Gl</span><br>
-                                        <span class="m-0">Pedidos: {{ propaneTruck.orders.length }} / {{
+                                        <span class="m-0">{{'Masa' | translate}}: {{ propaneTruck.delivered_mass }} Kg</span><br>
+                                        <span class="m-0">{{'Volumen' | translate}}: {{ propaneTruck.delivered_volume }} Gl</span><br>
+                                        <span class="m-0">{{'Pedidos' | translate}}: {{ propaneTruck.orders.length }} / {{
                                             propaneTruck.completed_orders.length }}</span>
                                     </div>
                                 </div>
@@ -78,30 +78,30 @@
                     <div *ngFor="let propaneTruck of data" class="py-2">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
                             <div>
-                                <span class="font-medium m-0">Placa:</span>
+                                <span class="font-medium m-0">{{'Placa' | translate}}:</span>
                                 <span class="m-0">{{ propaneTruck.plate }}</span>
                             </div>
                             <div>
-                                <span class="font-medium m-0">Operador:</span>
+                                <span class="font-medium m-0">{{'Operador' | translate}}:</span>
                                 <span class="m-0">{{ propaneTruck.operator }}</span>
                             </div>
                             <div>
-                                <span class="font-medium m-0">Última entrega:</span>
+                                <span class="font-medium m-0">{{'Última entrega' | translate}}:</span>
                                 <span class="m-0">
                                     {{ propaneTruck.last_delivery !== '' ? propaneTruck.last_delivery : ('Sin entregas'
                                     | translate) }}
                                 </span>
                             </div>
                             <div>
-                                <span class="font-medium m-0">Masa:</span>
+                                <span class="font-medium m-0">{{'Masa' | translate}}:</span>
                                 <span class="m-0">{{ propaneTruck.delivered_mass }} Kg</span>
                             </div>
                             <div>
-                                <span class="font-medium m-0">Volumen:</span>
+                                <span class="font-medium m-0">{{'Volumen' | translate}}:</span>
                                 <span class="m-0">{{ propaneTruck.delivered_volume }} Gl</span>
                             </div>
                             <div>
-                                <span class="font-medium m-0">Pedidos:</span>
+                                <span class="font-medium m-0">{{'Pedidos' | translate}}:</span>
                                 <span class="m-0">{{ propaneTruck.orders.length }} / {{
                                     propaneTruck.completed_orders.length }}</span>
                             </div>
@@ -141,9 +141,9 @@
                             </span><br />
                             <hr class="my-1 w-3/4 mx-auto border-gray-300" />
                             <div class="space-y-1">
-                                <span class="m-0">Masa: {{ propaneTruck.delivered_mass }} Kg</span><br />
-                                <span class="m-0">Volumen: {{ propaneTruck.delivered_volume }} Gl</span><br />
-                                <span class="m-0">Pedidos: {{ propaneTruck.orders.length }} / {{
+                                <span class="m-0">{{'Masa' | translate}}: {{ propaneTruck.delivered_mass }} Kg</span><br />
+                                <span class="m-0">{{'Volumen' | translate}}: {{ propaneTruck.delivered_volume }} Gl</span><br />
+                                <span class="m-0">{{'Pedidos' | translate}}: {{ propaneTruck.orders.length }} / {{
                                     propaneTruck.completed_orders.length }}</span><br />
                             </div>
                         </div>
@@ -157,15 +157,15 @@
                 <div *ngFor="let propaneTruck of data" class="py-2">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
                         <div>
-                            <span class="font-medium m-0">Placa:</span>
+                            <span class="font-medium m-0">{{'Placa' | translate}}:</span>
                             <span class="m-0">{{ propaneTruck.plate }}</span>
                         </div>
                         <div>
-                            <span class="font-medium m-0">Operador:</span>
+                            <span class="font-medium m-0">{{'Operador' | translate}}:</span>
                             <span class="m-0">{{ propaneTruck.operator }}</span>
                         </div>
                         <div>
-                            <span class="font-medium m-0">Última entrega:</span>
+                            <span class="font-medium m-0">{{'Última entrega' | translate}}:</span>
                             <span class="m-0">
                                 {{
                                 propaneTruck.last_delivery !== ''
@@ -175,15 +175,15 @@
                             </span>
                         </div>
                         <div>
-                            <span class="font-medium m-0">Masa:</span>
+                            <span class="font-medium m-0">{{'Masa' | translate}}:</span>
                             <span class="m-0">{{ propaneTruck.delivered_mass }} Kg</span>
                         </div>
                         <div>
-                            <span class="font-medium m-0">Volumen:</span>
+                            <span class="font-medium m-0">{{'Volumen' | translate}}:</span>
                             <span class="m-0">{{ propaneTruck.delivered_volume }} Gl</span>
                         </div>
                         <div>
-                            <span class="font-medium m-0">Pedidos:</span>
+                            <span class="font-medium m-0">{{'Pedidos' | translate}}:</span>
                             <span class="m-0">{{ propaneTruck.orders.length }} / {{ propaneTruck.completed_orders.length
                                 }}</span>
                         </div>

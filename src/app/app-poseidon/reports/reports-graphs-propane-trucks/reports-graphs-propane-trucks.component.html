@@ -1,42 +1,37 @@
-<div class="w-full flex flex-col items-center px-4">
-  <div class="w-full max-w-4xl">
-
-    <!-- Botones de Tabs -->
-    <div class="bg-sky-600 p-2 rounded-t-lg mb-2">
-      <div class="flex justify-center space-x-2">
-        <button
-          class="px-4 py-2 text-white font-semibold border-b-4"
-          [ngClass]="{
+<div class="min-h-screen flex items-center justify-center bg-gray-50 max-h-80vh overflow-y-auto transition-all duration-300" [ngClass]="{'pl-36': !collapsed }">
+   <div class="w-full max-w-6xl">
+      <!-- Botones de Tabs -->
+      <div class="bg-sky-800 p-2 rounded-t-lg">
+         <div class="flex justify-center space-x-2">
+            <button
+            class="px-4 py-2 text-white font-semibold border-b-4"
+            [ngClass]="{
             'border-white bg-sky-700': graphsForm.value.graph === 'default',
             'border-sky-600 hover:bg-sky-700': graphsForm.value.graph !== 'default'
-          }"
-          (click)="graphsForm.controls['graph'].setValue('default')">
-          {{ 'Seleccionar' | translate }}
-        </button>
-        <button
-          class="px-4 py-2 text-white font-semibold border-b-4"
-          [ngClass]="{
+            }"
+            (click)="graphsForm.controls['graph'].setValue('default')">
+            {{ 'Seleccionar' | translate }}
+            </button>
+            <button
+            class="px-4 py-2 text-white font-semibold border-b-4"
+            [ngClass]="{
             'border-white bg-sky-700': graphsForm.value.graph === 'Informe de cargues',
             'border-sky-600 hover:bg-sky-700': graphsForm.value.graph !== 'Informe de cargues'
-          }"
-          (click)="graphsForm.controls['graph'].setValue('Informe de cargues')">
-          {{ 'Informe de cargues' | translate }}
-        </button>
-        <!-- Puedes agregar más pestañas aquí -->
+            }"
+            (click)="graphsForm.controls['graph'].setValue('Informe de cargues')">
+            {{ 'Informe de cargues' | translate }}
+            </button>
+         </div>
       </div>
-    </div>
-
-    <!-- Contenido del tab: default -->
-    <div *ngIf="graphsForm.value.graph === 'default'" class="bg-white p-4 rounded-b-lg shadow-md text-center">
-      <p class="text-sm text-gray-500">
-        {{ 'Seleccione el tipo de reporte que quiere visualizar' | translate }}
-      </p>
-    </div>
-
-    <!-- Contenido del tab: Informe de cargues -->
-    <div *ngIf="graphsForm.value.graph === 'Informe de cargues' || graphsForm.value.graph === 'Load report' || graphsForm.value.graph === 'Relatório de carga'" class="bg-white p-4 rounded-b-lg shadow-md">
-      <app-reports-load-report></app-reports-load-report>
-    </div>
-
-  </div>
+      <!-- Contenido del tab: default -->
+      <div *ngIf="graphsForm.value.graph === 'default'" class="bg-white p-4 rounded-b-lg shadow-md text-center">
+         <p class="text-sm text-gray-500">
+            {{ 'Seleccione el tipo de reporte que quiere visualizar' | translate }}
+         </p>
+      </div>
+      <!-- Contenido del tab: Informe de cargues -->
+      <div *ngIf="graphsForm.value.graph === 'Informe de cargues' || graphsForm.value.graph === 'Load report' || graphsForm.value.graph === 'Relatório de carga'" class="w-[99vw] sm:w-full bg-white p-4 rounded-b-lg shadow-md">
+         <app-reports-load-report></app-reports-load-report>
+      </div>
+   </div>
 </div>

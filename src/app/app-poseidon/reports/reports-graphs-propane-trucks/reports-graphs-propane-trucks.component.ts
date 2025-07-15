@@ -19,6 +19,9 @@ export class ReportsGraphsPropaneTrucksComponent {
 
   propaneTruckId: any;
 
+  collapsed = true;
+  private menuSub!: Subscription;
+
   constructor(
     private authService: AuthService,
     private route: ActivatedRoute,
@@ -44,6 +47,10 @@ export class ReportsGraphsPropaneTrucksComponent {
     this.languageSubscription = this.languageService.getLanguageObservable().subscribe(newLanguage => {
       this.translate.use(newLanguage);
       this.translate.setDefaultLang(newLanguage);
+
+      this.menuSub = this.authService.menuExpanded$.subscribe(expanded => {
+        this.collapsed = expanded; // O usa collapsed = !expanded si collapsed significa "colapsado"
+      });
 
       switch (this.languageService.getLanguage()) {
         case 'es':

@@ -1,124 +1,112 @@
 <div class="w-full flex items-center justify-center max-h-full p-2 my-2 transition-all duration-300">
-  <div class="container max-w-7xl mb-16">
-
-    <!-- Descripción paisaje -->
-    <div class="hidden md:flex justify-center mb-3 text-center" id="description-text-landscape">
-      <p class="text-gray-500 mt-1">
-        {{'En esta sección se muestran reportes de los auto tanques en operación' | translate}}
-      </p>
-    </div>
-
-    <!-- Descripción retrato -->
-    <div class="flex md:hidden justify-center mb-3 text-center" id="description-text-portrait">
-      <p class="text-[10px] text-gray-400">
-        {{'En esta sección se muestran reportes de los auto tanques en operación' | translate}}
-      </p>
-    </div>
-
-    <!-- Filtro de búsqueda -->
-    <div *ngIf="propane_trucks.length > 0" class="flex justify-center mb-4">
-      <div class="w-full max-w-xs text-center">
-        <input
-          class="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-300"
-          #myInput type="text" placeholder="{{'Buscar..' | translate}}" 
-          (input)="initializeSearchFilter()" />
-        <p class="text-xs text-gray-400 mt-1">
-          {{'Para utilizar correctamente el buscador por favor desplegar todos los registros con el paginador' | translate}}
-        </p>
+   <div class="container max-w-7xl mb-16">
+      <!-- Descripción paisaje -->
+      <div class="hidden md:flex justify-center mb-3 text-center" id="description-text-landscape">
+         <p class="text-gray-500 mt-1">
+            {{'En esta sección se muestran reportes de los auto tanques en operación' | translate}}
+         </p>
       </div>
-    </div>
-
-    <!-- Mostrar todo y conteo -->
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-2 bg-gray-50 p-3 rounded-xl mb-4">
-      <div class="text-xs text-gray-500">
-        <button type="button"
-          class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded text-xs mr-2"
-          (click)="setPageSizeToTotal()">
-          {{'Mostrar todo' | translate}}
-        </button>
-        {{pageIndex * pageSize + 1}} - {{(pageIndex + 1) * pageSize}} {{'de' | translate}} {{propane_trucks.length}} {{'registros' | translate}}
+      <!-- Descripción retrato -->
+      <div class="flex md:hidden justify-center mb-3 text-center" id="description-text-portrait">
+         <p class="text-[10px] text-gray-400">
+            {{'En esta sección se muestran reportes de los auto tanques en operación' | translate}}
+         </p>
       </div>
-    </div>
-
-    <!-- Loader -->
-    <div class="flex justify-center my-4" *ngIf="isLoading">
-      <div class="flex space-x-2">
-        <div class="w-4 h-4 rounded-full animate-ping bg-gray-500"></div>
-        <div class="w-4 h-4 rounded-full animate-ping bg-gray-300"></div>
+      <!-- Filtro de búsqueda -->
+      <div *ngIf="propane_trucks.length > 0" class="flex justify-center mb-4">
+         <div class="w-full max-w-xs text-center">
+            <input
+            class="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-300"
+            #myInput type="text" placeholder="{{'Buscar..' | translate}}" 
+            (input)="initializeSearchFilter()" />
+            <p class="text-xs text-gray-400 mt-1">
+               {{'Para utilizar correctamente el buscador por favor desplegar todos los registros con el paginador' | translate}}
+            </p>
+         </div>
       </div>
-    </div>
-
-    <!-- Tabla -->
-    <div class="overflow-x-auto overflow-y-auto max-w-[90vw] max-h-[90vh]">
-        <table class="min-w-full divide-y divide-gray-200" *ngIf="propane_trucks.length > 0">
+      <!-- Mostrar todo y conteo -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-2 bg-gray-50 p-3 rounded-xl mb-4">
+         <div class="text-xs text-gray-500">
+            <button type="button"
+               class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded text-xs mr-2"
+               (click)="setPageSizeToTotal()">
+            {{'Mostrar todo' | translate}}
+            </button>
+            {{pageIndex * pageSize + 1}} - {{(pageIndex + 1) * pageSize}} {{'de' | translate}} {{propane_trucks.length}} {{'registros' | translate}}
+         </div>
+      </div>
+      <!-- Loader -->
+      <div class="flex justify-center my-4" *ngIf="isLoading">
+         <div class="flex space-x-2">
+            <div class="w-4 h-4 rounded-full animate-ping bg-gray-500"></div>
+            <div class="w-4 h-4 rounded-full animate-ping bg-gray-300"></div>
+         </div>
+      </div>
+      <!-- Tabla -->
+      <div class="overflow-x-auto overflow-y-auto max-w-[90vw] max-h-[30vh]">
+         <table class="min-w-full divide-y divide-gray-200" *ngIf="propane_trucks.length > 0">
             <thead class="bg-gray-50">
-            <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-                    (click)="sortData('plate')">
-                {{ 'Placa' | translate }}
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-                    (click)="sortData('operator[0].firstName')">
-                {{ 'Operador' | translate }}
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {{ 'Acciones' | translate }}
-                </th>
-            </tr>
+               <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                     (click)="sortData('plate')">
+                     {{ 'Placa' | translate }}
+                  </th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                     (click)="sortData('operator[0].firstName')">
+                     {{ 'Operador' | translate }}
+                  </th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                     {{ 'Acciones' | translate }}
+                  </th>
+               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200" id="myTable">
-            <tr *ngFor="let propane_truck of propane_trucks.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)"
-                class="hover:bg-gray-50 transition-colors duration-150">
-                <!-- Columna: Placa y capacidad -->
-                <td class="px-6 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                    <div class="h-10 w-10 flex-shrink-0">
-                        <img class="h-10 w-10  object-cover" src="assets/images/propanetruck.svg" alt="truck" />
-                    </div>
-                    <div class="ml-4">
-                    <div class="text-sm font-medium text-gray-900">{{ propane_truck.plate }}</div>
-                    <p class="text-gray-400 text-xs cursor-pointer" (click)="sortData('capacity')">
-                        {{ propane_truck.capacity }} Kg
-                    </p>
-                    </div>
-                </div>
-                </td>
-
-                <!-- Columna: Operador -->
-                <td class="px-6 py-4 whitespace-nowrap">
-                <ul class="space-y-1">
-                    <li *ngFor="let operator of propane_truck.operator"
-                        class="bg-green-100 border border-green-200 rounded p-2 text-sm cursor-pointer hover:bg-green-200 transition"
+               <tr *ngFor="let propane_truck of propane_trucks.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)"
+                  class="hover:bg-gray-50 transition-colors duration-150">
+                  <!-- Columna: Placa y capacidad -->
+                  <td class="px-6 py-4 whitespace-nowrap">
+                     <div class="flex items-center">
+                        <div class="h-10 w-10 flex-shrink-0">
+                           <img class="h-10 w-10  object-cover" src="assets/images/propanetruck.svg" alt="truck" />
+                        </div>
+                        <div class="ml-4">
+                           <div class="text-sm font-medium text-gray-900">{{ propane_truck.plate }}</div>
+                           <p class="text-gray-400 text-xs cursor-pointer" (click)="sortData('capacity')">
+                              {{ propane_truck.capacity }} Kg
+                           </p>
+                        </div>
+                     </div>
+                  </td>
+                  <!-- Columna: Operador -->
+                  <td class="px-6 py-4 whitespace-nowrap">
+                     <ul class="space-y-1">
+                        <li *ngFor="let operator of propane_truck.operator"
+                        class="bg-green-100 border border-green-200 rounded p-1 text-sm cursor-pointer hover:bg-green-200 transition"
                         (click)="toCourses(operator.id)" title="{{ 'Ver derrotero' | translate }}">
-                    {{ operator.firstName }} {{ operator.lastName }}
-                    <p class="text-[12px] text-gray-500">{{ operator.email }}</p>
-                    </li>
-                </ul>
-                </td>
-
-                <!-- Columna: Acciones -->
-                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex gap-1">
-                <button
-                    class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded text-xs flex items-center gap-1"
-                    (click)="toViewPerformance(propane_truck.plate)">
-                    {{ 'Gráficos estadísticos' | translate }}
-                    <img src="assets/images/icons/graph.svg" class="w-4 h-4" />
-                </button>
-                </td>
-            </tr>
+                        {{ operator.firstName }} {{ operator.lastName }} <br>
+                        <span class="text-[12px] text-gray-500">{{ operator.email }}</span>
+                        </li>
+                     </ul>
+                  </td>
+                  <!-- Columna: Acciones -->
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex gap-1">
+                     <button
+                        class="bg-green-600 hover:bg-green-700 text-white px-2 py-2 rounded text-xs flex items-center gap-1"
+                        (click)="toViewPerformance(propane_truck.plate)">
+                     {{ 'Gráficos estadísticos' | translate }}
+                     <img src="assets/images/icons/graph.svg" class="w-4 h-4" />
+                     </button>
+                  </td>
+               </tr>
             </tbody>
-        </table>
-    </div>
-
-
-    <!-- Paginador -->
-    <div class="mt-4">
-      <mat-paginator [length]="propane_trucks.length"
-                     [pageSizeOptions]="[25, 50, 100, propane_trucks.length]"
-                     showFirstLastButtons>
-      </mat-paginator>
-    </div>
-        
-
-  </div>
+         </table>
+      </div>
+      <!-- Paginador -->
+      <div class="mt-4">
+         <mat-paginator [length]="propane_trucks.length"
+         [pageSizeOptions]="[25, 50, 100, propane_trucks.length]"
+         showFirstLastButtons>
+         </mat-paginator>
+      </div>
+   </div>
 </div>
