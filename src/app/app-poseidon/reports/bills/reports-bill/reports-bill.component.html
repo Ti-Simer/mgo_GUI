@@ -1,64 +1,101 @@
-<div class="general-container d-flex justify-content-center">
-    <div class="container">
-        <div class="invoice" *ngIf="bill" id="htmlData">
-            <div class="header">{{'Remisión' | translate}}</div>
-            <p class="text-center">{{'recibo' | translate}} {{bill.bill_code}}</p>
-            <hr> <!-- Línea de separación -->
-            <div class="details">
-                <div class="address" *ngIf="bill">
-                    <p>{{'Sucursal' | translate}}: {{bill.branch_office_name}}</p>
-                    <p>{{'NIT' | translate}}: {{ bill.branch_office_nit }}</p>
-                    <p>{{'Código' | translate}}: {{ bill.branch_office_code }}</p>
-                    <p>{{'Dirección' | translate}}: {{ bill.branch_office_address }}</p>
-                </div>
-                <div class="date" *ngIf="bill">
-                    <p>{{'Fecha' | translate}}: {{ bill.charge.fechaInicial}} | {{ bill.charge.horaInicial}}</p>
-                    <p>{{'Estado' | translate}}: {{ bill.status }}</p>
-                    <p>{{'Cliente' | translate}}: {{ bill.client_firstName }} {{ bill.client_lastName }}</p>
-                    <p>{{'CC' | translate}}: {{ bill.client_cc }}</p>
-                </div>
-            </div>
-            <hr> <!-- Línea de separación -->
-            <div class="operator" *ngIf="bill">
-                <p>{{'Operario' | translate}}: {{ bill.operator_firstName }} {{ bill.operator_lastName }}</p>
-            </div>
-            <hr> <!-- Línea de separación -->
-            <div class="observations" *ngIf="bill.charge.observations">
-                <p>{{'Observaciones' | translate}}: {{bill.charge.observations}}</p>
-                <hr> <!-- Línea de separación -->
-            </div>
-            <div class="infoCharge" *ngIf="bill">
-                <p>{{'Fecha Inicio/Fin' | translate}}: {{ bill.charge.fechaInicial}} __ {{ bill.charge.fechaFinal}}</p>
-                <p>{{'Hora Inicio/Fin' | translate}}: {{ bill.charge.horaInicial}} __ {{ bill.charge.horaFinal}}</p>
-            </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>{{'Volumen' | translate}}</th>
-                        <th>{{'Densidad' | translate}}</th>
-                        <th>{{'Masa' | translate}}</th>
-                        <th>{{'Temperatura' | translate}}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{{ bill.charge.volumenTotal }}</td>
-                        <td>{{ bill.charge.densidad }}</td>
-                        <td>{{ bill.charge.masaTotal }}</td>
-                        <td>{{ bill.charge.temperatura }}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <hr> <!-- Línea de separación -->
-            <div class="total">
-                <p>{{'Total' | translate}}: {{ bill.total | currency:currencyCode:'symbol':'1.0-0'}}</p>
-            </div>
-        </div>
-    </div>   
-    <div class="row text-center mt-2">
-        <div class="col-md-12">
-            <button class="btn btn-sm btn-danger" id="download-button-landscape" (click)="printBill()">{{'Descargar' | translate}}</button>
-            <button class="btn btn-sm btn-danger" id="download-button-portrait" (click)="printMobileBill()">{{'Descargar' | translate}}</button>
-        </div>
-    </div>
+<div class="flex flex-col items-center">
+   <!-- Ticket -->
+   <div *ngIf="bill" id="htmlData"
+      class="bg-white shadow-md rounded-lg p-6 w-72 sm:w-96">
+      <!-- Cabecera -->
+      <h2 class="text-center text-lg font-bold text-gray-800 mb-1">
+         {{ 'Remisión' | translate }}
+      </h2>
+      <p class="text-center text-sm text-gray-600 mb-4">
+         {{ 'recibo' | translate }} {{ bill.bill_code }}
+      </p>
+      <hr class="border-gray-300 mb-4">
+      <!-- Detalles en dos columnas -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-gray-700 mb-4">
+         <!-- Columna izquierda -->
+         <div class="space-y-1">
+            <p><span class="font-medium text-sm">{{ 'Sucursal' | translate }}:</span> {{ bill.branch_office_name }}</p>
+            <p><span class="font-medium text-sm">{{ 'NIT' | translate }}:</span> {{ bill.branch_office_nit }}</p>
+            <p><span class="font-medium text-sm">{{ 'Código' | translate }}:</span> {{ bill.branch_office_code }}</p>
+            <p><span class="font-medium text-sm">{{ 'Dirección' | translate }}:</span> {{ bill.branch_office_address }}</p>
+         </div>
+         <!-- Columna derecha -->
+         <div class="space-y-1 text-right">
+            <p>
+               <span class="font-medium text-sm">{{ 'Fecha' | translate }}:</span>
+               {{ bill.charge.fechaInicial }} | {{ bill.charge.horaInicial }}
+            </p>
+            <p><span class="font-medium text-sm">{{ 'Estado' | translate }}:</span> {{ bill.status }}</p>
+            <p>
+               <span class="font-medium text-sm">{{ 'Cliente' | translate }}:</span>
+               {{ bill.client_firstName }} {{ bill.client_lastName }}
+            </p>
+            <p><span class="font-medium text-sm">{{ 'CC' | translate }}:</span> {{ bill.client_cc }}</p>
+         </div>
+      </div>
+      <hr class="border-gray-300 mb-4">
+      <!-- Operario -->
+      <p class="text-xs text-gray-700 mb-4">
+         <span class="font-light">{{ 'Operario' | translate }}:</span>
+         {{ bill.operator_firstName }} {{ bill.operator_lastName }}
+      </p>
+      <hr class="border-gray-300 mb-4">
+      <!-- Observaciones -->
+      <div *ngIf="bill.charge.observations" class="mb-4">
+         <p class="text-xs text-gray-700">
+            <span class="font-semibold">{{ 'Observaciones' | translate }}:</span>
+            {{ bill.charge.observations }}
+         </p>
+         <hr class="border-gray-300 mt-2">
+      </div>
+      <!-- Fechas de carga -->
+      <div class="text-xs text-gray-700 mb-4">
+         <p>
+            <span class="font-light">{{ 'Fecha Inicio/Fin' | translate }}: {{ bill.charge.fechaInicial }} — {{ bill.charge.fechaFinal }}</span>
+         </p>
+         <p>
+            <span class="font-light">{{ 'Hora Inicio/Fin' | translate }}: {{ bill.charge.horaInicial }} — {{ bill.charge.horaFinal }}</span>
+         </p>
+      </div>
+      <!-- Tabla de valores -->
+      <table class="w-full text-xs text-gray-700 border border-gray-300 mb-4">
+         <thead class="bg-gray-100">
+            <tr>
+               <th class="px-2 py-1 border font-medium text-xs">{{ 'Volumen' | translate }}</th>
+               <th class="px-2 py-1 border font-medium text-xs">{{ 'Densidad' | translate }}</th>
+               <th class="px-2 py-1 border font-medium text-xs">{{ 'Masa' | translate }}</th>
+               <th class="px-2 py-1 border font-medium text-xs">{{ 'Temperatura' | translate }}</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               <td class="px-2 py-1 border font-light text-xs">{{ bill.charge.volumenTotal }}</td>
+               <td class="px-2 py-1 border font-light text-xs">{{ bill.charge.densidad }}</td>
+               <td class="px-2 py-1 border font-light text-xs">{{ bill.charge.masaTotal }}</td>
+               <td class="px-2 py-1 border font-light text-xs">{{ bill.charge.temperatura }}</td>
+            </tr>
+         </tbody>
+      </table>
+      <hr class="border-gray-300 mb-4">
+      <!-- Total -->
+      <p class="text-right text-sm font-semibold text-gray-800">
+         {{ 'Total' | translate }}:
+         {{ bill.total | currency:currencyCode:'symbol':'1.0-0' }}
+      </p>
+   </div>
+   <!-- Botones de descarga -->
+   <div class="mt-6 flex space-x-4">
+      <!-- Visible en pantallas >= sm -->
+      <button
+         class="hidden sm:inline-block bg-red-600 hover:bg-red-700 text-white text-sm px-4 py-2 rounded shadow"
+         (click)="printBill()">
+      {{ 'Descargar' | translate }}
+      </button>
+      <!-- Visible en pantallas < sm -->
+      <button
+         class="inline-block sm:hidden bg-red-600 hover:bg-red-700 text-white text-sm px-4 py-2 rounded shadow"
+         (click)="printMobileBill()">
+      {{ 'Descargar' | translate }}
+      </button>
+   </div>
 </div>

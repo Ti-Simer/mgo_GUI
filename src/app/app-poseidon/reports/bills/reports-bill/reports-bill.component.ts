@@ -44,7 +44,7 @@ export class ReportsBillComponent {
     this.billService.getById(this.billId).subscribe(
       response => {
         if (response.statusCode == 200) {
-          this.bill = response.data;          
+          this.bill = response.data;
         } else {
           this.toastr.error(response.message, `Ha ocurrido un problema al consultar la factura:`);
         }
@@ -56,6 +56,19 @@ export class ReportsBillComponent {
 
   calcularTotal() {
 
+  }
+
+  getStatusClass(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'efectivo':
+        return 'text-green-700 bg-green-100 px-2 py-1 rounded-full text-sm';
+      case 'pendiente':
+        return 'text-yellow-700 bg-yellow-100 px-2 py-1 rounded-full text-sm';
+      case 'error':
+        return 'text-red-700 bg-red-100 px-2 py-1 rounded-full text-sm';
+      default:
+        return 'text-gray-700 bg-gray-100 px-2 py-1 rounded-full text-sm';
+    }
   }
 
   printBill() {
@@ -73,7 +86,7 @@ export class ReportsBillComponent {
       const bufferX = 60;
       const bufferY = 0;
       const imgProps = (doc as any).getImageProperties(img);
-  
+
       //const pdfWidth = imgProps.width;
       //const pdfHeight = imgProps.height;
       const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
@@ -82,8 +95,8 @@ export class ReportsBillComponent {
       // Aumenta el tamaño de la imagen en el papel
       const imageX = bufferX; // Posición X de la imagen
       const imageY = bufferY; // Posición Y de la imagen
-      const imageWidth = pdfWidth ; // Ancho de la imagen
-      const imageHeight = pdfHeight ; // Alto de la imagen
+      const imageWidth = pdfWidth; // Ancho de la imagen
+      const imageHeight = pdfHeight; // Alto de la imagen
 
       doc.addImage(img, 'PNG', imageX, imageY, imageWidth, imageHeight, undefined, 'FAST');
       return doc;
@@ -101,19 +114,19 @@ export class ReportsBillComponent {
     };
     html2canvas(DATA!, options).then((canvas) => {
       const img = canvas.toDataURL('image/PNG');
-  
+
       // Add image Canvas to PDF
       const bufferY = 20;
       const imgProps = (doc as any).getImageProperties(img);
-  
+
       const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferY;
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-  
+
       // Ajustar la imagen para que quepa en una sola página
       const imageY = bufferY; // Posición Y de la imagen
       let imageWidth = pdfWidth; // Ancho de la imagen
       let imageHeight = pdfHeight; // Alto de la imagen
-  
+
       // Verificar si la imagen cabe en una sola página
       if (imageHeight > doc.internal.pageSize.getHeight() - 2 * bufferY) {
         // Ajustar la escala para que la imagen quepa en una sola página
@@ -121,10 +134,10 @@ export class ReportsBillComponent {
         imageWidth *= scale;
         imageHeight *= scale;
       }
-  
+
       // Calcular la posición X para centrar la imagen
       const imageX = (doc.internal.pageSize.getWidth() - imageWidth) / 2;
-  
+
       doc.addImage(img, 'PNG', imageX, imageY, imageWidth, imageHeight, undefined, 'FAST');
       return doc;
     }).then((docResult) => {
