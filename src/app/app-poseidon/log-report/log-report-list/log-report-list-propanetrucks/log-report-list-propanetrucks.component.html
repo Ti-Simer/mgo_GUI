@@ -30,7 +30,7 @@
                 *ngIf="data.length > 1">
 
                 <!-- GRID -->
-                <div *ngIf="viewMode === 'grid'" class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-6xl w-full mx-auto">
+                <div *ngIf="viewMode === 'grid'" class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-w-6xl w-full mx-auto">
                     <ng-container *ngFor="let propaneTruck of data">
                         <div class="p-1">
                             <div
@@ -47,7 +47,7 @@
                                     <div class="text-white text-center" *ngIf="propaneTruck.last_delivery === ''">
                                         {{ 'Sin entregas' | translate }}
                                     </div>
-                                    
+
                                     <div class="text-white text-center" *ngIf="propaneTruck.last_delivery !== ''">
                                         {{ propaneTruck.last_delivery }}
                                     </div>
@@ -61,9 +61,12 @@
                                         | truncate: 13 }}</span><br>
                                     <hr class="my-1 w-3/4 mx-auto border-gray-300" />
                                     <div class="space-y-1">
-                                        <span class="m-0">{{'Masa' | translate}}: {{ propaneTruck.delivered_mass }} Kg</span><br>
-                                        <span class="m-0">{{'Volumen' | translate}}: {{ propaneTruck.delivered_volume }} Gl</span><br>
-                                        <span class="m-0">{{'Pedidos' | translate}}: {{ propaneTruck.orders.length }} / {{
+                                        <span class="m-0">{{'Masa' | translate}}: {{ propaneTruck.delivered_mass }}
+                                            Kg</span><br>
+                                        <span class="m-0">{{'Volumen' | translate}}: {{ propaneTruck.delivered_volume }}
+                                            Gl</span><br>
+                                        <span class="m-0">{{'Pedidos' | translate}}: {{ propaneTruck.orders.length }} /
+                                            {{
                                             propaneTruck.completed_orders.length }}</span>
                                     </div>
                                 </div>
@@ -72,130 +75,85 @@
                     </ng-container>
                 </div>
 
-                <!-- LISTADO -->
-                <div *ngIf="viewMode === 'list'"
-                    class="flex flex-col divide-y divide-gray-200 max-w-4xl w-full mx-auto bg-white p-3 rounded shadow-sm text-sm text-gray-700">
-                    <div *ngFor="let propaneTruck of data" class="py-2">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
-                            <div>
-                                <span class="font-medium m-0">{{'Placa' | translate}}:</span>
-                                <span class="m-0">{{ propaneTruck.plate }}</span>
-                            </div>
-                            <div>
-                                <span class="font-medium m-0">{{'Operador' | translate}}:</span>
-                                <span class="m-0">{{ propaneTruck.operator }}</span>
-                            </div>
-                            <div>
-                                <span class="font-medium m-0">{{'Última entrega' | translate}}:</span>
-                                <span class="m-0">
-                                    {{ propaneTruck.last_delivery !== '' ? propaneTruck.last_delivery : ('Sin entregas'
-                                    | translate) }}
-                                </span>
-                            </div>
-                            <div>
-                                <span class="font-medium m-0">{{'Masa' | translate}}:</span>
-                                <span class="m-0">{{ propaneTruck.delivered_mass }} Kg</span>
-                            </div>
-                            <div>
-                                <span class="font-medium m-0">{{'Volumen' | translate}}:</span>
-                                <span class="m-0">{{ propaneTruck.delivered_volume }} Gl</span>
-                            </div>
-                            <div>
-                                <span class="font-medium m-0">{{'Pedidos' | translate}}:</span>
-                                <span class="m-0">{{ propaneTruck.orders.length }} / {{
-                                    propaneTruck.completed_orders.length }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SOLO UN AUTOTANQUE -->
-            <div *ngIf="viewMode === 'grid' && data.length === 1" class="flex justify-center w-full grid grid-cols-1">
-                <div class="w-full sm:w-1/2 p-1" *ngFor="let propaneTruck of data">
-                    <div
-                        class="flex justify-between p-3 bg-white border-l-4 border-green-500 rounded-xl shadow hover:shadow-md transition-shadow text-xs">
-                        <!-- Columna izquierda -->
-                        <div class="w-1/2" id="items2">
-                            <div class="mb-2 flex justify-center">
-                                <div [ngClass]="{
+                <!-- SOLO UN AUTOTANQUE -->
+                <div *ngIf="viewMode === 'grid' && data.length === 1"
+                    class="flex justify-center w-full grid grid-cols-1">
+                    <div class="w-full sm:w-1/2 p-1" *ngFor="let propaneTruck of data">
+                        <div
+                            class="flex justify-between p-3 bg-white border-l-4 border-green-500 rounded-xl shadow hover:shadow-md transition-shadow text-xs">
+                            <!-- Columna izquierda -->
+                            <div class="w-1/2" id="items2">
+                                <div class="mb-2 flex justify-center">
+                                    <div [ngClass]="{
                                     'color-changing-square-green': propaneTruck.last_criticality === 0,
                                     'color-changing-square-orange': propaneTruck.last_criticality === 1,
                                     'color-changing-square-red': propaneTruck.last_criticality === 2
                                     }" class="rounded shadow-sm w-4 h-4"></div>
+                                </div>
+                                <div class="text-white text-center" *ngIf="propaneTruck.last_delivery === ''">
+                                    {{ 'Sin entregas' | translate }}
+                                </div>
+                                <div class="text-white text-center" *ngIf="propaneTruck.last_delivery !== ''">
+                                    <p class="text-center m-0">{{ 'Ultima entrega:' | translate }}</p>
+                                    {{ propaneTruck.last_delivery }}
+                                </div>
                             </div>
-                            <div class="text-white text-center" *ngIf="propaneTruck.last_delivery === ''">
-                                {{ 'Sin entregas' | translate }}
+
+                            <!-- Columna derecha -->
+                            <div class="bg-white text-gray-700 p-2 rounded shadow-sm w-1/2" id="items2">
+                                <span class="font-semibold m-0 truncate">{{ propaneTruck.plate }}</span><br />
+                                <span class="truncate m-0" title="{{ propaneTruck.operator }}">
+                                    {{ propaneTruck.operator | truncate: 13 }}
+                                </span><br />
+                                <hr class="my-1 w-3/4 mx-auto border-gray-300" />
+                                <div class="space-y-1">
+                                    <span class="m-0">{{'Masa' | translate}}: {{ propaneTruck.delivered_mass }}
+                                        Kg</span><br />
+                                    <span class="m-0">{{'Volumen' | translate}}: {{ propaneTruck.delivered_volume }}
+                                        Gl</span><br />
+                                    <span class="m-0">{{'Pedidos' | translate}}: {{ propaneTruck.orders.length }} / {{
+                                        propaneTruck.completed_orders.length }}</span><br />
+                                </div>
                             </div>
-                            <div class="text-white text-center" *ngIf="propaneTruck.last_delivery !== ''">
-                                <p class="text-center m-0">{{ 'Ultima entrega:' | translate }}</p>
-                                {{ propaneTruck.last_delivery }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LISTADO (Modo Lista) -->
+                <div *ngIf="viewMode === 'list'" class="space-y-1 w-full sm:w-5/6 max-w-5xl max-h-[400px] mx-auto">
+                    <div *ngFor="let propaneTruck of data"
+                        class="border-l-4 rounded-md shadow-sm bg-white p-2 flex justify-between items-start hover:shadow-md transition text-xs"
+                        [ngClass]="{
+                            'border-sky-700': propaneTruck.last_criticality === 0,
+                            'border-orange-400': propaneTruck.last_criticality === 1,
+                            'border-red-600': propaneTruck.last_criticality === 2
+                            }">
+
+                        <!-- Columna izquierda -->
+                        <div class="space-y-0.5">
+                            <div class="font-semibold text-gray-800 text-xs">{{ propaneTruck.plate }}</div>
+                            <div class="text-[11px] text-gray-500 truncate">{{ propaneTruck.operator }}</div>
+                            <div class="text-[11px] text-gray-500 italic mt-0.5">
+                                {{ propaneTruck.last_delivery !== '' ? propaneTruck.last_delivery : ('Sin entregas' |
+                                translate) }}
                             </div>
                         </div>
 
                         <!-- Columna derecha -->
-                        <div class="bg-white text-gray-700 p-2 rounded shadow-sm w-1/2" id="items2">
-                            <span class="font-semibold m-0 truncate">{{ propaneTruck.plate }}</span><br />
-                            <span class="truncate m-0" title="{{ propaneTruck.operator }}">
-                                {{ propaneTruck.operator | truncate: 13 }}
-                            </span><br />
-                            <hr class="my-1 w-3/4 mx-auto border-gray-300" />
-                            <div class="space-y-1">
-                                <span class="m-0">{{'Masa' | translate}}: {{ propaneTruck.delivered_mass }} Kg</span><br />
-                                <span class="m-0">{{'Volumen' | translate}}: {{ propaneTruck.delivered_volume }} Gl</span><br />
-                                <span class="m-0">{{'Pedidos' | translate}}: {{ propaneTruck.orders.length }} / {{
-                                    propaneTruck.completed_orders.length }}</span><br />
-                            </div>
+                        <div class="text-right text-[11px] text-gray-600 space-y-0.5">
+                            <div>{{ 'Masa' | translate }}: {{ propaneTruck.delivered_mass }} Kg</div>
+                            <div>{{ 'Volumen' | translate }}: {{ propaneTruck.delivered_volume }} Gl</div>
+                            <div>{{ 'Pedidos' | translate }}: {{ propaneTruck.orders.length }} / {{
+                                propaneTruck.completed_orders.length }}</div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- LISTADO (Modo Lista) -->
-            <div *ngIf="viewMode === 'list' && data.length === 1"
-                class="flex flex-col divide-y divide-gray-200 max-w-4xl w-full mx-auto bg-white p-3 rounded shadow-sm text-sm text-gray-700">
-                <div *ngFor="let propaneTruck of data" class="py-2">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
-                        <div>
-                            <span class="font-medium m-0">{{'Placa' | translate}}:</span>
-                            <span class="m-0">{{ propaneTruck.plate }}</span>
-                        </div>
-                        <div>
-                            <span class="font-medium m-0">{{'Operador' | translate}}:</span>
-                            <span class="m-0">{{ propaneTruck.operator }}</span>
-                        </div>
-                        <div>
-                            <span class="font-medium m-0">{{'Última entrega' | translate}}:</span>
-                            <span class="m-0">
-                                {{
-                                propaneTruck.last_delivery !== ''
-                                ? propaneTruck.last_delivery
-                                : ('Sin entregas' | translate)
-                                }}
-                            </span>
-                        </div>
-                        <div>
-                            <span class="font-medium m-0">{{'Masa' | translate}}:</span>
-                            <span class="m-0">{{ propaneTruck.delivered_mass }} Kg</span>
-                        </div>
-                        <div>
-                            <span class="font-medium m-0">{{'Volumen' | translate}}:</span>
-                            <span class="m-0">{{ propaneTruck.delivered_volume }} Gl</span>
-                        </div>
-                        <div>
-                            <span class="font-medium m-0">{{'Pedidos' | translate}}:</span>
-                            <span class="m-0">{{ propaneTruck.orders.length }} / {{ propaneTruck.completed_orders.length
-                                }}</span>
-                        </div>
-                    </div>
+                <!-- MENSAJE: sin autotanques -->
+                <div class="container flex justify-center" *ngIf="data.length < 1">
+                    <p class="text-sm text-gray-500 text-center p-4 rounded border border-dotted border-gray-400 mt-4">
+                        {{ 'No hay Auto Tanques en curso' | translate }}
+                    </p>
                 </div>
-            </div>
-
-            <!-- MENSAJE: sin autotanques -->
-            <div class="container flex justify-center" *ngIf="data.length < 1">
-                <p class="text-sm text-gray-500 text-center p-4 rounded border border-dotted border-gray-400 mt-4">
-                    {{ 'No hay Auto Tanques en curso' | translate }}
-                </p>
             </div>
         </div>
-    </div>
