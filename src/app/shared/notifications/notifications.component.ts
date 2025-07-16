@@ -19,7 +19,7 @@ export class NotificationsComponent {
 
   notifications: any;
   flag: boolean = false;
-  
+
   constructor(
     private notificationService: NotificationService,
     private router: Router,
@@ -30,7 +30,7 @@ export class NotificationsComponent {
   ) {
     translate.addLangs(['en', 'es', 'pt']);
     translate.setDefaultLang(this.languageService.getLanguage());
-    
+
     this.authService.readChecker().subscribe(flag => {
       this.flag = flag;
       if (!this.flag) {
@@ -41,7 +41,7 @@ export class NotificationsComponent {
     });
   }
 
-  ngOnInit() {    
+  ngOnInit() {
   }
 
   async fetchNotifications() {
@@ -50,14 +50,14 @@ export class NotificationsComponent {
     this.subscription = polling$
       .pipe(switchMap(() => this.notificationService.getUnread()))
       .subscribe(
-        response => { 
-          if(response.statusCode == 200){
+        response => {
+          if (response.statusCode == 200) {
             this.notifications = response.data.sort((a: any, b: any) => {
               let dateA = new Date(a.create); // o a.update dependiendo de qué fecha quieres usar
               let dateB = new Date(b.create); // o b.update dependiendo de qué fecha quieres usar
               return dateB.getTime() - dateA.getTime(); // Ordena en orden descendente
             });
-          }         
+          }
         },
         error => {
           console.error('Error al obtener las notificaciones:', error);

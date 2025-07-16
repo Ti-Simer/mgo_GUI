@@ -79,6 +79,7 @@ export class ClientsCreateComponent {
     if (this.clientForm.valid) {
       this.clientService.create(this.clientForm.value).subscribe(
         response => {
+          console.log(response);
           if (response.statusCode == 200) {
             this.toastr.success(`El cliente ${response.data.firstName} ${response.data.lastName} ha sido creado exitosamente`);
             this.dialogRef.close();
