@@ -1,4 +1,4 @@
-<div class="h-[40rem] overflow-auto">
+<div class="h-[85vh] overflow-auto">
     <div class="max-w-7xl mx-auto">
         <!-- Título y encabezado -->
         <div *ngIf="course" class="mb-6">
@@ -18,7 +18,7 @@
             </div>
 
             <!-- Lista de pedidos -->
-            <div *ngIf="course" class="space-y-4">
+            <div *ngIf="course" class="space-y-4 max-h-[28rem] overflow-auto">
                 <div class="bg-white rounded-lg shadow-md overflow-hidden">
                     <div class="bg-green-600 text-white text-center py-2 font-semibold">
                         {{ 'Pedidos' | translate }}: {{ course.orders.length }}
@@ -55,29 +55,32 @@
                     </mat-accordion>
                 </div>
 
-                <!-- Información adicional -->
-                <div class="bg-white rounded-lg shadow p-4 text-sm space-y-1">
-                    <p class="text-gray-700">
-                        <strong>{{ 'Fecha de Creación' | translate }}:</strong> {{ course.create | date: 'dd - MMMM - y H:mm' }}
-                    </p>
-                    <p class="text-gray-700">
-                        <strong>{{ 'Estado' | translate }}:</strong> {{ course.state }}
-                    </p>
-                </div>
-
-                <!-- Botones de acción -->
-                <div class="flex justify-end flex-wrap gap-2 mt-2">
-                    <button class="bg-green-600 hover:bg-green-500 text-white px-4 py-2 text-sm rounded shadow" (click)="downloadCourse()">
-                        {{ 'Descargar' | translate }} XLS
-                    </button>
-                    <button class="bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 text-sm rounded shadow" (click)="toEditCourse()">
-                        {{ 'Editar' | translate }}
-                    </button>
-                    <button class="bg-red-600 hover:bg-red-500 text-white px-4 py-2 text-sm rounded shadow" (click)="deleteCourse()">
-                        {{ 'Borrar' | translate }}
-                    </button>
-                </div>
             </div>
+        </div>
+
+        <!-- Información adicional -->
+         <div class="flex justify-end mt-8">
+             <div class="bg-white rounded-lg shadow p-4 text-sm space-y-1">
+                 <p class="text-gray-700">
+                     <strong>{{ 'Fecha de Creación' | translate }}:</strong> {{ course.create | date: 'dd - MMMM - y H:mm' }}
+                 </p>
+                 <p class="text-gray-700">
+                     <strong>{{ 'Estado' | translate }}:</strong> {{ course.state }}
+                 </p>
+             </div>
+         </div>
+
+        <!-- Botones de acción -->
+        <div class="flex justify-end flex-wrap gap-2 mt-2">
+            <button class="bg-green-600 hover:bg-green-500 text-white px-4 py-2 text-sm rounded shadow" (click)="downloadCourse()">
+                {{ 'Descargar' | translate }} XLS
+            </button>
+            <button class="bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 text-sm rounded shadow" (click)="toEditCourse()">
+                {{ 'Editar' | translate }}
+            </button>
+            <button class="bg-red-600 hover:bg-red-500 text-white px-4 py-2 text-sm rounded shadow" (click)="deleteCourse()">
+                {{ 'Borrar' | translate }}
+            </button>
         </div>
     </div>
 </div>

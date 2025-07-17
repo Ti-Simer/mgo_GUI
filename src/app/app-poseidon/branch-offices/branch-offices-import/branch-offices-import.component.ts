@@ -489,6 +489,7 @@ export class BranchOfficesImportComponent {
       response => {
         if (response.statusCode === 200) {
           const branch_offices = response.data;
+          console.log(branch_offices);
 
           // Define workbook
           const wb: XLSX.WorkBook = XLSX.utils.book_new();

@@ -601,5 +601,9 @@
     "Modo listado": "Modo listado",
     "Modo tarjetas": "Modo cartões",
     "Última entrega": "Última entrega",
+    "Confirmación": "Confirmação",
+    "¿Está seguro de que desea eliminar este registro?": "Você tem certeza de que deseja excluir este registro?",
+    "Esta acción eliminará permanentemente el elemento seleccionado y no podrá ser revertida": "Esta ação excluirá permanentemente o item selecionado e não poderá ser revertida",
+    "Operación segura - Todos los datos están protegidos": "Operação segura - Todos os dados estão protegidos",
     "": ""
 }

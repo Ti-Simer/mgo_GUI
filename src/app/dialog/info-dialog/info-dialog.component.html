@@ -1,9 +1,30 @@
-<div class="confirm-dialog">
-    <h2 class="mat-dialog-title text-danger">{{data.title}}</h2>
-    <div class="mat-dialog-content">
-        <p [innerHTML]="data.message"></p>
+<!-- Diálogo con un solo botón (Aceptar) -->
+<div
+    class="dialog-animation w-full bg-white rounded-xl shadow-xl overflow-hidden transform transition-all duration-300">
+    <!-- Encabezado -->
+    <div class="bg-blue-50 px-6 py-5 border-b border-blue-100 flex items-center justify-center">
+        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4 text-sky-800">
+            <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-alert-triangle" width="24" height="24"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                <line x1="12" y1="9" x2="12" y2="13" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+        </div>
+        <span class="text-xl font-semibold text-sky-800 py-1">{{ data.title }}</span>
     </div>
-    <div class="mat-dialog-actions">
-        <button class="btn btn-primary" (click)="onConfirm()">{{'Aceptar' | translate}}</button>
+    <!-- Contenido -->
+    <div class="p-6 text-center text-gray-700">
+        <p class="text-sm" [innerHTML]="data.message"></p>
+    </div>
+    <!-- Botón de acción -->
+    <div class="flex justify-center px-6 pb-6">
+        <button (click)="onConfirm()"
+            class="px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white font-medium rounded-lg 
+         transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-50 flex items-center gap-2">
+            <i class="fas fa-check"></i>
+            {{ 'Aceptar' | translate }}
+        </button>
     </div>
 </div>
