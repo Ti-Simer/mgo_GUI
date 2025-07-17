@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { DialogCreateBranchOfficeComponent } from '../dialog-create-branch-office/dialog-create-branch-office.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogEditBranchOfficeComponent } from '../dialog-edit-branch-office/dialog-edit-branch-office.component';
+import { DialogImportBranchOfficesComponent } from '../dialog-import-branch-offices/dialog-import-branch-offices.component';
 
 @Component({
   selector: 'app-branch-offices-list',
@@ -294,6 +295,21 @@ export class BranchOfficesListComponent {
 
     this.dialogService.openInfoDialog(message, title);
   }
+  toImportBranchOffices() {
+      this.authService.writeChecker().subscribe(flag => {
+        if (!flag) {
+          this.toastr.warning('No tienes permisos para crear');
+        } else {
+          const dialogRef = this.dialog.open(DialogImportBranchOfficesComponent, {
+            width: '65vw',
+          });
+
+          dialogRef.afterClosed().subscribe(result => {
+            this.fetchBranchOffices();
+          });
+        }
+      });
+    }
 
   toEditBranchOffice(branchOffice: any) {
     this.authService.editChecker().subscribe(flag => {
@@ -326,10 +342,6 @@ export class BranchOfficesListComponent {
         });
       }
     });
-  }
-
-  toImportBranchOffices() {
-    this.router.navigate(['/poseidon/branch-offices/import']);
   }
 
   toOrders() {

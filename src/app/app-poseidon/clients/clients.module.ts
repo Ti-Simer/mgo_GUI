@@ -6,12 +6,15 @@ import { ClientsListComponent } from './clients-list/clients-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClientsCreateComponent } from './clients-create/clients-create.component';
 import { ClientsEditComponent } from './clients-edit/clients-edit.component';
-import { ClientsImportComponent } from './clients-import/clients-import.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { DialogCreateClientsComponent } from './dialog-create-clients/dialog-create-clients.component';
+import { DialogEditClientsComponent } from './dialog-edit-clients/dialog-edit-clients.component';
+import { DialogImportClientsComponent } from './dialog-import-clients/dialog-import-clients.component';
+import { ClientsImportComponent } from './clients-import/clients-import.component';
 
 import {
   LucideAngularModule,
@@ -22,10 +25,9 @@ import {
   PlusCircle,
   FileDown,
   HelpCircle,
-  Search
+  Search,
+  LucideUploadCloud
 } from 'lucide-angular';
-import { DialogCreateClientsComponent } from './dialog-create-clients/dialog-create-clients.component';
-import { DialogEditClientsComponent } from './dialog-edit-clients/dialog-edit-clients.component';
 
 // Factory function for TranslateHttpLoader
 export function HttpLoaderFactory(http: HttpClient) {
@@ -39,7 +41,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ClientsEditComponent,
     ClientsImportComponent,
     DialogCreateClientsComponent,
-    DialogEditClientsComponent
+    DialogEditClientsComponent,
+    DialogImportClientsComponent
   ],
   imports: [
     CommonModule,
@@ -56,7 +59,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       PlusCircle,
       FileDown,
       HelpCircle,
-      Search
+      Search,
+      LucideUploadCloud
     }),
     TranslateModule.forChild({
       loader: {

@@ -11,6 +11,18 @@ import { LanguageService } from 'src/app/services/language.service';
 import { Subscription } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
 import { LoadingDialogComponent } from 'src/app/dialog/loading-dialog/loading-dialog.component';
+import {
+  LucideAngularModule,
+  SquareUserRound,
+  ArrowBigLeftDash,
+  ArrowBigRightDash,
+  Sheet,
+  PlusCircle,
+  FileDown,
+  HelpCircle,
+  Search,
+  LucideUploadCloud
+} from 'lucide-angular';
 
 @Component({
   selector: 'app-clients-import',
@@ -28,6 +40,8 @@ export class ClientsImportComponent {
   pageIndex: number = 0; // Página actual
 
   csv: any[] = [];
+  collapsed = true;
+  private menuSub!: Subscription;
 
   constructor(
     private clientService: ClientService,
@@ -36,7 +50,7 @@ export class ClientsImportComponent {
     private dialogService: DialogService,
     private authService: AuthService,
     private translate: TranslateService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
   ) {
     translate.addLangs(['en', 'es', 'pt']);
     translate.setDefaultLang(this.languageService.getLanguage());
@@ -47,12 +61,32 @@ export class ClientsImportComponent {
         toastr.warning('No tienes permisos para crear');
       }
     });
+
+    LucideAngularModule.pick({
+      SquareUserRound,
+      ArrowBigLeftDash,
+      ArrowBigRightDash,
+      Sheet,
+      PlusCircle,
+      FileDown,
+      HelpCircle,
+      Search,
+      LucideUploadCloud
+    })
   }
 
   ngOnInit(): void {
     if (this.paginator) {
       this.paginator.page.subscribe((event: any) => {
-        // Actualizar los datos de la tabla según la página seleccionada
+        this.menuSub = this.authService.menuExpanded$.subscribe(expanded => {
+          this.collapsed = expanded; // O usa collapsed = !expanded si collapsed significa "colapsado"
+        });
+
+        if (this.paginator) {
+          this.paginator.page.subscribe((event: any) => {
+            // Actualizar los datos de la tabla según la página seleccionada
+          });
+        }
       });
     }
     this.initializeSearchFilter();
@@ -407,10 +441,10 @@ export class ClientsImportComponent {
 
           if (response.data.length === 0) {
             this.toastr.warning('No se importaron clientes', response.message);
-            this.loadingDialogRef.close(); 
+            this.loadingDialogRef.close();
             return;
           }
-  
+
           if (response.data.length < this.csv.length) {
             this.toastr.warning(`${response.message} ${response.data.length} Clientes importados de ${this.csv.length}`, 'Información', {
               timeOut: 10000,
@@ -420,10 +454,10 @@ export class ClientsImportComponent {
               enableHtml: true
             });
             this.toClients();
-            this.loadingDialogRef.close(); 
+            this.loadingDialogRef.close();
             return;
           }
-  
+
           this.toastr.success(`${response.message} ${response.data.length} Clientes importados de ${this.csv.length}`, 'Información', {
             timeOut: 10000,
             progressBar: true,
@@ -432,10 +466,10 @@ export class ClientsImportComponent {
             enableHtml: true
           });
           this.toClients();
-          this.loadingDialogRef.close(); 
+          this.loadingDialogRef.close();
         } else {
           this.toastr.warning('Verifique los campos ingresados', response.message);
-          this.loadingDialogRef.close(); 
+          this.loadingDialogRef.close();
         }
       }, (error) => {
         console.error(error);

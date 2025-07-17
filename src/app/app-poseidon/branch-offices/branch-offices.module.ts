@@ -31,6 +31,7 @@ import {
 } from 'lucide-angular';
 import { DialogCreateBranchOfficeComponent } from './dialog-create-branch-office/dialog-create-branch-office.component';
 import { DialogEditBranchOfficeComponent } from './dialog-edit-branch-office/dialog-edit-branch-office.component';
+import { DialogImportBranchOfficesComponent } from './dialog-import-branch-offices/dialog-import-branch-offices.component';
 
 // Factory function for TranslateHttpLoader
 export function HttpLoaderFactory(http: HttpClient) {
@@ -45,6 +46,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BranchOfficesImportComponent,
     DialogCreateBranchOfficeComponent,
     DialogEditBranchOfficeComponent,
+    DialogImportBranchOfficesComponent,
   ],
   imports: [
     CommonModule,
