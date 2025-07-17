@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { DialogCreateClientsComponent } from '../dialog-create-clients/dialog-create-clients.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogEditClientsComponent } from '../dialog-edit-clients/dialog-edit-clients.component';
+import { DialogImportClientsComponent } from '../dialog-import-clients/dialog-import-clients.component';
 
 @Component({
   selector: 'app-clients-list',
@@ -288,6 +289,22 @@ export class ClientsListComponent {
     });
   }
 
+  toImportClients() {
+    this.authService.writeChecker().subscribe(flag => {
+      if (!flag) {
+        this.toastr.warning('No tienes permisos para crear');
+      } else {
+        const dialogRef = this.dialog.open(DialogImportClientsComponent, {
+          width: '65vw',
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          this.fetchClients();
+        });
+      }
+    });
+  }
+
   toEditClient(client: any) {
     this.authService.editChecker().subscribe(flag => {
       if (!flag) {
@@ -307,10 +324,6 @@ export class ClientsListComponent {
 
   toOccupations() {
     this.router.navigate(['/poseidon/occupation/list']);
-  }
-
-  toImportClients() {
-    this.router.navigate(['/poseidon/client/import']);
   }
 
   toHome() {

@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 import { DialogEditStationaryTankComponent } from '../dialog-edit-stationary-tank/dialog-edit-stationary-tank.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogCreateStationaryTankComponent } from '../dialog-create-stationary-tank/dialog-create-stationary-tank.component';
+import { DialogImportStationaryTankComponent } from '../dialog-import-stationary-tank/dialog-import-stationary-tank.component';
 
 @Component({
   selector: 'app-stationary-tank-list',
@@ -206,6 +207,21 @@ export class StationaryTankListComponent {
       }
     });
   }
+  toImportStationaryTanks() {
+    this.authService.writeChecker().subscribe(flag => {
+      if (!flag) {
+        this.toastr.warning('No tienes permisos para crear');
+      } else {
+        const dialogRef = this.dialog.open(DialogImportStationaryTankComponent, {
+          width: '65vw',
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          this.fetchStationaryTanks();
+        });
+      }
+    });
+  }
 
   toEditStationaryTank(stationaryTank: any) {
     this.authService.editChecker().subscribe(flag => {
@@ -222,10 +238,6 @@ export class StationaryTankListComponent {
         });
       }
     });
-  }
-
-  toImportStationaryTanks() {
-    this.router.navigate(['/poseidon/stationary-tank/import']);
   }
 
   toHome() {

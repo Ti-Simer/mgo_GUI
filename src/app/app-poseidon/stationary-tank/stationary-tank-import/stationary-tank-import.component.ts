@@ -28,6 +28,8 @@ export class StationaryTankImportComponent {
   pageIndex: number = 0; // Página actual
 
   csv: any[] = [];
+  collapsed = true;
+  private menuSub!: Subscription;
 
   constructor(
     private stationaryTankService: StationaryTankService,
@@ -53,7 +55,9 @@ export class StationaryTankImportComponent {
   ngOnInit(): void {
     if (this.paginator) {
       this.paginator.page.subscribe((event: any) => {
-        // Actualizar los datos de la tabla según la página seleccionada
+        this.menuSub = this.authService.menuExpanded$.subscribe(expanded => {
+          this.collapsed = expanded; // O usa collapsed = !expanded si collapsed significa "colapsado"
+        });
       });
     }
 

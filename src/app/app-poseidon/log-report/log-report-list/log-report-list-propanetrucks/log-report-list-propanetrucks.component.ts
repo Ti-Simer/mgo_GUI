@@ -12,7 +12,7 @@ import { ShareService } from 'src/app/services/share.service';
 export class LogReportListPropanetrucksComponent {
 
   data: any[] = [];
-  viewMode: 'list' | 'grid' = 'list';
+  viewMode: 'grid' | 'list' = 'grid';
 
   constructor(
     private authService: AuthService,

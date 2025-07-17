@@ -1,91 +1,143 @@
-<div class="general-container">
-    <div class="container justify-content-center">
-        <h1 class="mb-4">{{'Importación de Establecimientos' | translate}}</h1>
+<div class="desktop w-full flex items-center justify-center max-h-full p-2 my-2 transition-all duration-300" [ngClass]="{'pl-36': !collapsed }">
+  <div class="container max-w-7xl mb-16">
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
 
-        <div class="row p-1 buttons-group-landscape">
-            <div class="col-sm-12 d-flex">
-                <div class="col-md-1 float-end">
-                    <button class="btn btn-secondary" (click)="toBranchOffices()">{{'Cancelar' | translate}}</button>
-                </div>
-                <div class="col-md-2 float-end">
-                    <button class="btn btn-success" (click)="confirmDownloadTemplate()"
-                    style="align-content: center;"><lucide-icon name="sheet"></lucide-icon> {{'Generar Formato' | translate}}</button>
-                </div>
-                <div class="col-md-2 float-end">
-                    <button class="btn btn-success" (click)="confirmDownloadConsolidateData()"
-                    style="align-content: center;"><lucide-icon name="file-down"></lucide-icon> {{'Exportar datos' | translate}}</button>
-                </div>
-                <div class="col-md-1 float-end">
-                    <lucide-icon name="help-circle" color="#838383" [size]="16" style="cursor:pointer"
-                    (click)="infoImport()"></lucide-icon>
-                </div>
-            </div>
+      <!-- Header -->
+      <div class="p-6 border-b border-gray-200">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between bg-gray-50 p-4 rounded">
+          <div>
+            <h2 class="text-2xl font-bold flex items-center gap-2 text-sky-900">
+              <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building2-icon lucide-building-2"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>
+              {{ 'Importación de Establecimientos' | translate }}
+            </h2>
+            <p class="text-gray-500 mt-1">
+              {{ 'Importa sucursales desde un archivo csv o xls' | translate }}
+            </p>
+          </div>
         </div>
 
-        <div class="buttons-group-portrait">
-            <button class="btn btn-secondary" (click)="toBranchOffices()">{{'Cancelar' | translate}}</button>
-            <button class="btn btn-success" (click)="confirmDownloadTemplate()"
-            style="align-content: center;"><lucide-icon name="sheet"></lucide-icon> {{'Generar Formato' | translate}}</button>
-            <button class="btn btn-success" (click)="confirmDownloadConsolidateData()"
-            style="align-content: center;"><lucide-icon name="file-down"></lucide-icon> {{'Exportar datos' | translate}}</button>
-            <lucide-icon name="help-circle" color="#838383" [size]="16" style="cursor:pointer"
-            (click)="infoImport()"></lucide-icon>
-        </div> 
-
-        <div class="col-lg-8 period-picker text-center mb-4">
-            <h2 class="title">{{'Seleccione un archivo csv o xls' | translate}}</h2>
-            <p style="font-size: 12px; color: #b9b9b9;">({{'Tenga en cuenta que los datos ingresados en el archivo xls o csv son estrictos, debe coincidir en su totalidad con los nombres, ids, seriales de los registros reales solicitados.' | translate}})</p>
-            <div class="buttons-group-import">
-                <input type="file" (change)="handleFileInput($event)">
-                <button class="btn btn-success" (click)="import()" *ngIf="csv.length > 0">
-                    {{'Importar' | translate}}
-                </button>
-            </div>
+        <!-- Botones modo escritorio -->
+        <div class="hidden md:grid grid-cols-1 xl:grid-cols-2 gap-2 py-3">
+          <div class="h-11 bg-gray-50 rounded-xl flex gap-2">
+            <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded text-xs" (click)="toBranchOffices()">
+              {{ 'Cancelar' | translate }}
+            </button>
+          </div>
+          <div class="h-11 bg-gray-50 rounded-xl flex gap-2 justify-end">
+            <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1 rounded flex items-center gap-1"
+              (click)="confirmDownloadTemplate()">
+              <lucide-icon name="sheet"></lucide-icon>
+              {{ 'Generar Formato' | translate }}
+            </button>
+            <button class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded flex items-center gap-1"
+              (click)="confirmDownloadConsolidateData()">
+              <lucide-icon name="file-down"></lucide-icon>
+              {{ 'Exportar datos' | translate }}
+            </button>
+            <button (click)="infoImport()">
+              <lucide-icon name="help-circle" color="#838383" [size]="16" class="cursor-pointer"></lucide-icon>
+            </button>
+          </div>
         </div>
 
-        <div class="row section2" *ngIf="csv.length > 0">
-            <div class="col-md-4 float-left search d-flex">
-                <input class="form-control float-left" #myInput type="text" placeholder="{{'Palabras clave...' | translate}}"
-                    (input)="initializeSearchFilter()">
-            </div>
-            <div class="col-md-3">
-                <p style="font-size: 12px; color: #a8a8a8;">({{csv.length}} {{'registros' | translate}})</p>
-            </div>
+        <!-- Botones móviles -->
+        <div class="md:hidden grid grid-cols-1 gap-3 py-4 px-2">
+          <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded text-sm w-full" (click)="toBranchOffices()">
+            {{ 'Cancelar' | translate }}
+          </button>
+          <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded text-sm flex items-center justify-center gap-2 w-full"
+            (click)="confirmDownloadTemplate()">
+            <lucide-icon name="sheet"></lucide-icon>
+            {{ 'Generar Formato' | translate }}
+          </button>
+          <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm flex items-center justify-center gap-2 w-full"
+            (click)="confirmDownloadConsolidateData()">
+            <lucide-icon name="file-down"></lucide-icon>
+            {{ 'Exportar datos' | translate }}
+          </button>
+          <button class="flex items-center justify-center" (click)="infoImport()">
+            <lucide-icon name="help-circle" color="#838383" [size]="18" class="cursor-pointer"></lucide-icon>
+          </button>
         </div>
 
-        <div class="col-md-12 table" *ngIf="csv.length != 0">
-            <table class="table table-striped table-bordered text-center">
-                <thead>
-                    <tr>
-                        <th class="custom-header text-center" *ngIf="csv[0].name">{{'Nombre' | translate}}</th>
-                        <th class="custom-header text-center" *ngIf="csv[0].address">{{'Dirección' | translate}}</th>
-                        <th class="custom-header text-center" *ngIf="csv[0].phone && csv[0].email">{{'Contacto' | translate}}</th>
-                        <th class="custom-header text-center" *ngIf="csv[0].nit">{{'NIT' | translate}}</th>
-                        <th class="custom-header text-center" *ngIf="csv[0].client">{{'Id Cliente' | translate}}</th>
-                        <th class="custom-header text-center" *ngIf="csv[0].city && csv[0].zone">{{'Ciudad' | translate}}</th>
-                        <th class="custom-header text-center" *ngIf="csv[0].latitude && csv[0].longitude">{{'Ubicación' | translate}}</th>
-                        <th class="custom-header text-center" *ngIf="csv[0].stationary_tanks">{{'Tanques Estacionarios' | translate}}</th>
-                        <th class="custom-header text-center" *ngIf="csv[0].kilogramValue">{{'Valor por kilo' | translate}}</th>
-                    </tr>
-                </thead>
-                <tbody id="myTable">
-                    <tr *ngFor="let data of csv.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)">
-                        <th scope="row" *ngIf="csv[0].name">{{data.name}}</th>
-                        <td class="custom-td" *ngIf="csv[0].address">{{data.address}}</td>
-                        <td class="custom-td" *ngIf="csv[0].phone && csv[0].email">{{data.phone}} <br> {{data.email}}</td>
-                        <td class="custom-td" *ngIf="csv[0].nit">{{data.nit}}</td>
-                        <td class="custom-td" *ngIf="csv[0].client">{{data.client}}</td>
-                        <td class="custom-td" *ngIf="csv[0].city && csv[0].zone">{{data.city}}, {{data.zone}}</td>
-                        <td class="custom-td" *ngIf="csv[0].latitude && csv[0].longitude">{{data.latitude}}, {{data.longitude}}</td>
-                        <td class="custom-td" *ngIf="csv[0].stationary_tanks">{{data.stationary_tanks.join(', ')}}</td>
-                        <td class="custom-td" *ngIf="csv[0].kilogramValue">{{data.kilogramValue}}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- Subir archivo -->
+        <div class="text-center my-6">
+          <h3 class="text-lg font-semibold">{{ 'Seleccione un archivo csv o xls' | translate }}</h3>
+          <p class="text-xs text-gray-400 mb-2">
+            {{ 'Tenga en cuenta que los datos ingresados en el archivo xls o csv son estrictos, debe coincidir en su totalidad con los nombres, ids, seriales de los registros reales solicitados.' | translate }}
+          </p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <input type="file" (change)="handleFileInput($event)"
+              class="text-sm file:px-3 file:py-1 file:border-0 file:bg-slate-300 file:rounded file:text-gray-700 file:hover:bg-slate-200 file:cursor-pointer" />
+            <button *ngIf="csv.length > 0" class="bg-green-600 flex gap-1 text-white px-4 py-1 rounded hover:bg-green-700"
+              (click)="import()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud-upload-icon lucide-cloud-upload"><path d="M12 13v8"/><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="m8 17 4-4 4 4"/></svg>
+                  <span class="py-1">
+                     {{'Importar' | translate}}
+                  </span>
+            </button>
+          </div>
         </div>
-        <mat-paginator [length]="csv.length" [pageSizeOptions]="[100, 500, 1000, 2500]"
-            showFirstLastButtons></mat-paginator>
+
+        <!-- Filtro de búsqueda -->
+        <div *ngIf="csv.length > 0" class="flex justify-center mb-4">
+          <div class="w-full max-w-xs sm:max-w-sm md:max-w-md text-center">
+            <input #myInput type="text" placeholder="{{ 'Palabras clave...' | translate }}" (input)="initializeSearchFilter()"
+              class="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-300" />
+            <p class="text-xs text-gray-400 mt-1">
+              {{ csv.length }} {{ 'registros' | translate }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Tabla -->
+        <div *ngIf="csv.length > 0" class="overflow-x-auto overflow-y-auto max-w-[90vw] max-h-[70vh] custom-scrollbar">
+          <table class="min-w-full divide-y divide-gray-200 text-sm text-left" id="myTable">
+            <thead class="bg-gray-50">
+              <tr>
+                <th *ngIf="csv[0].name" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">{{ 'Nombre' | translate }}</th>
+                <th *ngIf="csv[0].address" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">{{ 'Dirección' | translate }}</th>
+                <th *ngIf="csv[0].phone && csv[0].email" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">{{ 'Contacto' | translate }}</th>
+                <th *ngIf="csv[0].nit" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">{{ 'NIT' | translate }}</th>
+                <th *ngIf="csv[0].client" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">{{ 'Id Cliente' | translate }}</th>
+                <th *ngIf="csv[0].city && csv[0].zone" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">{{ 'Ciudad' | translate }}</th>
+                <th *ngIf="csv[0].latitude && csv[0].longitude" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">{{ 'Ubicación' | translate }}</th>
+                <th *ngIf="csv[0].stationary_tanks" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">{{ 'Tanques Estacionarios' | translate }}</th>
+                <th *ngIf="csv[0].kilogramValue" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">{{ 'Valor por kilo' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr *ngFor="let data of csv.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)" class="hover:bg-gray-50 transition-colors duration-150">
+                <td *ngIf="csv[0].name" class="px-6 py-2 whitespace-nowrap max-w-96 text-sm text-gray-900" title="{{data.name}}">{{ data.name | truncate: 27 }}</td>
+                <td *ngIf="csv[0].address" class="px-6 py-2 whitespace-nowrap text-sm text-gray-900">{{ data.address }}</td>
+                <td *ngIf="csv[0].phone && csv[0].email" class="px-6 py-2 whitespace-nowrap text-sm text-gray-900">
+                  {{ data.phone }}<br />{{ data.email }}
+                </td>
+                <td *ngIf="csv[0].nit" class="px-6 py-2 whitespace-nowrap text-sm text-gray-900">{{ data.nit }}</td>
+                <td *ngIf="csv[0].client" class="px-6 py-2 whitespace-nowrap text-sm text-gray-900">{{ data.client }}</td>
+                <td *ngIf="csv[0].city && csv[0].zone" class="px-6 py-2 whitespace-nowrap text-sm text-gray-900">
+                  {{ data.city }}, {{ data.zone }}
+                </td>
+                <td *ngIf="csv[0].latitude && csv[0].longitude" class="px-6 py-2 whitespace-nowrap text-sm text-gray-900">
+                  {{ data.latitude }}, {{ data.longitude }}
+                </td>
+                <td *ngIf="csv[0].stationary_tanks" class="px-6 py-2 whitespace-nowrap text-sm text-gray-900">
+                  {{ data.stationary_tanks.join(', ') }}
+                </td>
+                <td *ngIf="csv[0].kilogramValue" class="px-6 py-2 whitespace-nowrap text-sm text-gray-900">
+                  {{ data.kilogramValue }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Paginación -->
+        <div class="mt-4">
+          <mat-paginator [length]="csv.length" [pageSizeOptions]="[100, 500, 1000, 2500]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
-<app-footer class="hide-on-mobile"></app-footer>
