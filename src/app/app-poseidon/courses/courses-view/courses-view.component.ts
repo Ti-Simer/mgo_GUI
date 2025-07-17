@@ -241,7 +241,7 @@ export class CoursesViewComponent {
                 if (response.data) {
                   const orders = response.data;
 
-                  this.dialogService.openConfirmDialog(`Existen ${orders.length} pedidos sin finalizar ¿Desea reasignarlos a un nuevo derrotero?`)
+                  this.dialogService.openInfoConfirmDialog(`Existen ${orders.length} pedidos sin finalizar ¿Desea reasignarlos a un nuevo derrotero?`, `Advertencia`)
                     .subscribe(result => {
                       if (result) {
                         this.shareService.emit_orders_data(orders);

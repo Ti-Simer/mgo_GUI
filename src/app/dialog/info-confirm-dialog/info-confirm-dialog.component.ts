@@ -25,8 +25,4 @@ export class InfoConfirmDialogComponent {
   onConfirm(): void {
     this.dialogRef.close(true); // Devuelve true al cerrar el diálogo
   }
-
-  onCancel(): void {
-    this.dialogRef.close(false); // Devuelve false al cerrar el diálogo
-  }
 }

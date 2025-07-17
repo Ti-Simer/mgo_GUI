@@ -23,6 +23,6 @@ export class InfoDialogComponent {
   }
 
   onConfirm(): void {
-    this.dialogRef.close(true); // Close the dialog
+    this.dialogRef.close();
   }
 }

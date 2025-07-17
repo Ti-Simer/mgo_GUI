@@ -609,5 +609,6 @@
     "¿Está seguro de que desea eliminar este registro?": "Are you sure you want to delete this record?",
     "Esta acción eliminará permanentemente el elemento seleccionado y no podrá ser revertida": "This action will permanently delete the selected item and cannot be undone",
     "Operación segura - Todos los datos están protegidos": "Safe operation - All data is protected",
+    "Advertencia": "Warning",
     "": ""
 }
