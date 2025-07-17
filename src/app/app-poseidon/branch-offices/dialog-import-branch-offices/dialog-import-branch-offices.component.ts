@@ -9,6 +9,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 export class DialogImportBranchOfficesComponent {
   constructor(
+    
     public dialogRef: MatDialogRef<DialogImportBranchOfficesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}

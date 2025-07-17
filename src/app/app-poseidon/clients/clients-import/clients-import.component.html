@@ -17,10 +17,7 @@
             <!-- Botones modo escritorio -->
             <div class="hidden md:grid grid-cols-1 xl:grid-cols-2 gap-2 py-3">
                <div class="h-11 bg-gray-50 rounded-xl flex gap-2">
-                  <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded text-xs"
-                     (click)="toClients()">
-                  {{'Cancelar' | translate}}
-                  </button>
+                  
                </div>
                <div class="h-11 bg-gray-50 rounded-xl flex gap-2 justify-end">
                   <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1 rounded flex items-center gap-1"
@@ -40,11 +37,7 @@
             </div>
             <!-- Botones móviles -->
             <div class="md:hidden grid grid-cols-1 gap-3 py-4 px-2">
-               <button
-                  class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded text-sm w-full"
-                  (click)="toClients()">
-                  {{ 'Cancelar' | translate }}
-               </button>
+               
                <button
                   class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded text-sm flex items-center justify-center gap-2 w-full"
                   (click)="confirmDownloadTemplate()">

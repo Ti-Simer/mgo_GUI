@@ -62,6 +62,12 @@
                         (click)="toClients()">
                         {{'Clientes' | translate}}
                     </button>
+                    <button 
+                            class="bg-green-600 rounded text-white px-3 py-1 hover:bg-green-700 flex gap-1 items-center"
+                            (click)="toImportBranchOffices()">
+                                <lucide-icon name="sheet"></lucide-icon> 
+                                {{'Importar XLS' | translate}}
+                        </button>
                     <button
                         class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs flex items-center gap-1"
                         (click)="toCreateBranchOffices()">
