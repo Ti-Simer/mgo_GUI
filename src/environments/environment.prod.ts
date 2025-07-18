@@ -35,7 +35,7 @@ export const environment = {
     // apiHerculesMontagas: 'http://139.177.200.35:4007', // URL del servicio para despliegue 2
     // apiPoseidonSimer: 'http://139.177.200.35:4008', // URL del servicio para despliegue 2
     // apiPoseidonSupergas: 'http://139.177.200.35:4010', // URL del servicio para despliegue 2
-    
+
     apiPoseidonGasco: 'http://5.189.160.98:3000', // URL del servicio para test-pruebas
     apiAtheneaMontagas: 'http://5.189.160.98:4001', // URL del servicio para test-pruebas
     apiPoseidonMontagas: 'http://5.189.160.98:4002', // URL del servicio para test-pruebas
