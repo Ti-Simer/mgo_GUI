@@ -2,7 +2,7 @@
     <!-- Lista de notificaciones -->
     <ul class="divide-y divide-slate-700 max-h-96 overflow-y-auto scrollbar-custom">
         <li *ngFor="let notification of notifications" class="hover:bg-slate-700/50 transition-colors duration-200">
-            <div class="px-4 py-3 cursor-pointer" (click)="toViewNotification(notification.id)">
+            <div class="px-4 py-3 cursor-pointer" (click)="toViewNotification(notification)">
                 <div class="flex justify-between items-start">
                     <p class="font-medium text-sky-300">{{ notification.title }}</p>
                     <span class="text-xs text-slate-400 ml-2">
