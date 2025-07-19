@@ -301,7 +301,7 @@ export class BranchOfficesListComponent {
           this.toastr.warning('No tienes permisos para crear');
         } else {
           const dialogRef = this.dialog.open(DialogImportBranchOfficesComponent, {
-            width: '65vw',
+            width: '1200px',
           });
 
           dialogRef.afterClosed().subscribe(result => {

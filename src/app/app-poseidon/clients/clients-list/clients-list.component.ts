@@ -295,7 +295,7 @@ export class ClientsListComponent {
         this.toastr.warning('No tienes permisos para crear');
       } else {
         const dialogRef = this.dialog.open(DialogImportClientsComponent, {
-          width: '65vw',
+          width: '1200px',
         });
 
         dialogRef.afterClosed().subscribe(result => {

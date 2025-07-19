@@ -213,7 +213,7 @@ export class StationaryTankListComponent {
         this.toastr.warning('No tienes permisos para crear');
       } else {
         const dialogRef = this.dialog.open(DialogImportStationaryTankComponent, {
-          width: '65vw',
+          width: '1200px',
         });
 
         dialogRef.afterClosed().subscribe(result => {
