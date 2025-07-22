@@ -3,16 +3,16 @@ export const environment = {
 
     /// ----------------------------------- ** URL de los servicios de despliegue **  ----------------------------------- ///
 
-    // apiPoseidonGasco: 'http://192.168.0.11:3000', // URL del servicio para desarrollo
-    // apiAtheneaMontagas: 'http://192.168.0.11:4001', // URL del servicio para desarrollo
-    // apiPoseidonMontagas: 'http://192.168.0.11:4002', // URL del servicio para desarrollo
-    // apiPoseidonGasneiva: 'http://192.168.0.11:4003', // URL del servicio para desarrollo
-    // apiFenixLocal: 'http://192.168.0.11:4004', // URL del servicio para desarrollo
-    // apiPoseidonDigaspro: 'http://192.168.0.11:4005', // URL del servicio para desarrollo
-    // apiPoseidonEgsa: 'http://192.168.0.11:4006', // URL del servicio para desarrollo
-    // apiHerculesMontagas: 'http://192.168.0.11:4007', // URL del servicio para desarrollo
-    // apiPoseidonSimer: 'http://192.168.0.11:4008', // URL del servicio para desarrollo
-    // apiPoseidonSupergas: 'http://192.168.0.11:4010', // URL del servicio para desarrollo
+    apiPoseidonGasco: 'http://192.168.0.11:3000', // URL del servicio para desarrollo
+    apiAtheneaMontagas: 'http://192.168.0.11:4001', // URL del servicio para desarrollo
+    apiPoseidonMontagas: 'http://192.168.0.11:4002', // URL del servicio para desarrollo
+    apiPoseidonGasneiva: 'http://192.168.0.11:4003', // URL del servicio para desarrollo
+    apiFenixLocal: 'http://192.168.0.11:4004', // URL del servicio para desarrollo
+    apiPoseidonDigaspro: 'http://192.168.0.11:4005', // URL del servicio para desarrollo
+    apiPoseidonEgsa: 'http://192.168.0.11:4006', // URL del servicio para desarrollo
+    apiHerculesMontagas: 'http://192.168.0.11:4007', // URL del servicio para desarrollo
+    apiPoseidonSimer: 'http://192.168.0.11:4008', // URL del servicio para desarrollo
+    apiPoseidonSupergas: 'http://192.168.0.11:4010', // URL del servicio para desarrollo
 
     // apiPoseidonGasco: 'http://172.105.153.203:3000', // URL del servicio para despliegue
     // apiAtheneaMontagas: 'http://172.105.153.203:4001', // URL del servicio para despliegue
@@ -36,16 +36,16 @@ export const environment = {
     // apiPoseidonSimer: 'http://139.177.200.35:4008', // URL del servicio para despliegue 2
     // apiPoseidonSupergas: 'http://139.177.200.35:4010', // URL del servicio para despliegue 2
 
-    apiPoseidonGasco: 'http://5.189.160.98:3000', // URL del servicio para test-pruebas
-    apiAtheneaMontagas: 'http://5.189.160.98:4001', // URL del servicio para test-pruebas
-    apiPoseidonMontagas: 'http://5.189.160.98:4002', // URL del servicio para test-pruebas
-    apiPoseidonGasneiva: 'http://5.189.160.98:4003', // URL del servicio para test-pruebas
-    apiFenixLocal: 'http://localhost:4004', // URL del servicio para test-pruebas
-    apiPoseidonDigaspro: 'http://5.189.160.98:4005', // URL del servicio para test-pruebas
-    apiPoseidonEgsa: 'http://5.189.160.98:4006', // URL del servicio para test-pruebas
-    apiHerculesMontagas: 'http://5.189.160.98:4007', // URL del servicio para test-pruebas
-    apiPoseidonSimer: 'http://5.189.160.98:4008', // URL del servicio para test-pruebas
-    apiPoseidonSupergas: 'http://5.189.160.98:4010', // URL del servicio para test-pruebas
+    // apiPoseidonGasco: 'http://5.189.160.98:3000', // URL del servicio para test-pruebas
+    // apiAtheneaMontagas: 'http://5.189.160.98:4001', // URL del servicio para test-pruebas
+    // apiPoseidonMontagas: 'http://5.189.160.98:4002', // URL del servicio para test-pruebas
+    // apiPoseidonGasneiva: 'http://5.189.160.98:4003', // URL del servicio para test-pruebas
+    // apiFenixLocal: 'http://localhost:4004', // URL del servicio para test-pruebas
+    // apiPoseidonDigaspro: 'http://5.189.160.98:4005', // URL del servicio para test-pruebas
+    // apiPoseidonEgsa: 'http://5.189.160.98:4006', // URL del servicio para test-pruebas
+    // apiHerculesMontagas: 'http://5.189.160.98:4007', // URL del servicio para test-pruebas
+    // apiPoseidonSimer: 'http://5.189.160.98:4008', // URL del servicio para test-pruebas
+    // apiPoseidonSupergas: 'http://5.189.160.98:4010', // URL del servicio para test-pruebas
 
 
     /// ----------------------------------- ** Api-Key MiddleWare ** ----------------------------------- ///

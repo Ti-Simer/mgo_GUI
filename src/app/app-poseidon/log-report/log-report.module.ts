@@ -15,6 +15,8 @@ import {
 } from 'lucide-angular';
 import { LogReportListMapComponent } from './log-report-list/log-report-list-map/log-report-list-map.component';
 import { LogReportListPropanetrucksComponent } from './log-report-list/log-report-list-propanetrucks/log-report-list-propanetrucks.component';
+import { LogReportAllComponent } from './log-report-all/log-report-all.component';
+import { DialogAllLogReportComponent } from './dialog-all-log-report/dialog-all-log-report.component';
 
 // Factory function for TranslateHttpLoader
 export function HttpLoaderFactory(http: HttpClient) {
@@ -26,7 +28,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     LogReportListComponent,
     LogReportSmallviewComponent,
     LogReportListMapComponent,
-    LogReportListPropanetrucksComponent
+    LogReportListPropanetrucksComponent,
+    LogReportAllComponent,
+    DialogAllLogReportComponent
   ],
   imports: [
     CommonModule,
