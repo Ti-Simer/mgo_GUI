@@ -1,132 +1,325 @@
-<app-menu-home></app-menu-home>
-<div class="general-container">
-    <div class="container mt-2">
-        <form [formGroup]="billForm" (ngSubmit)="onSubmit()">
-    
-            <div class="row justify-content-center">
-                <h1 class="mb-4">{{'Creación de Remisión' | translate}}</h1>
-                <div class="col-lg-6">
-                    <div formGroupName="charge">
-                        <h2>Datos del cargue</h2>
-                        <div>
-                          <label for="densidad" class="form-label">-- {{ 'Densidad' | translate }}</label>
-                          <input id="densidad" type="number" class="form-control" formControlName="densidad">
-                        </div>
-            
-                        <div>
-                          <label for="temperatura" class="form-label">-- {{ 'Temperatura' | translate }}</label>
-                          <input id="temperatura" type="number" class="form-control" formControlName="temperatura">
-                        </div>
-            
-                        <div>
-                          <label for="masaTotal" class="form-label">-- {{ 'Masa Total' | translate }} Kg</label>
-                          <input id="masaTotal" type="number" class="form-control" formControlName="masaTotal">
-                        </div>
-            
-                        <div>
-                          <label for="volumenTotal" class="form-label">-- {{ 'Volumen Total' | translate }}</label>
-                          <input id="volumenTotal" type="number" class="form-control" formControlName="volumenTotal">
-                        </div>
-            
-                        <div>
-                          <label for="horaInicial" class="form-label">-- {{ 'Hora Inicial' | translate }}</label>
-                          <input id="horaInicial" type="text" class="form-control" formControlName="horaInicial">
-                        </div>
-            
-                        <div>
-                          <label for="horaFinal" class="form-label">-- {{ 'Hora Final' | translate }}</label>
-                          <input id="horaFinal" type="text" class="form-control" formControlName="horaFinal">
-                        </div>
-
-                        <div>
-                          <label for="fechaInicial" class="form-label">-- {{ 'Fecha Inicial' | translate }}</label>
-                          <input id="fechaInicial" type="text" class="form-control" formControlName="fechaInicial">
-                        </div>
-            
-                        <div>
-                          <label for="fechaFinal" class="form-label">-- {{ 'Fecha Final' | translate }}</label>
-                          <input id="fechaFinal" type="text" class="form-control" formControlName="fechaFinal">
-                        </div>
-
-                    </div>
-    
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="mb-3">
-                        <label for="branch_office" class="form-label">-- {{'Establecimiento' | translate}}</label>
-                        <div class="input-group">
-                            <input type="text" id="branch_office" class="form-control" formControlName="branch_office" [matAutocomplete]="autoBranch" placeholder="{{'Establecimientos' | translate}}">
-                            <mat-autocomplete #autoBranch="matAutocomplete" [displayWith]="displayFnBranchOffices">
-                            <mat-option *ngFor="let branch_office of filteredBranchOffices | async" [value]="branch_office">
-                                {{ branch_office.name }} - {{ branch_office.nit }}
-                            </mat-option>
-                            </mat-autocomplete>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="plate" class="form-label">-- {{'Auto-tanque' | translate}}</label>
-                        <select id="plate" class="form-select" formControlName="plate">
-                            <option value="" disabled selected>{{'Seleccione un auto-tanque' | translate}}</option>
-                            <option *ngFor="let propaneTank of propaneTanks" [value]="propaneTank.plate">{{ propaneTank.plate }} - {{propaneTank.capacity}} Kg </option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="payment_type" class="form-label">-- {{'Tipo de pago' | translate}}</label>
-                        <select id="payment_type" class="form-select" formControlName="payment_type">
-                            <option value="" disabled selected>{{'Seleccione una tipo de pago' | translate}}</option>
-                            <option *ngFor="let item of payment_type" [value]="item.name">{{ item.name }}
-                            </option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="client" class="form-label">-- {{'Cliente' | translate}}</label>
-                        <div class="input-group">
-                            <input type="text" id="client" class="form-control" formControlName="client" [matAutocomplete]="autoClient" placeholder="{{'Cliente' | translate}}">
-                            <mat-autocomplete #autoClient="matAutocomplete" [displayWith]="displayFnClients">
-                            <mat-option *ngFor="let client of filteredClients | async" [value]="client">
-                                {{ client.firstName }} {{ client.lastName }} - {{ client.cc }}
-                            </mat-option>
-                            </mat-autocomplete>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="operator" class="form-label">-- {{'Operador' | translate}}</label>
-                        <select id="operator" class="form-select" formControlName="operator">
-                            <option value="" disabled selected>{{'Seleccione un operador' | translate}}</option>
-                            <option *ngFor="let operator of operators" [value]="operator.id">{{ operator.firstName }} {{operator.lastName}} - {{operator.idNumber}}</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="folio" class="form-label">-- {{'Pedido' | translate}}</label>
-                        <select id="folio" class="form-select" formControlName="folio">
-                            <option value="" disabled selected>{{'Seleccione un pedido' | translate}}</option>
-                            <option *ngFor="let order of orders" [value]="order.folio">{{ order.folio }} - {{ order.branch_office.name }} || {{order.create | date: 'medium'}} </option>
-                        </select>
-                        <label (click)="setPageSizeToTotalOrders()" style="float: right; cursor: pointer;" >{{'Mostrar todo' | translate}}</label>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="server" class="form-label">-- {{'Autenticación' | translate}}</label>
-                        <div class="input-group">
-                            <input [type]="showPassword ? 'text' : 'password'" id="password" class="form-control"
-                                formControlName="auth" placeholder="{{'key de autenticación' | translate}}">
-                            <button type="button" class="btn btn-outline-secondary" (click)="toggleShowPassword()">
-                                <lucide-icon [name]="showPassword ? 'eye-off' : 'eye'"></lucide-icon>
-                            </button>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-success m-1" [disabled]="!billForm.valid">{{'Crear Remisión' | translate}}</button>
-                    <button (click)="toHome()" class="btn btn-secondary">{{'Cancelar' | translate}}</button>
-                </div>
+<div class="p-4 max-h-[90vh] overflow-y-auto">
+   <div class="max-w-7xl mx-auto mt-4 bg-white rounded-2xl shadow-sm overflow-hidden">
+      <form [formGroup]="billForm" (ngSubmit)="onSubmit()" class="p-1">
+      <!-- Encabezado mejorado -->
+      <div class="bg-gradient-to-r from-sky-700 to-sky-800 p-6 rounded-xl">
+         <div class="flex flex-col items-center">
+            <div class="flex items-center mb-2">
+               <div class="bg-white/20 p-3 rounded-xl mr-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                     <polyline points="14 2 14 8 20 8"/>
+                     <line x1="16" y1="13" x2="8" y2="13"/>
+                     <line x1="16" y1="17" x2="8" y2="17"/>
+                     <polyline points="10 9 9 9 8 9"/>
+                  </svg>
+               </div>
+               <h1 class="text-2xl font-bold text-white">{{ 'Creación de Remisión' | translate }}</h1>
             </div>
-        </form>
-    </div>
+            <div class="h-1 w-24 bg-sky-400 rounded-full mt-2"></div>
+         </div>
+      </div>
+      <div class="p-6">
+         <div class="w-full flex flex-col lg:flex-row gap-8">
+            <!-- Columna izquierda - Datos del cargue -->
+            <div class="lg:w-1/2" formGroupName="charge">
+               <div class="bg-sky-50 p-4 rounded-xl mb-6">
+                  <h2 class="text-xl font-semibold text-sky-800 flex items-center">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-sky-600">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                        <line x1="12" y1="22.08" x2="12" y2="12"/>
+                     </svg>
+                     {{ 'Datos del cargue' | translate }}
+                  </h2>
+               </div>
+               <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <!-- Campo Densidad -->
+                  <div class="space-y-1">
+                     <label for="densidad" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 text-sky-600">
+                           <circle cx="12" cy="5" r="3"/>
+                           <path d="M6.5 8a2 2 0 0 0-1.905 1.46L2.1 18.5A2 2 0 0 0 4 21h16a2 2 0 0 0 1.925-2.54L19.4 9.5A2 2 0 0 0 17.48 8Z"/>
+                        </svg>
+                        {{ 'Densidad' | translate }}
+                     </label>
+                     <input id="densidad" type="number" formControlName="densidad" 
+                        class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition" />
+                  </div>
+                  <!-- Campo Temperatura -->
+                  <div class="space-y-1">
+                     <label for="temperatura" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 text-amber-600">
+                           <path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/>
+                        </svg>
+                        {{ 'Temperatura' | translate }}
+                     </label>
+                     <input id="temperatura" type="number" formControlName="temperatura" 
+                        class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition" />
+                  </div>
+                  <!-- Campo Masa Total -->
+                  <div class="space-y-1">
+                     <label for="masaTotal" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 text-green-600">
+                           <path d="M6 8.5a6.5 6.5 0 1 0 13 0c0-6-6-6.5-6.5-6.5-.5 0-1 .5-1 1.5h-2c0-1-.5-1.5-1-1.5C12 2 6 2.5 6 8.5Z"/>
+                           <path d="M6 8.5v7"/>
+                           <path d="M10 12.5v-4"/>
+                           <path d="M14 14.5v-6"/>
+                           <path d="M18 15.5v-7"/>
+                        </svg>
+                        {{ 'Masa Total' | translate }} (Kg)
+                     </label>
+                     <input id="masaTotal" type="number" formControlName="masaTotal" 
+                        class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition" />
+                  </div>
+                  <!-- Campo Volumen Total -->
+                  <div class="space-y-1">
+                     <label for="volumenTotal" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 text-blue-600">
+                           <path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/>
+                        </svg>
+                        {{ 'Volumen Total' | translate }}
+                     </label>
+                     <input id="volumenTotal" type="number" formControlName="volumenTotal" 
+                        class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" />
+                  </div>
+                  <!-- Campos de fecha y hora agrupados -->
+                  <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-5">
+                     <!-- Hora Inicial -->
+                     <div class="space-y-1">
+                        <label for="horaInicial" class="block text-sm font-medium text-gray-700 flex items-center">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 text-purple-600">
+                              <circle cx="12" cy="12" r="10"/>
+                              <polyline points="12 6 12 12 16 14"/>
+                           </svg>
+                           {{ 'Hora Inicial' | translate }}
+                        </label>
+                        <input id="horaInicial" type="text" formControlName="horaInicial" 
+                           class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition" />
+                     </div>
+                     <!-- Hora Final -->
+                     <div class="space-y-1">
+                        <label for="horaFinal" class="block text-sm font-medium text-gray-700 flex items-center">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 text-purple-600">
+                              <circle cx="12" cy="12" r="10"/>
+                              <polyline points="12 6 12 12 16 14"/>
+                           </svg>
+                           {{ 'Hora Final' | translate }}
+                        </label>
+                        <input id="horaFinal" type="text" formControlName="horaFinal" 
+                           class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition" />
+                     </div>
+                     <!-- Fecha Inicial -->
+                     <div class="space-y-1">
+                        <label for="fechaInicial" class="block text-sm font-medium text-gray-700 flex items-center">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 text-pink-600">
+                              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                              <line x1="16" y1="2" x2="16" y2="6"/>
+                              <line x1="8" y1="2" x2="8" y2="6"/>
+                              <line x1="3" y1="10" x2="21" y2="10"/>
+                           </svg>
+                           {{ 'Fecha Inicial' | translate }}
+                        </label>
+                        <input id="fechaInicial" type="text" formControlName="fechaInicial" 
+                           class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition" />
+                     </div>
+                     <!-- Fecha Final -->
+                     <div class="space-y-1">
+                        <label for="fechaFinal" class="block text-sm font-medium text-gray-700 flex items-center">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 text-pink-600">
+                              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                              <line x1="16" y1="2" x2="16" y2="6"/>
+                              <line x1="8" y1="2" x2="8" y2="6"/>
+                              <line x1="3" y1="10" x2="21" y2="10"/>
+                           </svg>
+                           {{ 'Fecha Final' | translate }}
+                        </label>
+                        <input id="fechaFinal" type="text" formControlName="fechaFinal" 
+                           class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition" />
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- Columna derecha - Información adicional -->
+            <div class="lg:w-1/2">
+               <div class="bg-sky-50 p-4 rounded-xl mb-6">
+                  <h2 class="text-xl font-semibold text-sky-800 flex items-center">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-sky-600">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                     </svg>
+                     {{ 'Información adicional' | translate }}
+                  </h2>
+               </div>
+               <div class="space-y-5">
+                  <!-- Establecimiento -->
+                  <div class="space-y-1">
+                     <label for="branch_office" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 text-sky-600">
+                           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                           <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                        {{ 'Establecimiento' | translate }}
+                     </label>
+                     <div class="relative">
+                        <input type="text" id="branch_office" formControlName="branch_office" [matAutocomplete]="autoBranch"
+                           class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition"
+                           placeholder="{{ 'Establecimientos' | translate }}" />
+                        <mat-autocomplete #autoBranch="matAutocomplete" [displayWith]="displayFnBranchOffices">
+                        <mat-option *ngFor="let branch_office of filteredBranchOffices | async" [value]="branch_office">
+                        {{ branch_office.name }} - {{ branch_office.nit }}
+                        </mat-option>
+                        </mat-autocomplete>
+                     </div>
+                  </div>
+                  <!-- Auto-tanque -->
+                  <div class="space-y-1">
+                     <label for="plate" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 text-blue-600">
+                           <path d="M5 18H3c-.6 0-1-.4-1-1V7c0-.6.4-1 1-1h10c.6 0 1 .4 1 1v11"/>
+                           <path d="M14 9h4l4 4v4c0 .6-.4 1-1 1h-2"/>
+                           <circle cx="7" cy="18" r="2"/>
+                           <path d="M15 18H9"/>
+                           <circle cx="17" cy="18" r="2"/>
+                        </svg>
+                        {{ 'Auto-tanque' | translate }}
+                     </label>
+                     <select id="plate" formControlName="plate"
+                        class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                        <option value="" disabled selected>{{ 'Seleccione un auto-tanque' | translate }}</option>
+                        <option *ngFor="let propaneTank of propaneTanks" [value]="propaneTank.plate">
+                        {{ propaneTank.plate }} - {{ propaneTank.capacity }} Kg
+                        </option>
+                     </select>
+                  </div>
+                  <!-- Tipo de pago -->
+                  <div class="space-y-1">
+                     <label for="payment_type" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 text-green-600">
+                           <rect x="2" y="4" width="20" height="16" rx="2"/>
+                           <path d="M2 8h20"/>
+                           <path d="M6 12h4"/>
+                           <path d="M14 12h4"/>
+                        </svg>
+                        {{ 'Tipo de pago' | translate }}
+                     </label>
+                     <select id="payment_type" formControlName="payment_type"
+                        class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition">
+                        <option value="" disabled selected>{{ 'Seleccione un tipo de pago' | translate }}</option>
+                        <option *ngFor="let item of payment_type" [value]="item.name">{{ item.name }}</option>
+                     </select>
+                  </div>
+                  <!-- Cliente -->
+                  <div class="space-y-1">
+                     <label for="client" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 text-purple-600">
+                           <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                           <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                        {{ 'Cliente' | translate }}
+                     </label>
+                     <div class="relative">
+                        <input type="text" id="client" formControlName="client" [matAutocomplete]="autoClient"
+                           class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
+                           placeholder="{{ 'Cliente' | translate }}" />
+                        <mat-autocomplete #autoClient="matAutocomplete" [displayWith]="displayFnClients">
+                        <mat-option *ngFor="let client of filteredClients | async" [value]="client">
+                        {{ client.firstName }} {{ client.lastName }} - {{ client.cc }}
+                        </mat-option>
+                        </mat-autocomplete>
+                     </div>
+                  </div>
+                  <!-- Operador -->
+                  <div class="space-y-1">
+                     <label for="operator" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 text-amber-600">
+                           <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"/>
+                           <line x1="8" y1="12" x2="16" y2="12"/>
+                        </svg>
+                        {{ 'Operador' | translate }}
+                     </label>
+                     <select id="operator" formControlName="operator"
+                        class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition">
+                        <option value="" disabled selected>{{ 'Seleccione un operador' | translate }}</option>
+                        <option *ngFor="let operator of operators" [value]="operator.id">
+                        {{ operator.firstName }} {{ operator.lastName }} - {{ operator.idNumber }}
+                        </option>
+                     </select>
+                  </div>
+                  <!-- Pedido -->
+                  <div class="space-y-1">
+                     <label for="folio" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 text-pink-600">
+                           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                           <polyline points="14 2 14 8 20 8"/>
+                           <line x1="16" y1="13" x2="8" y2="13"/>
+                           <line x1="16" y1="17" x2="8" y2="17"/>
+                           <polyline points="10 9 9 9 8 9"/>
+                        </svg>
+                        {{ 'Pedido' | translate }}
+                     </label>
+                     <select id="folio" formControlName="folio"
+                        class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition">
+                        <option value="" disabled selected>{{ 'Seleccione un pedido' | translate }}</option>
+                        <option *ngFor="let order of orders" [value]="order.folio">
+                        {{ order.folio }} - {{ order.branch_office.name }} || {{ order.create | date: 'short' }}
+                        </option>
+                     </select>
+                     <label (click)="setPageSizeToTotalOrders()"
+                        class="block text-right text-sm text-sky-600 hover:text-sky-800 hover:underline cursor-pointer mt-1">
+                     {{ 'Mostrar todo' | translate }}
+                     </label>
+                  </div>
+                  <!-- Autenticación -->
+                  <div class="space-y-1">
+                     <label for="password" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 text-red-600">
+                           <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                           <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                        {{ 'Autenticación' | translate }}
+                     </label>
+                     <div class="flex items-center gap-2">
+                        <input [type]="showPassword ? 'text' : 'password'" id="password" formControlName="auth"
+                           placeholder="{{ 'key de autenticación' | translate }}"
+                           class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 transition" />
+                        <button type="button" (click)="toggleShowPassword()"
+                           class="p-3 text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <path *ngIf="showPassword" d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                              <line *ngIf="showPassword" x1="1" y1="1" x2="23" y2="23"/>
+                              <circle *ngIf="!showPassword" cx="12" cy="12" r="3"/>
+                              <path *ngIf="!showPassword" d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                           </svg>
+                        </button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- Botones de acción -->
+         <div class="flex flex-col sm:flex-row gap-4 justify-center mt-10 pt-6 border-t border-gray-200">
+            <button type="submit" 
+               class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-xl shadow-md hover:shadow-lg transition-all font-medium disabled:opacity-70 disabled:cursor-not-allowed">
+               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                  <polyline points="17 21 17 13 7 13 7 21"/>
+                  <polyline points="7 3 7 8 15 8"/>
+               </svg>
+               {{ 'Crear Remisión' | translate }}
+            </button>
+            <button type="button" (click)="toHome()"
+               class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white rounded-xl shadow-md hover:shadow-lg transition-all font-medium">
+               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="15" y1="9" x2="9" y2="15"/>
+                  <line x1="9" y1="9" x2="15" y2="15"/>
+               </svg>
+               {{ 'Cancelar' | translate }}
+            </button>
+         </div>
+      </div>
+      </form>
+   </div>
 </div>
-

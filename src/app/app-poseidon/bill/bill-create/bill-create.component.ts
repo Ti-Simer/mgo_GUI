@@ -226,6 +226,8 @@ export class BillCreateComponent {
       return;
     }
 
+    console.log('Formulario enviado:', this.billForm.value);
+
     if (this.billForm.valid) {
 
       const data = {
