@@ -62,7 +62,8 @@ export class BillCreateComponent {
         horaInicial: ['', Validators.required],
         fechaInicial: ['', Validators.required],
         horaFinal: ['', Validators.required],
-        fechaFinal: ['', Validators.required]
+        fechaFinal: ['', Validators.required],
+        consecutivo: ['', Validators.required]
       }),
       auth: [null, Validators.required],
     });
