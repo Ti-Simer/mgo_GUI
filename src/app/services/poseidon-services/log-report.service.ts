@@ -19,9 +19,9 @@ export class LogReportService {
     private authService: AuthService
   ) { }
 
-  getAll(): Observable<any> {
+  getAll(pageData: any): Observable<any> {
     var apiUrl = this.authService.getApiUrl();
-    return this.http.get(`${apiUrl}/log-report/all`, { headers: this.apiKey });
+    return this.http.post(`${apiUrl}/log-report/all`, pageData, { headers: this.apiKey });
   }
 
   getById(id: string): Observable<any> {

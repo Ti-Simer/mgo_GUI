@@ -43,39 +43,45 @@
                 </div>
 
                 <!-- Botones criticidad + modo listado + ver todo -->
-                <div class="flex flex-col sm:flex-row flex-wrap items-center sm:justify-between gap-2 mt-4 w-full"
-                    *ngIf="log_reports.length > 0">
+                <div class="flex flex-col sm:flex-row flex-wrap items-center sm:justify-between gap-2 mt-4 w-full">
                     <!-- Grupo criticidad -->
                     <div class="flex flex-wrap gap-2 justify-center">
-                        <button type="button"
-                            class="relative p-2 shadow rounded text-sky-950 flex items-center justify-center bg-slate-200">
+                        <button type="button" (click)="filterByCriticality(0)" [ngClass]="{
+                            'bg-blue-100 border border-blue-500 text-blue-700': selectedCriticality === 0,
+                            'bg-slate-200 hover:bg-slate-300 text-sky-950': selectedCriticality !== 0
+                            }" class="relative p-2 shadow rounded flex items-center justify-center">
                             <lucide-icon name="flame" color="#36a9ff"></lucide-icon>
                             <span class="ml-2">{{ 'Baja' | translate }}</span>
-                            <span
+                            <span *ngIf="getCriticalityCount(0) > 0"
                                 class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-xs font-bold">
-                                {{ criticalityLow }}
+                                {{ getCriticalityCount(0) }}
                             </span>
                         </button>
 
-                        <button type="button"
-                            class="relative p-2 shadow rounded text-sky-950 flex items-center justify-center bg-slate-200">
+                        <button type="button" (click)="filterByCriticality(1)" [ngClass]="{
+                            'bg-orange-100 border border-orange-500 text-orange-700': selectedCriticality === 1,
+                            'bg-slate-200 hover:bg-slate-300 text-sky-950': selectedCriticality !== 1
+                            }" class="relative p-2 shadow rounded flex items-center justify-center">
                             <lucide-icon name="flame" color="#f19538"></lucide-icon>
                             <span class="ml-2">{{ 'Media' | translate }}</span>
-                            <span
+                            <span *ngIf="getCriticalityCount(1) > 0"
                                 class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-xs font-bold">
-                                {{ criticalityMedium }}
+                                {{ getCriticalityCount(1) }}
                             </span>
                         </button>
 
-                        <button type="button"
-                            class="relative p-2 shadow rounded text-sky-950 flex items-center justify-center bg-slate-200">
+                        <button type="button" (click)="filterByCriticality(2)" [ngClass]="{
+                            'bg-red-100 border border-red-500 text-red-700': selectedCriticality === 2,
+                            'bg-slate-200 hover:bg-slate-300 text-sky-950': selectedCriticality !== 2
+                            }" class="relative p-2 shadow rounded flex items-center justify-center">
                             <lucide-icon name="flame" color="#c61f1f"></lucide-icon>
                             <span class="ml-2">{{ 'Alta' | translate }}</span>
-                            <span
+                            <span *ngIf="getCriticalityCount(2) > 0"
                                 class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-xs font-bold">
-                                {{ criticalityHigh }}
+                                {{ getCriticalityCount(2) }}
                             </span>
                         </button>
+
                     </div>
 
                     <!-- Grupo: modo listado y ver todo -->
@@ -104,14 +110,15 @@
 
                         <!-- Botón Ver Todo -->
                         <button
-                            class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-gray-700 rounded text-sm font-semibold transition">
+                            class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-gray-700 rounded text-sm font-semibold transition"
+                            (click)="toViewLogReports()">
                             {{ 'Ver todo' | translate }}
                         </button>
                     </div>
                 </div>
 
                 <!-- Sin eventos -->
-                <div class="flex justify-center w-full" *ngIf="log_reports.length < 1">
+                <div class="flex justify-center w-full mt-11" *ngIf="log_reports.length < 1">
                     <p class="text-xl text-gray-500 text-center p-4 rounded border border-dotted border-gray-400 mt-4">
                         {{ 'No se han presentado eventos de ruta' | translate }}
                     </p>
@@ -125,7 +132,7 @@
             <!-- GRID -->
             <div *ngIf="viewMode === 'grid'"
                 class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 p-2">
-                <div *ngFor="let log_report of log_reports">
+                <div *ngFor="let log_report of paginatedItems">
                     <div class="p-2 bg-white border-l-4 rounded-lg shadow-sm hover:shadow-md transition-all text-xs h-full"
                         [ngClass]="{
                             'border-blue-500': log_report.route_event.criticality === 0,
@@ -167,7 +174,7 @@
             <!-- LISTADO -->
             <div *ngIf="viewMode === 'list'"
                 class="bg-white rounded-md flex flex-col divide-y divide-gray-200 px-2 text-xs text-gray-800 ">
-                <div *ngFor="let log_report of log_reports" class="py-2">
+                <div *ngFor="let log_report of paginatedItems" class="py-2">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 items-start">
                         <div class="font-medium">
                             {{ log_report.propane_truck.plate }}<br />
