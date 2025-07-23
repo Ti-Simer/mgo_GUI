@@ -86,7 +86,6 @@ export class RequestViewComponent {
     }
 
     this.billService.findByFolio(billData).subscribe(response => {
-      console.log(response);
       if (response.statusCode == 200) {
         if (response.data) {
           this.authService.readChecker().subscribe(flag => {

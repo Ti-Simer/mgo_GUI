@@ -68,7 +68,6 @@ export class LogReportListComponent {
     };
 
     this.logReportService.findByDay(pageData).subscribe((response: any) => {
-      console.log(response)
       if (response.statusCode == 200) {
         this.criticalityCounts = response.data.criticalityCounts;
         this.receiveCriticalityCounts(this.criticalityCounts);
