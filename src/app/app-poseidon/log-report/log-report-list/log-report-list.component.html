@@ -43,7 +43,7 @@
                 </div>
 
                 <!-- Botones criticidad + modo listado + ver todo -->
-                <div class="flex flex-col sm:flex-row flex-wrap items-center sm:justify-between gap-2 mt-4 w-full">
+                <div class="flex flex-col sm:flex-row flex-wrap items-center sm:justify-between gap-2 mt-4 w-full"*ngIf="log_reports.length > 0">
                     <!-- Grupo criticidad -->
                     <div class="flex flex-wrap gap-2 justify-center">
                         <button type="button" (click)="filterByCriticality(0)" [ngClass]="{
@@ -120,7 +120,10 @@
                 <!-- Sin eventos -->
                 <div class="container mt-6 flex justify-center" *ngIf="log_reports.length < 1">
                     <p class="text-sm text-gray-500 text-center p-4 rounded border border-dotted border-gray-400 mt-4">
-                        {{ 'No se han presentado eventos de ruta' | translate }}
+                        {{ 'No se han presentado eventos de ruta' | translate }}<br>
+                        <span class="text-sm text-sky-800 text-center p-4 rounded hover:text-sky-700 hover:underline italic cursor-pointer" (click)="toViewLogReports()">
+                            {{ 'Ver todo' | translate }}
+                        </span>
                     </p>
                 </div>
             </div>
