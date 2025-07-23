@@ -28,6 +28,7 @@ import {
   Languages
 } from 'lucide-angular';
 import { FooterLiteComponent } from './footer-lite/footer-lite.component';
+import { BackgroundCosmosComponent } from './background-cosmos/background-cosmos.component';
 
 // Factory function for TranslateHttpLoader
 export function HttpLoaderFactory(http: HttpClient) {
@@ -48,7 +49,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MenuPoseidonComponent,
     MenuHerculesComponent,
     PositiveNumberPipe,
-    FooterLiteComponent
+    FooterLiteComponent,
+    BackgroundCosmosComponent
   ],
   imports: [
     CommonModule,
@@ -82,7 +84,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MenuPoseidonComponent,
     MenuHerculesComponent,
     PositiveNumberPipe,
-    FooterLiteComponent
+    FooterLiteComponent,
+    BackgroundCosmosComponent
   ]
 })
 export class SharedModule { }
