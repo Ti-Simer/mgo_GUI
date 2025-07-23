@@ -43,7 +43,7 @@
       </div>
 
       <!-- Si no hay departamentos -->
-      <div class="text-center text-sm text-red-500 mb-4" *ngIf="departments.length === 0">
+      <div class="text-center text-sm text-red-500 mb-4" *ngIf="departments?.length === 0">
         <label>No se han encontrado departamentos, </label>
         <label (click)="toCreateDepartments()" class="cursor-pointer font-bold underline">
           {{ 'CREAR' | translate }}

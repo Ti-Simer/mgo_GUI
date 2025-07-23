@@ -44,10 +44,6 @@ export class RequestViewComponent {
         this.toastr.warning('No tienes permisos para leer esta información');
       }
     });
-
-    this.route.params.subscribe(params => {
-      this.requestId = authService.decryptData(params['id']);
-    });
   }
 
   ngOnInit(): void {
