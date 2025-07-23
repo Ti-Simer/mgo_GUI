@@ -141,7 +141,7 @@ export class CoursesCreateComponent {
       orders = data;
     });
 
-    if (orders.length > 0) {
+    if (orders?.length > 0) {
       orders.forEach((order: any) => {
         this.onOrderChange(order)
       });

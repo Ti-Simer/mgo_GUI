@@ -44,10 +44,6 @@ export class RequestViewComponent {
         this.toastr.warning('No tienes permisos para leer esta información');
       }
     });
-
-    this.route.params.subscribe(params => {
-      this.requestId = authService.decryptData(params['id']);
-    });
   }
 
   ngOnInit(): void {
@@ -90,7 +86,6 @@ export class RequestViewComponent {
     }
 
     this.billService.findByFolio(billData).subscribe(response => {
-      console.log(response);
       if (response.statusCode == 200) {
         if (response.data) {
           this.authService.readChecker().subscribe(flag => {
