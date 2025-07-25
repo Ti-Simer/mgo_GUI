@@ -167,7 +167,7 @@ export class LogReportAllComponent {
     // Otros filtros
   }
 
-  // ✅ FUNCIÓN PARA CONTAR EVENTOS POR CRITICIDAD
+  // FUNCIÓN PARA CONTAR EVENTOS POR CRITICIDAD
   getCriticalityCount(level: number): number {
     return this.items.filter(item => item.route_event.criticality === level).length;
   }
