@@ -241,6 +241,8 @@ export class CoursesEditComponent {
       branch_office: this.searchForm.value.branch_office,
     }
 
+    console.log('Datos de búsqueda:', data);
+
     this.orderService.findOrdersByBranchOffice(data).subscribe(
       response => {
         if (response.statusCode === 200) {
@@ -253,7 +255,7 @@ export class CoursesEditComponent {
 
   onSubmit() {
     this.loadingDialogRef = this.dialogService.openLoadingDialogSmall();
-    this.dialogService.openConfirmDialog('¿Esta seguro que desea realizar los cambios?, recuerde que esta información sera modificada y se verá reflejada cuando el operario descargue los datos nuevamente')
+    this.dialogService.openInfoConfirmDialog('¿Esta seguro que desea realizar los cambios?, recuerde que esta información sera modificada y se verá reflejada cuando el operario descargue los datos nuevamente', 'Confirmar cambios')
       .subscribe(result => {
         if (result) {
           this.courseForm.patchValue({
@@ -269,8 +271,6 @@ export class CoursesEditComponent {
             const date = new Date(formValue.fecha);
             formValue.fecha = date.toISOString().split('T')[0];
           }
-
-          console.log('Datos del formulario:', formValue);
 
           this.courseService.updateCourse(this.course.id, formValue).subscribe(
             response => {

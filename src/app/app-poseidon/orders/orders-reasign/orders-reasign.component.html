@@ -1,111 +1,173 @@
-<div class="landscape-only p-6">
-    <div class="max-w-7xl mx-auto">
-        <!-- Encabezado -->
-        <div class="mb-6">
-            <h1 class="text-2xl font-bold text-sky-800">Reasignación de Pedidos</h1>
-            <p class="text-sm text-gray-500 mt-1">
-                (Para reasignar pedidos, arrastre los elementos de una caja a otra.)
-            </p>
+<div class="landscape-only flex justify-center max-h-[90vh] overflow-auto py-8">
+    <div class="w-full">
+        <!-- Encabezado con gradiente -->
+        <div class="bg-gradient-to-r from-sky-700 to-sky-800 rounded-xl p-5 mb-6">
+            <div class="flex items-center">
+                <div class="bg-white/20 p-3 rounded-lg mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                        <path d="m15 5 4 4" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-white">Reasignación de Pedidos</h2>
+                    <p class="text-sky-200 mt-1">
+                        Para reasignar pedidos, arrastre los elementos de una caja a otra
+                    </p>
+                </div>
+            </div>
+            <div class="h-1 w-20 bg-sky-400 rounded-full mt-3"></div>
         </div>
 
         <!-- Contenedores de derroteros -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <!-- Caja 1 -->
-            <div class="bg-white shadow rounded-lg p-4 border" cdkDropList #ordersList1="cdkDropList" [cdkDropListData]="orders1" [cdkDropListConnectedTo]="[ordersList2]" (cdkDropListDropped)="drop($event)">
+            <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-200" cdkDropList #ordersList1="cdkDropList" [cdkDropListData]="orders1" [cdkDropListConnectedTo]="[ordersList2]" (cdkDropListDropped)="drop($event)">
+                <div class="mb-6">
+                    <div class="flex items-center mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mr-2">
+                            <path d="M3 3v18h18" />
+                            <path d="m19 9-5 5-4-4-3 3" />
+                        </svg>
+                        <h3 class="text-xl font-semibold text-sky-800">Derrotero 1</h3>
+                    </div>
 
-                <!-- Selector -->
-                <div class="mb-4">
-                    <p *ngIf="!selectedCourseId1" class="font-semibold text-gray-600">Selección °1</p>
-                    <label class="block text-sm text-gray-700 mb-1" *ngIf="!selectedCourseId1">-- Derrotero 1</label>
-                    <select [(ngModel)]="selectedCourseId1" (change)="onCourseSelectionChange(selectedCourseId1)" class="w-full border border-gray-300 rounded-md py-2 px-3 text-sm focus:outline-none focus:ring focus:border-blue-400">
+                    <select [(ngModel)]="selectedCourseId1" (change)="onCourseSelectionChange(selectedCourseId1)" class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition">
                         <option value="" disabled selected>Seleccione un derrotero</option>
                         <option *ngFor="let course of courses" [value]="course.id">
-                            {{ course.operator.firstName }} {{ course.operator.lastName }}, {{ course.propane_truck.plate }}: {{ course.propane_truck.capacity }}kg || {{ course.create | date: 'dd - MMMM - y H:mm'}}
+                            {{ course.operator.firstName }} {{ course.operator.lastName }}, {{ course.propane_truck.plate }}: {{ course.propane_truck.capacity }}kg
                         </option>
                     </select>
                 </div>
 
                 <!-- Información adicional -->
-                <div *ngIf="selectedCourseId1" class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">-- Información Derrotero</label>
-                    <div class="bg-gray-50 rounded-md p-3 text-sm text-gray-800 whitespace-pre-line leading-relaxed border">
-                        Operario: {{ course1.operator.firstName }} {{ course1.operator.lastName }} Identificación: {{ course1.operator.idNumber }} E-mail: {{ course1.operator.email }} Pedidos: {{ course1.orders.length }} _____________ Vehículo: {{ course1.propane_truck.plate
-                        }} - {{ course1.propane_truck.capacity }}kg Derrotero: {{ course1.create | date: 'dd - MMMM - y H:mm' }}
+                <div *ngIf="selectedCourseId1" class="mb-6 bg-sky-50 border border-sky-100 rounded-xl p-4 shadow-sm">
+                    <div class="flex items-center mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mr-2">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                            <line x1="12" y1="17" x2="12.01" y2="17" />
+                        </svg>
+                        <h4 class="font-medium text-sky-800">Información del Derrotero</h4>
+                    </div>
+
+                    <div class="text-sm text-gray-700 space-y-1">
+                        <p><strong>Operario:</strong> {{ course1.operator.firstName }} {{ course1.operator.lastName }}</p>
+                        <p><strong>Identificación:</strong> {{ course1.operator.idNumber }}</p>
+                        <p><strong>Email:</strong> {{ course1.operator.email }}</p>
+                        <p><strong>Vehículo:</strong> {{ course1.propane_truck.plate }} - {{ course1.propane_truck.capacity }}kg</p>
+                        <p><strong>Pedidos:</strong> {{ course1.orders.length }}</p>
+                        <p><strong>Fecha:</strong> {{ course1.create | date: 'dd/MM/yyyy HH:mm' }}</p>
                     </div>
                 </div>
 
                 <!-- Lista de pedidos -->
                 <div *ngIf="selectedCourseId1">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">-- Pedidos:</label>
+                    <div class="flex items-center mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mr-2">
+                            <circle cx="8" cy="21" r="1" />
+                            <circle cx="19" cy="21" r="1" />
+                            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+                        </svg>
+                        <h4 class="font-medium text-sky-800">Pedidos asignados</h4>
+                    </div>
+
                     <div class="space-y-3">
-                        <div class="bg-white border rounded-lg shadow-sm p-2" *ngFor="let order of orders1" cdkDrag>
-                            <table class="w-full text-sm text-left border-collapse">
-                                <thead class="bg-gray-100 text-gray-600">
-                                    <tr>
-                                        <th class="py-1 px-2 border">Folio</th>
-                                        <th class="py-1 px-2 border">Fecha</th>
-                                        <th class="py-1 px-2 border">Establecimiento</th>
-                                        <th class="py-1 px-2 border">Estado</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="text-gray-700">
-                                        <td class="py-1 px-2 border">{{ order.folio }}</td>
-                                        <td class="py-1 px-2 border">{{ order.create | date: 'dd - MMMM - y H:mm' }}</td>
-                                        <td class="py-1 px-2 border">{{ order.branch_office.name }}</td>
-                                        <td class="py-1 px-2 border">{{ order.status }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-3 cursor-move hover:shadow-md" *ngFor="let order of orders1" cdkDrag>
+                            <div class="grid grid-cols-4 gap-2 text-sm">
+                                <div>
+                                    <div class="text-xs font-medium text-gray-500">Folio</div>
+                                    <div class="font-medium">{{ order.folio }}</div>
+                                </div>
+                                <div>
+                                    <div class="text-xs font-medium text-gray-500">Fecha</div>
+                                    <div>{{ order.create | date: 'dd/MM' }}</div>
+                                </div>
+                                <div class="col-span-2">
+                                    <div class="text-xs font-medium text-gray-500">Establecimiento</div>
+                                    <div class="truncate">{{ order.branch_office.name }}</div>
+                                </div>
+                                <div class="col-span-4 mt-2">
+                                    <div class="text-xs font-medium text-gray-500">Estado</div>
+                                    <span class="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">{{ order.status }}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Caja 2 (idéntica a Caja 1) -->
-            <div class="bg-white shadow rounded-lg p-4 border" cdkDropList #ordersList2="cdkDropList" [cdkDropListData]="orders2" [cdkDropListConnectedTo]="[ordersList1]" (cdkDropListDropped)="drop($event)">
+            <!-- Caja 2 -->
+            <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-200" cdkDropList #ordersList2="cdkDropList" [cdkDropListData]="orders2" [cdkDropListConnectedTo]="[ordersList1]" (cdkDropListDropped)="drop($event)">
+                <div class="mb-6">
+                    <div class="flex items-center mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600 mr-2">
+                            <path d="M3 3v18h18" />
+                            <path d="m19 9-5 5-4-4-3 3" />
+                        </svg>
+                        <h3 class="text-xl font-semibold text-green-800">Derrotero 2</h3>
+                    </div>
 
-                <div class="mb-4">
-                    <p *ngIf="!selectedCourseId2" class="font-semibold text-gray-600">Selección °2</p>
-                    <label class="block text-sm text-gray-700 mb-1" *ngIf="!selectedCourseId2">-- Derrotero 2</label>
-                    <select [(ngModel)]="selectedCourseId2" (change)="onCourseSelectionChange2(selectedCourseId2)" class="w-full border border-gray-300 rounded-md py-2 px-3 text-sm focus:outline-none focus:ring focus:border-blue-400">
+                    <select [(ngModel)]="selectedCourseId2" (change)="onCourseSelectionChange2(selectedCourseId2)" class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition">
                         <option value="" disabled selected>Seleccione un derrotero</option>
                         <option *ngFor="let course of courses" [value]="course.id">
-                            {{ course.operator.firstName }} {{ course.operator.lastName }}, {{ course.propane_truck.plate }}: {{ course.propane_truck.capacity }}kg || {{ course.create | date: 'dd - MMMM - y H:mm'}}
+                            {{ course.operator.firstName }} {{ course.operator.lastName }}, {{ course.propane_truck.plate }}: {{ course.propane_truck.capacity }}kg
                         </option>
                     </select>
                 </div>
 
-                <div *ngIf="selectedCourseId2" class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">-- Información Derrotero</label>
-                    <div class="bg-gray-50 rounded-md p-3 text-sm text-gray-800 whitespace-pre-line leading-relaxed border">
-                        Operario: {{ course2.operator.firstName }} {{ course2.operator.lastName }} Identificación: {{ course2.operator.idNumber }} E-mail: {{ course2.operator.email }} Pedidos: {{ course2.orders.length }} _____________ Vehículo: {{ course2.propane_truck.plate
-                        }} - {{ course2.propane_truck.capacity }}kg Derrotero: {{ course2.create | date: 'dd - MMMM - y H:mm' }}
+                <!-- Información adicional -->
+                <div *ngIf="selectedCourseId2" class="mb-6 bg-green-50 border border-green-100 rounded-xl p-4 shadow-sm">
+                    <div class="flex items-center mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600 mr-2">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                            <line x1="12" y1="17" x2="12.01" y2="17" />
+                        </svg>
+                        <h4 class="font-medium text-green-800">Información del Derrotero</h4>
+                    </div>
+
+                    <div class="text-sm text-gray-700 space-y-1">
+                        <p><strong>Operario:</strong> {{ course2.operator.firstName }} {{ course2.operator.lastName }}</p>
+                        <p><strong>Identificación:</strong> {{ course2.operator.idNumber }}</p>
+                        <p><strong>Email:</strong> {{ course2.operator.email }}</p>
+                        <p><strong>Vehículo:</strong> {{ course2.propane_truck.plate }} - {{ course2.propane_truck.capacity }}kg</p>
+                        <p><strong>Pedidos:</strong> {{ course2.orders.length }}</p>
+                        <p><strong>Fecha:</strong> {{ course2.create | date: 'dd/MM/yyyy HH:mm' }}</p>
                     </div>
                 </div>
 
+                <!-- Lista de pedidos -->
                 <div *ngIf="selectedCourseId2">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">-- Pedidos:</label>
+                    <div class="flex items-center mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600 mr-2">
+                            <circle cx="8" cy="21" r="1" />
+                            <circle cx="19" cy="21" r="1" />
+                            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+                        </svg>
+                        <h4 class="font-medium text-green-800">Pedidos asignados</h4>
+                    </div>
+
                     <div class="space-y-3">
-                        <div class="bg-white border rounded-lg shadow-sm p-2" *ngFor="let order of orders2" cdkDrag>
-                            <table class="w-full text-sm text-left border-collapse">
-                                <thead class="bg-gray-100 text-gray-600">
-                                    <tr>
-                                        <th class="py-1 px-2 border">Folio</th>
-                                        <th class="py-1 px-2 border">Fecha</th>
-                                        <th class="py-1 px-2 border">Establecimiento</th>
-                                        <th class="py-1 px-2 border">Estado</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="text-gray-700">
-                                        <td class="py-1 px-2 border">{{ order.folio }}</td>
-                                        <td class="py-1 px-2 border">{{ order.create | date: 'dd - MMMM - y H:mm' }}</td>
-                                        <td class="py-1 px-2 border">{{ order.branch_office.name }}</td>
-                                        <td class="py-1 px-2 border">{{ order.status }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-3 cursor-move hover:shadow-md" *ngFor="let order of orders2" cdkDrag>
+                            <div class="grid grid-cols-4 gap-2 text-sm">
+                                <div>
+                                    <div class="text-xs font-medium text-gray-500">Folio</div>
+                                    <div class="font-medium">{{ order.folio }}</div>
+                                </div>
+                                <div>
+                                    <div class="text-xs font-medium text-gray-500">Fecha</div>
+                                    <div>{{ order.create | date: 'dd/MM' }}</div>
+                                </div>
+                                <div class="col-span-2">
+                                    <div class="text-xs font-medium text-gray-500">Establecimiento</div>
+                                    <div class="truncate">{{ order.branch_office.name }}</div>
+                                </div>
+                                <div class="col-span-4 mt-2">
+                                    <div class="text-xs font-medium text-gray-500">Estado</div>
+                                    <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">{{ order.status }}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -113,118 +175,193 @@
         </div>
 
         <!-- Botón de aplicar cambios -->
-        <div class="flex justify-end mt-6">
-            <button class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded shadow transition" (click)="onSubmit()">
+        <div class="flex justify-center mt-8">
+            <button class="flex items-center px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold rounded-xl shadow-md hover:from-green-600 hover:to-emerald-700 transform hover:-translate-y-0.5" (click)="onSubmit()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
                 Aplicar cambios
             </button>
         </div>
     </div>
 </div>
 
-<div class="portrait-only px-2 py-6 space-y-6">
-    <!-- Título y descripción -->
-    <div>
-        <h1 class="text-xl font-bold text-sky-800">Reasignación de Pedidos</h1>
-        <p class="text-xs text-gray-500 mt-1">
-            (Para reasignar pedidos, presione los botones “Derrotero 1” y “Derrotero 2”; los pedidos se moverán automáticamente entre cajas.)
-        </p>
-    </div>
+<div class="portrait-only flex justify-center max-h-[90vh] overflow-auto py-6 px-4">
+    <div class="w-full max-w-2xl">
+        <!-- Encabezado con gradiente -->
+        <div class="bg-gradient-to-r from-sky-700 to-sky-800 rounded-xl p-4 mb-6">
+            <div class="flex items-center">
+                <div class="bg-white/20 p-2 rounded-lg mr-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                        <path d="m15 5 4 4" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold text-white">Reasignación de Pedidos</h2>
+                    <p class="text-sky-200 text-sm mt-1">
+                        Presione los botones "Derrotero 1" y "Derrotero 2" para mover pedidos
+                    </p>
+                </div>
+            </div>
+            <div class="h-1 w-16 bg-sky-400 rounded-full mt-2"></div>
+        </div>
 
-    <!-- Contenedores de derroteros -->
-    <div class="space-y-8">
-        <!-- Derrotero 1 -->
-        <div class="bg-white rounded-lg shadow p-4 border">
-            <label *ngIf="!selectedCourseId1" class="block text-sm font-medium text-gray-600 mb-1">-- Derrotero 1</label>
-            <select [(ngModel)]="selectedCourseId1" (change)="onCourseSelectionChange(selectedCourseId1)" class="w-full text-sm border-gray-300 rounded-md py-1.5 px-2 focus:outline-none focus:ring focus:border-sky-500">
-                <option value="" disabled selected>Seleccione un derrotero</option>
-                <option *ngFor="let course of courses" [value]="course.id">
-                    {{ course.operator.firstName }} {{ course.operator.lastName }}, {{ course.propane_truck.plate }}: {{ course.propane_truck.capacity }}kg | {{ course.create | date: 'dd - MMMM - y H:mm' }}
-                </option>
-            </select>
+        <!-- Contenedores de derroteros -->
+        <div class="space-y-6">
+            <!-- Derrotero 1 -->
+            <div class="bg-white rounded-2xl shadow-lg p-5 border border-gray-200">
+                <div class="mb-4">
+                    <div class="flex items-center mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mr-2">
+                            <path d="M3 3v18h18" />
+                            <path d="m19 9-5 5-4-4-3 3" />
+                        </svg>
+                        <h3 class="text-lg font-semibold text-sky-800">Derrotero 1</h3>
+                    </div>
 
-            <!-- Info Derrotero -->
-            <div *ngIf="selectedCourseId1" class="mt-3 text-sm bg-gray-50 p-3 rounded whitespace-pre-line text-gray-700 border">
-                <strong>Operario:</strong> {{course1.operator.firstName}} {{course1.operator.lastName}} Identificación: {{course1.operator.idNumber}} E-mail: {{course1.operator.email}} Pedidos: {{course1.orders.length}} ____________________ Vehículo:
-                {{course1.propane_truck.plate}} - {{course1.propane_truck.capacity}}kg Derrotero: {{course1.create | date: 'dd - MMMM - y H:mm'}}
+                    <select [(ngModel)]="selectedCourseId1" (change)="onCourseSelectionChange(selectedCourseId1)" class="w-full p-2.5 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition text-sm">
+                        <option value="" disabled selected>Seleccione un derrotero</option>
+                        <option *ngFor="let course of courses" [value]="course.id">
+                            {{ course.operator.firstName }} {{ course.operator.lastName }}, {{ course.propane_truck.plate }}
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Información adicional -->
+                <div *ngIf="selectedCourseId1" class="mb-4 bg-sky-50 border border-sky-100 rounded-lg p-3 shadow-sm">
+                    <div class="text-xs text-gray-700 space-y-1">
+                        <p><strong>Operario:</strong> {{ course1.operator.firstName }} {{ course1.operator.lastName }}</p>
+                        <p><strong>Vehículo:</strong> {{ course1.propane_truck.plate }} ({{ course1.propane_truck.capacity }}kg)</p>
+                        <p><strong>Pedidos:</strong> {{ course1.orders.length }}</p>
+                        <p><strong>Fecha:</strong> {{ course1.create | date: 'dd/MM/yy HH:mm' }}</p>
+                    </div>
+                </div>
+
+                <!-- Lista de pedidos -->
+                <div *ngIf="selectedCourseId1" class="mt-4">
+                    <div class="flex items-center mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mr-2">
+                            <circle cx="8" cy="21" r="1" />
+                            <circle cx="19" cy="21" r="1" />
+                            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+                        </svg>
+                        <h4 class="font-medium text-sky-800 text-sm">Pedidos asignados</h4>
+                    </div>
+
+                    <div class="overflow-auto max-h-[300px]">
+                        <table class="w-full text-xs border-collapse">
+                            <thead class="bg-sky-100 text-sky-800 sticky top-0">
+                                <tr>
+                                    <th class="px-2 py-2 font-medium text-left">Folio</th>
+                                    <th class="px-2 py-2 font-medium text-left">Fecha</th>
+                                    <th class="px-2 py-2 font-medium text-left">Establecimiento</th>
+                                    <th class="px-2 py-2 font-medium text-center">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr *ngFor="let order of orders1" class="text-gray-700 hover:bg-sky-50/50">
+                                    <td class="px-2 py-2 font-medium">{{ order.folio }}</td>
+                                    <td class="px-2 py-2">{{ order.create | date: 'dd/MM' }}</td>
+                                    <td class="px-2 py-2 truncate max-w-[100px]">{{ order.branch_office.name }}</td>
+                                    <td class="px-2 py-2 text-center">
+                                        <button *ngIf="orders1.includes(order) && selectedCourseId2" class="text-xs bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded-lg shadow transition flex items-center justify-center mx-auto" (click)="moveOrder(order)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1">
+                                                <path d="M5 12h14" />
+                                                <path d="m12 5 7 7-7 7" />
+                                            </svg>
+                                            Derrotero 2
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
-            <!-- Pedidos -->
-            <div *ngIf="selectedCourseId1" class="mt-4 overflow-auto">
-                <table class="w-full text-xs text-left border-collapse">
-                    <thead class="bg-gray-100 text-gray-600">
-                        <tr>
-                            <th class="border px-2 py-1">Folio</th>
-                            <th class="border px-2 py-1">Fecha</th>
-                            <th class="border px-2 py-1">Establecimiento</th>
-                            <th class="border px-2 py-1">Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let order of orders1" class="text-gray-700">
-                            <td class="border px-2 py-1">{{ order.folio }}</td>
-                            <td class="border px-2 py-1">{{ order.create | date: 'dd - MMMM - y H:mm' }}</td>
-                            <td class="border px-2 py-1">{{ order.branch_office.name }}</td>
-                            <td class="border px-2 py-1 flex items-center gap-2">
-                                <span class="bg-gray-200 px-2 py-0.5 rounded">{{ order.branch_office.status }}</span>
-                                <button *ngIf="orders1.includes(order) && selectedCourseId2" class="text-xs bg-blue-600 text-white px-2 py-0.5 rounded hover:bg-blue-700 transition" (click)="moveOrder(order)">
-                                    Derrotero 2
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <!-- Derrotero 2 -->
+            <div class="bg-white rounded-2xl shadow-lg p-5 border border-gray-200">
+                <div class="mb-4">
+                    <div class="flex items-center mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600 mr-2">
+                            <path d="M3 3v18h18" />
+                            <path d="m19 9-5 5-4-4-3 3" />
+                        </svg>
+                        <h3 class="text-lg font-semibold text-green-800">Derrotero 2</h3>
+                    </div>
+
+                    <select [(ngModel)]="selectedCourseId2" (change)="onCourseSelectionChange2(selectedCourseId2)" class="w-full p-2.5 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition text-sm">
+                        <option value="" disabled selected>Seleccione un derrotero</option>
+                        <option *ngFor="let course of courses" [value]="course.id">
+                            {{ course.operator.firstName }} {{ course.operator.lastName }}, {{ course.propane_truck.plate }}
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Información adicional -->
+                <div *ngIf="selectedCourseId2" class="mb-4 bg-green-50 border border-green-100 rounded-lg p-3 shadow-sm">
+                    <div class="text-xs text-gray-700 space-y-1">
+                        <p><strong>Operario:</strong> {{ course2.operator.firstName }} {{ course2.operator.lastName }}</p>
+                        <p><strong>Vehículo:</strong> {{ course2.propane_truck.plate }} ({{ course2.propane_truck.capacity }}kg)</p>
+                        <p><strong>Pedidos:</strong> {{ course2.orders.length }}</p>
+                        <p><strong>Fecha:</strong> {{ course2.create | date: 'dd/MM/yy HH:mm' }}</p>
+                    </div>
+                </div>
+
+                <!-- Lista de pedidos -->
+                <div *ngIf="selectedCourseId2" class="mt-4">
+                    <div class="flex items-center mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600 mr-2">
+                            <circle cx="8" cy="21" r="1" />
+                            <circle cx="19" cy="21" r="1" />
+                            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+                        </svg>
+                        <h4 class="font-medium text-green-800 text-sm">Pedidos asignados</h4>
+                    </div>
+
+                    <div class="overflow-auto max-h-[300px]">
+                        <table class="w-full text-xs border-collapse">
+                            <thead class="bg-green-100 text-green-800 sticky top-0">
+                                <tr>
+                                    <th class="px-2 py-2 font-medium text-left">Folio</th>
+                                    <th class="px-2 py-2 font-medium text-left">Fecha</th>
+                                    <th class="px-2 py-2 font-medium text-left">Establecimiento</th>
+                                    <th class="px-2 py-2 font-medium text-center">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr *ngFor="let order of orders2" class="text-gray-700 hover:bg-green-50/50">
+                                    <td class="px-2 py-2 font-medium">{{ order.folio }}</td>
+                                    <td class="px-2 py-2">{{ order.create | date: 'dd/MM' }}</td>
+                                    <td class="px-2 py-2 truncate max-w-[100px]">{{ order.branch_office.name }}</td>
+                                    <td class="px-2 py-2 text-center">
+                                        <button *ngIf="orders2.includes(order) && selectedCourseId1" class="text-xs bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded-lg shadow transition flex items-center justify-center mx-auto" (click)="moveOrder(order)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1">
+                                                <path d="M5 12h14" />
+                                                <path d="m12 5 7 7-7 7" />
+                                            </svg>
+                                            Derrotero 1
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Derrotero 2 -->
-        <div class="bg-white rounded-lg shadow p-4 border">
-            <label *ngIf="!selectedCourseId2" class="block text-sm font-medium text-gray-600 mb-1">-- Derrotero 2</label>
-            <select [(ngModel)]="selectedCourseId2" (change)="onCourseSelectionChange2(selectedCourseId2)" class="w-full text-sm border-gray-300 rounded-md py-1.5 px-2 focus:outline-none focus:ring focus:border-sky-500">
-                <option value="" disabled selected>Seleccione un derrotero</option>
-                <option *ngFor="let course of courses" [value]="course.id">
-                    {{ course.operator.firstName }} {{ course.operator.lastName }}, {{ course.propane_truck.plate }}: {{ course.propane_truck.capacity }}kg | {{ course.create | date: 'dd - MMMM - y H:mm' }}
-                </option>
-            </select>
-
-            <!-- Info Derrotero -->
-            <div *ngIf="selectedCourseId2" class="mt-3 text-sm bg-gray-50 p-3 rounded whitespace-pre-line text-gray-700 border">
-                <strong>Operario:</strong> {{course2.operator.firstName}} {{course2.operator.lastName}} Identificación: {{course2.operator.idNumber}} E-mail: {{course2.operator.email}} Pedidos: {{course2.orders.length}} ____________________ Vehículo:
-                {{course2.propane_truck.plate}} - {{course2.propane_truck.capacity}}kg Derrotero: {{course2.create | date: 'dd - MMMM - y H:mm'}}
-            </div>
-
-            <!-- Pedidos -->
-            <div *ngIf="selectedCourseId2" class="mt-4 overflow-auto">
-                <table class="w-full text-xs text-left border-collapse">
-                    <thead class="bg-gray-100 text-gray-600">
-                        <tr>
-                            <th class="border px-2 py-1">Folio</th>
-                            <th class="border px-2 py-1">Fecha</th>
-                            <th class="border px-2 py-1">Establecimiento</th>
-                            <th class="border px-2 py-1">Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let order of orders2" class="text-gray-700">
-                            <td class="border px-2 py-1">{{ order.folio }}</td>
-                            <td class="border px-2 py-1">{{ order.create | date: 'dd - MMMM - y H:mm' }}</td>
-                            <td class="border px-2 py-1">{{ order.branch_office.name }}</td>
-                            <td class="border px-2 py-1 flex items-center gap-2">
-                                <span class="bg-gray-200 px-2 py-0.5 rounded">{{ order.branch_office.status }}</span>
-                                <button *ngIf="orders2.includes(order) && selectedCourseId1" class="text-xs bg-blue-600 text-white px-2 py-0.5 rounded hover:bg-blue-700 transition" (click)="moveOrder(order)">
-                                    Derrotero 1
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <!-- Botón de aplicar cambios -->
+        <div class="flex justify-center mt-6">
+            <button class="flex items-center px-5 py-2.5 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-medium rounded-xl shadow-md hover:from-green-600 hover:to-emerald-700 transition-all" (click)="onSubmit()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+                Aplicar cambios
+            </button>
         </div>
-    </div>
-
-    <!-- Botón de acción final -->
-    <div class="flex justify-end mt-4">
-        <button class="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 px-4 rounded shadow transition" (click)="onSubmit()">
-            Aplicar cambios
-        </button>
     </div>
 </div>

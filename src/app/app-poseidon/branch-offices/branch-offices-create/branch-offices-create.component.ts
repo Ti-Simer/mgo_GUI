@@ -254,8 +254,6 @@ export class BranchOfficesCreateComponent {
   }
 
   onSubmit() {
-    console.log('Formulario de sucursal:', this.branchOfficeForm.value);
-
     if (this.branchOfficeForm.valid) {
       const branchOfficeData = this.branchOfficeForm.value;
       // Aqui se registra la sucursal con estado 'ACTIVO' al se generada por administradores

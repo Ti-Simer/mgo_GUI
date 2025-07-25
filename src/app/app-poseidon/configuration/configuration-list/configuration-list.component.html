@@ -1,41 +1,48 @@
-<div class="px-4 py-6 sm:px-6 lg:px-8">
-    <div class="max-w-7xl mx-auto space-y-6">
-        <!-- Título -->
-        <div class="text-center">
-            <span class="text-3xl font-normal text-sky-800">{{ 'Hoja de configuración' | translate }}</span>
+<div class="flex justify-center overflow-auto bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen py-8">
+    <div class="w-full max-w-7xl max-h-[90vh] bg-white rounded-2xl shadow-xl p-6 overflow-auto">
+        <!-- Encabezado con gradiente -->
+        <div class="bg-gradient-to-r from-sky-700 to-sky-800 rounded-xl p-5 mb-8">
+            <div class="flex items-center">
+                <div class="bg-white/20 p-3 rounded-lg mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-white">{{ 'Hoja de configuración' | translate }}</h2>
+            </div>
+            <div class="h-1 w-20 bg-sky-400 rounded-full mt-3"></div>
         </div>
 
-        <!-- Formulario -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <form [formGroup]="configurationForm" (ngSubmit)="onSubmit()" class="space-y-4">
+            <!-- Columna izquierda - Formulario -->
+            <form [formGroup]="configurationForm" (ngSubmit)="onSubmit()" class="space-y-6">
                 <!-- Empresa -->
-                <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
+                <div class="space-y-2">
+                    <label for="name" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-sky-600">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                        </svg>
                         {{ 'Nombre de la empresa' | translate }}
                     </label>
-                    <input
-                        type="text"
-                        id="name"
-                        formControlName="company"
-                        class="w-full border rounded px-3 py-2 text-sm focus:ring focus:ring-sky-300"
-                        placeholder="{{ 'Escriba aquí el nombre de la empresa' | translate }}"
-                        maxlength="21"
-                    />
+                    <input type="text" id="name" formControlName="company" class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition" placeholder="{{ 'Escriba aquí el nombre de la empresa' | translate }}"
+                    maxlength="21" />
                 </div>
 
                 <!-- Código de país -->
-                <div>
-                    <label for="country_code" class="block text-sm font-medium text-gray-700 mb-1">
+                <div class="space-y-2">
+                    <label for="country_code" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-sky-600">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="2" y1="12" x2="22" y2="12" />
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                        </svg>
                         {{ 'Código de País' | translate }}
                     </label>
-                    <div>
-                        <input
-                            type="text"
-                            id="country_code"
-                            formControlName="country_code"
-                            class="w-full border rounded px-3 py-2 text-sm focus:ring focus:ring-sky-300"
-                            [matAutocomplete]="auto"
-                            placeholder="{{ configurationForm.value.country }}"
+                    <div class="relative">
+                        <input type="text" id="country_code" formControlName="country_code" class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition" [matAutocomplete]="auto" placeholder="{{ configurationForm.value.country }}"
                         />
                         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onCountryCodeSelected($event)">
                             <mat-option *ngFor="let country_code of filteredCountryCodes | async" [value]="country_code">
@@ -46,77 +53,154 @@
                 </div>
 
                 <!-- Teléfono -->
-                <div>
-                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">
+                <div class="space-y-2">
+                    <label for="phone" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-sky-600">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                            />
+                        </svg>
                         {{ 'Telefono de la empresa' | translate }}
                     </label>
-                    <input type="text" id="phone" formControlName="phone" class="w-full border rounded px-3 py-2 text-sm focus:ring focus:ring-sky-300" placeholder="{{ 'Escriba aquí el Telefono de la empresa' | translate }}" />
+                    <input type="text" id="phone" formControlName="phone" class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition" placeholder="{{ 'Escriba aquí el Telefono de la empresa' | translate }}"
+                    />
                 </div>
 
                 <!-- Email -->
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+                <div class="space-y-2">
+                    <label for="email" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-sky-600">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                            <polyline points="22,6 12,13 2,6" />
+                        </svg>
                         {{ 'E-mail de la empresa' | translate }}
                     </label>
-                    <input type="text" id="email" formControlName="email" class="w-full border rounded px-3 py-2 text-sm focus:ring focus:ring-sky-300" placeholder="{{ 'Escriba aquí el E-mail de la empresa' | translate }}" />
+                    <input type="text" id="email" formControlName="email" class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition" placeholder="{{ 'Escriba aquí el E-mail de la empresa' | translate }}"
+                    />
                 </div>
 
                 <!-- Imagen -->
-                <div>
-                    <label for="image" class="block text-sm font-medium text-gray-700 mb-1">
+                <div class="space-y-2">
+                    <label for="image" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-sky-600">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                            <circle cx="8.5" cy="8.5" r="1.5" />
+                            <path d="M21 15l-5-5L5 21" />
+                        </svg>
                         {{ 'Imagen de la empresa' | translate }}
                     </label>
-                    <input type="file" id="image" (change)="onFileChange($event)" class="w-full border rounded px-3 py-2 text-sm" />
+                    <div class="flex gap-2">
+                        <input type="file" id="image" (change)="onFileChange($event)" class="flex-1 p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition" />
+                        <button type="button" class="rounded-lg border border-gray-300 px-4 text-gray-700 hover:bg-gray-100 transition flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Canvas -->
-                <div class="mt-4">
-                    <canvas #canvas width="630" height="300" class="border border-gray-300 rounded shadow-sm"></canvas>
+                <div class="mt-4 border border-gray-300 rounded-xl shadow-sm overflow-hidden">
+                    <canvas #canvas width="630" height="300" class="w-full"></canvas>
                 </div>
 
                 <!-- Botón recorte -->
                 <div>
-                    <button type="button" class="mt-2 px-4 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700" (click)="cropImage()" [disabled]="!image.src">
+                    <button type="button" class="mt-4 px-4 py-3 bg-gradient-to-r from-blue-500 to-sky-600 text-white font-medium rounded-lg shadow-md hover:from-blue-600 hover:to-sky-700 transition-all" (click)="cropImage()" [disabled]="!image.src">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline mr-2">
+                            <path d="M6.13 1L6 16a2 2 0 0 0 2 2h15" />
+                            <path d="M1 6.13L16 6a2 2 0 0 1 2 2v15" />
+                        </svg>
                         {{ 'Recortar Imagen' | translate }}
                     </button>
                 </div>
             </form>
 
-            <!-- Información -->
-            <div class="bg-white shadow-sm rounded-lg p-4 space-y-3 border border-gray-200 text-sm text-gray-800">
-                <h2 class="text-lg font-semibold text-sky-700">{{ 'Información' | translate }}</h2>
-
-                <p>{{ 'Hoja de configuración' | translate }}</p>
-
-                <div>
-                    <p><strong>{{ 'Empresa' | translate }}:</strong> {{ configurationForm.value.company }}</p>
-                    <p><strong>{{ 'Teléfono' | translate }}:</strong> ({{ configurationForm.value.country_code }}) {{ configurationForm.value.phone }}</p>
-                    <p><strong>{{ 'Email' | translate }}:</strong> {{ configurationForm.value.email }}</p>
-                    <p><strong>{{ 'País' | translate }}:</strong> {{ configurationForm.value.country }}</p>
+            <!-- Columna derecha - Información -->
+            <div class="bg-sky-50 border border-sky-100 p-6 rounded-2xl shadow-sm">
+                <div class="flex items-center mb-4">
+                    <div class="bg-sky-100 p-3 rounded-lg mr-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-700">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="16" x2="12" y2="12" />
+                            <line x1="12" y1="8" x2="12.01" y2="8" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-sky-800 tracking-wide">
+            {{ 'Resumen de la configuración' | translate }}
+          </h3>
                 </div>
 
-                <!-- Imagen recortada -->
-                <div *ngIf="croppedImage" class="mt-4">
-                    <p><strong>{{ 'Vista previa de la imagen' | translate }}:</strong></p>
-                    <img [src]="croppedImage" alt="Imagen recortada" class="rounded border border-gray-300 max-w-full" />
-                </div>
+                <div class="space-y-4 text-gray-700">
+                    <div class="flex flex-col">
+                        <span class="text-sm font-medium text-gray-500">{{ 'Empresa' | translate }}</span>
+                        <span class="font-medium">{{ configurationForm.value.company || '--' }}</span>
+                    </div>
 
-                <!-- Nota -->
-                <div class="pt-4">
-                    <p class="font-semibold">{{ 'Nota' | translate }}:</p>
-                    <p class="text-gray-600 text-sm">
-                        "{{ 'Esta información será utilizada para personalizar y dar identidad a los mensajes generados por el sistema, los cuales incluyen notificaciones dirigidas a los clientes y comunicaciones con terceros. Tenga en cuenta que sin esta información el sistema no podrá enviar correos para información de token o validación de cargue al cliente.' | translate }}"
-                    </p>
-                </div>
+                    <div class="flex flex-col">
+                        <span class="text-sm font-medium text-gray-500">{{ 'Teléfono' | translate }}</span>
+                        <span class="font-medium">({{ configurationForm.value.country_code }}) {{ configurationForm.value.phone || '--' }}</span>
+                    </div>
 
-                <!-- Botón guardar -->
-                <div class="pt-4">
-                    <button type="submit" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm rounded shadow" (click)="onSubmit()">
-                        {{ 'Registrar configuración' | translate }}
-                    </button>
+                    <div class="flex flex-col">
+                        <span class="text-sm font-medium text-gray-500">{{ 'Email' | translate }}</span>
+                        <span class="font-medium">{{ configurationForm.value.email || '--' }}</span>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <span class="text-sm font-medium text-gray-500">{{ 'País' | translate }}</span>
+                        <span class="font-medium">{{ configurationForm.value.country || '--' }}</span>
+                    </div>
+
+                    <!-- Imagen recortada -->
+                    <div class="border-t border-sky-100 pt-4">
+                        <span class="text-sm font-medium text-gray-500">{{ 'Vista previa de la imagen' | translate }}</span>
+                        <div class="mt-2 flex justify-center">
+                            <div *ngIf="croppedImage; else noImage" class="bg-gray-100 rounded-xl p-3 border-2 border-dashed border-gray-300 w-full">
+                                <img [src]="croppedImage" alt="Imagen recortada" class="rounded border border-gray-300 max-w-full max-h-48 mx-auto" />
+                            </div>
+                            <ng-template #noImage>
+                                <div class="bg-gray-100 rounded-xl p-6 border-2 border-dashed border-gray-300 w-full text-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400 mx-auto">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                        <circle cx="8.5" cy="8.5" r="1.5" />
+                                        <path d="M21 15l-5-5L5 21" />
+                                    </svg>
+                                    <p class="text-gray-500 text-sm mt-2">{{ 'Sin imagen' | translate }}</p>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+
+                    <!-- Nota -->
+                    <div class="border-t border-sky-100 pt-4 mt-4">
+                        <p class="font-semibold text-sky-700 flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 mt-0.5 text-sky-600">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="16" x2="12" y2="12" />
+                                <line x1="12" y1="8" x2="12.01" y2="8" />
+                            </svg>
+                            {{ 'Nota' | translate }}:
+                        </p>
+                        <p class="text-gray-600 text-sm mt-2 pl-5">
+                            "{{ 'Esta información será utilizada para personalizar y dar identidad a los mensajes generados por el sistema, los cuales incluyen notificaciones dirigidas a los clientes y comunicaciones con terceros. Tenga en cuenta que sin esta información el sistema
+                            no podrá enviar correos para información de token o validación de cargue al cliente.' | translate }}"
+                        </p>
+                    </div>
+
+                    <!-- Botón guardar -->
+                    <div class="pt-6">
+                        <button type="submit" class="w-full rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white py-3 px-6 font-medium shadow-md hover:shadow-lg transition-all" (click)="onSubmit()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline mr-2">
+                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                                <polyline points="17 21 17 13 7 13 7 21" />
+                                <polyline points="7 3 7 8 15 8" />
+                            </svg>
+                            {{ 'Registrar configuración' | translate }}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-

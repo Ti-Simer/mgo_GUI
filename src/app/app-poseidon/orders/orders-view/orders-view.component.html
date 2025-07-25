@@ -1,25 +1,47 @@
-<div class="" *ngIf="order">
-   <div class="max-w-3xl mx-auto bg-white rounded-lg p-6">
-      <h2 class="text-xl font-bold text-sky-800 mb-4">
-         {{ 'Pedido' | translate }}
-      </h2>
-      <div class="bg-gray-50 border border-gray-300 rounded-md p-5 text-sm text-gray-700 space-y-2">
-         <div>
-            <span class="block text-xs font-medium text-gray-500 uppercase">{{ 'Establecimiento' | translate }}</span>
-            <span class="text-base font-semibold text-gray-800">{{ order.branch_office.name }}</span>
-         </div>
-         <div>
-            <span class="block text-xs font-medium text-gray-500 uppercase">{{ 'Fecha de creación' | translate }}</span>
-            <span class="text-base text-gray-800">{{ order.create | date: 'dd/MM/yyyy HH:mm' }}</span>
-         </div>
-         <div>
-            <span class="block text-xs font-medium text-gray-500 uppercase">{{ 'Folio' | translate }}</span>
-            <span class="text-base text-gray-800">{{ order.folio }}</span>
-         </div>
-         <div>
-            <span class="block text-xs font-medium text-gray-500 uppercase">{{ 'Token' | translate }}</span>
-            <span class="text-base text-gray-800 break-all">{{ order.token }}</span>
-         </div>
-      </div>
-   </div>
+<div class="flex justify-center py-8" *ngIf="order">
+    <div class="w-full max-w-3xl p-6">
+        <!-- Encabezado con gradiente -->
+        <div class="bg-gradient-to-r from-sky-700 to-sky-800 rounded-xl p-5 mb-6">
+            <div class="flex items-center">
+                <div class="bg-white/20 p-3 rounded-lg mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                        <circle cx="9" cy="21" r="1" />
+                        <circle cx="20" cy="21" r="1" />
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-white">{{ 'Pedido' | translate }}</h2>
+            </div>
+            <div class="h-1 w-20 bg-sky-400 rounded-full mt-3"></div>
+        </div>
+
+        <!-- Información del pedido -->
+        <div class="bg-sky-50 border border-sky-100 rounded-xl p-6 shadow-sm">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Establecimiento -->
+                <div class="space-y-1">
+                    <span class="block text-xs font-medium text-gray-500 uppercase">{{ 'Establecimiento' | translate }}</span>
+                    <span class="text-base font-semibold text-gray-800">{{ order.branch_office.name }}</span>
+                </div>
+
+                <!-- Fecha de creación -->
+                <div class="space-y-1">
+                    <span class="block text-xs font-medium text-gray-500 uppercase">{{ 'Fecha de creación' | translate }}</span>
+                    <span class="text-base text-gray-800">{{ order.create | date: 'dd/MM/yyyy HH:mm' }}</span>
+                </div>
+
+                <!-- Folio -->
+                <div class="space-y-1">
+                    <span class="block text-xs font-medium text-gray-500 uppercase">{{ 'Folio' | translate }}</span>
+                    <span class="text-base font-semibold text-gray-800">{{ order.folio }}</span>
+                </div>
+
+                <!-- Token -->
+                <div class="space-y-1">
+                    <span class="block text-xs font-medium text-gray-500 uppercase">{{ 'Token' | translate }}</span>
+                    <span class="text-base text-gray-800 break-all">{{ order.token }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

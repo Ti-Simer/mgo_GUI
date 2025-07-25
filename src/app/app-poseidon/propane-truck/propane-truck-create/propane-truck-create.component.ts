@@ -102,8 +102,6 @@ export class PropaneTruckCreateComponent {
   fetchOperators() {
     this.usuarioService.listOperators().subscribe(
       response => {
-        console.log(response);
-
         if (response.statusCode == 200) {
           this.operators = response.data;
         } else {

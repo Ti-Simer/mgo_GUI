@@ -84,8 +84,8 @@ export class OrdersCreateComponent {
   }
 
   private _filter(value: string): any[] {
-    const filterValue = value.toLowerCase();
-    return this.branch_offices.filter(branch_office => branch_office.name.toLowerCase().includes(filterValue));
+    const filterValue = value
+    return this.branch_offices?.filter(branch_office => branch_office.name.toLowerCase().includes(filterValue));
   }
 
   displayFn(branch_office: any): string {

@@ -94,8 +94,6 @@ export class CreateUserComponent implements OnInit {
       const userData = this.signupForm.value; // Obtiene los datos del formulario
       this.usuarioService.create(userData).subscribe(
         response => {
-          console.log('Respuesta del servidor:', response);
-
           if (response.statusCode === 200) {
             console.log('Usuario registrado exitosamente:', response.message);
 

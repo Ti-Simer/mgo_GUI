@@ -148,7 +148,7 @@ export class OrdersReasignComponent {
   }
 
   onSubmit() {
-    this.dialogService.openConfirmDialog('¿Esta seguro que desea realizar los cambios?, recuerde que esta información sera modificada y se verá reflejada cuando el operario descargue los datos nuevamente')
+    this.dialogService.openInfoConfirmDialog('¿Esta seguro que desea realizar los cambios?, recuerde que esta información sera modificada y se verá reflejada cuando el operario descargue los datos nuevamente', 'Confirmar cambios')
       .subscribe(result => {
         if (result) {
           const courseData = [

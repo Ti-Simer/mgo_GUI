@@ -122,7 +122,7 @@ export class CoursesCreateComponent {
   }
 
   private _filter(value: string): any[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value;
     return this.propaneTrucks.filter(propaneTruck => {
       const plateMatch = propaneTruck.plate.toLowerCase().includes(filterValue);
       const firstNameMatch = propaneTruck.operator[0].firstName.toLowerCase().includes(filterValue);

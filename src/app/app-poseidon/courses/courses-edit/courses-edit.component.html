@@ -1,325 +1,595 @@
-<div class="landscape-only px-6 py-6 space-y-8 max-h-[85vh] overflow-auto">
-  <form [formGroup]="courseForm">
-    <!-- Encabezado -->
-    <div class="text-sky-800">
-      <h1 class="text-2xl font-bold">{{ 'Actualización de información' | translate }}</h1>
-    </div>
-
-    <div *ngIf="course" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <!-- Derrotero actual -->
-      <div class="bg-white p-4 rounded shadow border" cdkDropList #ordersList1="cdkDropList"
-        [cdkDropListData]="course.orders" [cdkDropListConnectedTo]="[ordersList2]" (cdkDropListDropped)="drop($event)">
-
-        <!-- Información general en dos columnas -->
-        <label class="block text-base text-sky-800 font-semibold mb-2">
-          {{ 'Derrotero' | translate }}
-        </label>
-
-        <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm text-sm text-gray-700 mb-3">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
-            <div>
-              <span class="font-medium">{{ 'Vehículo' | translate }}:</span> {{ course.propane_truck.plate }}
-              - {{ course.propane_truck.capacity }}kg
+<div class="landscape-only px-6 py-6 space-y-8 max-h-[85vh] overflow-auto bg-gray-50">
+        <!-- Encabezado mejorado -->
+        <div class="bg-gradient-to-r from-sky-700 to-sky-800 rounded-2xl p-6 shadow-lg">
+            <div class="flex items-center">
+                <div class="bg-white/20 p-3 rounded-xl mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                        <line x1="12" y1="22.08" x2="12" y2="12" />
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-bold text-white">{{ 'Actualización de información' | translate }}</h1>
             </div>
-            <div>
-              <span class="font-medium">{{ 'Operario' | translate }}:</span> {{ course.operator.firstName }}
-              {{ course.operator.lastName }}
-            </div>
-
-            <div>
-              <span class="font-medium">{{ 'Identificación' | translate }}:</span> {{ course.operator.idNumber
-              }}
-            </div>
-            <div>
-              <span class="font-medium">{{ 'E-mail' | translate }}:</span> {{ course.operator.email }}
-            </div>
-
-            <div>
-              <span class="font-medium">{{ 'Pedidos' | translate }}:</span> {{ course.orders.length }}
-            </div>
-            <div>
-              <span class="font-medium">{{ 'Fecha de creación' | translate }}:</span> {{ course.create | date:
-              'dd - MMMM - y H:mm' }}
-            </div>
-
-            <div class="sm:col-span-2">
-              <span class="font-medium">{{ 'Fecha de programación' | translate }}:</span> {{ course.fecha |
-              date: 'fullDate' }}
-            </div>
-          </div>
+            <div class="h-1 w-20 bg-sky-400 rounded-full mt-3"></div>
         </div>
 
-        <!-- Fecha de programación -->
-        <div class="mb-4">
-          <label class="block text-sm font-medium text-gray-600 mb-1">-- {{ 'Fecha de programación' | translate
-            }}</label>
-          <div class="max-w-xs">
+        <div *ngIf="course" class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+            <!-- Derrotero actual - Columna izquierda -->
+            <div class="bg-white p-6 rounded-2xl shadow-xl border border-gray-100" cdkDropList #ordersList1="cdkDropList" [cdkDropListData]="course.orders" [cdkDropListConnectedTo]="[ordersList2]" (cdkDropListDropped)="drop($event)">
 
-            <mat-form-field color="accent" class="w-full">
-              <input matInput [matDatepicker]="campaignOnePicker" placeholder="Fecha" formControlName="fecha" />
-              <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
-              <mat-datepicker #campaignOnePicker></mat-datepicker>
-            </mat-form-field>
-          </div>
-        </div>
+                <div class="flex items-center mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mr-2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                    </svg>
+                    <h2 class="text-xl font-semibold text-sky-800">
+            {{ 'Derrotero Actual' | translate }}
+          </h2>
+                </div>
 
-        <!-- Tabla de pedidos asignados -->
-        <div>
-          <label class="block text-sm font-medium text-gray-600 mb-1">-- {{ 'Pedidos' | translate }}</label>
-          <div class="overflow-x-auto max-h-[12rem] overflow-y-auto">
-            <table class="min-w-full text-sm text-left border border-gray-200 max-h-[20rem] overflow-y-auto">
-              <thead class="bg-gray-100 text-gray-600">
-                <tr>
-                  <th class="px-2 py-1 border">{{ 'Folio' | translate }}</th>
-                  <th class="px-2 py-1 border">{{ 'Fecha' | translate }}</th>
-                  <th class="px-2 py-1 border">{{ 'Establecimiento' | translate }}</th>
-                  <th class="px-2 py-1 border">{{ 'Estado' | translate }}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let order of course.orders" class="hover:bg-gray-50">
-                  <td class="px-2 py-1 border">{{ order.folio }}</td>
-                  <td class="px-2 py-1 border">{{ order.create | date: 'dd - MMMM - y H:mm' }}</td>
-                  <td class="px-2 py-1 border">{{ order.branch_office.name }}</td>
-                  <td class="px-2 py-1 border">{{ order.status }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+                <!-- Información general -->
+                <div class="bg-sky-50 p-5 rounded-xl border border-sky-100 shadow-sm mb-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Vehículo -->
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mt-0.5 mr-2">
+                                <path d="M5 18H3c-.6 0-1-.4-1-1V7c0-.6.4-1 1-1h10c.6 0 1 .4 1 1v11" />
+                                <path d="M14 9h4l4 4v4c0 .6-.4 1-1 1h-2" />
+                                <circle cx="7" cy="18" r="2" />
+                                <path d="M15 18H9" />
+                                <circle cx="17" cy="18" r="2" />
+                            </svg>
+                            <div>
+                                <p class="text-xs text-sky-600">{{ 'Vehículo' | translate }}</p>
+                                <p class="font-medium">{{ course.propane_truck.plate }} - {{ course.propane_truck.capacity }}kg</p>
+                            </div>
+                        </div>
 
-      <!-- Pedidos disponibles -->
-      <div class="bg-white p-4 rounded shadow border" cdkDropList #ordersList2="cdkDropList" [cdkDropListData]="orders"
-        [cdkDropListConnectedTo]="[ordersList1]" (cdkDropListDropped)="drop($event)">
+                        <!-- Operario -->
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mt-0.5 mr-2">
+                                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                            <div>
+                                <p class="text-xs text-sky-600">{{ 'Operario' | translate }}</p>
+                                <p class="font-medium">{{ course.operator.firstName }} {{ course.operator.lastName }}</p>
+                            </div>
+                        </div>
 
-        <!-- Filtros -->
-        <div class="space-y-4 mb-4">
-          <div class="flex gap-2 flex-wrap">
-            <div class="w-full sm:w-1/2">
-              <label class="text-sm text-gray-600 font-medium">{{ 'Buscar pedido' | translate }}</label>
-              <div class="flex">
-                <input type="text" class="w-full px-2 py-1 border rounded-l text-sm focus:outline-none focus:ring"
-                  placeholder="{{ 'Buscar...' | translate }}">
-                <button class="bg-gray-200 px-3 border border-l rounded-r hover:bg-gray-300" (click)="searchOrders()">
-                  <lucide-icon name="search" [size]="18"></lucide-icon>
-                </button>
-              </div>
+                        <!-- Identificación -->
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mt-0.5 mr-2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                <line x1="16" y1="2" x2="16" y2="6" />
+                                <line x1="8" y1="2" x2="8" y2="6" />
+                                <line x1="3" y1="10" x2="21" y2="10" />
+                            </svg>
+                            <div>
+                                <p class="text-xs text-sky-600">{{ 'Identificación' | translate }}</p>
+                                <p class="font-medium">{{ course.operator.idNumber }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mt-0.5 mr-2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                <polyline points="22,6 12,13 2,6" />
+                            </svg>
+                            <div>
+                                <p class="text-xs text-sky-600">{{ 'E-mail' | translate }}</p>
+                                <p class="font-medium">{{ course.operator.email }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Pedidos -->
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mt-0.5 mr-2">
+                                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                                <line x1="3" y1="6" x2="21" y2="6" />
+                                <path d="M16 10a4 4 0 0 1-8 0" />
+                            </svg>
+                            <div>
+                                <p class="text-xs text-sky-600">{{ 'Pedidos' | translate }}</p>
+                                <p class="font-medium">{{ course.orders.length }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Fecha creación -->
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mt-0.5 mr-2">
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                            </svg>
+                            <div>
+                                <p class="text-xs text-sky-600">{{ 'Fecha de creación' | translate }}</p>
+                                <p class="font-medium">{{ course.create | date: 'dd - MMMM - y H:mm' }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Fecha programación -->
+                        <div class="sm:col-span-2 flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mt-0.5 mr-2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                <line x1="16" y1="2" x2="16" y2="6" />
+                                <line x1="8" y1="2" x2="8" y2="6" />
+                                <line x1="3" y1="10" x2="21" y2="10" />
+                                <path d="M8 14h.01" />
+                                <path d="M12 14h.01" />
+                                <path d="M16 14h.01" />
+                                <path d="M8 18h.01" />
+                                <path d="M12 18h.01" />
+                                <path d="M16 18h.01" />
+                            </svg>
+                            <div>
+                                <p class="text-xs text-sky-600">{{ 'Fecha de programación' | translate }}</p>
+                                <p class="font-medium">{{ course.fecha | date: 'fullDate' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fecha de programación editable -->
+                <div class="mb-6" [formGroup]="courseForm">
+                    <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-sky-600">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                            <line x1="16" y1="2" x2="16" y2="6" />
+                            <line x1="8" y1="2" x2="8" y2="6" />
+                            <line x1="3" y1="10" x2="21" y2="10" />
+                        </svg>
+                        {{ 'Actualizar fecha de programación' | translate }}
+                    </label>
+                    <div class="max-w-xs">
+                        <mat-form-field color="accent" class="w-full">
+                            <input matInput [matDatepicker]="campaignOnePicker" placeholder="Seleccione fecha" formControlName="fecha" class="p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-sky-500" />
+                            <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                    <line x1="16" y1="2" x2="16" y2="6" />
+                                    <line x1="8" y1="2" x2="8" y2="6" />
+                                    <line x1="3" y1="10" x2="21" y2="10" />
+                                </svg>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #campaignOnePicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Tabla de pedidos asignados -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-sky-600">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <path d="M16 10a4 4 0 0 1-8 0" />
+                        </svg>
+                        {{ 'Pedidos asignados' | translate }}
+                    </label>
+
+                    <div class="overflow-x-auto rounded-xl border border-gray-200 shadow-sm max-h-[12rem] overflow-y-auto">
+                        <table class="min-w-full text-sm">
+                            <thead class="bg-sky-100 text-sky-800">
+                                <tr>
+                                    <th class="px-4 py-2 font-medium text-left">{{ 'Folio' | translate }}</th>
+                                    <th class="px-4 py-2 font-medium text-left">{{ 'Fecha' | translate }}</th>
+                                    <th class="px-4 py-2 font-medium text-left">{{ 'Establecimiento' | translate }}</th>
+                                    <th class="px-4 py-2 font-medium text-left">{{ 'Estado' | translate }}</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr *ngFor="let order of course.orders" class="hover:bg-sky-50/50 transition-colors">
+                                    <td class="px-4 py-2 font-medium">{{ order.folio }}</td>
+                                    <td class="px-4 py-2">{{ order.create | date: 'dd - MMMM - y H:mm' }}</td>
+                                    <td class="px-4 py-2">{{ order.branch_office.name }}</td>
+                                    <td class="px-4 py-2">
+                                        <span class="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">{{ order.status }}</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <div class="w-full sm:w-1/2">
-              <label class="text-sm text-gray-600 font-medium">{{ 'Filtrar' | translate }}</label>
-              <div class="flex">
-                <input #myInput type="text"
-                  class="w-full px-2 py-1 border rounded-l text-sm focus:outline-none focus:ring"
-                  placeholder="{{ 'Filtrar...' | translate }}" (input)="initializeSearchFilter()">
-                <button class="bg-green-600 text-white px-3 border border-l rounded-r hover:bg-green-700"
-                  (click)="toCreateOrders()">
-                  +
-                </button>
-              </div>
+
+            <!-- Pedidos disponibles - Columna derecha -->
+            <div class="bg-white p-6 rounded-2xl shadow-xl border border-gray-100" cdkDropList #ordersList2="cdkDropList" [cdkDropListData]="orders" [cdkDropListConnectedTo]="[ordersList1]" (cdkDropListDropped)="drop($event)">
+
+                <div class="flex items-center mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600 mr-2">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="16" />
+                        <line x1="8" y1="12" x2="16" y2="12" />
+                    </svg>
+                    <h2 class="text-xl font-semibold text-green-800">
+            {{ 'Pedidos Disponibles' | translate }}
+          </h2>
+                </div>
+                <!-- Filtros y búsqueda -->
+                <div class="space-y-4 mb-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Buscar pedido -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-sky-600">
+                                    <circle cx="11" cy="11" r="8" />
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                                </svg>
+                                {{ 'Buscar pedido' | translate }}
+                            </label>
+                            <div class="flex rounded-lg shadow-sm" [formGroup]="searchForm">
+                                <input type="text" formControlName="branch_office" class="flex-1 px-4 py-2 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500" placeholder="{{ 'Buscar...' | translate }}">
+                                <button class="bg-sky-600 text-white px-4 rounded-r-lg hover:bg-sky-700 transition-colors" (click)="searchOrders()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="11" cy="11" r="8" />
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Filtrar -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-green-600">
+                                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+                                </svg>
+                                {{ 'Filtrar' | translate }}
+                            </label>
+                            <div class="flex rounded-lg shadow-sm">
+                                <input #myInput type="text" class="flex-1 px-4 py-2 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" placeholder="{{ 'Filtrar...' | translate }}" (input)="initializeSearchFilter()">
+                                <button class="bg-green-600 text-white px-4 rounded-r-lg hover:bg-green-700 transition-colors" (click)="toCreateOrders()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19" />
+                                        <line x1="5" y1="12" x2="19" y2="12" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paginador -->
+                <div class="bg-gray-50 p-3 rounded-xl mb-6">
+                    <mat-paginator [length]="totalOrders" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" showFirstLastButtons class="w-full">
+                    </mat-paginator>
+                </div>
+
+                <!-- Tabla de resultados -->
+                <div>
+                    <div class="overflow-x-auto rounded-xl border border-gray-200 shadow-sm max-h-[15rem] overflow-y-auto">
+                        <table class="min-w-full text-sm">
+                            <thead class="bg-green-100 text-green-800">
+                                <tr>
+                                    <th class="px-4 py-2 font-medium text-left">{{ 'Folio' | translate }}</th>
+                                    <th class="px-4 py-2 font-medium text-left">{{ 'Fecha' | translate }}</th>
+                                    <th class="px-4 py-2 font-medium text-left">{{ 'Establecimiento' | translate }}</th>
+                                    <th class="px-4 py-2 font-medium text-center">{{ 'Añadir' | translate }}</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200" id="myTable">
+                                <tr *ngFor="let order of orders" class="hover:bg-green-50/50 transition-colors">
+                                    <td class="px-4 py-2 font-medium">{{ order.folio }}</td>
+                                    <td class="px-4 py-2">{{ order.create | date: 'dd - MMMM - y H:mm' }}</td>
+                                    <td class="px-4 py-2">{{ order.branch_office.name }}</td>
+                                    <td class="px-4 py-2 text-center">
+                                        <input type="checkbox" class="form-checkbox h-5 w-5 text-green-600 rounded focus:ring-green-500" [id]="order.id" [value]="order.id" (change)="onOrderChange(order)">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
 
-        <!-- Paginador -->
-        <mat-paginator [length]="totalOrders" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
-          (page)="onPageChange($event)" showFirstLastButtons>
-        </mat-paginator>
-
-        <!-- Tabla de resultados -->
-        <div class="mt-4 overflow-x-auto max-h-[15rem] overflow-y-auto">
-          <table class="min-w-full text-sm text-left border border-gray-200">
-            <thead class="bg-gray-100 text-gray-600">
-              <tr>
-                <th class="px-2 py-1 border">{{ 'Folio' | translate }}</th>
-                <th class="px-2 py-1 border">{{ 'Fecha' | translate }}</th>
-                <th class="px-2 py-1 border">{{ 'Establecimiento' | translate }}</th>
-                <th class="px-2 py-1 border">{{ 'Añadir' | translate }}</th>
-              </tr>
-            </thead>
-            <tbody id="myTable">
-              <tr *ngFor="let order of orders" class="hover:bg-gray-50">
-                <td class="px-2 py-1 border">{{ order.folio }}</td>
-                <td class="px-2 py-1 border">{{ order.create | date: 'dd - MMMM - y H:mm' }}</td>
-                <td class="px-2 py-1 border">{{ order.branch_office.name }}</td>
-                <td class="px-2 py-1 border text-center">
-                  <input type="checkbox" class="form-checkbox h-4 w-4 text-green-600" [id]="order.id" [value]="order.id"
-                    (change)="onOrderChange(order)">
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- Botones de acción -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mt-8 pt-6 border-t border-gray-200">
+            <button type="button" (click)="onSubmit()" class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-xl shadow-md hover:shadow-lg transition-all font-medium">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                    <polyline points="17 21 17 13 7 13 7 21" />
+                    <polyline points="7 3 7 8 15 8" />
+                </svg>
+                {{ 'Aplicar cambios' | translate }}
+            </button>
+            <button type="button" (click)="reset()" class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white rounded-xl shadow-md hover:shadow-lg transition-all font-medium">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                    <path d="M2.5 2v6h6M21.5 22v-6h-6" />
+                    <path d="M22 11.5A10 10 0 0 0 3.2 7.2M2 12.5a10 10 0 0 0 18.8 4.2" />
+                </svg>
+                {{ 'Reestablecer' | translate }}
+            </button>
         </div>
-      </div>
-    </div>
-
-    <!-- Botones -->
-    <div class="flex justify-end gap-3">
-      <button class="bg-green-600 hover:bg-green-700 text-white font-medium text-sm px-4 py-2 rounded shadow"
-        (click)="onSubmit()">
-        {{ 'Aplicar cambios' | translate }}
-      </button>
-      <button class="bg-gray-400 hover:bg-gray-500 text-white font-medium text-sm px-4 py-2 rounded shadow"
-        (click)="reset()">
-        {{ 'Reestablecer' | translate }}
-      </button>
-    </div>
-  </form>
 </div>
 
-<div class="portrait-only px-6 py-6 space-y-8 max-h-[85vh] overflow-auto">
-  <!-- Encabezado -->
-  <div class="text-sky-800">
-    <h1 class="text-2xl font-bold">{{ 'Actualización de información' | translate }}</h1>
-  </div>
-
-  <div *ngIf="course" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-    <!-- Panel izquierdo: Derrotero actual -->
-    <div class="bg-white rounded " cdkDropList #ordersList1="cdkDropList" [cdkDropListData]="course.orders"
-      [cdkDropListConnectedTo]="[ordersList2]" (cdkDropListDropped)="drop($event)">
-
-      <label class="block text-base text-sky-800 font-semibold mb-2">
-        {{ 'Derrotero' | translate }}
-      </label>
-
-      <!-- Información general -->
-      <div class="bg-white rounded-lg border border-gray-200  text-sm text-gray-700 mb-3">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
-          <div>
-            <span class="font-medium">{{ 'Vehículo' | translate }}:</span> {{ course.propane_truck.plate }} -
-            {{ course.propane_truck.capacity }}kg
-          </div>
-          <div>
-            <span class="font-medium">{{ 'Operario' | translate }}:</span> {{ course.operator.firstName }}
-            {{ course.operator.lastName }}
-          </div>
-          <div>
-            <span class="font-medium">{{ 'Identificación' | translate }}:</span> {{ course.operator.idNumber }}
-          </div>
-          <div>
-            <span class="font-medium">{{ 'E-mail' | translate }}:</span> {{ course.operator.email }}
-          </div>
-          <div>
-            <span class="font-medium">{{ 'Pedidos' | translate }}:</span> {{ course.orders.length }}
-          </div>
-          <div>
-            <span class="font-medium">{{ 'Fecha de creación' | translate }}:</span>
-            {{ course.create | date: 'dd - MMMM - y H:mm' }}
-          </div>
-          <div class="sm:col-span-2">
-            <span class="font-medium">{{ 'Fecha de programación' | translate }}:</span>
-            {{ course.fecha | date: 'fullDate' }}
-          </div>
+<div class="portrait-only px-4 py-4 space-y-6 max-h-[85vh] overflow-auto bg-gray-50">
+    <!-- Encabezado mejorado -->
+    <div class="bg-gradient-to-r from-sky-700 to-sky-800 rounded-xl p-5 shadow-lg">
+        <div class="flex items-center">
+            <div class="bg-white/20 p-2 rounded-lg mr-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                    <line x1="12" y1="22.08" x2="12" y2="12" />
+                </svg>
+            </div>
+            <h1 class="text-xl font-bold text-white">{{ 'Actualización de información' | translate }}</h1>
         </div>
-      </div>
-
-      <!-- Fecha de programación -->
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-600 mb-1">
-          -- {{ 'Fecha de programación' | translate }}
-        </label>
-        <div class="max-w-xs" [formGroup]="courseForm">
-          <mat-form-field color="accent" class="w-full">
-            <input matInput [matDatepicker]="campaignOnePicker" placeholder="Fecha" formControlName="fecha" />
-            <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
-            <mat-datepicker #campaignOnePicker></mat-datepicker>
-          </mat-form-field>
-        </div>
-      </div>
-
-      <!-- Tabla pedidos asignados -->
-      <div>
-        <label class="block text-base text-sky-800 font-semibold mb-2">{{ 'Pedidos' | translate }}</label>
-        <div class="overflow-x-auto max-h-[12rem] overflow-y-auto">
-          <table class="bg-white rounded-lg border border-gray-200  text-sm text-gray-700 mb-3">
-            <thead class="bg-gray-100 text-gray-600">
-              <tr>
-                <th class="px-2 py-1 border">{{ 'Folio' | translate }}</th>
-                <th class="px-2 py-1 border">{{ 'Fecha' | translate }}</th>
-                <th class="px-2 py-1 border">{{ 'Establecimiento' | translate }}</th>
-                <th class="px-2 py-1 border">{{ 'Estado' | translate }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let order of course.orders" class="hover:bg-gray-50">
-                <td class="px-2 py-1 border">{{ order.folio }}</td>
-                <td class="px-2 py-1 border">{{ order.create | date: 'dd - MMMM - y H:mm' }}</td>
-                <td class="px-2 py-1 border">{{ order.branch_office.name }}</td>
-                <td class="px-2 py-1 border">{{ order.status }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+        <div class="h-1 w-16 bg-sky-400 rounded-full mt-2"></div>
     </div>
 
-    <!-- Panel derecho: Pedidos disponibles -->
-    <div class="bg-white p-4 rounded shadow border" cdkDropList #ordersList2="cdkDropList" [cdkDropListData]="orders"
-      [cdkDropListConnectedTo]="[ordersList1]" (cdkDropListDropped)="drop($event)">
+    <div *ngIf="course" class="space-y-6">
+        <!-- Panel: Información del derrotero -->
+        <div class="bg-white p-5 rounded-2xl shadow-xl border border-gray-100">
+            <div class="flex items-center mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mr-2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                </svg>
+                <h2 class="text-lg font-semibold text-sky-800">{{ 'Derrotero Actual' | translate }}</h2>
+            </div>
 
-      <!-- Filtros -->
-      <div class="space-y-4 mb-4">
-        <div class="flex gap-2 flex-wrap">
-          <div class="w-full sm:w-1/2" [formGroup]="searchForm">
-            <label class="text-sm text-gray-600 font-medium">{{ 'Buscar pedido' | translate }}</label>
-            <div class="flex">
-              <input type="text" formControlName="branch_office"
-                class="w-full px-2 py-1 border rounded-l text-sm focus:outline-none focus:ring"
-                placeholder="{{ 'Buscar...' | translate }}">
-              <button class="bg-gray-200 px-3 border border-l rounded-r hover:bg-gray-300" (click)="searchOrders()">
-                <lucide-icon name="search" [size]="18"></lucide-icon>
-              </button>
+            <!-- Información general compacta -->
+            <div class="space-y-4 mb-5">
+                <div class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mt-0.5 mr-2">
+                        <path d="M5 18H3c-.6 0-1-.4-1-1V7c0-.6.4-1 1-1h10c.6 0 1 .4 1 1v11" />
+                        <path d="M14 9h4l4 4v4c0 .6-.4 1-1 1h-2" />
+                        <circle cx="7" cy="18" r="2" />
+                        <path d="M15 18H9" />
+                        <circle cx="17" cy="18" r="2" />
+                    </svg>
+                    <div>
+                        <p class="text-xs text-sky-600">{{ 'Vehículo' | translate }}</p>
+                        <p class="font-medium text-sm">{{ course.propane_truck.plate }} - {{ course.propane_truck.capacity }}kg</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mt-0.5 mr-2">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    <div>
+                        <p class="text-xs text-sky-600">{{ 'Operario' | translate }}</p>
+                        <p class="font-medium text-sm">{{ course.operator.firstName }} {{ course.operator.lastName }}</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mt-0.5 mr-2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                    </svg>
+                    <div>
+                        <p class="text-xs text-sky-600">{{ 'Identificación' | translate }}</p>
+                        <p class="font-medium text-sm">{{ course.operator.idNumber }}</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mt-0.5 mr-2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                        <polyline points="22,6 12,13 2,6" />
+                    </svg>
+                    <div>
+                        <p class="text-xs text-sky-600">{{ 'E-mail' | translate }}</p>
+                        <p class="font-medium text-sm">{{ course.operator.email }}</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mt-0.5 mr-2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <path d="M16 10a4 4 0 0 1-8 0" />
+                    </svg>
+                    <div>
+                        <p class="text-xs text-sky-600">{{ 'Pedidos' | translate }}</p>
+                        <p class="font-medium text-sm">{{ course.orders.length }}</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mt-0.5 mr-2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <div>
+                        <p class="text-xs text-sky-600">{{ 'Fecha de creación' | translate }}</p>
+                        <p class="font-medium text-sm">{{ course.create | date: 'dd - MMMM - y H:mm' }}</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mt-0.5 mr-2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                        <path d="M8 14h.01" />
+                        <path d="M12 14h.01" />
+                        <path d="M16 14h.01" />
+                        <path d="M8 18h.01" />
+                        <path d="M12 18h.01" />
+                        <path d="M16 18h.01" />
+                    </svg>
+                    <div>
+                        <p class="text-xs text-sky-600">{{ 'Fecha de programación' | translate }}</p>
+                        <p class="font-medium text-sm">{{ course.fecha | date: 'fullDate' }}</p>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="w-full sm:w-1/2">
-            <label class="text-sm text-gray-600 font-medium">{{ 'Filtrar' | translate }}</label>
-            <div class="flex">
-              <input #myInput2 type="text"
-                class="w-full px-2 py-1 border rounded-l text-sm focus:outline-none focus:ring"
-                placeholder="{{ 'Filtrar...' | translate }}" (input)="initializeSearchFilter2()">
-              <button class="bg-green-600 text-white px-3 border border-l rounded-r hover:bg-green-700"
-                (click)="toCreateOrders()">+</button>
+
+            <!-- Fecha de programación editable -->
+            <div class="mb-5">
+                <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-sky-600">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                    </svg>
+                    {{ 'Actualizar fecha' | translate }}
+                </label>
+                <div class="w-full" [formGroup]="courseForm">
+                    <mat-form-field color="accent" class="w-full">
+                        <input matInput [matDatepicker]="campaignOnePicker" placeholder="Seleccione fecha" formControlName="fecha" class="p-2 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-sky-500" />
+                        <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                <line x1="16" y1="2" x2="16" y2="6" />
+                                <line x1="8" y1="2" x2="8" y2="6" />
+                                <line x1="3" y1="10" x2="21" y2="10" />
+                            </svg>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #campaignOnePicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
             </div>
-          </div>
+
+            <!-- Tabla de pedidos asignados -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-sky-600">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <path d="M16 10a4 4 0 0 1-8 0" />
+                    </svg>
+                    {{ 'Pedidos asignados' | translate }}
+                </label>
+
+                <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm max-h-[10rem] overflow-y-auto">
+                    <table class="min-w-full text-xs">
+                        <thead class="bg-sky-100 text-sky-800">
+                            <tr>
+                                <th class="px-3 py-1.5 font-medium text-left">{{ 'Folio' | translate }}</th>
+                                <th class="px-3 py-1.5 font-medium text-left">{{ 'Fecha' | translate }}</th>
+                                <th class="px-3 py-1.5 font-medium text-left">{{ 'Establecimiento' | translate }}</th>
+                                <th class="px-3 py-1.5 font-medium text-left">{{ 'Estado' | translate }}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr *ngFor="let order of course.orders" class="hover:bg-sky-50/50">
+                                <td class="px-3 py-1.5 font-medium">{{ order.folio }}</td>
+                                <td class="px-3 py-1.5">{{ order.create | date: 'dd/MM' }}</td>
+                                <td class="px-3 py-1.5 truncate max-w-[90px]">{{ order.branch_office.name }}</td>
+                                <td class="px-3 py-1.5">
+                                    <span class="px-1.5 py-0.5 text-xs rounded-full bg-blue-100 text-blue-800">{{ order.status | truncate:8 }}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
 
-      <!-- Tabla pedidos disponibles -->
-      <div class="overflow-x-auto max-h-[12rem] overflow-y-auto">
-        <table class="min-w-full text-sm text-left border border-gray-200">
-          <thead class="bg-gray-100 text-gray-600">
-            <tr>
-              <th class="px-2 py-1 border">{{ 'Folio' | translate }}</th>
-              <th class="px-2 py-1 border">{{ 'Fecha' | translate }}</th>
-              <th class="px-2 py-1 border">{{ 'Establecimiento' | translate }}</th>
-              <th class="px-2 py-1 border">{{ 'Añadir' | translate }}</th>
-            </tr>
-          </thead>
-          <tbody id="myTable2">
-            <tr *ngFor="let order of orders" class="hover:bg-gray-50">
-              <td class="px-2 py-1 border">{{ order.folio }}</td>
-              <td class="px-2 py-1 border">{{ order.create | date: 'dd - MMMM - y H:mm' }}</td>
-              <td class="px-2 py-1 border">{{ order.branch_office.name }}</td>
-              <td class="px-2 py-1 border text-center">
-                <input type="checkbox" class="form-checkbox h-4 w-4 text-green-600" [id]="order.id" [value]="order.id"
-                  (change)="onOrderChange(order)">
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+        <!-- Panel: Pedidos disponibles -->
+        <div class="bg-white p-5 rounded-2xl shadow-xl border border-gray-100">
+            <div class="flex items-center mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600 mr-2">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="16" />
+                    <line x1="8" y1="12" x2="16" y2="12" />
+                </svg>
+                <h2 class="text-lg font-semibold text-green-800">{{ 'Pedidos Disponibles' | translate }}</h2>
+            </div>
+
+            <!-- Filtros y búsqueda -->
+            <div class="space-y-4 mb-4">
+                <!-- Buscar pedido -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-sky-600">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                        {{ 'Buscar pedido' | translate }}
+                    </label>
+                    <div class="flex rounded-lg shadow-sm" [formGroup]="searchForm">
+                        <input type="text" formControlName="branch_office" class="flex-1 px-3 py-2 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500" placeholder="{{ 'Buscar...' | translate }}">
+                        <button class="bg-sky-600 text-white px-4 rounded-r-lg hover:bg-sky-700 transition-colors" (click)="searchOrders()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8" />
+                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                            </svg>
+                        </button>
+                    </div> 
+                </div>
+
+                <!-- Filtrar -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-green-600">
+                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+                        </svg>
+                        {{ 'Filtrar' | translate }}
+                    </label>
+                    <div class="flex rounded-lg shadow-sm">
+                        <input #myInput2 type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" placeholder="{{ 'Filtrar...' | translate }}" (input)="initializeSearchFilter2()">
+                        <button class="bg-green-600 text-white px-4 rounded-r-lg hover:bg-green-700 transition-colors" (click)="toCreateOrders()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de resultados -->
+            <div>
+                <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm max-h-[10rem] overflow-y-auto">
+                    <table class="min-w-full text-xs">
+                        <thead class="bg-green-100 text-green-800">
+                            <tr>
+                                <th class="px-3 py-1.5 font-medium text-left">{{ 'Folio' | translate }}</th>
+                                <th class="px-3 py-1.5 font-medium text-left">{{ 'Fecha' | translate }}</th>
+                                <th class="px-3 py-1.5 font-medium text-left">{{ 'Establecimiento' | translate }}</th>
+                                <th class="px-3 py-1.5 font-medium text-center">{{ 'Añadir' | translate }}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200" id="myTable2">
+                            <tr *ngFor="let order of orders" class="hover:bg-green-50/50">
+                                <td class="px-3 py-1.5 font-medium">{{ order.folio }}</td>
+                                <td class="px-3 py-1.5">{{ order.create | date: 'dd/MM' }}</td>
+                                <td class="px-3 py-1.5 truncate max-w-[90px]">{{ order.branch_office.name }}</td>
+                                <td class="px-3 py-1.5 text-center">
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500" [id]="order.id" [value]="order.id" (change)="onOrderChange(order)">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- Botones -->
-  <div class="flex justify-end gap-3">
-    <button class="bg-green-600 hover:bg-green-700 text-white font-medium text-sm px-4 py-2 rounded shadow"
-      (click)="onSubmit()">
-      {{ 'Aplicar cambios' | translate }}
-    </button>
-    <button class="bg-gray-400 hover:bg-gray-500 text-white font-medium text-sm px-4 py-2 rounded shadow"
-      (click)="reset()">
-      {{ 'Reestablecer' | translate }}
-    </button>
-  </div>
+    <!-- Botones de acción -->
+    <div class="flex flex-col gap-3 mt-4">
+        <button type="button" (click)="onSubmit()" class="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-xl shadow-md hover:shadow-lg transition-all font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                <polyline points="17 21 17 13 7 13 7 21" />
+                <polyline points="7 3 7 8 15 8" />
+            </svg>
+            {{ 'Aplicar cambios' | translate }}
+        </button>
+        <button type="button" (click)="reset()" class="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white rounded-xl shadow-md hover:shadow-lg transition-all font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                <path d="M2.5 2v6h6M21.5 22v-6h-6" />
+                <path d="M22 11.5A10 10 0 0 0 3.2 7.2M2 12.5a10 10 0 0 0 18.8 4.2" />
+            </svg>
+            {{ 'Reestablecer' | translate }}
+        </button>
+    </div>
 </div>

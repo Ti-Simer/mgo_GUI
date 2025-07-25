@@ -1,86 +1,163 @@
-<div class="h-[85vh] overflow-auto">
-    <div class="max-w-7xl mx-auto">
-        <!-- Título y encabezado -->
-        <div *ngIf="course" class="mb-6">
-            <h2 class="text-2xl font-bold text-sky-800">{{ 'Derrotero' | translate }} | {{ course.operator.firstName }} {{ course.operator.lastName }}</h2>
-            <p class="text-sm text-gray-600 mt-1">
-                <strong>{{ 'Auto Tanque' | translate }}:</strong> {{ course.propane_truck.plate }} ({{ course.propane_truck.state }}) | {{ course.propane_truck.capacity }}kg
-            </p>
+<div class="flex justify-center overflow-auto max-h-[90vh] py-8">
+    <div class="w-full max-w-7xl p-6">
+        <!-- Encabezado con gradiente -->
+        <div *ngIf="course" class="bg-gradient-to-r from-sky-700 to-sky-800 rounded-xl p-5 mb-6">
+            <div class="flex items-center">
+                <div class="bg-white/20 p-3 rounded-lg mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                        <line x1="12" y1="22.08" x2="12" y2="12" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-white">{{ 'Derrotero' | translate }} | {{ course.operator.firstName }} {{ course.operator.lastName }}</h2>
+                    <div class="flex items-center mt-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-300 mr-2">
+                            <path d="M5 18H3c-.6 0-1-.4-1-1V7c0-.6.4-1 1-1h10c.6 0 1 .4 1 1v11" />
+                            <path d="M14 9h4l4 4v4c0 .6-.4 1-1 1h-2" />
+                            <circle cx="7" cy="18" r="2" />
+                            <path d="M15 18H9" />
+                            <circle cx="17" cy="18" r="2" />
+                        </svg>
+                        <span class="text-sky-200">
+              {{ 'Auto Tanque' | translate }}: {{ course.propane_truck.plate }} ({{ course.propane_truck.state }}) | {{ course.propane_truck.capacity }}kg
+            </span>
+                    </div>
+                </div>
+            </div>
+            <div class="h-1 w-20 bg-sky-400 rounded-full mt-3"></div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <!-- Mapa -->
             <div class="lg:col-span-2">
-                <google-map [zoom]="zoom" [width]="'100%'" [height]="'450px'" [center]="mapCenter" class="rounded-lg shadow-md overflow-hidden">
-                    <map-marker *ngFor="let marker of markers" [position]="marker.position" [label]="marker.label" [options]="{ icon: marker.icon }">
-                    </map-marker>
-                </google-map>
+                <div class="rounded-2xl shadow-lg overflow-hidden border border-gray-200">
+                    <google-map [zoom]="zoom" [width]="'100%'" [height]="'450px'" [center]="mapCenter">
+                        <map-marker *ngFor="let marker of markers" [position]="marker.position" [label]="marker.label" [options]="{ icon: marker.icon }">
+                        </map-marker>
+                    </google-map>
+                </div>
             </div>
 
             <!-- Lista de pedidos -->
-            <div *ngIf="course" class="space-y-4 max-h-[28rem] overflow-auto">
-                <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                    <div class="bg-green-600 text-white text-center py-2 font-semibold">
-                        {{ 'Pedidos' | translate }}: {{ course.orders.length }}
-                    </div>
-
+            <div *ngIf="course" class="space-y-4">
+                <div class="bg-gradient-to-r from-green-500 to-emerald-600 text-white text-center py-3 rounded-t-xl font-semibold shadow-md">
+                    {{ 'Pedidos' | translate }}: {{ course.orders.length }}
+                </div>
+                <div class="bg-white rounded-b-xl shadow-lg overflow-hidden max-h-[28rem] overflow-y-auto border border-gray-200">
                     <mat-accordion class="divide-y divide-gray-100">
                         <ul class="divide-y divide-gray-200">
                             <li *ngFor="let order of course.orders; let i = index" class="cursor-pointer hover:bg-gray-50 transition" (click)="getMarkerPosition(order.branch_office)">
                                 <mat-expansion-panel (opened)="order.panelOpenState = true" (closed)="order.panelOpenState = false">
                                     <mat-expansion-panel-header>
-                                        <mat-panel-title>
-                                            <p class="truncate w-44 text-gray-800 font-medium" title="{{ order.branch_office.name }}">
+                                        <mat-panel-title class="flex items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600 mr-2">
+                                                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                                            </svg>
+                                            <p class="truncate w-40 text-gray-800 font-medium" title="{{ order.branch_office.name }}">
                                                 {{ order.branch_office.name | truncate: 27 }}
                                             </p>
                                         </mat-panel-title>
-                                        <mat-panel-description class="text-gray-400">
+                                        <mat-panel-description class="text-gray-400 text-xs">
                                             {{ getPanelText() }}
                                         </mat-panel-description>
                                     </mat-expansion-panel-header>
 
-                                    <div class="px-2 py-1 text-sm text-gray-700">
-                                        <p><strong>{{ 'Folio' | translate }}:</strong> {{ order.folio }}</p>
-                                        <p><strong>{{ 'Tipo pago' | translate }}:</strong> {{ order.payment_type }}</p>
-                                        <p><strong>{{ 'NIT' | translate }}:</strong> {{ order.branch_office.nit }}</p>
-                                        <p><strong>{{ order.branch_office.client[0].occupation[0].name }}:</strong> {{ order.branch_office.client[0].firstName }} {{ order.branch_office.client[0].lastName }}</p>
-                                        <p><strong>{{ 'Dirección' | translate }}:</strong> {{ order.branch_office.address }}</p>
-                                        <p><strong>{{ 'Ciudad' | translate }}:</strong> {{ order.branch_office.city[0].name }}, {{ order.branch_office.city[0].department[0].name }}, {{ order.branch_office.zone[0].name }}</p>
-                                        <p class="text-gray-500"><strong>{{ 'Fecha' | translate }}:</strong> {{ order.create | date: 'dd - MMMM - y H:mm' }}</p>
-                                        <p class="text-yellow-600"><strong>{{ 'Estado' | translate }}:</strong> {{ order.branch_office.status }} | Token: {{ order.token }}</p>
+                                    <div class="px-4 py-3 text-sm text-gray-700 space-y-2">
+                                        <div class="flex">
+                                            <span class="font-medium w-28">{{ 'Folio' | translate }}:</span>
+                                            <span>{{ order.folio }}</span>
+                                        </div>
+                                        <div class="flex">
+                                            <span class="font-medium w-28">{{ 'Tipo pago' | translate }}:</span>
+                                            <span>{{ order.payment_type }}</span>
+                                        </div>
+                                        <div class="flex">
+                                            <span class="font-medium w-28">{{ 'NIT' | translate }}:</span>
+                                            <span>{{ order.branch_office.nit }}</span>
+                                        </div>
+                                        <div class="flex">
+                                            <span class="font-medium w-28">{{ order.branch_office.client[0].occupation[0].name }}:</span>
+                                            <span>{{ order.branch_office.client[0].firstName }} {{ order.branch_office.client[0].lastName }}</span>
+                                        </div>
+                                        <div class="flex">
+                                            <span class="font-medium w-28">{{ 'Dirección' | translate }}:</span>
+                                            <span>{{ order.branch_office.address }}</span>
+                                        </div>
+                                        <div class="flex">
+                                            <span class="font-medium w-28">{{ 'Ciudad' | translate }}:</span>
+                                            <span>{{ order.branch_office.city[0].name }}, {{ order.branch_office.city[0].department[0].name }}, {{ order.branch_office.zone[0].name }}</span>
+                                        </div>
+                                        <div class="flex text-gray-500">
+                                            <span class="font-medium w-28">{{ 'Fecha' | translate }}:</span>
+                                            <span>{{ order.create | date: 'dd - MMMM - y H:mm' }}</span>
+                                        </div>
+                                        <div class="flex text-yellow-600">
+                                            <span class="font-medium w-28">{{ 'Estado' | translate }}:</span>
+                                            <span>{{ order.branch_office.status }} | Token: {{ order.token }}</span>
+                                        </div>
                                     </div>
                                 </mat-expansion-panel>
                             </li>
                         </ul>
                     </mat-accordion>
                 </div>
-
             </div>
         </div>
 
         <!-- Información adicional -->
-         <div class="flex justify-end mt-8" *ngIf="course">
-             <div class="bg-white rounded-lg shadow p-4 text-sm space-y-1">
-                 <p class="text-gray-700">
-                     <strong>{{ 'Fecha de Creación' | translate }}:</strong> {{ course.create | date: 'dd - MMMM - y H:mm' }}
-                 </p>
-                 <p class="text-gray-700">
-                     <strong>{{ 'Estado' | translate }}:</strong> {{ course.state }}
-                 </p>
-             </div>
-         </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            <div class="bg-sky-50 border border-sky-100 rounded-xl p-5 shadow-sm">
+                <div class="flex items-center mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-700 mr-2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                    </svg>
+                    <h3 class="text-lg font-semibold text-sky-800">{{ 'Información del derrotero' | translate }}</h3>
+                </div>
 
-        <!-- Botones de acción -->
-        <div class="flex justify-end flex-wrap gap-2 mt-2">
-            <button class="bg-green-600 hover:bg-green-500 text-white px-4 py-2 text-sm rounded shadow" (click)="downloadCourse()">
-                {{ 'Descargar' | translate }} XLS
-            </button>
-            <button class="bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 text-sm rounded shadow" (click)="toEditCourse()">
-                {{ 'Editar' | translate }}
-            </button>
-            <button class="bg-red-600 hover:bg-red-500 text-white px-4 py-2 text-sm rounded shadow" (click)="deleteCourse()">
-                {{ 'Borrar' | translate }}
-            </button>
+                <div *ngIf="course" class="space-y-3 text-gray-700">
+                    <div class="flex">
+                        <span class="font-medium w-40">{{ 'Fecha de Creación' | translate }}:</span>
+                        <span>{{ course.create | date: 'dd - MMMM - y H:mm' }}</span>
+                    </div>
+                    <div class="flex">
+                        <span class="font-medium w-40">{{ 'Estado' | translate }}:</span>
+                        <span class="px-2 py-1 rounded-full bg-sky-100 text-sky-800 text-sm">{{ course.state }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="flex items-end justify-end gap-3">
+                <button class="flex items-center px-4 py-2.5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg shadow hover:from-green-600 hover:to-emerald-700 transition-all" (click)="downloadCourse()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    {{ 'Descargar' | translate }} XLS
+                </button>
+                <button class="flex items-center px-4 py-2.5 bg-gradient-to-r from-sky-500 to-sky-700 text-white rounded-lg shadow hover:from-sky-600 hover:to-sky-800 transition-all" (click)="toEditCourse()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                    </svg>
+                    {{ 'Editar' | translate }}
+                </button>
+                <button class="flex items-center px-4 py-2.5 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-lg shadow hover:from-red-600 hover:to-red-800 transition-all" (click)="deleteCourse()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                        <path d="M3 6h18" />
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        <line x1="10" y1="11" x2="10" y2="17" />
+                        <line x1="14" y1="11" x2="14" y2="17" />
+                    </svg>
+                    {{ 'Borrar' | translate }}
+                </button>
+            </div>
         </div>
     </div>
 </div>
