@@ -21,7 +21,7 @@ export class LogReportAllComponent {
   criticalityLow: any;
   criticalityMedium: any;
   criticalityHigh: any;
-  viewMode: 'grid' | 'list' = 'list';
+  viewMode: 'grid' | 'list' = 'grid';
   selectedCriticality: number | null = null;
 
   constructor(private logReportService: LogReportService) { }

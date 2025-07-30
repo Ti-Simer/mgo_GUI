@@ -44,11 +44,11 @@ export class BackgroundCosmosComponent {
     }
 
     const particles: Particle[] = [];
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < 80; i++) {
       particles.push(new Particle(
         Math.random() * canvas.width,
         Math.random() * canvas.height,
-        Math.random() * 4 + 1,
+        Math.random() * 2 + 1,
         Math.random() * 0.5 + 0.2
       ));
     }
@@ -60,7 +60,7 @@ export class BackgroundCosmosComponent {
             particles[a].x - particles[b].x,
             particles[a].y - particles[b].y
           );
-          if (dist < 120) {
+          if (dist < 150) {
             ctx.strokeStyle = 'rgba(210, 217, 221, 0.4)';
             ctx.lineWidth = 0.7;
             ctx.beginPath();

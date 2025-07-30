@@ -30,6 +30,7 @@ export class LogReportListPropanetrucksComponent {
     try {
       this.logreportService.findTrucksOnCourseLog().subscribe(
         response => {
+          console.log('Response from findTrucksOnCourseLog:', response);
           if (response.statusCode === 200) {
             this.data = response.data;
             if (this.data.length > 0) {

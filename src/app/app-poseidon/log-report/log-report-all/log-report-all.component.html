@@ -1,133 +1,162 @@
-<div class="flex flex-col items-center justify-start my-2 px-2 sm:px-4 transition-all duration-300">
-    <div class="w-full max-w-6xl mb-16">
-        <div class="bg-white rounded-xl">
+<div class="w-full">
+    <!-- Encabezado con gradiente -->
+    <div class="bg-gradient-to-r from-sky-800 to-sky-900 rounded-xl p-5 m-2 mb-6">
+        <div class="flex items-center">
+            <div class="bg-white/20 p-3 rounded-lg mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="text-white">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+            </div>
+            <div>
+                <h2 class="text-2xl font-bold text-white">{{ 'Reportes de eventos' | translate }}</h2>
+                <p class="text-sky-200 mt-1">
+                    {{ 'Lista de reportes generados por eventos de ruta' | translate }}
+                </p>
+            </div>
+        </div>
+        <div class="h-1 w-20 bg-sky-400 rounded-full mt-3"></div>
+    </div>
 
-            <!-- Header -->
-            <div class="px-4 py-4 sm:px-6 sm:py-6">
-                <div class="bg-gray-50 px-4 py-4 rounded sm:p-6">
-                    <h2 class="text-2xl font-bold flex items-center gap-2 text-sky-900">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-message-square-warning">
-                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                            <path d="M12 7v2" />
-                            <path d="M12 13h.01" />
-                        </svg>
-                        {{ 'Reportes de eventos' | translate }}
-                    </h2>
-                    <p class="text-gray-500 mt-1 text-sm">
-                        {{ 'Lista de reportes generados por eventos de ruta.' | translate }}
-                    </p>
-                </div>
-
+    <!-- Contenedor principal -->
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <!-- Filtros y controles -->
+        <div class="p-6">
+            <div class="flex flex-wrap items-center justify-between gap-4">
                 <!-- Filtros de criticidad -->
-                <div class="p-2 mt-6 mw-full flex flex-col sm:flex-row sm:justify-end gap-2 bg-gray-50 justify-end">
-
-                <!-- Criticidad Baja -->
-                <button type="button"
-                    (click)="filterByCriticality(0)"
-                    [ngClass]="{
-                    'bg-blue-100 border border-blue-500 text-blue-700': selectedCriticality === 0,
-                    'bg-slate-200 hover:bg-slate-300 text-sky-950': selectedCriticality !== 0
-                    }"
-                    class="relative p-2 shadow rounded flex items-center justify-center">
-                    <lucide-icon name="flame" color="#36a9ff"></lucide-icon>
+                <div class="flex flex-wrap gap-2">
+                    <!-- Criticidad Baja -->
+                    <button type="button" (click)="filterByCriticality(0)"
+                        class="relative p-2 shadow rounded flex items-center justify-center transition-all duration-200"
+                        [ngClass]="{
+                            'bg-blue-100 border border-blue-500 text-blue-700': selectedCriticality === 0,
+                            'bg-slate-200 hover:bg-slate-300 text-sky-950': selectedCriticality !== 0
+                        }">
+                        <lucide-icon name="flame" [strokeWidth]="1" class="w-6 h-6 text-blue-500"></lucide-icon>
                         <span class="ml-2">{{ 'Baja' | translate }}</span>
                         <span *ngIf="getCriticalityCount(0) > 0"
                             class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-xs font-bold">
                             {{ getCriticalityCount(0) }}
                         </span>
-                </button>
+                    </button>
 
-                <!-- Criticidad Media -->
-                <button type="button"
-                    (click)="filterByCriticality(1)"
-                    [ngClass]="{
-                    'bg-orange-100 border border-orange-500 text-orange-700': selectedCriticality === 1,
-                    'bg-slate-200 hover:bg-slate-300 text-sky-950': selectedCriticality !== 1
-                    }"
-                    class="relative p-2 shadow rounded flex items-center justify-center">
-                    <lucide-icon name="flame" color="#f19538"></lucide-icon>
+                    <!-- Criticidad Media -->
+                    <button type="button" (click)="filterByCriticality(1)"
+                        class="relative p-2 shadow rounded flex items-center justify-center transition-all duration-200"
+                        [ngClass]="{
+                            'bg-orange-100 border border-orange-500 text-orange-700': selectedCriticality === 1,
+                            'bg-slate-200 hover:bg-slate-300 text-sky-950': selectedCriticality !== 1
+                        }">
+                        <lucide-icon name="flame" [strokeWidth]="1" class="w-6 h-6 text-orange-400"></lucide-icon>
                         <span class="ml-2">{{ 'Media' | translate }}</span>
                         <span *ngIf="getCriticalityCount(1) > 0"
                             class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-xs font-bold">
                             {{ getCriticalityCount(1) }}
                         </span>
-                </button>
+                    </button>
 
-                <!-- Criticidad Alta -->
-                <button type="button"
-                    (click)="filterByCriticality(2)"
-                    [ngClass]="{
-                    'bg-red-100 border border-red-500 text-red-700': selectedCriticality === 2,
-                    'bg-slate-200 hover:bg-slate-300 text-sky-950': selectedCriticality !== 2
-                    }"
-                    class="relative p-2 shadow rounded flex items-center justify-center">
-                    <lucide-icon name="flame" color="#c61f1f"></lucide-icon>
+                    <!-- Criticidad Alta -->
+                    <button type="button" (click)="filterByCriticality(2)"
+                        class="relative p-2 shadow rounded flex items-center justify-center transition-all duration-200"
+                        [ngClass]="{
+                            'bg-red-100 border border-red-500 text-red-700': selectedCriticality === 2,
+                            'bg-slate-200 hover:bg-slate-300 text-sky-950': selectedCriticality !== 2
+                        }">
+                        <lucide-icon name="flame" [strokeWidth]="1" class="w-6 h-6 text-red-600"></lucide-icon>
                         <span class="ml-2">{{ 'Alta' | translate }}</span>
                         <span *ngIf="getCriticalityCount(2) > 0"
                             class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-xs font-bold">
                             {{ getCriticalityCount(2) }}
                         </span>
-                </button>
+                    </button>
+                </div>
 
-                <!-- Botón Excel (sin cambios) -->
-                <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 rounded ml-6 flex items-center gap-1"
+                <!-- Botón Excel -->
+                <button
+                    class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200"
                     (click)="DownloadExcel()">
-                    <lucide-icon name="sheet"></lucide-icon>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <path d="M16 13H8"></path>
+                        <path d="M16 17H8"></path>
+                        <path d="M10 9H8"></path>
+                    </svg>
                     {{ 'Descargar Excel' | translate }}
                 </button>
-                </div>
-
-                <!-- Buscador -->
-                <div class="flex justify-center bg-white rounded shadow-sm w-full sm:w-[90%] mx-auto mb-3 mt-4">
-                    <details class="p-4 sm:p-2 mb-2 w-full">
-                        <summary class="text-center text-gray-500 cursor-pointer">
-                            {{ 'Búsqueda Avanzada' | translate }}
-                        </summary>
-
-                        <hr class="w-[75%] my-6 mx-auto border-gray-200" />
-
-                        <div class="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-4 w-full"
-                            id="responsive-container">
-                            <div class="flex items-center w-full sm:w-auto">
-                                <input
-                                    class="border border-gray-300 rounded px-3 py-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                    #myInput type="text" placeholder="{{ 'Filtrar por placa..' | translate }}"
-                                    (input)="initializeSearchFilter()" />
-                            </div>
-
-                            <div class="flex items-center gap-1">
-                                <label class="text-sm text-gray-500">{{ 'Fecha:' | translate }}</label>
-                                <input type="date"
-                                    class="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                    formControlName="date" />
-                            </div>
-
-                            <div class="h-11 flex gap-2">
-                                <button
-                                    class="bg-green-600 rounded text-white px-3 py-1 hover:bg-green-700 flex gap-1 items-center"
-                                    (click)="makeQuerySearch()">
-                                    <lucide-icon name="search" [size]="20"></lucide-icon>
-                                    {{ 'Buscar' | translate }}
-                                </button>
-                            </div>
-
-                            <div class="h-11 flex gap-2">
-                                <button
-                                    class="bg-gray-500 rounded text-white px-3 py-1 hover:bg-green-700 flex gap-1 items-center"
-                                    (click)="fetchOrders()">
-                                    {{ 'Reestablecer' | translate }}
-                                </button>
-                            </div>
-                        </div>
-                    </details>
-                </div>
             </div>
+
+            <!-- Buscador avanzado -->
+            <div class="mt-6 bg-sky-50 rounded-xl p-4">
+                <details class="w-full">
+                    <summary
+                        class="text-center text-sky-700 font-medium cursor-pointer flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            <line x1="11" y1="8" x2="11" y2="14"></line>
+                            <line x1="8" y1="11" x2="14" y2="11"></line>
+                        </svg>
+                        {{ 'Búsqueda Avanzada' | translate }}
+                    </summary>
+
+                    <div class="mt-4 flex flex-col md:flex-row md:flex-wrap gap-4 items-center">
+                        <div class="w-full md:w-auto flex-grow">
+                            <input
+                                class="border border-gray-300 rounded-lg px-4 py-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                #myInput type="text" placeholder="{{ 'Filtrar por placa...' | translate }}"
+                                (input)="initializeSearchFilter()" />
+                        </div>
+
+                        <div class="flex items-center gap-2 w-full md:w-auto">
+                            <label class="text-sm text-gray-700">{{ 'Fecha:' | translate }}</label>
+                            <input type="date"
+                                class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                formControlName="date" />
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button
+                                class="bg-sky-600 hover:bg-sky-700 rounded-lg text-white px-4 py-2 flex items-center gap-2 transition-all duration-200"
+                                (click)="makeQuerySearch()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                                {{ 'Buscar' | translate }}
+                            </button>
+
+                            <button
+                                class="bg-gray-500 hover:bg-gray-600 rounded-lg text-white px-4 py-2 flex items-center gap-2 transition-all duration-200"
+                                (click)="fetchOrders()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+                                    <path d="M21 3v5h-5"></path>
+                                    <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+                                    <path d="M8 16H3v5"></path>
+                                </svg>
+                                {{ 'Reestablecer' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                </details>
+            </div>
+
             <!-- Modo de vista -->
-            <div class="flex justify-center mb-6 ">
+            <div class="flex justify-end mt-4">
                 <button (click)="toggleViewMode()"
-                    class="flex items-center gap-2 px-3 py-2 bg-slate-200 hover:bg-slate-300 rounded shadow text-sm text-slate-700 transition">
+                    class="flex items-center gap-2 px-4 py-2 bg-slate-200 hover:bg-slate-300 rounded-lg shadow text-sm text-slate-700 transition-all duration-200">
                     <svg *ngIf="viewMode === 'grid'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <line x1="4" y1="6" x2="20" y2="6" />
@@ -140,140 +169,148 @@
                         <path d="M3 12h18" />
                         <rect x="3" y="3" width="18" height="18" rx="2" />
                     </svg>
-                    {{
-                    viewMode === 'grid'
-                    ? ('Modo listado' | translate)
-                    : ('Modo tarjetas' | translate)
-                    }}
+                    {{ viewMode === 'grid' ? ('Modo listado' | translate) : ('Modo tarjetas' | translate) }}
                 </button>
             </div>
-            <!-- Contenido listado y tarjetas -->
-            <div class="w-full flex justify-center mb-10 px-4">
-                <div class="w-full max-w-5xl gap-3 max-h-[60vh] overflow-y-auto custom-scrollbar">
+        </div>
 
-                    <!-- Modo listado -->
-                    <ng-container *ngIf="viewMode === 'list'">
-                        <div *ngFor="let item of paginatedItems"
-                            class="border-l-4 border border-gray-200 rounded-lg p-2 shadow-sm hover:shadow-md transition duration-200 bg-white text-[13px] sm:text-xs cursor-pointer hover:bg-gray-100"
-                            [ngClass]="{
+        <!-- Contenido - Reportes -->
+        <div class="p-6 max-h-[60vh] overflow-y-auto custom-scrollbar">
+            <!-- Modo listado -->
+            <ng-container *ngIf="viewMode === 'list'">
+                <div *ngFor="let item of paginatedItems"
+                    class="border-l-4 border border-gray-200 rounded-lg p-2 shadow-sm hover:shadow-md transition duration-200 bg-white text-[13px] sm:text-xs cursor-pointer hover:bg-gray-100"
+                    [ngClass]="{
                                 'border-l-blue-500': item.route_event.criticality === 0,
                                 'border-l-orange-400': item.route_event.criticality === 1,
                                 'border-l-red-600': item.route_event.criticality === 2
                             }">
-                            <!-- Encabezado -->
-                            <div class="flex items-center justify-between mb-1">
-                                <div class="flex items-center gap-1">
-                                    <lucide-icon name="flame" class="w-4 h-4" [ngClass]="{
+                    <!-- Encabezado -->
+                    <div class="flex items-center justify-between mb-1">
+                        <div class="flex items-center gap-1">
+                            <lucide-icon name="flame" class="w-4 h-4" [ngClass]="{
                                         'text-blue-500': item.route_event.criticality === 0,
                                         'text-orange-400': item.route_event.criticality === 1,
                                         'text-red-600': item.route_event.criticality === 2
                                     }"></lucide-icon>
-                                    <span class="font-semibold text-gray-700">{{ item.route_event.name }}</span>
-                                    <span class="font-light text-gray-600">_código: {{ item.route_event.code_event
-                                        }}</span>
-                                </div>
-                                <span class="text-gray-400 text-[10px]">{{ item.create | date: 'short' }}</span>
-                            </div>
-
-                            <!-- Info -->
-                            <div class="text-gray-600">
-                                <div><span class="font-medium">Placa:</span> {{ item.propane_truck.plate }}</div>
-                            </div>
-
-                            <div class="grid grid-cols-1 sm:grid-cols-2 text-gray-600">
-                                <span><span class="font-medium">Operario:</span> {{ item.user.firstName }} {{
-                                    item.user.lastName }}</span>
-                            </div>
-
-                            <div class="grid grid-cols-1 sm:grid-cols-2 text-gray-600 mb-1">
-                                <span><span class="font-medium">Descripción:</span> {{ item.route_event.description
-                                    }}</span>
-                            </div>
+                            <span class="font-semibold text-gray-700">{{ item.route_event.name }}</span>
+                            <span class="font-light text-gray-600">_código: {{ item.route_event.code_event
+                                }}</span>
                         </div>
-                    </ng-container>
+                        <span class="text-gray-400 text-[10px]">{{ item.create | date: 'short' }}</span>
+                    </div>
 
-                    <!-- Modo tarjetas -->
-                    <ng-container *ngIf="viewMode === 'grid'">
-                        <div class="rounded-md bg-gray-50 p-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                            <div *ngFor="let item of paginatedItems"
-                                class="p-2 rounded-lg border-l-4 shadow-sm bg-white hover:bg-gray-100 cursor-pointer text-xs" [ngClass]="{
+                    <!-- Info -->
+                    <div class="text-gray-600">
+                        <div><span class="font-medium">Placa:</span> {{ item.propane_truck.plate }}</div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 text-gray-600">
+                        <span><span class="font-medium">Operario:</span> {{ item.user.firstName }} {{
+                            item.user.lastName }}</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 text-gray-600 mb-1">
+                        <span><span class="font-medium">Descripción:</span> {{ item.route_event.description
+                            }}</span>
+                    </div>
+                </div>
+            </ng-container>
+
+            <!-- Modo tarjetas -->
+            <ng-container *ngIf="viewMode === 'grid'">
+                <div class="rounded-md p-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                    <div *ngFor="let item of paginatedItems"
+                        class="p-2 rounded-lg border-l-4 shadow bg-white hover:bg-gray-100 cursor-pointer text-xs"
+                        [ngClass]="{
                                     'border-blue-500': item.route_event.criticality === 0,
                                     'border-orange-400': item.route_event.criticality === 1,
                                     'border-red-600': item.route_event.criticality === 2
                                     }">
-                                    
-                                <div class="font-semibold text-gray-800 leading-tight text-[13px]">
-                                    {{ item.route_event.name }}
-                                </div>
-                                 <div class="font-semibold text-sky-950 leading-tight text-[13px]">
-                                    <div class="flex items-center gap-2">
-                                        <lucide-icon name="flame" [ngClass]="{
+
+                        <div class="font-semibold text-gray-800 leading-tight text-[13px]">
+                            {{ item.route_event.name }}
+                        </div>
+                        <div class="font-semibold text-sky-950 leading-tight text-[13px]">
+                            <div class="flex items-center gap-2">
+                                <lucide-icon name="flame" [strokeWidth]="1" [ngClass]="{
                                             'text-blue-500': item.route_event.criticality === 0,
                                             'text-orange-400': item.route_event.criticality === 1,
                                             'text-red-600': item.route_event.criticality === 2
                                         }" class="w-5 h-5"></lucide-icon>
-                                        <span class="text-[11px] text-gray-500">Código: {{ item.route_event.code_event }}</span>
-                                    </div>
-                                </div>
-                                <div class=" text-[11px]"><span class="font-medium">Placa:</span> {{
-                                    item.propane_truck.plate }}</div>
-                                <div class=" text-[11px]">
-                                    <span class="font-medium">Operario:</span> {{ item.user.firstName }} {{
-                                    item.user.lastName }}
-                                </div>
-                                <div class=" text-[11px]">
-                                    <span class="font-medium">Descripción:</span> {{ item.route_event.description }}
-                                </div>
-                                <div class="text-[10px] text-gray-400">
-                                    {{ item.create | date: 'short' }}
-                                </div>
+                                <span class="text-[11px] text-gray-500">Código: {{ item.route_event.code_event }}</span>
                             </div>
                         </div>
-                    </ng-container>
-
-
+                        <div class=" text-[11px]"><span class="font-medium">Placa:</span> {{
+                            item.propane_truck.plate }}</div>
+                        <div class=" text-[11px]">
+                            <span class="font-medium">Operario:</span> {{ item.user.firstName }} {{
+                            item.user.lastName }}
+                        </div>
+                        <div class=" text-[11px]">
+                            <span class="font-medium">Descripción:</span> {{ item.route_event.description }}
+                        </div>
+                        <div class="text-[10px] text-gray-400">
+                            {{ item.create | date: 'short' }}
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </ng-container>
         </div>
+
         <!-- Paginación -->
-        <div
-            class="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-4 px-4 py-6 border-t bg-white rounded-b-xl text-sm">
-            <div class="text-gray-700 text-center sm:text-left">
-                {{ 'Mostrando' | translate }}
-                <span class="font-medium">{{ items.length === 0 ? 0 : pageIndex * pageSize + 1 }}</span>
-                {{ 'a' | translate }}
-                <span class="font-medium">{{ Math.min((pageIndex + 1) * pageSize, items.length) }}</span>
-                {{ 'de' | translate }}
-                <span class="font-medium">{{ items.length }}</span>
-                {{ 'resultados' | translate }}
-            </div>
+        <div class="border-t border-gray-200 bg-gray-50 p-4">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="text-gray-700 text-sm">
+                    {{ 'Mostrando' | translate }}
+                    <span class="font-medium">{{ items.length === 0 ? 0 : pageIndex * pageSize + 1 }}</span> {{ 'a' |
+                    translate }}
+                    <span class="font-medium">{{ Math.min((pageIndex + 1) * pageSize, items.length) }}</span> {{ 'de' |
+                    translate }}
+                    <span class="font-medium">{{ items.length }}</span> {{ 'resultados' | translate }}
+                </div>
 
-            <div class="flex flex-wrap items-center justify-center gap-2">
-                <select class="border rounded px-2 py-1 text-sm" (change)="onPageSizeChange()">
-                    <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
-                    <option *ngIf="items.length > 0 && !pageSizeOptions.includes(items.length)" [value]="items.length">
-                        {{ items.length }}
-                    </option>
-                </select>
+                <div class="flex items-center gap-2">
+                    <select
+                        class="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                        (change)="onPageSizeChange()">
+                        <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+                        <option *ngIf="items.length > 0 && !pageSizeOptions.includes(items.length)"
+                            [value]="items.length">
+                            {{ items.length }}
+                        </option>
+                    </select>
 
-                <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-2 py-1 rounded text-xs"
-                    (click)="setPageSizeToTotal()">
-                    {{ 'Mostrar todo' | translate }}
-                </button>
+                    <button
+                        class="bg-sky-600 hover:bg-sky-700 text-white px-3 py-2 rounded-lg text-sm transition-all duration-200"
+                        (click)="setPageSizeToTotal()">
+                        {{ 'Mostrar todo' | translate }}
+                    </button>
 
-                <button class="px-2 py-1 rounded border border-gray-300 bg-white text-gray-500 hover:bg-gray-50"
-                    [disabled]="pageIndex === 0" (click)="goToPage(0)">«</button>
-
-                <button class="px-2 py-1 rounded border border-gray-300 bg-white text-gray-500 hover:bg-gray-50"
-                    [disabled]="pageIndex === 0" (click)="goToPage(pageIndex - 1)">‹</button>
-
-                <span class="px-2 text-gray-700">{{ pageIndex + 1 }} / {{ totalPages }}</span>
-
-                <button class="px-2 py-1 rounded border border-gray-300 bg-white text-gray-500 hover:bg-gray-50"
-                    [disabled]="pageIndex >= totalPages - 1" (click)="goToPage(pageIndex + 1)">›</button>
-
-                <button class="px-2 py-1 rounded border border-gray-300 bg-white text-gray-500 hover:bg-gray-50"
-                    [disabled]="pageIndex >= totalPages - 1" (click)="goToPage(totalPages - 1)">»</button>
+                    <div class="flex gap-1">
+                        <button
+                            class="px-3 py-2 rounded-lg border border-gray-300 bg-white text-gray-500 hover:bg-gray-100 disabled:opacity-50 transition-all duration-200"
+                            [disabled]="pageIndex === 0" (click)="goToPage(0)">
+                            «
+                        </button>
+                        <button
+                            class="px-3 py-2 rounded-lg border border-gray-300 bg-white text-gray-500 hover:bg-gray-100 disabled:opacity-50 transition-all duration-200"
+                            [disabled]="pageIndex === 0" (click)="goToPage(pageIndex - 1)">
+                            ‹
+                        </button>
+                        <span class="px-3 py-2 text-gray-700">{{ pageIndex + 1 }} / {{ totalPages }}</span>
+                        <button
+                            class="px-3 py-2 rounded-lg border border-gray-300 bg-white text-gray-500 hover:bg-gray-100 disabled:opacity-50 transition-all duration-200"
+                            [disabled]="pageIndex >= totalPages - 1" (click)="goToPage(pageIndex + 1)">
+                            ›
+                        </button>
+                        <button
+                            class="px-3 py-2 rounded-lg border border-gray-300 bg-white text-gray-500 hover:bg-gray-100 disabled:opacity-50 transition-all duration-200"
+                            [disabled]="pageIndex >= totalPages - 1" (click)="goToPage(totalPages - 1)">
+                            »
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

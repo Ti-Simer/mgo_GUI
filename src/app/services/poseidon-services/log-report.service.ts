@@ -51,6 +51,11 @@ export class LogReportService {
     return this.http.post(`${apiUrl}/log-report/findByDay`, pageData, { headers: this.apiKey });
   }
 
+  getLastLogsByPlate(): Observable<any> {
+    var apiUrl = this.authService.getApiUrl();
+    return this.http.get(`${apiUrl}/log-report/getLastLogsByPlate`, { headers: this.apiKey });
+  }
+
   findTrucksOnCourseLog(): Observable<any> {
     var apiUrl = this.authService.getApiUrl();
     return this.http.get(`${apiUrl}/course-log/findTrucksOnCourseLog`, { headers: this.apiKey });

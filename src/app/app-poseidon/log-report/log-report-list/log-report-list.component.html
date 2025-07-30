@@ -1,226 +1,366 @@
 <div class="min-h-[40vh] grid grid-cols-1 xl:grid-cols-2 gap-2.5 py-3  ">
     <!-- Seccion 1 -->
     <div class="w-full bg-gray-100 rounded-xl p-4">
-        <div class="flex flex-col items-center">
-            <div class="text-center font-bold text-2xl mb-2" style="color: #014e87;">
-                {{'Accesos directos' | translate}}
-            </div>
-            <hr class="w-1/2 border-gray-400 mb-4">
-        </div>
-
-        <div class="grid grid-cols-1 xl:grid-cols-2 gap-2.5 px-2 py-2">
-            <div class="w-full h-24 rounded-xl text-center text-white text-semibold cursor-pointer flex items-center justify-center hover:scale-[102%] transition-transform duration-150 ease-in-out"
-                style="background-color: #014e87;" (click)="toCourses()">
-                {{'Derroteros' | translate}}
-            </div>
-            <div class="w-full h-24 rounded-xl text-center text-white text-semibold cursor-pointer flex items-center justify-center hover:scale-[102%] transition-transform duration-150 ease-in-out"
-                style="background-color: #0267B5;" (click)="toReports()">
-                {{'Reportes' | translate}}
-            </div>
-            <div class="w-full h-24 rounded-xl text-center text-white text-semibold cursor-pointer flex items-center justify-center hover:scale-[102%] transition-transform duration-150 ease-in-out"
-                style="background-color: #027FDE;" (click)="toOrders()">
-                {{'Pedidos' | translate}}
-            </div>
-            <div class="w-full h-24 rounded-xl text-center text-white text-semibold cursor-pointer flex items-center justify-center hover:scale-[102%] transition-transform duration-150 ease-in-out"
-                style="background-color: #01213B;" (click)="toRequest()">
-                {{'Servicios' | translate}}
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Sección 2 -->
-    <div class="w-full bg-gray-100 rounded-xl max-h-[300vh] md:h-[420px] flex flex-col">
-        <!-- Header -->
-        <div class="w-full p-4">
-            <div class="flex flex-col items-center">
-                <!-- Título -->
-                <div class="text-center font-bold text-2xl text-[#014e87]">
-                    {{ 'Eventos de ruta' | translate }}
-                    <p class="text-gray-500 font-light mt-1 text-base">
-                        {{ dateToday }}
-                    </p>
+        <!-- Encabezado con gradiente -->
+        <div class="bg-gradient-to-r from-sky-800 to-sky-900 rounded-xl p-5 mb-6">
+            <div class="flex items-center">
+                <div class="bg-white/20 p-3 rounded-lg mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="text-white">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="16" x2="12" y2="12" />
+                        <line x1="12" y1="8" x2="12.01" y2="8" />
+                    </svg>
                 </div>
-
-                <!-- Botones criticidad + modo listado + ver todo -->
-                <div class="flex flex-col sm:flex-row flex-wrap items-center sm:justify-between gap-2 mt-4 w-full"*ngIf="log_reports.length > 0">
-                    <!-- Grupo criticidad -->
-                    <div class="flex flex-wrap gap-2 justify-center">
-                        <button type="button" (click)="filterByCriticality(0)" [ngClass]="{
-                            'bg-blue-100 border border-blue-500 text-blue-700': selectedCriticality === 0,
-                            'bg-slate-200 hover:bg-slate-300 text-sky-950': selectedCriticality !== 0
-                            }" class="relative p-2 shadow rounded flex items-center justify-center">
-                            <lucide-icon name="flame" color="#36a9ff"></lucide-icon>
-                            <span class="ml-2">{{ 'Baja' | translate }}</span>
-                            <span *ngIf="getCriticalityCount(0) > 0"
-                                class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-xs font-bold">
-                                {{ getCriticalityCount(0) }}
-                            </span>
-                        </button>
-
-                        <button type="button" (click)="filterByCriticality(1)" [ngClass]="{
-                            'bg-orange-100 border border-orange-500 text-orange-700': selectedCriticality === 1,
-                            'bg-slate-200 hover:bg-slate-300 text-sky-950': selectedCriticality !== 1
-                            }" class="relative p-2 shadow rounded flex items-center justify-center">
-                            <lucide-icon name="flame" color="#f19538"></lucide-icon>
-                            <span class="ml-2">{{ 'Media' | translate }}</span>
-                            <span *ngIf="getCriticalityCount(1) > 0"
-                                class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-xs font-bold">
-                                {{ getCriticalityCount(1) }}
-                            </span>
-                        </button>
-
-                        <button type="button" (click)="filterByCriticality(2)" [ngClass]="{
-                            'bg-red-100 border border-red-500 text-red-700': selectedCriticality === 2,
-                            'bg-slate-200 hover:bg-slate-300 text-sky-950': selectedCriticality !== 2
-                            }" class="relative p-2 shadow rounded flex items-center justify-center">
-                            <lucide-icon name="flame" color="#c61f1f"></lucide-icon>
-                            <span class="ml-2">{{ 'Alta' | translate }}</span>
-                            <span *ngIf="getCriticalityCount(2) > 0"
-                                class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-xs font-bold">
-                                {{ getCriticalityCount(2) }}
-                            </span>
-                        </button>
-
-                    </div>
-
-                    <!-- Grupo: modo listado y ver todo -->
-                    <div class="flex gap-2 justify-center">
-                        <!-- Botón Modo listado -->
-                        <button (click)="toggleViewMode()"
-                            class="flex items-center gap-2 px-3 py-2 bg-slate-200 hover:bg-slate-300 rounded shadow text-sm text-slate-700 transition">
-                            <svg *ngIf="viewMode === 'grid'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <line x1="4" y1="6" x2="20" y2="6" />
-                                <line x1="4" y1="12" x2="20" y2="12" />
-                                <line x1="4" y1="18" x2="20" y2="18" />
-                            </svg>
-                            <svg *ngIf="viewMode === 'list'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path d="M12 3v18" />
-                                <path d="M3 12h18" />
-                                <rect x="3" y="3" width="18" height="18" rx="2" />
-                            </svg>
-                            {{
-                            viewMode === 'grid'
-                            ? ('Modo listado' | translate)
-                            : ('Modo tarjetas' | translate)
-                            }}
-                        </button>
-
-                        <!-- Botón Ver Todo -->
-                        <button
-                            class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-gray-700 rounded text-sm font-semibold transition"
-                            (click)="toViewLogReports()">
-                            {{ 'Ver todo' | translate }}
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Sin eventos -->
-                <div class="container mt-6 flex justify-center" *ngIf="log_reports.length < 1">
-                    <p class="text-sm text-gray-500 text-center p-4 rounded border border-dotted border-gray-400 mt-4">
-                        {{ 'No se han presentado eventos de ruta' | translate }}<br>
-                        <span class="text-sm text-sky-800 text-center p-4 rounded hover:text-sky-700 hover:underline italic cursor-pointer" (click)="toViewLogReports()">
-                            {{ 'Ver todo' | translate }}
-                        </span>
+                <div>
+                    <h2 class="text-2xl font-bold text-white">{{ 'Accesos directos' | translate }}</h2>
+                    <p class="text-sky-200 mt-1">
+                        {{ 'Accede rápidamente a las secciones principales' | translate }}
                     </p>
                 </div>
             </div>
+            <div class="h-1 w-20 bg-sky-400 rounded-full mt-3"></div>
         </div>
 
-        <!-- Contenedor de eventos -->
-        <div
-            class="max-h-[250px] p-2 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-400 scrollbar-track-slate-200 pr-1 rounded-md w-full flex-1">
-            <!-- GRID -->
-            <div *ngIf="viewMode === 'grid'"
-                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 p-2">
-                <div *ngFor="let log_report of paginatedItems">
-                    <div class="p-2 bg-white border-l-4 rounded-lg shadow-sm hover:shadow-md transition-all text-xs h-full"
-                        [ngClass]="{
-                            'border-blue-500': log_report.route_event.criticality === 0,
-                            'border-orange-400': log_report.route_event.criticality === 1,
-                            'border-red-600': log_report.route_event.criticality === 2
-                        }">
-                        <div class="text-sm font-semibold text-slate-700 truncate">
-                            {{ log_report.propane_truck.plate }}
-                        </div>
-                        <div class="text-xs font-light text-gray-500 truncate mb-1">
-                            {{ log_report.user.firstName }} {{ log_report.user.lastName }}
-                        </div>
-                        <div class="flex items-center gap-1 mb-1">
-                            <lucide-icon name="flame" [ngClass]="{
-                                'text-orange-400': log_report.route_event.criticality === 1,
-                                'text-blue-500': log_report.route_event.criticality === 0,
-                                'text-red-600': log_report.route_event.criticality === 2
-                            }" class="w-4 h-4"></lucide-icon>
-                            <span class="text-sm font-medium">
-                                {{
-                                log_report.route_event.criticality === 0
-                                ? ('Baja' | translate)
-                                : log_report.route_event.criticality === 1
-                                ? ('Media' | translate)
-                                : ('Alta' | translate)
-                                }}
-                            </span>
-                        </div>
-                        <div class="text-sm text-gray-700 truncate mb-1">
-                            {{ log_report.route_event.name }}
-                        </div>
-                        <div class="text-xs font-light text-gray-400">
-                            {{ log_report.create | date: 'short' }}
-                        </div>
+        <!-- Tarjetas de accesos -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+            <!-- Tarjeta Derroteros -->
+            <div class="bg-gradient-to-br from-sky-600 to-sky-800 rounded-2xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-[103%] hover:shadow-2xl"
+                (click)="toCourses()">
+                <div class="p-6 flex flex-col items-center justify-center h-full">
+                    <div class="bg-white/20 p-4 rounded-full mb-4">
+                        <lucide-icon name="map-pinned" [size]="48" color="#ffffff" [strokeWidth]="0.8"></lucide-icon>
                     </div>
+                    <h3 class="text-xl font-bold text-white text-center">{{ 'Derroteros' | translate }}</h3>
+                    <p class="text-sky-200 text-sm text-center mt-2">
+                        {{ 'Planifica y gestiona rutas' | translate }}
+                    </p>
                 </div>
             </div>
 
-            <!-- LISTADO -->
-            <div *ngIf="viewMode === 'list'"
-                class="bg-white rounded-md flex flex-col divide-y divide-gray-200 px-2 text-xs text-gray-800 ">
-                <div *ngFor="let log_report of paginatedItems" class="py-2">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 items-start">
-                        <div class="font-medium">
-                            {{ log_report.propane_truck.plate }}<br />
-                            <span class="text-gray-500 text-xs font-light">{{
-                                log_report.user.firstName
-                                }}
-                                {{ log_report.user.lastName }}</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <lucide-icon name="flame" [ngClass]="{
-                                'text-blue-500': log_report.route_event.criticality === 0,
-                                'text-orange-400': log_report.route_event.criticality === 1,
-                                'text-red-600': log_report.route_event.criticality === 2
-                            }" class="w-4 h-4"></lucide-icon>
-                            <span class="font-medium text-sm text-gray-600">{{ log_report.route_event.name }}</span>
-                        </div>
-                        <div class="text-gray-500 text-xs">
-                            {{ log_report.create | date: 'medium' }}
-                        </div>
+            <!-- Tarjeta Reportes -->
+            <div class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-[103%] hover:shadow-2xl"
+                (click)="toReports()">
+                <div class="p-6 flex flex-col items-center justify-center h-full">
+                    <div class="bg-white/20 p-4 rounded-full mb-4">
+                        <lucide-icon name="file-text" [size]="48" color="#ffffff" [strokeWidth]="0.8"></lucide-icon>
                     </div>
+                    <h3 class="text-xl font-bold text-white text-center">{{ 'Reportes' | translate }}</h3>
+                    <p class="text-blue-200 text-sm text-center mt-2">
+                        {{ 'Analiza datos y estadísticas' | translate }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tarjeta Pedidos -->
+            <div class="bg-gradient-to-br from-cyan-500 to-cyan-700 rounded-2xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-[103%] hover:shadow-2xl"
+                (click)="toOrders()">
+                <div class="p-6 flex flex-col items-center justify-center h-full">
+                    <div class="bg-white/20 p-4 rounded-full mb-4">
+                        <lucide-icon name="scroll-text" [size]="48" color="#ffffff" [strokeWidth]="0.8"></lucide-icon>
+                    </div>
+                    <h3 class="text-xl font-bold text-white text-center">{{ 'Pedidos' | translate }}</h3>
+                    <p class="text-cyan-200 text-sm text-center mt-2">
+                        {{ 'Gestiona solicitudes y entregas' | translate }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tarjeta Servicios -->
+            <div class="bg-gradient-to-br from-sky-800 to-blue-900 rounded-2xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-[103%] hover:shadow-2xl"
+                (click)="toRequest()">
+                <div class="p-6 flex flex-col items-center justify-center h-full">
+                    <div class="bg-white/20 p-4 rounded-full mb-4">
+                        <lucide-icon name="package-check" [size]="48" color="#ffffff" [strokeWidth]="0.8"></lucide-icon>
+                    </div>
+                    <h3 class="text-xl font-bold text-white text-center">{{ 'Servicios' | translate }}</h3>
+                    <p class="text-indigo-200 text-sm text-center mt-2">
+                        {{ 'Solicita y gestiona servicios' | translate }}
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 
-
-    <!-- Seccion 3 -->
+    <!-- Seccion 2 -->
     <div class="w-full bg-gray-100 rounded-xl p-4">
-        <div class="w-full p-2">
-            <div class="text-center font-bold text-2xl" style="color: #014e87;">
-                {{'Auto tanques en curso' | translate}}
-                <p class="text-gray-500 font-light mt-1 text-base">
-                    {{dateToday}}
+        <!-- Encabezado con gradiente -->
+        <div class="bg-gradient-to-r from-sky-800 to-sky-900 rounded-xl p-5 mb-6">
+            <div class="flex items-center">
+                <div class="bg-white/20 p-3 rounded-lg mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="text-white">
+                        <path
+                            d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                        <line x1="12" y1="9" x2="12" y2="13" />
+                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-white">{{ 'Eventos de ruta' | translate }}</h2>
+                    <p class="text-sky-200 mt-1">
+                        {{ 'Fecha' | translate }}: {{ dateToday }}
+                    </p>
+                </div>
+            </div>
+            <div class="h-1 w-20 bg-sky-400 rounded-full mt-3"></div>
+        </div>
+
+        <!-- Controles de filtrado y vista -->
+        <div *ngIf="log_reports.length > 0" class="flex flex-wrap justify-between items-center mb-6 gap-3 px-4">
+            <!-- Grupo criticidad -->
+            <div class="flex flex-wrap gap-2">
+                <button type="button" (click)="filterByCriticality(0)" [ngClass]="{
+                'bg-blue-100 border border-blue-500 text-blue-700': selectedCriticality === 0,
+                'bg-slate-200 hover:bg-slate-300 text-sky-950': selectedCriticality !== 0
+            }" class="relative p-2 shadow rounded flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="text-blue-500">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="12" />
+                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    <span class="ml-2">{{ 'Baja' | translate }}</span>
+                    <span *ngIf="getCriticalityCount(0) > 0"
+                        class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-xs font-bold">
+                        {{ getCriticalityCount(0) }}
+                    </span>
+                </button>
+
+                <button type="button" (click)="filterByCriticality(1)" [ngClass]="{
+                'bg-orange-100 border border-orange-500 text-orange-700': selectedCriticality === 1,
+                'bg-slate-200 hover:bg-slate-300 text-sky-950': selectedCriticality !== 1
+            }" class="relative p-2 shadow rounded flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="text-orange-500">
+                        <path
+                            d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                        <line x1="12" y1="9" x2="12" y2="13" />
+                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                    <span class="ml-2">{{ 'Media' | translate }}</span>
+                    <span *ngIf="getCriticalityCount(1) > 0"
+                        class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-xs font-bold">
+                        {{ getCriticalityCount(1) }}
+                    </span>
+                </button>
+
+                <button type="button" (click)="filterByCriticality(2)" [ngClass]="{
+                'bg-red-100 border border-red-500 text-red-700': selectedCriticality === 2,
+                'bg-slate-200 hover:bg-slate-300 text-sky-950': selectedCriticality !== 2
+            }" class="relative p-2 shadow rounded flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="text-red-500">
+                        <path d="M18 6 6 18" />
+                        <path d="m6 6 12 12" />
+                    </svg>
+                    <span class="ml-2">{{ 'Alta' | translate }}</span>
+                    <span *ngIf="getCriticalityCount(2) > 0"
+                        class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-xs font-bold">
+                        {{ getCriticalityCount(2) }}
+                    </span>
+                </button>
+            </div>
+
+            <!-- Grupo: modo listado y ver todo -->
+            <div class="flex gap-2">
+                <!-- Botón Modo listado -->
+                <button (click)="toggleViewMode()"
+                    class="flex items-center gap-2 px-3 py-2 bg-slate-200 hover:bg-slate-300 rounded shadow text-sm text-slate-700 transition">
+                    <svg *ngIf="viewMode === 'grid'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <line x1="4" y1="6" x2="20" y2="6" />
+                        <line x1="4" y1="12" x2="20" y2="12" />
+                        <line x1="4" y1="18" x2="20" y2="18" />
+                    </svg>
+                    <svg *ngIf="viewMode === 'list'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path d="M12 3v18" />
+                        <path d="M3 12h18" />
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                    </svg>
+                    {{ viewMode === 'grid' ? ('Modo listado' | translate) : ('Modo tarjetas' | translate) }}
+                </button>
+
+                <!-- Botón Ver Todo -->
+                <button
+                    class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-gray-700 rounded text-sm font-semibold transition"
+                    (click)="toViewLogReports()">
+                    {{ 'Ver todo' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <!-- Sin eventos -->
+        <div *ngIf="log_reports.length < 1"
+            class="flex flex-col items-center justify-center bg-white rounded-2xl shadow-xl p-8">
+            <div class="text-center max-w-md">
+                <h3 class="text-2xl font-semibold text-gray-700 mt-4">{{ 'No se han presentado eventos de ruta' |
+                    translate }}</h3>
+                <p class="text-gray-500 mt-2">
+                    {{ 'Actualmente no se han registrado eventos de ruta' | translate }}
                 </p>
+                <button class="mt-4 text-sky-800 hover:text-sky-700 hover:underline italic cursor-pointer"
+                    (click)="toViewLogReports()">
+                    {{ 'Ver todo' | translate }}
+                </button>
             </div>
-            <div class="tank-list mt-2">
-                <app-log-report-list-propanetrucks></app-log-report-list-propanetrucks>
+        </div>
+
+        <!-- Contenedor principal -->
+        <div *ngIf="log_reports.length > 0" class="grid grid-cols-1 gap-6">
+            <!-- Lista de eventos -->
+            <div class="bg-white rounded-2xl shadow-xl p-6">
+                <div class="flex items-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="text-sky-600 mr-2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <h3 class="text-xl font-semibold text-sky-800">{{ 'Últimos Eventos Registrados' | translate }}</h3>
+                </div>
+
+                <!-- Vista GRID -->
+                <div *ngIf="viewMode === 'grid'" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div *ngFor="let log_report of paginatedItems"
+                        class="bg-sky-50 border-l-4 rounded-xl p-2 shadow-sm cursor-pointer hover:bg-sky-100 transition-all duration-200"
+                        [ngClass]="{
+                         'border-blue-500': log_report.route_event.criticality === 0,
+                         'border-orange-400': log_report.route_event.criticality === 1,
+                         'border-red-600': log_report.route_event.criticality === 2
+                     }">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="flex items-center">
+                                    <span class="font-bold text-sky-800 mr-3">{{ log_report.propane_truck.plate
+                                        }}</span>
+                                </div>
+                                <p class="text-xs font-light text-gray-600 mb-1">
+                                    {{ log_report.user.firstName }} {{ log_report.user.lastName }}
+                                </p>
+                                <p class="text-sm text-gray-700 mb-1">
+                                    {{ log_report.route_event.name }}
+                                </p>
+                            </div>
+                            <div class="flex flex-col items-end">
+                                <!-- Indicador de criticidad -->
+                                <p class="text-xs font-light text-gray-400">
+                                    {{ log_report.create | date: 'dd/MM/yyyy HH:mm' }}
+                                </p>
+                                <div class="mb-2">
+                                    <div *ngIf="log_report.route_event.criticality === 0"
+                                        class="flex items-center bg-blue-50 border border-blue-100 px-3 py-1 rounded-full">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="text-blue-500 mr-1">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <line x1="12" y1="8" x2="12" y2="12" />
+                                            <line x1="12" y1="16" x2="12.01" y2="16" />
+                                        </svg>
+                                        <span class="text-blue-700 text-xs font-medium">
+                                            {{ 'Baja' | translate }}
+                                        </span>
+                                    </div>
+
+                                    <div *ngIf="log_report.route_event.criticality === 1"
+                                        class="flex items-center bg-yellow-50 border border-yellow-100 px-3 py-1 rounded-full">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="text-yellow-500 mr-1">
+                                            <path
+                                                d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                                            <line x1="12" y1="9" x2="12" y2="13" />
+                                            <line x1="12" y1="17" x2="12.01" y2="17" />
+                                        </svg>
+                                        <span class="text-yellow-700 text-xs font-medium">
+                                            {{ 'Media' | translate }}
+                                        </span>
+                                    </div>
+
+                                    <div *ngIf="log_report.route_event.criticality === 2"
+                                        class="flex items-center bg-red-50 border border-red-100 px-3 py-1 rounded-full">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="text-red-500 mr-1">
+                                            <path d="M18 6 6 18" />
+                                            <path d="m6 6 12 12" />
+                                        </svg>
+                                        <span class="text-red-700 text-xs font-medium">
+                                            {{ 'Alta' | translate }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vista LISTADO -->
+                <div *ngIf="viewMode === 'list'"
+                    class="bg-white rounded-md flex flex-col divide-y divide-gray-200 text-sm text-gray-800">
+                    <div *ngFor="let log_report of paginatedItems" class="py-3">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div class="font-medium text-sky-800">
+                                    {{ log_report.propane_truck.plate }}
+                                </div>
+                                <div class="text-xs text-gray-500">
+                                    {{ log_report.user.firstName }} {{ log_report.user.lastName }}
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div *ngIf="log_report.route_event.criticality === 0"
+                                    class="flex items-center bg-blue-50 border border-blue-100 px-2 py-1 rounded-full">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="text-blue-500">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <line x1="12" y1="8" x2="12" y2="12" />
+                                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                                    </svg>
+                                </div>
+                                <div *ngIf="log_report.route_event.criticality === 1"
+                                    class="flex items-center bg-yellow-50 border border-yellow-100 px-2 py-1 rounded-full">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="text-yellow-500">
+                                        <path
+                                            d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                                        <line x1="12" y1="9" x2="12" y2="13" />
+                                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                                    </svg>
+                                </div>
+                                <div *ngIf="log_report.route_event.criticality === 2"
+                                    class="flex items-center bg-red-50 border border-red-100 px-2 py-1 rounded-full">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="text-red-500">
+                                        <path d="M18 6 6 18" />
+                                        <path d="m6 6 12 12" />
+                                    </svg>
+                                </div>
+                                <span class="font-medium text-sm text-gray-600">
+                                    {{ log_report.route_event.name }}
+                                </span>
+                            </div>
+                            <div class="text-xs text-gray-400">
+                                {{ log_report.create | date: 'short' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Seccion 4 -->
-    <div class="w-full bg-gray-100 rounded-xl p-4">
-        <app-log-report-list-map></app-log-report-list-map>
-    </div>
+</div>
+<!-- Seccion 4 -->
+<div class="w-full bg-gray-100 rounded-xl p-4">
+    <app-log-report-list-map></app-log-report-list-map>
 </div>

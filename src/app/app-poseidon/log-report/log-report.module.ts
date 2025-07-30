@@ -11,7 +11,11 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import {
   LucideAngularModule,
   Flame,
-  Truck
+  Truck,
+  PackageCheck,
+  ScrollText,
+  FileText,
+  MapPinned
 } from 'lucide-angular';
 import { LogReportListMapComponent } from './log-report-list/log-report-list-map/log-report-list-map.component';
 import { LogReportListPropanetrucksComponent } from './log-report-list/log-report-list-propanetrucks/log-report-list-propanetrucks.component';
@@ -39,7 +43,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     GoogleMapsModule,
     LucideAngularModule.pick({
       Flame,
-      Truck
+      Truck,
+      PackageCheck,
+      ScrollText,
+      FileText,
+      MapPinned
     }),
     TranslateModule.forChild({
       loader: {

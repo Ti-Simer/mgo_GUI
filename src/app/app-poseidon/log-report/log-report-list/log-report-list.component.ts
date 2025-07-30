@@ -22,7 +22,7 @@ export class LogReportListComponent {
   criticalityLow: any;
   criticalityMedium: any;
   criticalityHigh: any;
-  viewMode: 'list' | 'grid' = 'list';
+  viewMode: 'list' | 'grid' = 'grid';
   selectedCriticality: number | null = null;
   pageIndex: number = 0;
   pageSize: number = 25;
