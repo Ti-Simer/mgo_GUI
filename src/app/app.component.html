@@ -2,7 +2,7 @@
 <div class="h-full flex">
     <!-- Sidebar -->
     <aside [class.w-80]="!sidebarCollapsed" [class.w-20]="sidebarCollapsed" [class.pl-6]="!sidebarCollapsed"
-        class="hidden md:flex flex-col h-screen bg-sky-900 text-white shadow-lg fixed left-0 top-0 z-40 transition-all duration-300">
+        class="hidden md:flex flex-col h-screen bg-gradient-to-b from-sky-800 to-sky-900 text-white shadow-lg fixed left-0 top-0 z-40 transition-all duration-300">
         <!-- Logo y nombre del sistema -->
         <div class="flex items-center py-6 cursor-pointer"
             (click)="isLogged ? redirectToHome() : redirectToLandingPage()">

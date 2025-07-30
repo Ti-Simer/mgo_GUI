@@ -10,7 +10,7 @@
           <button [class.hidden]="sidebarCollapsed"
             class="flex items-center px-3 py-3 rounded-lg hover:bg-slate-700 transition-all duration-300 ease-in-out transform hover:scale-[1.02] group"
             (click)="toggleNotifyMenu()">
-            <div class="relative inline-flex ml-1">
+            <div class="relative inline-flex">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="w-5 animate-none group-hover:animate-pulse">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -54,16 +54,16 @@
 
       <!-- Inicio -->
       <li>
-        <div class="relative mb-1 ml-[0.8rem]">
+        <div class="relative mb-1 ml-[0.8rem]" [ngClass]="{'ml-0': sidebarCollapsed}">
           <button [class.hidden]="sidebarCollapsed"
             class="px-3 py-3 rounded-lg hover:bg-slate-700 transition-all duration-300 ease-in-out transform hover:scale-[1.02] group text-left font-medium tracking-wide flex items-center"
             (click)="redirectToHome()">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" class="size-5 mr-2 group-hover:text-sky- ml-1">
+              stroke="currentColor" class="size-5 mr-2 group-hover:text-sky-300">
               <path stroke-linecap="round" stroke-linejoin="round"
                 d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
             </svg>
-            <span class="ml-1">{{ 'Inicio' | translate }}</span>
+            <span class="ml-1 group-hover:text-sky-300 transition-all">{{ 'Inicio' | translate }}</span>
           </button>
           <button [class.hidden]="!sidebarCollapsed"
             class="p-2 rounded-lg hover:bg-slate-700 transition-all duration-300 group flex justify-center"
@@ -79,12 +79,12 @@
 
       <!-- Administración -->
       <li>
-        <div class="relative mb-1 ml-[0.8rem]">
+        <div class="relative mb-1 ml-[0.8rem]" [ngClass]="{'ml-0': sidebarCollapsed}">
           <button [class.hidden]="sidebarCollapsed"
             class="px-3 py-3 rounded-lg hover:bg-slate-700 transition-all duration-300 ease-in-out transform hover:scale-[1.02] group flex items-center font-medium tracking-wide"
             (click)="toggleAdminMenu()">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" class="size-5 mr-2 group-hover:text-sky- transition-transform duration-200 ml-1"
+              stroke="currentColor" class="size-5 mr-2 group-hover:text-sky-300 transition-transform duration-200"
               [class.rotate-90]="showAdminMenu">
               <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
             </svg>
@@ -241,12 +241,12 @@
 
       <!-- Cuenta -->
       <li>
-        <div class="relative mb-1 ml-[0.8rem]">
+        <div class="relative mb-1 ml-[0.8rem]" [ngClass]="{'ml-0': sidebarCollapsed}">
           <button [class.hidden]="sidebarCollapsed"
             class="px-3 py-3 rounded-lg hover:bg-slate-700 transition-all duration-300 ease-in-out transform hover:scale-[1.02] group flex items-center font-medium tracking-wide"
             (click)="toggleAccountMenu()">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" class="size-5 mr-2 group-hover:text-sky- transition-transform duration-200 ml-1"
+              stroke="currentColor" class="size-5 mr-2 group-hover:text-sky-300 transition-transform duration-200"
               [class.rotate-90]="showAccountMenu">
               <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
             </svg>
@@ -295,9 +295,9 @@
       </li>
 
       <!-- Idioma - Sin recuadro gris -->
-      <div class="relative mb-1 ml-[0.3rem]">
+      <div class="relative mb-1 ml-[0.7rem]" [ngClass]="{'ml-0': sidebarCollapsed}">
         <button (click)="toggleDropdown()" [class.w-46]="!sidebarCollapsed"
-          class="inline-flex items-center px-3 py-2 text-sm font-medium tracking-wide text-gray-200 rounded-lg hover:bg-slate-700 transition-all duration-300 group ml-[0.3rem]">
+          class="inline-flex items-center px-3 py-2 text-sm font-medium tracking-wide text-gray-200 rounded-lg hover:bg-slate-700 transition-all duration-300 group">
           <lucide-icon name="languages" [size]="22"></lucide-icon>
           <span [class.hidden]="sidebarCollapsed" class="group-hover:text-sky- ml-1">
             {{language | uppercase}}
