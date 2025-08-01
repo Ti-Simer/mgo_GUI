@@ -1,134 +1,592 @@
-<div class="general-container">
-    <nav class="mt-4">
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
-                type="button" role="tab" aria-controls="nav-home" aria-selected="true">{{'Panel' | translate}}</button>
-            <!-- <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
-                type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{{'Control/inventario' |
-                translate}}</button>
-            <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">{{'Reportes' | translate}}</button> -->
+<div
+  class="mb-0 ml-0 p-4 transition-all duration-300 sm:mb-4 sm:ml-11"
+  [class.sm:ml-36]="!sidebarCollapsed"
+  [class.sm:ml-11]="sidebarCollapsed">
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel de Monitoreo - Tanques</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sky: {
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+</head>
+
+<body class="bg-gray-50  min-h-screen pb-12">
+    <div class="w-[90vw] mx-auto px-4 py-8">
+        <!-- Encabezado mejorado -->
+        <div class="bg-gradient-to-r from-sky-800 to-sky-900 rounded-2xl p-6 mb-8 shadow-lg">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div class="bg-white/20 p-4 rounded-xl mr-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 100 100" fill="none"
+                            stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- Marco exterior -->
+                            <rect x="5" y="5" width="90" height="90" rx="10" />
+
+                            <!-- Tanque horizontal alargado con fondo blanco -->
+                            <rect x="20" y="50" width="60" height="25" rx="13" fill="white" />
+
+                            <!-- Tapa encima del tanque (medio óvalo) -->
+                            <path d="M40 50 Q50 35 60 50" fill="white" stroke="white" stroke-width="3" />
+
+                            <!-- Tubo que sale de la tapa -->
+                            <line x1="50" y1="35" x2="50" y2="12" stroke="white" stroke-width="10" />
+
+                            <!-- Soportes tipo arco -->
+                            <path d="M25 75 A5 5 0 0 0 35 75" fill="white" />
+                            <path d="M65 75 A5 5 0 0 0 75 75" fill="white" />
+                        </svg>
+
+                    </div>
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-white">Monitoreo de Tanques de GLP</h1>
+                        <p class="text-sky-200 mt-1">Sistema de monitoreo en tiempo real</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="bg-white/10 p-3 rounded-lg relative">
+                        <i class="fas fa-bell text-white text-xl"></i>
+                        <span
+                            class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
+                    </div>
+                    <div class="bg-white/10 p-3 rounded-lg">
+                        <i class="fas fa-cog text-white text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="h-1 w-24 bg-sky-400 rounded-full mt-4"></div>
         </div>
-    </nav>
-    <div class="tab-content mt-3" id="nav-tabContent" style="padding-bottom: 100px;">
-        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-            <div class="row p-3">
-                <div class="col-lg-12 d-flex justify-content-between" id="responsive-container">
-                    <div class="col-lg-5 p-4 shadow-sm" id="items" *ngFor="let item of data">
-                        <h2 class="text-center fw-bold">
-                            <label class="text-secondary" *ngIf="item.device.location.parent_id">
-                                E.A {{item.device.location.name}} </label>
-                            <label class="text-secondary" *ngIf="!item.device.location.parent_id">
-                                {{item.device.location.name}} </label><br>
-                            <label class="text-secondary">
-                                {{'Ultima conexión:' | translate}} {{item.data.create | date:
-                                'full'}}
-                            </label>
-                        </h2>
-                        <div class="d-flex justify-content-around">
-                            <div class="w-50 text-center">
-                                <label class="text-secondary"><b>{{'ID:' | translate}}</b> {{item.device.imei}}</label>
-                                <br>
-                                <label class="text-secondary" [ngClass]="{'text-success': item.data.RCI == '01', 'text-danger': item.data.RCI != '01'}">
-                                    <b>{{ item.data.RCI == '01' ? 'Red contra incendios: Activa' : 'Red contra incendios: Inactiva' | translate }}</b>
-                                </label>
+
+        <!-- Tabs mejorados -->
+        <div class="flex space-x-4 mb-8">
+            <button
+                class="px-6 py-3 bg-gradient-to-r from-sky-800 to-sky-900 text-white rounded-lg shadow-lg font-medium flex items-center">
+                <i class="fas fa-tachometer-alt mr-2"></i> Panel
+            </button>
+            <button
+                class="px-6 py-3 bg-sky-100 text-sky-800 rounded-lg hover:bg-sky-200 transition font-medium flex items-center">
+                <i class="fas fa-clipboard-list mr-2"></i> Control/Inventario
+            </button>
+            <button
+                class="px-6 py-3 bg-sky-100 text-sky-800 rounded-lg hover:bg-sky-200 transition font-medium flex items-center">
+                <i class="fas fa-chart-bar mr-2"></i> Reportes
+            </button>
+        </div>
+
+        <!-- Panel Principal -->
+        <div class="min-h-[40vh] grid grid-cols-1 lg:grid-cols-3 gap-4 py-3">
+            <!-- Sección de Tanques Activos -->
+            <div class="w-full bg-gray-100 rounded-2xl p-6 shadow-md lg:col-span-2">
+                <!-- Encabezado con gradiente -->
+                <div class="bg-gradient-to-r from-sky-800 to-sky-900 rounded-xl p-5 mb-6">
+                    <div class="flex items-center">
+                        <div class="bg-white/20 p-3 rounded-lg mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 100 100"
+                                fill="none" stroke="white" stroke-width="8" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <!-- Marco exterior -->
+                                <rect x="5" y="5" width="90" height="90" rx="10" />
+
+                                <!-- Tanque horizontal alargado con fondo blanco -->
+                                <rect x="20" y="50" width="60" height="25" rx="13" fill="white" />
+
+                                <!-- Tapa encima del tanque (medio óvalo) -->
+                                <path d="M40 50 Q50 35 60 50" fill="white" stroke="white" stroke-width="3" />
+
+                                <!-- Tubo que sale de la tapa -->
+                                <line x1="50" y1="35" x2="50" y2="12" stroke="white" stroke-width="10" />
+
+                                <!-- Soportes tipo arco -->
+                                <path d="M25 75 A5 5 0 0 0 35 75" fill="white" />
+                                <path d="M65 75 A5 5 0 0 0 75 75" fill="white" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-white">Tanques Activos</h2>
+                            <p class="text-sky-200 mt-1">Monitoreo en tiempo real</p>
+                        </div>
+                    </div>
+                    <div class="h-1 w-20 bg-sky-400 rounded-full mt-3"></div>
+                </div>
+
+
+                <!-- Contenedor de tarjetas de tanques -->
+                <div *ngIf="viewMode === 'grid'"
+                    class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[84vh] overflow-y-auto custom-scrollbar">
+                    <!-- Tarjeta de tanque dinámica -->
+                    <div *ngFor="let item of data"
+                        class="tank-card bg-white rounded-lg shadow-md overflow-hidden text-xs">
+                        <!-- Encabezado -->
+                        <div class="bg-gradient-to-r from-sky-800 to-sky-900 p-3">
+                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+                                <div>
+                                    <h2 class="text-base font-bold text-white leading-snug">
+                                        <span *ngIf="item.device.location.parent_id">E.A {{ item.device.location.name
+                                            }}</span>
+                                        <span *ngIf="!item.device.location.parent_id">{{ item.device.location.name
+                                            }}</span>
+                                    </h2>
+                                    <p class="text-sky-200 text-[11px] mt-1">Última conexión: {{ item.data.create |
+                                        date: 'dd/MM/yyyy HH:mm:ss' }}</p>
+                                </div>
+                                <div class="bg-white/20 px-2 py-0.5 rounded text-[10px] font-semibold text-white">
+                                    ID: {{ item.device.imei }}
+                                </div>
                             </div>
-                            <div class="w-50 text-center">
-                                <label class="text-secondary" *ngIf="item.data.NVIN == '01'" [ngClass]="{'text-success': item.data.NVIN == '01'}">
-                                    <b>{{'CARGUE EN PROCESO' | translate}}</b>
-                                </label>
-                                <br>
-                                <label class="text-secondary">
-                                    <b *ngIf="item.data.NVIN != '01'">{{'' | translate}}</b>
-                                </label>
-                                <br>
-                                <label class="text-secondary" [ngClass]="{'text-danger': item.data.NVOUT == '01'}">
-                                    <b>{{ item.data.NVOUT == '01' ? 'DESCARGUE EN PROCESO' : '' | translate }}</b>
-                                </label>
+                            <div class="h-[2px] w-10 bg-sky-400 rounded-full mt-2"></div>
+                        </div>
+
+                        <!-- Cuerpo -->
+                        <div class="p-3 space-y-3">
+                            <!-- Estados -->
+                            <div class="flex flex-wrap justify-between gap-2">
+                                <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold" [ngClass]="{
+                                    'bg-green-100 text-green-800': item.data.RCI == '01',
+                                    'bg-red-100 text-red-800': item.data.RCI != '01'
+                                    }">
+                                    <i class="fas mr-1 text-[10px]" [ngClass]="{
+                                        'fa-check-circle': item.data.RCI == '01',
+                                        'fa-exclamation-triangle': item.data.RCI != '01'
+                                    }"></i>
+                                    {{ item.data.RCI == '01' ? 'RCI: Activa' : 'RCI: Inactiva' }}
+                                </span>
+
+                                <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold" [ngClass]="{
+                                    'bg-blue-100 text-blue-800': item.data.NVIN == '01',
+                                    'bg-red-100 text-red-800': item.data.NVOUT == '01',
+                                    'bg-gray-100 text-gray-800': item.data.NVIN != '01' && item.data.NVOUT != '01'
+                                    }">
+                                    {{ item.data.NVIN == '01' ? 'CARGANDO' : item.data.NVOUT == '01' ? 'DESCARGANDO' :
+                                    'SIN ACTIVIDAD' }}
+                                </span>
+                            </div>
+
+                            <!-- Info principal -->
+                            <div class="flex flex-col lg:flex-row gap-3">
+                                <div class="mb-4 flex-col justify-between bg-gradient-to-br from-white to-gray-50 rounded-xl p-4 flex-1 border border-gray-200 transition-all duration-300"
+                                    [ngClass]="{
+                                        'border-green-300/60': (item.data.mass / 100) >= 7,
+                                        'border-yellow-300/60': (item.data.mass / 100) >= 5 && (item.data.mass / 100) < 7,
+                                        'border-red-300/60': (item.data.mass / 100) < 5
+                                    }">
+
+                                    <!-- Contenido principal -->
+                                    <div>
+                                        <!-- Título con icono -->
+                                        <div class="mt-4 flex justify-center">
+                                            <div class="" [ngClass]="{
+                                                'text-green-600': (item.data.mass / 100) >= 7,
+                                                'text-yellow-600': (item.data.mass / 100) >= 5 && (item.data.mass / 100) < 7,
+                                                'text-red-600': (item.data.mass / 100) < 5
+                                            }">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="lucide lucide-clock8-icon lucide-clock-8">
+                                                    <path d="M12 6v6l-4 2" />
+                                                    <circle cx="12" cy="12" r="10" />
+                                                </svg>
+                                            </div>
+                                            <h4 class="font-bold text-gray-700 text-xs tracking-wider">AUTONOMÍA EN DÍAS
+                                            </h4>
+                                        </div>
+
+                                        <!-- Valor numérico destacado -->
+                                        <div class="text-center">
+                                            <p class="text-3xl font-bold" [ngClass]="{
+                                                'text-green-600': (item.data.mass / 100) >= 7,
+                                                'text-yellow-600': (item.data.mass / 100) >= 5 && (item.data.mass / 100) < 7,
+                                                'text-red-600': (item.data.mass / 100) < 5
+                                            }">
+                                                {{ (item.data.mass / 100).toFixed(2) }}
+                                            </p>
+                                        </div>
+
+                                        <!-- Indicador visual de estado -->
+                                        <div class="flex justify-center mb-4">
+                                            <span class="px-3 py-1 rounded-full text-sm font-semibold shadow-sm"
+                                                [ngClass]="{
+                                                    'bg-green-100 text-green-800': (item.data.mass / 100) >= 7,
+                                                    'bg-yellow-100 text-yellow-800': (item.data.mass / 100) >= 5 && (item.data.mass / 100) < 7,
+                                                    'bg-red-100 text-red-800': (item.data.mass / 100) < 5
+                                                }">
+                                                <i class="fas mr-1" [ngClass]="{
+                                                    'fa-check-circle': (item.data.mass / 100) >= 7,
+                                                    'fa-exclamation-triangle': (item.data.mass / 100) >= 5 && (item.data.mass / 100) < 7,
+                                                    'fa-exclamation-circle': (item.data.mass / 100) < 5
+                                                }"></i>
+                                                {{ (item.data.mass / 100) >= 7 ? 'ÓPTIMO' :
+                                                (item.data.mass / 100) >= 5 ? 'ATENCIÓN' : 'CRÍTICO' }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Botón de inventario mejorado -->
+                                    <button
+                                        class="w-full bg-gradient-to-r from-sky-600 to-sky-800 hover:from-sky-700 hover:to-sky-900 text-white px-4 py-3 rounded-xl flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-xl group"
+                                        (click)="inventoryMethodByIMEI(item)">
+                                        <i
+                                            class="fas fa-file-alt mr-3 text-lg group-hover:scale-110 transition-transform"></i>
+                                        <span class="font-medium tracking-wide">GENERAR INVENTARIO</span>
+                                    </button>
+                                </div>
+
+                                <!-- Variables -->
+                                <div class="mb-4 grid grid-cols-2 gap-2 flex-1 flex-">
+                                    <div class="items-center items-center bg-sky-50 p-2 rounded border text-[11px]">
+                                        <span class="text-sky-800 ">Temperatura</span> <br>
+                                        <span class="text-xs text-gray-500">{{ item.data.temperature }}°C</span> <br>
+                                    </div>
+                                    <div class="bg-sky-50 p-2 rounded border text-[11px]">
+                                        <span class="text-sky-800 ">Presión</span> <br>
+                                        <span class="text-xs text-gray-500">{{ item.data.pressure }} PSI</span> <br>
+                                    </div>
+                                    <div class="bg-sky-50 p-2 rounded border text-[11px]">
+                                        <span class="text-sky-800 ">Volumen</span> <br>
+                                        <span class="text-xs text-gray-500">{{ item.data.volume }} GL US</span> <br>
+                                    </div>
+                                    <div class="bg-sky-50 p-2 rounded border text-[11px]">
+                                        <span class="text-sky-800 ">Masa</span> <br>
+                                        <span class="text-xs text-gray-500">{{ item.data.mass }} Kg</span> <br>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Indicador del tanque -->
+                            <div class="w-full max-w-[15rem] mx-auto">
+                                <div
+                                    class="relative w-full h-24 p-[3px] rounded-full bg-gradient-to-b from-sky-800 to-sky-400 shadow">
+                                    <div
+                                        class="w-full h-full rounded-full bg-white overflow-hidden flex items-end relative">
+                                        <div class="w-full transition-all duration-500"
+                                            [style.height]="(item.data?.percent || 0) + '%'" [ngClass]="{
+                                            'bg-green-500': (item.data?.percent || 0) >= 60,
+                                            'bg-lime-400': (item.data?.percent || 0) >= 40 && (item.data?.percent || 0) < 60,
+                                            'bg-orange-400': (item.data?.percent || 0) >= 20 && (item.data?.percent || 0) < 40,
+                                            'bg-red-500': (item.data?.percent || 0) < 20
+                                            }"></div>
+
+                                        <div class="absolute inset-0 flex items-center justify-center z-10">
+                                            <span
+                                                class="text-sm font-bold text-gray-800 bg-white/80 px-2 py-0.5 rounded-full shadow">
+                                                {{ (item.data?.percent || 0) | number:'1.0-1' }}%
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- Tapa Tanque -->
+                                    <div
+                                        class="absolute -top-[0.4rem] left-1/2 -translate-x-1/2 w-16 h-2 bg-sky-800 rounded-t-full z-20 shadow">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Contenedor modo listado -->
+                <div *ngIf="viewMode === 'list'"
+                    class="overflow-x-auto max-h-[84vh] overflow-y-auto custom-scrollbar text-xs">
+                    <table class="min-w-full table-auto bg-white rounded shadow text-left">
+                        <thead class="bg-sky-800 text-white text-[11px]">
+                            <tr>
+                                <th class="p-2 font-semibold">Ubicación</th>
+                                <th class="p-2 font-semibold">Última conexión</th>
+                                <th class="p-2 font-semibold">ID</th>
+                                <th class="p-2 font-semibold">Estado</th>
+                                <th class="p-2 font-semibold">Actividad</th>
+                                <th class="p-2 font-semibold">Temperatura</th>
+                                <th class="p-2 font-semibold">Presión</th>
+                                <th class="p-2 font-semibold">Volumen</th>
+                                <th class="p-2 font-semibold">Masa</th>
+                                <th class="p-2 font-semibold">Autonomía</th>
+                                <th class="p-2 font-semibold">Tanque</th>
+                                <th class="p-2 font-semibold">Inventario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of data" class="border-b hover:bg-slate-100 transition">
+                                <td class="p-2">
+                                    <span *ngIf="item.device.location.parent_id">E.A {{ item.device.location.name
+                                        }}</span>
+                                    <span *ngIf="!item.device.location.parent_id">{{ item.device.location.name }}</span>
+                                </td>
+                                <td class="p-2">{{ item.data.create | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+                                <td class="p-2">{{ item.device.imei }}</td>
+                                <td class="p-2">
+                                    <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold" [ngClass]="{
+                                        'bg-green-100 text-green-800': item.data.RCI == '01',
+                                        'bg-red-100 text-red-800': item.data.RCI != '01'
+                                    }">
+                                        {{ item.data.RCI == '01' ? 'Activa' : 'Inactiva' }}
+                                    </span>
+                                </td>
+                                <td class="p-2">
+                                    <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold" [ngClass]="{
+                                        'bg-blue-100 text-blue-800': item.data.NVIN == '01',
+                                        'bg-red-100 text-red-800': item.data.NVOUT == '01',
+                                        'bg-gray-100 text-gray-800': item.data.NVIN != '01' && item.data.NVOUT != '01'
+                                    }">
+                                        {{ item.data.NVIN == '01' ? 'CARGANDO' : item.data.NVOUT == '01' ? 'DESCARGANDO'
+                                        : 'SIN ACTIVIDAD' }}
+                                    </span>
+                                </td>
+                                <td class="p-2 text-gray-700">{{ item.data.temperature }}°C</td>
+                                <td class="p-2 text-gray-700">{{ item.data.pressure }} PSI</td>
+                                <td class="p-2 text-gray-700">{{ item.data.volume }} GL US</td>
+                                <td class="p-2 text-gray-700">{{ item.data.mass }} Kg</td>
+                                <td class="p-2 font-bold text-center" [ngClass]="{
+                                    'text-green-600': (item.data.mass / 100) >= 7,
+                                    'text-yellow-600': (item.data.mass / 100) >= 5 && (item.data.mass / 100) < 7,
+                                    'text-red-600': (item.data.mass / 100) < 5
+                                    }">
+                                    {{ (item.data.mass / 100).toFixed(2) }}
+                                </td>
+                                <td class="p-2 w-40">
+                                    <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden shadow">
+                                        <div class="h-full text-center text-white text-[10px] leading-4 font-bold"
+                                            [ngClass]="{
+                                                'bg-green-500': (item.data?.percent || 0) >= 70,
+                                                'bg-yellow-400': (item.data?.percent || 0) >= 40 && (item.data?.percent || 0) < 70,
+                                                'bg-orange-400': (item.data?.percent || 0) >= 20 && (item.data?.percent || 0) < 40,
+                                                'bg-red-500': (item.data?.percent || 0) < 20
+                                            }" [style.width.%]="item.data?.percent || 0">
+                                            {{ (item.data?.percent || 0) | number:'1.0-0' }}%
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="p-2">
+                                    <button class="text-sky-700 text-xs font-semibold hover:underline"
+                                        (click)="inventoryMethodByIMEI(item)">
+                                        Generar
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- Sección de eventos y controles -->
+            <div class="w-full bg-gray-100 rounded-2xl p-6 shadow-md lg:col-span-1">
+                <!-- Encabezado con gradiente -->
+                <div class="bg-gradient-to-r from-sky-800 to-sky-900 rounded-xl p-5 mb-6">
+                    <div class="flex items-center">
+                        <div class="bg-white/20 p-3 rounded-lg mr-4">
+                            <i class="fas fa-chart-line text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-white">Eventos y Alertas</h2>
+                            <p class="text-sky-200 mt-1">Actividad reciente del sistema</p>
+                        </div>
+                    </div>
+                    <div class="h-1 w-20 bg-sky-400 rounded-full mt-3"></div>
+                </div>
+
+                <!-- Tarjetas de accesos directos -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div
+                        class="bg-gradient-to-br from-sky-600 to-sky-800 rounded-2xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-[103%] hover:shadow-2xl">
+                        <div class="p-6 flex flex-col items-center justify-center h-full">
+                            <div class="bg-white/20 p-4 rounded-full mb-4">
+                                <i class="fas fa-file-contract text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white text-center">Reportes Diarios</h3>
+                            <p class="text-sky-200 text-sm text-center mt-2">
+                                Genera informes de actividad
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-[103%] hover:shadow-2xl">
+                        <div class="p-6 flex flex-col items-center justify-center h-full">
+                            <div class="bg-white/20 p-4 rounded-full mb-4">
+                                <i class="fas fa-history text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white text-center">Históricos</h3>
+                            <p class="text-blue-200 text-sm text-center mt-2">
+                                Consulta datos históricos
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controles de filtrado y vista -->
+                <div class="flex flex-wrap justify-between items-center mb-6 gap-3">
+                    <!-- Grupo criticidad -->
+                    <div class="flex flex-wrap gap-2">
+                        <button type="button"
+                            class="relative p-2 shadow rounded flex items-center justify-center bg-blue-100 border border-blue-500 text-blue-700">
+                            <i class="fas fa-info-circle text-blue-500 mr-1"></i>
+                            <span class="ml-1">Baja</span>
+                            <span
+                                class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-xs font-bold">
+                                2
+                            </span>
+                        </button>
+
+                        <button type="button"
+                            class="relative p-2 shadow rounded flex items-center justify-center bg-orange-100 border border-orange-500 text-orange-700">
+                            <i class="fas fa-exclamation-triangle text-orange-500 mr-1"></i>
+                            <span class="ml-1">Media</span>
+                            <span
+                                class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-xs font-bold">
+                                1
+                            </span>
+                        </button>
+
+                        <button type="button"
+                            class="relative p-2 shadow rounded flex items-center justify-center bg-red-100 border border-red-500 text-red-700">
+                            <i class="fas fa-exclamation-circle text-red-500 mr-1"></i>
+                            <span class="ml-1">Alta</span>
+                            <span
+                                class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-xs font-bold">
+                                0
+                            </span>
+                        </button>
+                    </div>
+
+                    <!-- Grupo: modo listado y ver todo -->
+                    <div class="flex gap-2">
+                        <!-- Botón Modo listado -->
+                        <button (click)="toggleViewMode()" class="flex items-center gap-2 px-3 py-2 bg-slate-200 hover:bg-slate-300 rounded shadow text-sm
+                        text-slate-700 transition">
+                            <svg *ngIf="viewMode === 'grid'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <line x1="4" y1="6" x2="20" y2="6" />
+                                <line x1="4" y1="12" x2="20" y2="12" />
+                                <line x1="4" y1="18" x2="20" y2="18" />
+                            </svg>
+                            <svg *ngIf="viewMode === 'list'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path d="M12 3v18" />
+                                <path d="M3 12h18" />
+                                <rect x="3" y="3" width="18" height="18" rx="2" />
+                            </svg>
+                            {{ viewMode === 'grid' ? ('Modo listado' | translate) : ('Modo tarjetas' | translate) }}
+                        </button>
+
+                        <!-- Botón Ver Todo -->
+                        <button
+                            class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-gray-700 rounded text-sm font-semibold transition">
+                            Ver todo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Lista de eventos -->
+                <div class="bg-white rounded-2xl shadow-xl p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-history text-sky-600 mr-2"></i>
+                        <h3 class="text-xl font-semibold text-sky-800">Últimos Eventos Registrados</h3>
+                    </div>
+
+                    <!-- Eventos -->
+                    <div class="space-y-4">
+                        <div
+                            class="bg-sky-50 border-l-4 border-blue-500 rounded-xl p-4 shadow-sm cursor-pointer hover:bg-sky-100 transition-all duration-200">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="flex items-center">
+                                        <span class="font-bold text-sky-800 mr-3">Tanque Principal</span>
+                                    </div>
+                                    <p class="text-xs font-light text-gray-600 mb-1">
+                                        Temperatura estable
+                                    </p>
+                                    <p class="text-sm text-gray-700 mb-1">
+                                        Lectura estable por más de 24 horas
+                                    </p>
+                                </div>
+                                <div class="flex flex-col items-end">
+                                    <p class="text-xs font-light text-gray-400">
+                                        05/05/2024 14:30
+                                    </p>
+                                    <div class="mb-2">
+                                        <div
+                                            class="flex items-center bg-blue-50 border border-blue-100 px-3 py-1 rounded-full">
+                                            <i class="fas fa-info-circle text-blue-500 mr-1"></i>
+                                            <span class="text-blue-700 text-xs font-medium">
+                                                Baja
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <hr class="w-75 mx-auto text-gray">
-
-                        <div class="row d-flex justify-content-between">
-                            <div class="tanque-glp mb-2" *ngIf="item.data">
-                                <div class="top-container">
-                                    <!-- <p class="card-text" *ngIf="sensor.res_data?.senal == '3'">
-                                        <lucide-icon name="signal-high" color="#00aa00"></lucide-icon>
+                        <div
+                            class="bg-sky-50 border-l-4 border-orange-400 rounded-xl p-4 shadow-sm cursor-pointer hover:bg-sky-100 transition-all duration-200">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="flex items-center">
+                                        <span class="font-bold text-sky-800 mr-3">Tanque Reserva</span>
+                                    </div>
+                                    <p class="text-xs font-light text-gray-600 mb-1">
+                                        Presión fluctuante
                                     </p>
-                                    <p class="card-text" *ngIf="sensor.res_data?.senal == '2'">
-                                        <lucide-icon name="signal-medium" color="#aa7106"></lucide-icon>
+                                    <p class="text-sm text-gray-700 mb-1">
+                                        Variación de presión detectada
                                     </p>
-                                    <p class="card-text" *ngIf="sensor.res_data?.senal == '1'">
-                                        <lucide-icon name="signal-low" color="#d82121"></lucide-icon>
-                                    </p>
-                                    <p class="card-text" *ngIf="sensor.res_data?.senal == 'y'">
-                                        <lucide-icon name="signal-zero" color="gray"></lucide-icon>
-                                    </p>
-                                    <p class="card-text" *ngIf="sensor.res_data?.senal == 0">
-                                        <lucide-icon name="signal-zero" color="gray"></lucide-icon>
-                                    </p>
-                                    <p class="card-text" *ngIf="!sensor.res_data">
-                                        <lucide-icon name="signal-zero" color="gray"></lucide-icon>
-                                    </p> -->
                                 </div>
-                                <div class="contenido" 
-                                    [ngClass]="{'warning': (item.data?.percent || 0) >= 35 && (item.data?.percent || 0) < 50, 
-                                                'error': (item.data?.percent || 0) < 35}" 
-                                    [style.--porcentaje]="(item.data?.percent || 0) + '%'">
-                                    <span class="porcentaje">{{ item.data?.percent || 0 | number:'1.2-2' }}%</span>
+                                <div class="flex flex-col items-end">
+                                    <p class="text-xs font-light text-gray-400">
+                                        04/05/2024 10:15
+                                    </p>
+                                    <div class="mb-2">
+                                        <div
+                                            class="flex items-center bg-orange-50 border border-orange-100 px-3 py-1 rounded-full">
+                                            <i class="fas fa-exclamation-triangle text-orange-500 mr-1"></i>
+                                            <span class="text-orange-700 text-xs font-medium">
+                                                Media
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="tanque-glp mb-2" *ngIf="!item.data">
-                                <p class="card-text">{{'Sin Datos' | translate}}</p>
-                            </div>
-
-                            <div class="w-50 p-2 rounded  bg-light shadow-sm d-flex justify-content-center">
-                                <div class="w-50">
-                                    <h3 class="text-success fw-bold">{{'Variables Tanque E.A' | translate}}</h3>
-                                    <label>
-                                       <b>{{'Temperatura:' | translate}}</b><br> {{item.data.temperature}} C°
-                                    </label><br>
-                                    <label>
-                                        <b>{{'Presión:' | translate}}</b><br> {{item.data.pressure}} PSI
-                                    </label><br>
-                                    <label>
-                                        <b>{{'Volúmen:' | translate}}</b><br> {{item.data.volume}} GL US
-                                    </label><br>
-                                    <label>
-                                        <b>{{'Masa:' | translate}}</b><br> {{item.data.mass}} Kg
-                                    </label><br>
-                                    <label>
-                                        <b>{{'Densidad:' | translate}}</b><br> {{item.data.density}} g/cm3
-                                    </label><br>
+                        <div
+                            class="bg-sky-50 border-l-4 border-green-500 rounded-xl p-4 shadow-sm cursor-pointer hover:bg-sky-100 transition-all duration-200">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="flex items-center">
+                                        <span class="font-bold text-sky-800 mr-3">Sistema</span>
+                                    </div>
+                                    <p class="text-xs font-light text-gray-600 mb-1">
+                                        Actualización exitosa
+                                    </p>
+                                    <p class="text-sm text-gray-700 mb-1">
+                                        Sistema actualizado a la versión 2.5.1
+                                    </p>
                                 </div>
-                                <!--<div class="w-50">
-                                    <h3 class="text-success fw-bold">{{'Aforo' | translate}}</h3>
-                                    <label>
-                                        <b>{{'Altura:' | translate}}</b><br> {{item.data.level}} mm
-                                    </label><br>
-                                    <label>
-                                        <b>{{'Volúmen:' | translate}}</b><br> {{item.data.volume_lt}} Lts
-                                    </label><br>
-                                    <label>
-                                        <b>{{'Volúmen:' | translate}}</b><br> {{item.data.volume_gl}} GL
-                                    </label><br>
-                                    <label>
-                                        <b>{{'Porcentaje:' | translate}}</b><br> {{item.data.percent}} %
-                                    </label>
-                                </div>-->
-                                <div class="mini-card" [ngClass]="{
-                                                                'success': (item.data?.percent / 7) >= 7,
-                                                                'warning': (item.data?.percent / 7) >= 5 && (item.data?.percent / 7) < 7, 
-                                                                'error': (item.data?.percent / 7) < 5}">
-                                    <div class="mini-card-header">
-                                        <h4 class="mini-card-title fw-bold">{{'Autonomía de contenido en días' | translate}}</h4>
-                                    </div>
-                                    <div class="mini-card-body">
-                                        <p class="card-text">{{item.data.percent ? (item.data.percent / 7).toFixed(2) : 0}}</p>
-                                    </div>
-                                    <div class="mini-card-footer">
-                                        <button class="btn btn-primary generate-report-btn" (click)="inventoryMethodByIMEI(item)">{{'Cierre de Inventario' | translate}}</button>
+                                <div class="flex flex-col items-end">
+                                    <p class="text-xs font-light text-gray-400">
+                                        03/05/2024 08:45
+                                    </p>
+                                    <div class="mb-2">
+                                        <div
+                                            class="flex items-center bg-green-50 border border-green-100 px-3 py-1 rounded-full">
+                                            <i class="fas fa-check-circle text-green-500 mr-1"></i>
+                                            <span class="text-green-700 text-xs font-medium">
+                                                Informativo
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -136,10 +594,17 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-primary generate-general-report-btn" (click)="inventoryMethodGeneral()" >{{'Cierre de Inventario General' | translate}}</button>
         </div>
-        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-            ...
+
+        <!-- Botón de reporte general mejorado -->
+        <div class="text-center mt-8">
+            <button
+                class="bg-gradient-to-r from-sky-800 to-sky-900 text-white px-8 py-4 rounded-lg text-lg font-semibold flex items-center justify-center mx-auto shadow-lg hover:shadow-xl transition-all duration-300 hover:from-sky-700 hover:to-sky-800"
+                (click)="inventoryMethodGeneral()">
+                <i class="fas fa-file-contract mr-3"></i> Cierre de Inventario General
+            </button>
         </div>
     </div>
-</div>
+</body>
+
+</html>

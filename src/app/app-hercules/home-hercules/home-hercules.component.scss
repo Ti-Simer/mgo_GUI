@@ -2,13 +2,31 @@
     #responsive-container {
         display: flex;
         flex-wrap: wrap;
-    
+
         #items {
             flex-grow: 1;
             flex-basis: 200;
             margin: 0.2rem;
         }
     }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
 }
 
 .tanque-glp {
@@ -44,7 +62,7 @@
     .contenido {
         width: 100%;
         height: var(--porcentaje, 0%);
-        background: linear-gradient(180deg, rgba($color:#49f752, $alpha: 0.7), rgba($color:#13e000, $alpha: 0.7));
+        background: linear-gradient(180deg, rgba($color: #49f752, $alpha: 0.7), rgba($color: #13e000, $alpha: 0.7));
         position: absolute;
         bottom: 0;
         display: flex;
@@ -53,12 +71,12 @@
         border-top: 2px solid #00cc00;
 
         &.warning {
-            background: linear-gradient(180deg, rgba($color:#ffcc00, $alpha: 0.7), rgba($color:#ff9900, $alpha: 0.7));
+            background: linear-gradient(180deg, rgba($color: #ffcc00, $alpha: 0.7), rgba($color: #ff9900, $alpha: 0.7));
             border-top: 2px solid #ff9900;
         }
 
         &.error {
-            background: linear-gradient(180deg, rgba($color:#ff6666, $alpha: 0.7), rgba($color:#ff0000, $alpha: 0.7));
+            background: linear-gradient(180deg, rgba($color: #ff6666, $alpha: 0.7), rgba($color: #ff0000, $alpha: 0.7));
             border-top: 2px solid #ff0000;
         }
     }
@@ -172,6 +190,14 @@
     z-index: 1;
 }
 
+.tank-card {
+    transition: all 0.3s ease;
+}
+
+.progress-bar {
+    transition: width 0.5s ease-in-out;
+}
+
 .card {
     width: 50rem;
 
@@ -192,5 +218,6 @@
         .sensor:hover {
             background-color: rgba($color: #727272, $alpha: 1);
         }
+
     }
 }

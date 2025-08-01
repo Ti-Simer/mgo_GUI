@@ -1,54 +1,240 @@
-<button class="matbutton" mat-button (click)="redirectToHome()">
-    {{'Inicio' | translate}}
-</button>
+<div class="drawer-side">
+    <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+    <ul class="menu from-slate-900 to-slate-800 text-gray-200 min-h-full w-80 space-y-1">
 
-<button class="matbutton" mat-button [matMenuTriggerFor]="ctrlAdmn">
-    <span>&blacktriangledown;</span>
-    <span class="ml-2">{{'Administración' | translate}}</span>
-</button>
+        <!-- Notificaciones -->
+        <li>
+            <div class="relative mb-1 ml-[0.8rem]">
+                <!-- Sidebar expandida -->
 
-<mat-menu #ctrlAdmn="matMenu">
-    <button mat-menu-item [matMenuTriggerFor]="ctrlUsers">{{'Control usuarios' | translate}}</button>
-    <button mat-menu-item [matMenuTriggerFor]="ctrlFactory">{{'Control ubicación' | translate}}</button>
-</mat-menu>
+                <button [class.hidden]="sidebarCollapsed"
+                    class="flex items-center px-3 py-3 rounded-lg hover:bg-slate-700 transition-all duration-300 ease-in-out transform hover:scale-[1.02] group"
+                    (click)="toggleNotifyMenu()">
+                    <div class="relative inline-flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-5 animate-none group-hover:animate-pulse">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
+                        </svg>
 
-<mat-menu #ctrlUsers="matMenu">
-    <a (click)="toUsers()" class="dropdown-item">{{'Usuarios' | translate}}</a>
-    <a (click)="toRoles()" class="dropdown-item">{{'Roles' | translate}}</a>
-    <a (click)="toPermissions()" class="dropdown-item">{{'Permisos' | translate}}</a>
-</mat-menu>
+                        <span *ngIf="notifications && notifications.length > 0"
+                            class="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 bg-pink-600 text-white rounded-full px-1 text-[10px] font-bold min-w-[1.2em] text-center z-10">
+                            {{ notifications.length < 50 ? notifications.length : '49+' }} </span>
+                    </div>
+                    <span class="flex-1 ml-3 font-medium tracking-wide">{{ 'Notificaciones' | translate }}</span>
+                </button>
 
-<mat-menu #ctrlFactory="matMenu">
-    <a (click)="toLocalities()" class="dropdown-item" >{{'Localidades' | translate}}</a>
-</mat-menu>
+                <!-- Sidebar colapsada -->
+                <button [class.hidden]="!sidebarCollapsed"
+                    class="relative p-2 rounded-lg hover:bg-slate-700 transition-all duration-300 group flex justify-center"
+                    (click)="toggleNotifyMenu()">
+                    <img *ngIf="!notifications || notifications.length === 0" src="assets/images/icons/bell.svg"
+                        class="w-6 group-hover:animate-pulse" alt="no notifications" />
+                    <img *ngIf="notifications && notifications.length > 0" src="assets/images/icons/bell-fill.svg"
+                        class="w-6 animate-bounce" alt="notifications" />
 
-<button class="matbutton" mat-button [matMenuTriggerFor]="ctrlAccount">
-    <span>&blacktriangledown;</span>
-    <span class="ml-2">{{'Cuenta' | translate}}</span>
-</button>
+                    <!-- Contador flotante sin borde -->
+                    <span *ngIf="notifications && notifications.length > 0"
+                        class="absolute -top-1.5 -right-1 bg-pink-600 text-white rounded-full px-1 text-[10px] font-bold min-w-[1.2em] text-center z-10">
+                        {{ notifications.length < 50 ? notifications.length : '49+' }} </span>
+                </button>
 
-<mat-menu #ctrlAccount="matMenu">
-    <a (click)="toProfile()" class="dropdown-item"><lucide-icon name="user"
-            [size]=13></lucide-icon> {{'Perfil' | translate}}</a>
-    <!-- <a (click)="toNotifications()" class="dropdown-item"><lucide-icon
-            name="bell" [size]=13></lucide-icon> {{'Notificaciones' | translate}}</a> -->
-    <a (click)="logout()" class="dropdown-item"
-        style="cursor: pointer; padding-left: 1rem; color: #e13411;"><lucide-icon name="log-out"
-            [size]=13></lucide-icon> {{'Cerrar sesión' | translate}}</a>
-</mat-menu>
+                <!-- Menú flotante -->
+                <div class="relative" style="height: 0 !important;">
+                    <div *ngIf="showNotifyMenu" [ngClass]="collapsed ? 'left-16' : 'left-72'"
+                        class="absolute -top-8 w-64 bg-slate-800/75 rounded-lg shadow-xl z-50 text-gray-200 overflow-hidden animate-fade-in transition-all duration-300">
+                        <app-notifications *ngIf="notifications && notifications.length > 0"></app-notifications>
+                        <p class="w-full text-center p-4 text-slate-400"
+                            *ngIf="!notifications || notifications.length === 0">
+                            {{ 'No tiene notificaciones' | translate }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <!-- Inicio -->
+        <li>
+            <div class="relative mb-1 ml-[0.8rem]" [ngClass]="{'ml-0': sidebarCollapsed}">
+                <button [class.hidden]="sidebarCollapsed"
+                    class="px-3 py-3 rounded-lg hover:bg-slate-700 transition-all duration-300 ease-in-out transform hover:scale-[1.02] group text-left font-medium tracking-wide flex items-center"
+                    (click)="redirectToHome()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-5 mr-2 group-hover:text-sky-300" fill="none"
+                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                    </svg>
+                    <span class="ml-1 group-hover:text-sky-300 transition-all">{{ 'Inicio' | translate }}</span>
+                </button>
+                <button [class.hidden]="!sidebarCollapsed"
+                    class="p-2 rounded-lg hover:bg-slate-700 transition-all duration-300 group flex justify-center"
+                    (click)="redirectToHome()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-6" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                    </svg>
+                </button>
+            </div>
+        </li>
 
-<button class="matbutton" mat-button [matMenuTriggerFor]="ctrlConfigLanguage">
-    <span>&blacktriangledown;</span>
-    <span class="ml-2"><i-lucide [img]="Languages" [size]="12" class="Languages-icon"></i-lucide>
-        {{language |
-        uppercase}}</span>
-</button>
+        <!-- Administración -->
+        <li>
+            <div class="relative mb-1 ml-[0.8rem]" [ngClass]="{'ml-0': sidebarCollapsed}">
+                <button [class.hidden]="sidebarCollapsed"
+                    class="px-3 py-3 rounded-lg hover:bg-slate-700 transition-all duration-300 ease-in-out transform hover:scale-[1.02] group flex items-center font-medium tracking-wide"
+                    (click)="toggleAdminMenu()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-5 mr-2 group-hover:text-sky-300"
+                        [class.rotate-90]="showAdminMenu" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                    </svg>
+                    <span class="ml-1">{{ 'Administración' | translate }}</span>
+                </button>
 
-<mat-menu #ctrlConfigLanguage="matMenu" style="display: block;">
-    <a class="dropdown-item"
-        (click)="switchLanguage('es')">{{'Spanish' | translate}}</a>
-    <a class="dropdown-item"
-        (click)="switchLanguage('en')">{{'English' | translate}}</a>
-    <a class="dropdown-item"
-        (click)="switchLanguage('pt')">{{'Portuguese' | translate}}</a>
-</mat-menu>
+                <button [class.hidden]="!sidebarCollapsed"
+                    class="p-2 rounded-lg hover:bg-slate-700 transition-all duration-300 group flex justify-center"
+                    (click)="toggleAdminMenu()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-6" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+                    </svg>
+                </button>
+
+                <!-- Menú padre desplegable -->
+                <div *ngIf="showAdminMenu"
+                    class="ml-3 mt-1 bg-slate-800/75 rounded-lg shadow-inner overflow-hidden transition-all duration-300 ease-out">
+                    <button class="block w-full text-left px-3 py-2 hover:bg-slate-700 flex items-center group"
+                        (click)="toggleSubMenu('users')">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-4 mr-2 group-hover:text-sky- ml-1"
+                            [class.rotate-90]="activeSubMenu === 'users'" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                        </svg>
+                        {{ 'Control usuarios' | translate }}
+                    </button>
+
+                    <button class="block w-full text-left px-3 py-2 hover:bg-slate-700 flex items-center group"
+                        (click)="toggleSubMenu('ubication')">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-4 mr-2 group-hover:text-sky- ml-1"
+                            [class.rotate-90]="activeSubMenu === 'ubication'" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                        </svg>
+                        {{ 'Control ubicación' | translate }}
+                    </button>
+                </div>
+
+                <div *ngIf="activeSubMenu === 'users'" class="ml-6 mt-1 bg-slate-800/75 rounded-lg shadow-inner">
+                    <a (click)="toUsers()"
+                        class="block cursor-pointer px-5 py-2 hover:bg-slate-700 flex items-center group">
+                        <span class="w-1 h-1 rounded-full bg-gray-400 mr-2 group-hover:bg-sky- ml-1"></span>
+                        {{ 'Usuarios' | translate }}
+                    </a>
+                    <a (click)="toRoles()"
+                        class="block cursor-pointer px-5 py-2 hover:bg-slate-700 flex items-center group">
+                        <span class="w-1 h-1 rounded-full bg-gray-400 mr-2 group-hover:bg-sky- ml-1"></span>
+                        {{ 'Roles' | translate }}
+                    </a>
+                    <a (click)="toPermissions()"
+                        class="block cursor-pointer px-5 py-2 hover:bg-slate-700 flex items-center group">
+                        <span class="w-1 h-1 rounded-full bg-gray-400 mr-2 group-hover:bg-sky- ml-1"></span>
+                        {{ 'Permisos' | translate }}
+                    </a>
+
+
+                </div>
+                <div *ngIf="activeSubMenu === 'ubication'" class="ml-6 mt-1 bg-slate-800/75 rounded-lg shadow-inner">
+                    <a (click)="toLocalities()"
+                        class="block cursor-pointer px-5 py-2 hover:bg-slate-700 flex items-center group">
+                        <span class="w-1 h-1 rounded-full bg-gray-400 mr-2 group-hover:bg-sky- ml-1"></span>
+                        {{ 'Localidades' | translate }}
+                    </a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Cuenta -->
+        <li>
+            <div class="relative mb-1 ml-[0.8rem]" [ngClass]="{'ml-0': sidebarCollapsed}">
+                <button [class.hidden]="sidebarCollapsed"
+                    class="px-3 py-3 rounded-lg hover:bg-slate-700 transition-all duration-300 ease-in-out transform hover:scale-[1.02] group flex items-center font-medium tracking-wide"
+                    (click)="toggleAccountMenu()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-5 mr-2 group-hover:text-sky-300"
+                        [class.rotate-90]="showAccountMenu" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                    </svg>
+                    <span class="ml-1">{{ 'Cuenta' | translate }}</span>
+                </button>
+                <button [class.hidden]="!sidebarCollapsed"
+                    class="p-2 rounded-lg hover:bg-slate-700 transition-all duration-300 group flex justify-center"
+                    (click)="toggleAccountMenu()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-6" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                    </svg>
+                </button>
+                <div *ngIf="showAccountMenu"
+                    class="ml-3 mt-1 bg-slate-800/75 rounded-lg shadow-inner overflow-hidden transition-all duration-300 ease-out">
+                    <a (click)="toProfile()"
+                        class="block cursor-pointer px-3 py-2 hover:bg-slate-700 flex items-center group">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-4 mr-2 group-hover:text-sky- ml-1"
+                            fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        </svg>
+                        {{ 'Perfil' | translate }}
+                    </a>
+                    <a (click)="logout()"
+                        class="block cursor-pointer px-3 py-2 hover:bg-slate-700 text-red-400 hover:text-red-300 flex items-center group">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-4 mr-2 ml-1" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                        </svg>
+                        {{ 'Cerrar sesión' | translate }}
+                    </a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Idioma -->
+        <div class="relative mb-1 ml-[0.7rem]" [ngClass]="{'ml-0': sidebarCollapsed}">
+            <button (click)="toggleDropdown()" [class.w-46]="!sidebarCollapsed"
+                class="inline-flex items-center px-3 py-2 text-sm font-medium tracking-wide text-gray-200 rounded-lg hover:bg-slate-700 transition-all duration-300 group">
+                <lucide-icon name="languages" [size]="22"></lucide-icon>
+                <span [class.hidden]="sidebarCollapsed" class="group-hover:text-sky- ml-1">
+                    {{language | uppercase}}
+                </span>
+            </button>
+            <div *ngIf="dropdownOpen"
+                class="absolute left-0 top-full mt-1 w-44 bg-slate-800/75 divide-y divide-slate-700 rounded-lg shadow-lg z-50 overflow-hidden animate-fade-in">
+                <ul class="py-2 text-sm text-gray-200">
+                    <li>
+                        <a class="block cursor-pointer px-4 py-2 hover:bg-slate-700 flex items-center group"
+                            (click)="switchLanguage('es'); dropdownOpen = false">
+                            <span class="w-1.5 h-1.5 rounded-full bg-gray-400 mr-2 group-hover:bg-sky- ml-1"></span>
+                            {{'Spanish' | translate}}
+                        </a>
+                    </li>
+                    <li>
+                        <a class="block cursor-pointer px-4 py-2 hover:bg-slate-700 flex items-center group"
+                            (click)="switchLanguage('en'); dropdownOpen = false">
+                            <span class="w-1.5 h-1.5 rounded-full bg-gray-400 mr-2 group-hover:bg-sky- ml-1"></span>
+                            {{'English' | translate}}
+                        </a>
+                    </li>
+                    <li>
+                        <a class="block cursor-pointer px-4 py-2 hover:bg-slate-700 flex items-center group"
+                            (click)="switchLanguage('pt'); dropdownOpen = false">
+                            <span class="w-1.5 h-1.5 rounded-full bg-gray-400 mr-2 group-hover:bg-sky- ml-1"></span>
+                            {{'Portuguese' | translate}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </ul>
+</div>

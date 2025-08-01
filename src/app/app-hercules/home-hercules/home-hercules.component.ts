@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/hercules-services/data.service';
 import * as XLSX from 'xlsx';
 
@@ -8,23 +9,32 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./home-hercules.component.scss'],
 })
 export class HomeHerculesComponent implements OnInit {
-
+  viewMode: 'list' | 'grid' = 'grid';
   data: any[] = [];
+  sidebarCollapsed = false;
 
   constructor(
-    private dataService: DataService
+    private dataService: DataService,
+    private authService: AuthService,
+    
   ) { }
 
   ngOnInit(): void {
     this.findLatestData();
+    this.authService.menuExpanded$.subscribe(expanded => {
+      this.sidebarCollapsed = expanded;
+    });
   }
-
+  
   findLatestData() {
     this.dataService.findLatestData().subscribe((response: any) => {
       if (response.statusCode == 200) {
-        this.data = response.data;
+        this.data = response.data.sort((a: any, b: any) => {
+          return new Date(b.data.create).getTime() - new Date(a.data.create).getTime();
+        });
       }
     });
+    
   }
 
   inventoryMethodGeneral() {
@@ -55,7 +65,7 @@ export class HomeHerculesComponent implements OnInit {
 
     const fechaActual = new Date().toISOString().split('T')[0];
     const nombreArchivo = `Inventario_${fechaActual}.xlsx`.replace(/[\s,]/g, '_'); // Reemplaza espacios y comas por guiones bajos
-    
+
     XLSX.writeFile(wb, nombreArchivo);
   }
 
@@ -90,6 +100,10 @@ export class HomeHerculesComponent implements OnInit {
     const nombreArchivo = `Inventario_${fechaActual}_${ubicacion}.xlsx`.replace(/[\s,]/g, '_'); // Reemplaza espacios y comas por guiones bajos
 
     XLSX.writeFile(wb, nombreArchivo);
+  }
+
+  toggleViewMode() {
+    this.viewMode = this.viewMode === 'grid' ? 'list' : 'grid';
   }
 
 }
