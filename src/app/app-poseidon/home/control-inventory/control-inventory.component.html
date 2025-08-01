@@ -1,292 +1,318 @@
 <div class="w-full p-4" [formGroup]="controlInventoryForm">
-    <div class="mb-6 flex flex-col items-center">
+    <!-- Encabezado -->
+    <div class="mb-8 flex flex-col items-center">
         <div class="text-center">
-            <span class="text-sky-800 font-bold text-3xl">
+            <span class="text-3xl font-bold bg-gradient-to-r from-sky-800 to-sky-900 bg-clip-text text-transparent">
                 {{'Control por inventario' | translate}}
             </span>
-            <div class="mx-auto mt-2 w-1/2 text-xs text-gray-400 font-light">
-                <p>
+            <div class="mx-auto mt-3 w-full max-w-2xl text-sm text-gray-600">
+                <p class="bg-white/80 backdrop-blur-sm p-4 rounded-xl shadow-sm">
                     {{'El sistema de control de inventario utiliza cálculos volumétricos basados en fórmulas específicas para determinar, con alta precisión, las cantidades de GLP en estado líquido y vapor dentro del tanque. Esto permite obtener una medición casi exacta del contenido total' | translate}}.
                 </p>
             </div>
-            <hr class="mx-auto mt-2 w-1/4 border-gray-300" />
+            <div class="mx-auto mt-3 w-1/4 h-1 bg-gradient-to-r from-sky-500 to-sky-700 rounded-full"></div>
         </div>
 
-        <div class="mt-6 w-full max-w-4xl flex flex-wrap gap-2 justify-center gap-2">
-            <div class="flex-1 min-w-[200px]" *ngIf="hasProperties">
-                <input type="date" class="w-full rounded border border-gray-300 px-4 py-1 text-base"
-                    formControlName="day" id="dateInput" />
+        <!-- Filtros y botones -->
+        <div class="mt-8 w-full max-w-5xl flex flex-wrap gap-4 justify-center">
+            <div class="flex-1 min-w-[220px]" *ngIf="hasProperties">
+                <input type="date" class="w-full rounded-xl border border-sky-200 bg-sky-50 px-4 py-2 text-base shadow-inner focus:ring-2 focus:ring-sky-500 focus:border-transparent" formControlName="day" id="dateInput" />
             </div>
 
-            <div class="flex gap-2 flex-wrap justify-end">
-                <button *ngIf="hasProperties" class="rounded bg-green-600 px-4 py-2 text-white whitespace-nowrap"
-                    (click)="toImportLpgProperties()">
-                    <lucide-icon name="sheet" [size]="20" class="inline-block mr-1"></lucide-icon>
+            <div class="flex gap-3 flex-wrap justify-end">
+                <button (click)="toImportLpgProperties()" *ngIf="hasProperties" class="rounded-xl bg-gradient-to-r from-green-600 to-green-700 px-5 py-2.5 text-white font-medium whitespace-nowrap shadow-md hover:shadow-lg transition-shadow flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
                     {{'Visualizar Propiedades GLP' | translate}}
                 </button>
 
-                <button *ngIf="!hasProperties" class="rounded bg-green-600 px-4 py-2 text-white whitespace-nowrap"
-                    (click)="toImportLpgProperties()">
-                    <lucide-icon name="sheet" [size]="20" class="inline-block mr-1"></lucide-icon>
+                <button (click)="toImportLpgProperties()" *ngIf="!hasProperties" class="rounded-xl bg-gradient-to-r from-green-600 to-green-700 px-5 py-2.5 text-white font-medium whitespace-nowrap shadow-md hover:shadow-lg transition-shadow flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
                     {{'Importar Propiedades GLP' | translate}}
                 </button>
 
-                <button type="submit"
-                    class="rounded bg-green-700 px-4 py-2 text-white disabled:opacity-50 whitespace-nowrap"
-                    [disabled]="!controlInventoryForm.valid" (click)="onSubmit()">
-                    <lucide-icon name="search" [size]="20" class="inline-block mr-1"></lucide-icon>
+                <button (click)="onSubmit()" type="submit" class="rounded-xl bg-gradient-to-r from-sky-600 to-sky-700 px-5 py-2.5 text-white font-medium whitespace-nowrap shadow-md hover:shadow-lg transition-shadow disabled:opacity-70 flex items-center" [disabled]="!controlInventoryForm.valid">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
                     {{'Buscar' | translate}}
                 </button>
             </div>
         </div>
-
     </div>
 
-    <div class="mb-6" *ngIf="date">
-        <hr class="mb-4 border-gray-300" />
-        <h3 class="text-center text-lg text-gray-600">
-            {{'Auto tanques activos' | translate}}, {{date | date: 'fullDate'}}
+    <!-- Autotanques activos -->
+    <div class="mb-8" *ngIf="date">
+        <hr class="mb-6 border-sky-200" />
+        <h3 class="text-center text-xl font-semibold text-sky-800 mb-2">
+            {{'Auto tanques activos' | translate}}
         </h3>
-        <div class="mt-4 flex flex-wrap justify-center gap-4">
-            <div class="w-full sm:w-1/2 lg:w-1/4 cursor-pointer rounded-lg bg-gray-100 p-4 text-sm text-gray-600 shadow-sm"
-                (click)="onTruckClick(truck)" *ngFor="let truck of trucks">
-                <div class="text-lg font-semibold">{{truck.plate}}</div>
-                <div class="mt-2">
+        <p class="text-center text-gray-600 mb-6">
+            {{date | date: 'fullDate'}}
+        </p>
+
+        <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div class="cursor-pointer rounded-xl bg-gradient-to-br from-white to-sky-50 p-5 text-gray-700 shadow-md hover:shadow-lg transition-all border border-sky-100" (click)="onTruckClick(truck)" *ngFor="let truck of trucks">
+                <div class="text-xl font-bold text-sky-900 mb-2">{{truck.plate}}</div>
+                <div class="text-sm text-gray-600">
                     {{'Capacidad en kilogramos' | translate}}:
-                    <br /> {{truck.capacity}} Kg
+                    <div class="font-semibold mt-1 text-sky-800">{{truck.capacity}} Kg</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="mb-6" *ngIf="inventoryReport.valid" [formGroup]="inventoryReport">
-        <hr class="mb-4 border-gray-300" />
+    <!-- Reporte de inventario -->
+    <div class="mb-8" *ngIf="inventoryReport.valid" [formGroup]="inventoryReport">
+        <hr class="mb-6 border-sky-200" />
 
-        <span class="block text-center text-xl font-bold text-gray-600">
-        {{ inventoryReport.value.plate }}
-        </span>
-            <h3 class="text-center text-lg text-gray-600">
-            {{ 'Reporte de inventario' | translate }}, {{ date | date: 'fullDate' }}
-        </h3>
+        <div class="text-center mb-6">
+            <div class="text-2xl font-bold text-sky-900">
+                {{ inventoryReport.value.plate }}
+            </div>
+            <h3 class="text-lg text-gray-700">
+                {{ 'Reporte de inventario' | translate }}, {{ date | date: 'fullDate' }}
+            </h3>
+        </div>
 
-        <div class="mt-6 w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="mt-6 w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Datos del tanque -->
-            <div class="rounded bg-gray-100 p-4 text-gray-700 shadow-sm text-sm">
-                <span class="mb-4 block text-center text-base font-bold">
-            {{ 'Datos del tanque' | translate }}
-        </span>
+            <div class="rounded-xl bg-gradient-to-br from-white to-sky-50 border-l-4 border-sky-500 p-5 text-gray-700 shadow-lg">
+                <span class="block text-center text-lg font-bold text-sky-800 mb-4">
+                    {{ 'Datos del tanque' | translate }}
+                </span>
 
-                <div class="mb-3">
-                    <label class="block text-sm font-medium mb-1">{{ 'Conversión en Galones' | translate }} (GL)</label>
-                    <input type="number" class="w-full rounded border border-gray-300 p-2" formControlName="capacityGl" placeholder="{{ 'Densidad' | translate }}" [attr.disabled]="true" />
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-600 mb-2">{{ 'Conversión en Galones' | translate }} (GL)</label>
+                    <input type="number" class="w-full rounded-lg border border-sky-200 bg-white p-2.5 shadow-inner focus:ring-2 focus:ring-sky-500 focus:border-transparent" formControlName="capacityGl" placeholder="{{ 'Densidad' | translate }}" [attr.disabled]="true" />
                 </div>
 
-                <div class="mb-3">
-                    <label class="block text-sm font-medium mb-1">{{ 'Densidad promedio' | translate }} (g/cm³)</label>
-                    <input type="number" class="w-full rounded border border-gray-300 p-2" formControlName="density" placeholder="{{ 'Densidad' | translate }}" />
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-600 mb-2">{{ 'Densidad promedio' | translate }} (g/cm³)</label>
+                    <input type="number" class="w-full rounded-lg border border-sky-200 bg-white p-2.5 shadow-inner focus:ring-2 focus:ring-sky-500 focus:border-transparent" formControlName="density" placeholder="{{ 'Densidad' | translate }}" />
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium mb-1">{{ 'Capacidad en kilogramos' | translate }} (Kg)</label>
-                    <input type="number" class="w-full rounded border border-gray-300 p-2" formControlName="capacity" placeholder="{{ 'Capacidad tanque 100%' | translate }}" />
+                    <label class="block text-sm font-medium text-gray-600 mb-2">{{ 'Capacidad en kilogramos' | translate }} (Kg)</label>
+                    <input type="number" class="w-full rounded-lg border border-sky-200 bg-white p-2.5 shadow-inner focus:ring-2 focus:ring-sky-500 focus:border-transparent" formControlName="capacity" placeholder="{{ 'Capacidad tanque 100%' | translate }}" />
                 </div>
             </div>
 
             <!-- Salida -->
-            <div class="rounded bg-gray-50 p-4 text-gray-700 shadow-sm text-sm">
-                <label class="mb-4 block text-base font-bold text-center text-gray-700">
+            <div class="rounded-xl bg-gradient-to-br from-white to-green-50 border-l-4 border-green-500 p-5 text-gray-700 shadow-lg">
+                <label class="block text-center text-lg font-bold text-green-800 mb-4">
                     {{ 'Salida de producto' | translate }}
                 </label>
 
-                <div class="mb-3">
-                    <input type="number" class="w-full rounded border border-gray-300 p-2" formControlName="exit" placeholder="{{ '% Salida' | translate }}" />
+                <div class="mb-4">
+                    <input type="number" class="w-full rounded-lg border border-green-200 bg-white p-2.5 shadow-inner focus:ring-2 focus:ring-green-500 focus:border-transparent" formControlName="exit" placeholder="{{ '% Salida' | translate }}" />
                 </div>
 
-                <div class="mb-3">
-                    <input type="number" class="w-full rounded border border-gray-300 p-2" formControlName="observed_pressure_out" placeholder="{{ 'Presion observada' | translate }}" />
+                <div class="mb-4">
+                    <input type="number" class="w-full rounded-lg border border-green-200 bg-white p-2.5 shadow-inner focus:ring-2 focus:ring-green-500 focus:border-transparent" formControlName="observed_pressure_out" placeholder="{{ 'Presion observada' | translate }}" />
                 </div>
 
                 <div>
-                    <input type="number" class="w-full rounded border border-gray-300 p-2" formControlName="temperature_out" placeholder="{{ 'Temperatura' | translate }}" />
+                    <input type="number" class="w-full rounded-lg border border-green-200 bg-white p-2.5 shadow-inner focus:ring-2 focus:ring-green-500 focus:border-transparent" formControlName="temperature_out" placeholder="{{ 'Temperatura' | translate }}" />
                 </div>
             </div>
 
             <!-- Entrada -->
-            <div class="rounded bg-gray-50 p-4 text-gray-700 shadow-sm text-sm">
-                <label class="mb-4 block text-base font-bold text-center text-gray-700">
+            <div class="rounded-xl bg-gradient-to-br from-white to-purple-50 border-l-4 border-purple-500 p-5 text-gray-700 shadow-lg">
+                <label class="block text-center text-lg font-bold text-purple-800 mb-4">
                     {{ 'Entrada de producto' | translate }}
                 </label>
 
-                <div class="mb-3">
-                    <input type="number" class="w-full rounded border border-gray-300 p-2" formControlName="entry" placeholder="{{ '% Entrada' | translate }}" />
+                <div class="mb-4">
+                    <input type="number" class="w-full rounded-lg border border-purple-200 bg-white p-2.5 shadow-inner focus:ring-2 focus:ring-purple-500 focus:border-transparent" formControlName="entry" placeholder="{{ '% Entrada' | translate }}" />
                 </div>
 
-                <div class="mb-3">
-                    <input type="number" class="w-full rounded border border-gray-300 p-2" formControlName="observed_pressure_in" placeholder="{{ 'Presion observada' | translate }}" />
+                <div class="mb-4">
+                    <input type="number" class="w-full rounded-lg border border-purple-200 bg-white p-2.5 shadow-inner focus:ring-2 focus:ring-purple-500 focus:border-transparent" formControlName="observed_pressure_in" placeholder="{{ 'Presion observada' | translate }}"
+                    />
                 </div>
 
                 <div>
-                    <input type="number" class="w-full rounded border border-gray-300 p-2" formControlName="temperature_in" placeholder="{{ 'Temperatura' | translate }}" />
+                    <input type="number" class="w-full rounded-lg border border-purple-200 bg-white p-2.5 shadow-inner focus:ring-2 focus:ring-purple-500 focus:border-transparent" formControlName="temperature_in" placeholder="{{ 'Temperatura' | translate }}" />
                 </div>
             </div>
         </div>
 
         <!-- Botón calcular -->
-        <div class="mt-6 w-full max-w-md mx-auto">
-            <button class="w-full rounded bg-green-700 px-4 py-2 text-white" (click)="calculateInventory()">
+        <div class="mt-8 w-full max-w-md mx-auto">
+            <button class="w-full rounded-xl bg-gradient-to-r from-sky-700 to-sky-800 px-4 py-3 text-lg font-semibold text-white shadow-lg hover:shadow-xl transition-all" (click)="calculateInventory()">
                 {{ 'Calcular' | translate }}
             </button>
         </div>
     </div>
 
+    <!-- Resultados -->
     <div class="flex justify-center" *ngIf="data">
-        <div class="w-full max-w-7xl px-4">
-            <div class="bg-gray-100 p-6 rounded shadow-sm text-gray-700">
-                <!-- Título principal -->
-                <div class="text-center text-2xl font-bold text-gray-600 mb-2">
+        <div class="w-full max-w-6xl px-4">
+            <!-- Título -->
+            <div class="text-center mb-8">
+                <div class="text-2xl font-bold bg-gradient-to-r from-sky-800 to-sky-900 bg-clip-text text-transparent">
                     {{ 'Cálculo corrección volumétrica' | translate }}
                 </div>
-                <h3 class="text-center text-gray-600 text-base mb-6">
-                    ({{ 'Salida' | translate }}: {{ inventoryReport.value.exit }}%:
-                    {{ data.exit_calculations.gross_volume }} Gl -
-                    {{ 'Entrada' | translate }}: {{ inventoryReport.value.entry }}%:
-                    {{ data.entry_calculations.gross_volume }} GL)
+                <h3 class="text-lg text-gray-700 mt-2">
+                    ({{ 'Salida' | translate }}: {{ inventoryReport.value.exit }}%: {{ data.exit_calculations.gross_volume }} Gl - 
+                    {{ 'Entrada' | translate }}: {{ inventoryReport.value.entry }}%: {{ data.entry_calculations.gross_volume }} GL)
                 </h3>
+            </div>
 
-                <!-- Paneles laterales -->
-                <div class="flex flex-col lg:flex-row justify-center gap-6">
-                    <!-- Variables condición salida -->
-                    <div class="bg-white rounded shadow-sm p-4 w-full lg:w-1/2">
-                        <span class="block text-green-700 font-bold mb-2">
-                            {{ 'Variables condición salida' | translate }}
-                        </span>
-                        <div class="text-sm space-y-1">
-                            {{ 'Volúmen vapor' | translate }}: {{ data.exit_calculations.liquid_equivalent_vapor_volume_at_60F }} GL
-                            <br> {{ 'Volúmen líquido' | translate }}: {{ data.exit_calculations.liquid_volume_at_60F }} GL
-                            <br> ({{ data.exit_calculations.liquid_equivalent_vapor_volume_at_60F }} Gl + {{ data.exit_calculations.liquid_volume_at_60F }} GL)
-                            <br>
-                            <span class="text-green-700">
-                                {{ 'Volúmen total' | translate }}: {{ data.exit_calculations.total_volume_at_60F }} GL
-                                ({{ inventoryReport.value.exit }}%)
-                            </span>
-                            <br> {{ 'Masa total' | translate }}: {{ data.exit_calculations.total_mass }} KG
+            <!-- Paneles laterales -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <!-- Salida -->
+                <div class="rounded-xl bg-gradient-to-br from-white to-sky-50 p-6 shadow-lg border border-sky-100">
+                    <span class="block text-lg font-bold text-green-700 mb-4">
+                        {{ 'Variables condición salida' | translate }}
+                    </span>
+                    <div class="text-sm space-y-2 text-gray-700">
+                        <div><span class="font-medium">{{ 'Volúmen vapor' | translate }}:</span> {{ data.exit_calculations.liquid_equivalent_vapor_volume_at_60F }} GL</div>
+                        <div><span class="font-medium">{{ 'Volúmen líquido' | translate }}:</span> {{ data.exit_calculations.liquid_volume_at_60F }} GL</div>
+                        <div>({{ data.exit_calculations.liquid_equivalent_vapor_volume_at_60F }} Gl + {{ data.exit_calculations.liquid_volume_at_60F }} GL)</div>
+                        <div class="font-bold text-green-700">
+                            {{ 'Volúmen total' | translate }}: {{ data.exit_calculations.total_volume_at_60F }} GL ({{ inventoryReport.value.exit }}%)
                         </div>
-
-                        <hr class="my-4 border-gray-300 w-3/4 mx-auto" />
-
-                        <details class="text-sm">
-                            <summary class="text-center font-semibold text-gray-600 mb-2">{{ 'Cálculo detallado' | translate }}</summary>
-                            <div class="space-y-1 mt-2">
-                                {{ 'densidad_absoluta' | translate }} = {{ data.exit_calculations.absolut_density }}
-                                <br> {{ 'densidad_redondeada' | translate }} = {{ data.exit_calculations.rounded_density }}
-                                <br> {{ 'presion_observada' | translate }} = {{ data.exit_calculations.observed_pressure }}
-                                <br> {{ 'temperatura' | translate }} = {{ data.exit_calculations.temperature }}
-                                <br> {{ 'presion_ejercida' | translate }} = {{ data.exit_calculations.pressure_exerted }}
-                                <br> {{ 'volumen_bruto' | translate }} = {{ data.exit_calculations.gross_volume }}
-                                <br> {{ 'capacidad_del_tanque' | translate }} = {{ data.exit_calculations.tank_capacity }}
-                                <br> {{ 'volumen_espacio_de_vapor' | translate }} = {{ data.exit_calculations.vapor_space_volume }}
-                                <br> {{ 'factor_de_correccion_de_temperatura' | translate }} = {{ data.exit_calculations.temperature_correction_factor }}
-                                <br> {{ 'temperatura_reducida' | translate }} = {{ data.exit_calculations.reduced_temperature }}
-                                <br> {{ 'presion_reducida' | translate }} = {{ data.exit_calculations.reduced_pressure }}
-                                <br> {{ 'B0' | translate }} = {{ data.exit_calculations.B0 }}
-                                <br> {{ 'B1' | translate }} = {{ data.exit_calculations.B1 }}
-                                <br> {{ 'factor_de_compresibilidad' | translate }} = {{ data.exit_calculations.compressibility_factor }}
-                                <br> {{ 'densidad_del_vapor' | translate }} = {{ data.exit_calculations.vapor_density }}
-                                <br> {{ 'factor_de_correccion_de_presion' | translate }} = {{ data.exit_calculations.pressure_correction_factor }}
-                                <br> {{ 'volumen_liquido_a_60F' | translate }} = {{ data.exit_calculations.liquid_volume_at_60F }}
-                                <br> {{ 'volumen_equivalente_de_vapor_a_60F' | translate }} = {{ data.exit_calculations.liquid_equivalent_vapor_volume_at_60F }}
-                                <br> {{ 'volumen_total_a_60F' | translate }} = {{ data.exit_calculations.total_volume_at_60F }}
-                                <br> {{ 'masa_total' | translate }} = {{ data.exit_calculations.total_mass }}
-                            </div>
-                        </details>
+                        <div><span class="font-medium">{{ 'Masa total' | translate }}:</span> {{ data.exit_calculations.total_mass }} KG</div>
                     </div>
 
-                    <!-- Variables condición entrada -->
-                    <div class="bg-white rounded shadow-sm p-4 w-full lg:w-1/2">
-                        <span class="block text-green-700 font-bold mb-2">
-                            {{ 'Variables condición entrada' | translate }}
-                        </span>
-                        <div class="text-sm space-y-1">
-                            {{ 'Volumen vapor' | translate }}: {{ data.entry_calculations.liquid_equivalent_vapor_volume_at_60F }} GL
-                            <br> {{ 'Volumen liquido' | translate }}: {{ data.entry_calculations.liquid_volume_at_60F }} GL
-                            <br> ({{ data.entry_calculations.liquid_equivalent_vapor_volume_at_60F }} Gl + {{ data.entry_calculations.liquid_volume_at_60F }} GL)
-                            <br>
-                            <span class="text-green-700">
-                                {{ 'Volúmen total' | translate }}: {{ data.entry_calculations.total_volume_at_60F }} GL
-                                ({{ inventoryReport.value.entry }}%)
-                            </span>
-                            <br> {{ 'Masa total' | translate }}: {{ data.entry_calculations.total_mass }} KG
+                    <hr class="my-5 border-gray-300" />
+
+                    <details class="text-sm">
+                        <summary class="font-semibold text-sky-800 cursor-pointer flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="16"></line>
+                                <line x1="8" y1="12" x2="16" y2="12"></line>
+                            </svg>
+                            {{ 'Cálculo detallado' | translate }}
+                        </summary>
+                        <div class="mt-3 space-y-2 text-gray-600 bg-gray-50 p-4 rounded-lg">
+                            <div>{{ 'densidad_absoluta' | translate }} = {{ data.exit_calculations.absolut_density }}</div>
+                            <div>{{ 'densidad_redondeada' | translate }} = {{ data.exit_calculations.rounded_density }}</div>
+                            <div>{{ 'presion_observada' | translate }} = {{ data.exit_calculations.observed_pressure }}</div>
+                            <div>{{ 'temperatura' | translate }} = {{ data.exit_calculations.temperature }}</div>
+                            <div>{{ 'presion_ejercida' | translate }} = {{ data.exit_calculations.pressure_exerted }}</div>
+                            <div>{{ 'volumen_bruto' | translate }} = {{ data.exit_calculations.gross_volume }}</div>
+                            <div>{{ 'capacidad_del_tanque' | translate }} = {{ data.exit_calculations.tank_capacity }}</div>
+                            <div>{{ 'volumen_espacio_de_vapor' | translate }} = {{ data.exit_calculations.vapor_space_volume }}</div>
+                            <div>{{ 'factor_de_correccion_de_temperatura' | translate }} = {{ data.exit_calculations.temperature_correction_factor }}</div>
+                            <div>{{ 'temperatura_reducida' | translate }} = {{ data.exit_calculations.reduced_temperature }}</div>
+                            <div>{{ 'presion_reducida' | translate }} = {{ data.exit_calculations.reduced_pressure }}</div>
+                            <div>{{ 'B0' | translate }} = {{ data.exit_calculations.B0 }}</div>
+                            <div>{{ 'B1' | translate }} = {{ data.exit_calculations.B1 }}</div>
+                            <div>{{ 'factor_de_compresibilidad' | translate }} = {{ data.exit_calculations.compressibility_factor }}</div>
+                            <div>{{ 'densidad_del_vapor' | translate }} = {{ data.exit_calculations.vapor_density }}</div>
+                            <div>{{ 'factor_de_correccion_de_presion' | translate }} = {{ data.exit_calculations.pressure_correction_factor }}</div>
+                            <div>{{ 'volumen_liquido_a_60F' | translate }} = {{ data.exit_calculations.liquid_volume_at_60F }}</div>
+                            <div>{{ 'volumen_equivalente_de_vapor_a_60F' | translate }} = {{ data.exit_calculations.liquid_equivalent_vapor_volume_at_60F }}</div>
+                            <div>{{ 'volumen_total_a_60F' | translate }} = {{ data.exit_calculations.total_volume_at_60F }}</div>
+                            <div>{{ 'masa_total' | translate }} = {{ data.exit_calculations.total_mass }}</div>
                         </div>
-
-                        <hr class="my-4 border-gray-300 w-3/4 mx-auto" />
-
-                        <details class="text-sm">
-                            <summary class="text-center font-semibold text-gray-600 mb-2">{{ 'Cálculo detallado' | translate }}</summary>
-                            <div class="space-y-1 mt-2">
-                                {{ 'densidad_absoluta' | translate }} = {{ data.entry_calculations.absolut_density }}
-                                <br> {{ 'densidad_redondeada' | translate }} = {{ data.entry_calculations.rounded_density }}
-                                <br> {{ 'presion_observada' | translate }} = {{ data.entry_calculations.observed_pressure }}
-                                <br> {{ 'temperatura' | translate }} = {{ data.entry_calculations.temperature }}
-                                <br> {{ 'presion_ejercida' | translate }} = {{ data.entry_calculations.pressure_exerted }}
-                                <br> {{ 'volumen_bruto' | translate }} = {{ data.entry_calculations.gross_volume }}
-                                <br> {{ 'capacidad_del_tanque' | translate }} = {{ data.entry_calculations.tank_capacity }}
-                                <br> {{ 'volumen_espacio_de_vapor' | translate }} = {{ data.entry_calculations.vapor_space_volume }}
-                                <br> {{ 'factor_de_correccion_de_temperatura' | translate }} = {{ data.entry_calculations.temperature_correction_factor }}
-                                <br> {{ 'temperatura_reducida' | translate }} = {{ data.entry_calculations.reduced_temperature }}
-                                <br> {{ 'presion_reducida' | translate }} = {{ data.entry_calculations.reduced_pressure }}
-                                <br> {{ 'B0' | translate }} = {{ data.entry_calculations.B0 }}
-                                <br> {{ 'B1' | translate }} = {{ data.entry_calculations.B1 }}
-                                <br> {{ 'factor_de_compresibilidad' | translate }} = {{ data.entry_calculations.compressibility_factor }}
-                                <br> {{ 'densidad_del_vapor' | translate }} = {{ data.entry_calculations.vapor_density }}
-                                <br> {{ 'factor_de_correccion_de_presion' | translate }} = {{ data.entry_calculations.pressure_correction_factor }}
-                                <br> {{ 'volumen_liquido_a_60F' | translate }} = {{ data.entry_calculations.liquid_volume_at_60F }}
-                                <br> {{ 'volumen_equivalente_de_vapor_a_60F' | translate }} = {{ data.entry_calculations.liquid_equivalent_vapor_volume_at_60F }}
-                                <br> {{ 'volumen_total_a_60F' | translate }} = {{ data.entry_calculations.total_volume_at_60F }}
-                                <br> {{ 'masa_total' | translate }} = {{ data.entry_calculations.total_mass }}
-                            </div>
-                        </details>
-                    </div>
+                    </details>
                 </div>
 
-                <!-- Resultados finales -->
-                <div class="mt-6 bg-white rounded shadow-sm p-4 text-sm">
-                    <div class="space-y-3">
-                        <div>
-                            ({{ data.exit_calculations.total_volume_at_60F }} GL - {{ data.entry_calculations.total_volume_at_60F }} GL)
-                            <br>
-                            <span class="text-green-700 font-bold">
-                                {{ 'Volumen calculado' | translate }}: {{ data.teoric_sale_gl }} GL
-                            </span>
-                            <br>
-                            <span class="text-blue-600 font-bold">
-                                {{ 'Volumen entregado' | translate }}: {{ inventoryReport.value.totalVolume }} GL
-                            </span>
-                            <br>
-                            <span [ngClass]="{
-                                'text-green-600': (inventoryReport.value.totalVolume - data.teoric_sale_gl) > 0,
-                                'text-red-600': (inventoryReport.value.totalVolume - data.teoric_sale_gl) < 0
-                            }" class="font-bold">
-                                {{ 'Diferencia' | translate }}: {{ inventoryReport.value.totalVolume - data.teoric_sale_gl | number: '1.0-0' }} GL
-                            </span>
+                <!-- Entrada -->
+                <div class="rounded-xl bg-gradient-to-br from-white to-sky-50 p-6 shadow-lg border border-sky-100">
+                    <span class="block text-lg font-bold text-green-700 mb-4">
+                        {{ 'Variables condición entrada' | translate }}
+                    </span>
+                    <div class="text-sm space-y-2 text-gray-700">
+                        <div><span class="font-medium">{{ 'Volumen vapor' | translate }}:</span> {{ data.entry_calculations.liquid_equivalent_vapor_volume_at_60F }} GL</div>
+                        <div><span class="font-medium">{{ 'Volumen liquido' | translate }}:</span> {{ data.entry_calculations.liquid_volume_at_60F }} GL</div>
+                        <div>({{ data.entry_calculations.liquid_equivalent_vapor_volume_at_60F }} Gl + {{ data.entry_calculations.liquid_volume_at_60F }} GL)</div>
+                        <div class="font-bold text-green-700">
+                            {{ 'Volúmen total' | translate }}: {{ data.entry_calculations.total_volume_at_60F }} GL ({{ inventoryReport.value.entry }}%)
                         </div>
+                        <div><span class="font-medium">{{ 'Masa total' | translate }}:</span> {{ data.entry_calculations.total_mass }} KG</div>
+                    </div>
 
-                        <div>
-                            ({{ data.exit_calculations.total_mass }} Kg - {{ data.entry_calculations.total_mass }} Kg)
-                            <br>
-                            <span class="text-green-700 font-bold">
+                    <hr class="my-5 border-gray-300" />
+
+                    <details class="text-sm">
+                        <summary class="font-semibold text-sky-800 cursor-pointer flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="16"></line>
+                                <line x1="8" y1="12" x2="16" y2="12"></line>
+                            </svg>
+                            {{ 'Cálculo detallado' | translate }}
+                        </summary>
+                        <div class="mt-3 space-y-2 text-gray-600 bg-gray-50 p-4 rounded-lg">
+                            <div>{{ 'densidad_absoluta' | translate }} = {{ data.entry_calculations.absolut_density }}</div>
+                            <div>{{ 'densidad_redondeada' | translate }} = {{ data.entry_calculations.rounded_density }}</div>
+                            <div>{{ 'presion_observada' | translate }} = {{ data.entry_calculations.observed_pressure }}</div>
+                            <div>{{ 'temperatura' | translate }} = {{ data.entry_calculations.temperature }}</div>
+                            <div>{{ 'presion_ejercida' | translate }} = {{ data.entry_calculations.pressure_exerted }}</div>
+                            <div>{{ 'volumen_bruto' | translate }} = {{ data.entry_calculations.gross_volume }}</div>
+                            <div>{{ 'capacidad_del_tanque' | translate }} = {{ data.entry_calculations.tank_capacity }}</div>
+                            <div>{{ 'volumen_espacio_de_vapor' | translate }} = {{ data.entry_calculations.vapor_space_volume }}</div>
+                            <div>{{ 'factor_de_correccion_de_temperatura' | translate }} = {{ data.entry_calculations.temperature_correction_factor }}</div>
+                            <div>{{ 'temperatura_reducida' | translate }} = {{ data.entry_calculations.reduced_temperature }}</div>
+                            <div>{{ 'presion_reducida' | translate }} = {{ data.entry_calculations.reduced_pressure }}</div>
+                            <div>{{ 'B0' | translate }} = {{ data.entry_calculations.B0 }}</div>
+                            <div>{{ 'B1' | translate }} = {{ data.entry_calculations.B1 }}</div>
+                            <div>{{ 'factor_de_compresibilidad' | translate }} = {{ data.entry_calculations.compressibility_factor }}</div>
+                            <div>{{ 'densidad_del_vapor' | translate }} = {{ data.entry_calculations.vapor_density }}</div>
+                            <div>{{ 'factor_de_correccion_de_presion' | translate }} = {{ data.entry_calculations.pressure_correction_factor }}</div>
+                            <div>{{ 'volumen_liquido_a_60F' | translate }} = {{ data.entry_calculations.liquid_volume_at_60F }}</div>
+                            <div>{{ 'volumen_equivalente_de_vapor_a_60F' | translate }} = {{ data.entry_calculations.liquid_equivalent_vapor_volume_at_60F }}</div>
+                            <div>{{ 'volumen_total_a_60F' | translate }} = {{ data.entry_calculations.total_volume_at_60F }}</div>
+                            <div>{{ 'masa_total' | translate }} = {{ data.entry_calculations.total_mass }}</div>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <!-- Resultados finales -->
+            <div class="rounded-xl bg-gradient-to-br from-white to-sky-50 p-6 shadow-lg border border-sky-100">
+                <div class="text-center text-xl font-bold text-sky-800 mb-6">
+                    {{ 'Resultados Finales' | translate }}
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Volumen -->
+                    <div class="bg-white p-5 rounded-lg shadow-sm">
+                        <div class="text-lg font-semibold text-sky-800 mb-3">{{ 'Volumen' | translate }}</div>
+                        <div class="text-sm space-y-3">
+                            <div>({{ data.exit_calculations.total_volume_at_60F }} GL - {{ data.entry_calculations.total_volume_at_60F }} GL)</div>
+                            <div class="font-bold text-green-700">
+                                {{ 'Volumen calculado' | translate }}: {{ data.teoric_sale_gl }} GL
+                            </div>
+                            <div class="font-bold text-blue-600">
+                                {{ 'Volumen entregado' | translate }}: {{ inventoryReport.value.totalVolume }} GL
+                            </div>
+                            <div class="font-bold" [ngClass]="{'text-green-600': (inventoryReport.value.totalVolume - data.teoric_sale_gl) > 0, 'text-red-600': (inventoryReport.value.totalVolume - data.teoric_sale_gl) < 0}">
+                                {{ 'Diferencia' | translate }}: {{ inventoryReport.value.totalVolume - data.teoric_sale_gl | number: '1.0-0' }} GL
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Masa -->
+                    <div class="bg-white p-5 rounded-lg shadow-sm">
+                        <div class="text-lg font-semibold text-sky-800 mb-3">{{ 'Masa' | translate }}</div>
+                        <div class="text-sm space-y-3">
+                            <div>({{ data.exit_calculations.total_mass }} Kg - {{ data.entry_calculations.total_mass }} Kg)</div>
+                            <div class="font-bold text-green-700">
                                 {{ 'Masa calculada' | translate }}: {{ data.teoric_sale_kg }} Kg
-                            </span>
-                            <br>
-                            <span class="text-blue-600 font-bold">
+                            </div>
+                            <div class="font-bold text-blue-600">
                                 {{ 'Masa entregada' | translate }}: {{ inventoryReport.value.totalMass }} Kg
-                            </span>
-                            <br>
-                            <span [ngClass]="{
-                                'text-green-600': (inventoryReport.value.totalMass - data.teoric_sale_kg) > 0,
-                                'text-red-600': (inventoryReport.value.totalMass - data.teoric_sale_kg) < 0
-                            }" class="font-bold">
-                            {{ 'Diferencia' | translate }}: {{ inventoryReport.value.totalMass - data.teoric_sale_kg | number: '1.0-0' }} Kg
-                            </span>
+                            </div>
+                            <div class="font-bold" [ngClass]="{'text-green-600': (inventoryReport.value.totalMass - data.teoric_sale_kg) > 0, 'text-red-600': (inventoryReport.value.totalMass - data.teoric_sale_kg) < 0}">
+                                {{ 'Diferencia' | translate }}: {{ inventoryReport.value.totalMass - data.teoric_sale_kg | number: '1.0-0' }} Kg
+                            </div>
                         </div>
                     </div>
                 </div>
