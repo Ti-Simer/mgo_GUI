@@ -42,7 +42,7 @@ export class LogReportListMapComponent {
                 item.longitude !== ''
               )
               .map((item: any) => ({
-                plate: item.plate,
+                plate: item.propane_truck.plate,
                 latitude: item.latitude,
                 longitude: item.longitude,
                 criticality: item.route_event.criticality,

@@ -1,5 +1,5 @@
-<div class="flex justify-center py-8" *ngIf="order">
-    <div class="w-full max-w-3xl p-6">
+<div class="flex justify-center" *ngIf="order">
+    <div class="w-full p-4">
         <!-- Encabezado con gradiente -->
         <div class="bg-gradient-to-r from-sky-700 to-sky-800 rounded-xl p-5 mb-6">
             <div class="flex items-center">
@@ -21,25 +21,25 @@
                 <!-- Establecimiento -->
                 <div class="space-y-1">
                     <span class="block text-xs font-medium text-gray-500 uppercase">{{ 'Establecimiento' | translate }}</span>
-                    <span class="text-base font-semibold text-gray-800">{{ order.branch_office.name }}</span>
+                    <span class="text-xs font-semibold text-gray-800">{{ order.branch_office.name }}</span>
                 </div>
 
                 <!-- Fecha de creación -->
                 <div class="space-y-1">
                     <span class="block text-xs font-medium text-gray-500 uppercase">{{ 'Fecha de creación' | translate }}</span>
-                    <span class="text-base text-gray-800">{{ order.create | date: 'dd/MM/yyyy HH:mm' }}</span>
+                    <span class="text-xs text-gray-800">{{ order.create | date: 'dd/MM/yyyy HH:mm' }}</span>
                 </div>
 
                 <!-- Folio -->
                 <div class="space-y-1">
                     <span class="block text-xs font-medium text-gray-500 uppercase">{{ 'Folio' | translate }}</span>
-                    <span class="text-base font-semibold text-gray-800">{{ order.folio }}</span>
+                    <span class="text-xs font-semibold text-gray-800">{{ order.folio }}</span>
                 </div>
 
                 <!-- Token -->
                 <div class="space-y-1">
                     <span class="block text-xs font-medium text-gray-500 uppercase">{{ 'Token' | translate }}</span>
-                    <span class="text-base text-gray-800 break-all">{{ order.token }}</span>
+                    <span class="text-xs text-gray-800 break-all">{{ order.token }}</span>
                 </div>
             </div>
         </div>

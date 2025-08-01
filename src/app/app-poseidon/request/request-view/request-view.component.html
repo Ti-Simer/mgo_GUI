@@ -1,81 +1,195 @@
-<div *ngIf="request" class="max-w-4xl mx-auto px-4 py-6 space-y-8">
+<div *ngIf="request" class="max-w-full mx-auto px-4 py-3 space-y-8 max-h-[90vh] overflow-y-auto">
 
-    <!-- Encabezado del servicio -->
-    <div class="text-center space-y-1">
-        <p class="text-xs text-gray-500">{{ request.data_series.fechaInicial }}</p>
-        <h1 class="text-2xl font-bold text-sky-800">{{ request.branch_office.name }}</h1>
-        <p class="text-sm text-gray-600">
-            {{ 'N° Servicio' | translate }}: {{ request.internal_folio }}
-        </p>
+    <!-- Encabezado mejorado con gradiente -->
+    <div class="bg-gradient-to-r from-sky-700 to-sky-800 rounded-xl p-5 text-center text-white">
+        <p class="text-sky-200 text-sm">{{ request.data_series.fechaInicial }}</p>
+        <h1 class="text-2xl font-bold mt-1">{{ request.branch_office.name }}</h1>
+        <div class="mt-2 inline-flex items-center bg-sky-600/30 px-4 py-1 rounded-full">
+            <span class="text-sm">{{ 'N° Servicio' | translate }}:</span>
+            <span class="ml-2 font-medium">{{ request.internal_folio }}</span>
+        </div>
     </div>
 
-    <!-- Información principal en dos columnas -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-lg shadow">
+    <!-- Tarjeta de información principal -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <!-- Cabecera de la tarjeta -->
+        <div class="bg-sky-50 px-6 py-3 border-b border-sky-100">
+            <h2 class="text-lg font-semibold text-sky-800 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" 
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                {{ 'Detalles del Servicio' | translate }}
+            </h2>
+        </div>
 
-        <!-- Columna izquierda -->
-        <div class="space-y-4 text-sm text-gray-700">
-            <div class="flex justify-between">
-                <span class="font-medium">{{ 'Responsable' | translate }}:</span>
-                <div class="text-right">
-                    <p>{{ request.operator.firstName }} {{ request.operator.lastName }}</p>
-                    <p class="text-xs text-gray-500">{{ request.plate }}</p>
+        <!-- Contenido en dos columnas -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+            <!-- Columna izquierda -->
+            <div class="space-y-4">
+                <div class="flex justify-between pb-2 border-b border-gray-100">
+                    <div class="flex items-center text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        {{ 'Responsable' | translate }}:
+                    </div>
+                    <div class="text-right">
+                        <p class="font-medium">{{ request.operator.firstName }} {{ request.operator.lastName }}</p>
+                        <p class="text-xs text-gray-500">{{ request.plate }}</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-between pb-2 border-b border-gray-100">
+                    <div class="flex items-center text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        {{ 'Pedido' | translate }}:
+                    </div>
+                    <p class="text-right">{{ 'N° de folio' | translate }}: {{ request.folio }}</p>
+                </div>
+
+                <div class="flex justify-between pb-2 border-b border-gray-100">
+                    <div class="flex items-center text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                        </svg>
+                        {{ 'Tipo de pago' | translate }}:
+                    </div>
+                    <p class="text-right">{{ request.payment_type }}</p>
+                </div>
+
+                <div class="flex justify-between pb-2 border-b border-gray-100">
+                    <div class="flex items-center text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        {{ 'Tiempo de servicio' | translate }}:
+                    </div>
+                    <p class="text-right">{{ request.data_series.service_time }}</p>
+                </div>
+
+                <div class="flex justify-between">
+                    <div class="flex items-center text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        {{ 'Fecha de pedido' | translate }}:
+                    </div>
+                    <p class="text-right">{{ request.order.create | date: 'medium' }}</p>
                 </div>
             </div>
-            <div class="flex justify-between">
-                <span class="font-medium">{{ 'Pedido' | translate }}:</span>
-                <p class="text-right">{{ 'N° de folio' | translate }}: {{ request.folio }}</p>
-            </div>
-            <div class="flex justify-between">
-                <span class="font-medium">{{ 'Tipo de pago' | translate }}:</span>
-                <p class="text-right">{{ request.payment_type }}</p>
-            </div>
-            <div class="flex justify-between">
-                <span class="font-medium">{{ 'Tiempo de servicio' | translate }}:</span>
-                <p class="text-right">{{ request.data_series.service_time }}</p>
-            </div>
-            <div class="flex justify-between">
-                <span class="font-medium">{{ 'Fecha de pedido' | translate }}:</span>
-                <p class="text-right">{{ request.order.create | date: 'medium' }}</p>
-            </div>
-        </div>
 
-        <!-- Columna derecha -->
-        <div class="space-y-4 text-sm text-gray-700">
-            <div class="flex justify-between">
-                <span class="font-medium">{{ 'GLP entregado' | translate }}:</span>
-                <p class="text-right">{{ request.data_series.masaTotal | number:'1.2-2' }} Kg</p>
-            </div>
-            <div class="flex justify-between">
-                <span class="font-medium">{{ 'Dirección' | translate }}:</span>
-                <p class="text-right">{{ request.branch_office.address }}</p>
-            </div>
-            <div class="flex justify-between">
-                <span class="font-medium">{{ 'Valor por Kg' | translate }}:</span>
-                <p class="text-right">{{ request.branch_office.kilogramValue | currency:currencyCode:'symbol':'1.0-0' }}</p>
-            </div>
-            <div class="flex justify-between">
-                <span class="font-medium">{{ 'Geocerca' | translate }}:</span>
-                <p class="text-right">{{ validate_geofence() }}</p>
-            </div>
-            <div class="flex justify-between">
-                <span class="font-medium">{{ 'Token' | translate }}:</span>
-                <p class="text-right">{{ validate_token() }}</p>
-            </div>
-            <div class="flex justify-between">
-                <span class="font-medium">{{ 'Total' | translate }}:</span>
-                <p class="text-right">{{ request.data_series.total | currency:currencyCode:'symbol':'1.0-0' }}</p>
+            <!-- Columna derecha -->
+            <div class="space-y-4">
+                <div class="flex justify-between pb-2 border-b border-gray-100">
+                    <div class="flex items-center text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                            <path d="M3 6h18"></path>
+                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                        </svg>
+                        {{ 'GLP entregado' | translate }}:
+                    </div>
+                    <p class="text-right font-medium text-sky-700">{{ request.data_series.masaTotal | number:'1.2-2' }} Kg</p>
+                </div>
+
+                <div class="flex justify-between pb-2 border-b border-gray-100">
+                    <div class="flex items-center text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        {{ 'Dirección' | translate }}:
+                    </div>
+                    <p class="text-right">{{ request.branch_office.address }}</p>
+                </div>
+
+                <div class="flex justify-between pb-2 border-b border-gray-100">
+                    <div class="flex items-center text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                        {{ 'Valor por Kg' | translate }}:
+                    </div>
+                    <p class="text-right">{{ request.branch_office.kilogramValue | currency:currencyCode:'symbol':'1.0-0' }}</p>
+                </div>
+
+                <div class="flex justify-between pb-2 border-b border-gray-100">
+                    <div class="flex items-center text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="m4.93 4.93 4.24 4.24"></path>
+                            <path d="m14.83 9.17 4.24-4.24"></path>
+                            <path d="m14.83 14.83 4.24 4.24"></path>
+                            <path d="m9.17 14.83-4.24 4.24"></path>
+                            <circle cx="12" cy="12" r="4"></circle>
+                        </svg>
+                        {{ 'Geocerca' | translate }}:
+                    </div>
+                    <p class="text-right">{{ validate_geofence() }}</p>
+                </div>
+
+                <div class="flex justify-between pb-2 border-b border-gray-100">
+                    <div class="flex items-center text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                            <path d="M12 3a12 12 0 1 0 0 24 12 12 0 0 0 0-24z"></path>
+                            <path d="M16 12a4 4 0 0 1-8 0"></path>
+                        </svg>
+                        {{ 'Token' | translate }}:
+                    </div>
+                    <p class="text-right">{{ validate_token() }}</p>
+                </div>
+
+                <div class="flex justify-between">
+                    <div class="flex items-center text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                        {{ 'Total' | translate }}:
+                    </div>
+                    <p class="text-right font-bold text-lg text-sky-800">
+                        {{ request.data_series.total | currency:currencyCode:'symbol':'1.0-0' }}
+                    </p>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Botones de acción -->
+    <!-- Botones de acción mejorados -->
     <div class="flex flex-col sm:flex-row justify-end gap-3">
-        <button (click)="findBillByFolio()" class="w-full sm:w-auto bg-sky-700 hover:bg-sky-800 text-white px-4 py-2 rounded-md text-sm transition">
+        <button (click)="findBillByFolio()" class="flex items-center justify-center gap-2 bg-sky-700 hover:bg-sky-800 text-white px-5 py-2.5 rounded-lg text-sm transition-all duration-200 shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
             {{ 'Remisión' | translate }}
         </button>
-        <button (click)="exportToExcel()" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm transition">
-            <lucide-icon name="sheet" [size]="20"></lucide-icon>
-            {{ 'Descargar' | translate }}
+
+        <button (click)="exportToExcel()" class="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-lg text-sm transition-all duration-200 shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            {{ 'Descargar Excel' | translate }}
         </button>
     </div>
 

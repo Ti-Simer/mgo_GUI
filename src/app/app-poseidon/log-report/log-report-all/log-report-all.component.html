@@ -176,86 +176,92 @@
 
         <!-- Contenido - Reportes -->
         <div class="p-6 max-h-[60vh] overflow-y-auto custom-scrollbar">
-            <!-- Modo listado -->
-            <ng-container *ngIf="viewMode === 'list'">
-                <div *ngFor="let item of paginatedItems"
-                    class="border-l-4 border border-gray-200 rounded-lg p-2 shadow-sm hover:shadow-md transition duration-200 bg-white text-[13px] sm:text-xs cursor-pointer hover:bg-gray-100"
-                    [ngClass]="{
-                                'border-l-blue-500': item.route_event.criticality === 0,
-                                'border-l-orange-400': item.route_event.criticality === 1,
-                                'border-l-red-600': item.route_event.criticality === 2
-                            }">
-                    <!-- Encabezado -->
-                    <div class="flex items-center justify-between mb-1">
-                        <div class="flex items-center gap-1">
-                            <lucide-icon name="flame" class="w-4 h-4" [ngClass]="{
-                                        'text-blue-500': item.route_event.criticality === 0,
-                                        'text-orange-400': item.route_event.criticality === 1,
-                                        'text-red-600': item.route_event.criticality === 2
-                                    }"></lucide-icon>
-                            <span class="font-semibold text-gray-700">{{ item.route_event.name }}</span>
-                            <span class="font-light text-gray-600">_código: {{ item.route_event.code_event
-                                }}</span>
-                        </div>
-                        <span class="text-gray-400 text-[10px]">{{ item.create | date: 'short' }}</span>
-                    </div>
-
-                    <!-- Info -->
-                    <div class="text-gray-600">
-                        <div><span class="font-medium">Placa:</span> {{ item.propane_truck.plate }}</div>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 text-gray-600">
-                        <span><span class="font-medium">Operario:</span> {{ item.user.firstName }} {{
-                            item.user.lastName }}</span>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 text-gray-600 mb-1">
-                        <span><span class="font-medium">Descripción:</span> {{ item.route_event.description
-                            }}</span>
-                    </div>
-                </div>
-            </ng-container>
-
-            <!-- Modo tarjetas -->
-            <ng-container *ngIf="viewMode === 'grid'">
-                <div class="rounded-md p-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                    <div *ngFor="let item of paginatedItems"
-                        class="p-2 rounded-lg border-l-4 shadow bg-white hover:bg-gray-100 cursor-pointer text-xs"
-                        [ngClass]="{
-                                    'border-blue-500': item.route_event.criticality === 0,
-                                    'border-orange-400': item.route_event.criticality === 1,
-                                    'border-red-600': item.route_event.criticality === 2
-                                    }">
-
-                        <div class="font-semibold text-gray-800 leading-tight text-[13px]">
-                            {{ item.route_event.name }}
-                        </div>
-                        <div class="font-semibold text-sky-950 leading-tight text-[13px]">
-                            <div class="flex items-center gap-2">
-                                <lucide-icon name="flame" [strokeWidth]="1" [ngClass]="{
-                                            'text-blue-500': item.route_event.criticality === 0,
-                                            'text-orange-400': item.route_event.criticality === 1,
-                                            'text-red-600': item.route_event.criticality === 2
-                                        }" class="w-5 h-5"></lucide-icon>
-                                <span class="text-[11px] text-gray-500">Código: {{ item.route_event.code_event }}</span>
+            <!-- Vista LISTADO -->
+            <div *ngIf="viewMode === 'list'"
+                class="bg-white rounded-md flex flex-col divide-y divide-gray-200 text-sm text-gray-800 max-h-[255px] overflow-auto custom-scrollbar">
+                <div *ngFor="let log_report of paginatedItems" class="py-3">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <div class="font-medium text-sky-800">
+                                {{ log_report.propane_truck.plate }}
+                            </div>
+                            <div class="text-xs text-gray-500">
+                                {{ log_report.user.firstName }} {{ log_report.user.lastName }}
                             </div>
                         </div>
-                        <div class=" text-[11px]"><span class="font-medium">Placa:</span> {{
-                            item.propane_truck.plate }}</div>
-                        <div class=" text-[11px]">
-                            <span class="font-medium">Operario:</span> {{ item.user.firstName }} {{
-                            item.user.lastName }}
+                        <div class="flex items-center gap-2">
+                            <div class="flex items-center bg-blue-50 border border-blue-100 px-2 py-1 rounded-full">
+                                <lucide-icon name="flame" class="w-6 h-6" [strokeWidth]="1" [ngClass]="{
+                                        'text-blue-500': log_report.route_event.criticality === 0,
+                                        'text-orange-400': log_report.route_event.criticality === 1,
+                                        'text-red-600': log_report.route_event.criticality === 2
+                                    }"></lucide-icon>
+                            </div>
+                            <span class="font-medium text-sm text-gray-600">
+                                {{ log_report.route_event.name }} {{ log_report.route_event.criticality }}
+                            </span>
+                            <span><span class="font-medium">Descripción:</span> {{ log_report.route_event.description
+                                }}</span>
                         </div>
-                        <div class=" text-[11px]">
-                            <span class="font-medium">Descripción:</span> {{ item.route_event.description }}
-                        </div>
-                        <div class="text-[10px] text-gray-400">
-                            {{ item.create | date: 'short' }}
+                        <div class="text-xs text-gray-400">
+                            {{ log_report.create | date: 'short' }}
                         </div>
                     </div>
                 </div>
-            </ng-container>
+            </div>
+
+            <!-- Vista GRID -->
+            <div *ngIf="viewMode === 'grid'"
+                class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[255px] overflow-auto custom-scrollbar">
+                <div *ngFor="let log_report of paginatedItems"
+                    class="bg-sky-50 border-l-4 rounded-xl p-2 shadow-sm cursor-pointer hover:bg-sky-100 transition-all duration-200"
+                    [ngClass]="{
+                         'border-blue-500': log_report.route_event.criticality === 0,
+                         'border-orange-400': log_report.route_event.criticality === 1,
+                         'border-red-600': log_report.route_event.criticality === 2
+                     }">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="flex items-center">
+                                <span class="font-bold text-sky-800 mr-3">{{ log_report.propane_truck.plate
+                                    }}</span>
+                            </div>
+                            <p class="text-xs font-light text-gray-600 mb-1">
+                                {{ log_report.user.firstName }} {{ log_report.user.lastName }}
+                            </p>
+                            <p class="text-sm text-gray-700 mb-1">
+                                {{ log_report.route_event.name }} <br />
+                                <span class="text-xs text-gray-500">
+                                    {{'Descripción' | translate}}: {{ log_report.route_event.description }}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <!-- Indicador de criticidad -->
+                            <p class="text-xs font-light text-gray-400">
+                                {{ log_report.create | date: 'dd/MM/yyyy HH:mm' }}
+                            </p>
+                            <div class="mb-2">
+                                <div class="flex items-center bg-blue-50 border border-blue-100 px-3 py-1 rounded-full">
+                                    <lucide-icon name="flame" class="w-6 h-6" [strokeWidth]="1" [ngClass]="{
+                                        'text-blue-500': log_report.route_event.criticality === 0,
+                                        'text-orange-400': log_report.route_event.criticality === 1,
+                                        'text-red-600': log_report.route_event.criticality === 2
+                                    }"></lucide-icon>
+                                    <span class="text-xs font-medium" [ngClass]="{
+                                        'text-blue-500': log_report.route_event.criticality === 0,
+                                        'text-orange-400': log_report.route_event.criticality === 1,
+                                        'text-red-600': log_report.route_event.criticality === 2
+                                    }">
+                                        {{ log_report.route_event.criticality === 0 ? 'Baja' :
+                                        log_report.route_event.criticality === 1 ? 'Media' : 'Alta' }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Paginación -->

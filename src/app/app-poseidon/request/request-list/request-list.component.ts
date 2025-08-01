@@ -204,7 +204,7 @@ export class RequestListComponent {
         this.toastr.warning('No tienes permisos para editar');
       } else {
         const dialogRef = this.dialog.open(DialogViewRequestComponent, {
-          width: '750px',
+          width: '1200px',
           data: { requestId: request.id }
         });
       }
