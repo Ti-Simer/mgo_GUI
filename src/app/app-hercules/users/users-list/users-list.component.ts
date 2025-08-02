@@ -5,10 +5,14 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
+
+// Servicios
 import { AuthService } from 'src/app/services/auth.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/hercules-services/user.service';
 import { LanguageService } from 'src/app/services/language.service';
+
+// Diálogos
 import { DialogEditUsersComponent } from '../dialog-edit-users/dialog-edit-users.component';
 import { DialogCreateUsersComponent } from '../dialog-create-users/dialog-create-users.component';
 
@@ -18,17 +22,26 @@ import { DialogCreateUsersComponent } from '../dialog-create-users/dialog-create
   styleUrls: ['./users-list.component.scss']
 })
 export class UsersListComponent {
+  // =======================
+  // Properties & Decorators
+  // =======================
+
   private languageSubscription!: Subscription;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  pageSizeOptions: number[] = [25, 50, 100]; // Opciones de tamaño de página
-  pageSize: number = 25; // Tamaño de página predeterminado
-  pageIndex: number = 0; // Página actual
+  @ViewChild('myInput') searchInput!: ElementRef;
 
-  @ViewChild('myInput') searchInput!: ElementRef; // Obtiene una referencia al elemento de entrada de búsqueda
   users: any[] = [];
   isLoading = false;
+  sidebarCollapsed = false;
 
+  pageSizeOptions: number[] = [25, 50, 100];
+  pageSize = 25;
+  pageIndex = 0;
+
+  // ================
+  // Constructor
+  // ================
   constructor(
     private userService: UserService,
     private router: Router,
@@ -42,6 +55,7 @@ export class UsersListComponent {
     translate.addLangs(['en', 'es', 'pt']);
     translate.setDefaultLang(this.languageService.getLanguage());
 
+    // Verificar permisos de lectura
     this.authService.readChecker().subscribe(flag => {
       if (!flag) {
         this.toHome();
@@ -50,19 +64,20 @@ export class UsersListComponent {
     });
   }
 
+  // ======================
+  // Lifecycle Methods
+  // ======================
+
   ngOnInit(): void {
     this.fetchUsers();
+
     if (this.paginator) {
-      this.paginator.page.subscribe((event: any) => {
-        // Actualizar los datos de la tabla según la página seleccionada
+      this.paginator.page.subscribe(() => {
+        this.authService.menuExpanded$.subscribe(expanded => {
+          this.sidebarCollapsed = expanded;
+        });
       });
     }
-  }
-
-  // Método para manejar el cambio de página
-  onPageChange(event: any) {
-    this.pageIndex = event.pageIndex;
-    this.pageSize = event.pageSize;
   }
 
   ngAfterViewInit() {
@@ -73,6 +88,23 @@ export class UsersListComponent {
 
       this.initializeSearchFilter();
     }
+  }
+
+  // ======================
+  // Data Fetching & Search
+  // ======================
+
+  fetchUsers(): void {
+    this.isLoading = true;
+    this.userService.findAll().subscribe(
+      (response) => {
+        this.isLoading = false;
+        this.users = response.data;
+      },
+      (error) => {
+        console.error('Error al obtener la lista de usuarios:', error);
+      }
+    );
   }
 
   initializeSearchFilter() {
@@ -88,30 +120,87 @@ export class UsersListComponent {
     }
   }
 
-  fetchUsers(): void {
-    this.isLoading = true;
-    this.userService.findAll().subscribe(
-      (response) => {
-        this.isLoading = false;
-        this.users = response.data; // Asigna la respuesta a la variable de usuarios
-      },
-      (error) => {
-        console.error('Error al obtener la lista de usuarios:', error);
+  // ====================
+  // Utilidades
+  // ====================
+
+  getUserInitials(firstName: string, lastName: string): string {
+    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+  }
+
+  getActiveUsersCount(): number {
+    return this.users.filter(user => user.state === 'ACTIVO').length;
+  }
+
+  getInactiveUsersCount(): number {
+    return this.users.filter(user => user.state === 'INACTIVO').length;
+  }
+
+  getRoleDistribution(): any[] {
+    const roleCounts: { [key: string]: number } = {};
+    const colors = ['#075985', '#10b981', '#f59e0b', '#8b5cf6'];
+    let colorIndex = 0;
+
+    this.users.forEach(user => {
+      if (user.role?.name) {
+        const roleName = user.role.name;
+        roleCounts[roleName] = (roleCounts[roleName] || 0) + 1;
       }
-    );
+    });
+
+    const totalUsers = this.users.length;
+    return Object.keys(roleCounts).map(roleName => {
+      const count = roleCounts[roleName];
+      const percentage = totalUsers > 0 ? (count / totalUsers) * 100 : 0;
+
+      return {
+        name: roleName,
+        count,
+        percentage,
+        color: colors[colorIndex++ % colors.length]
+      };
+    });
+  }
+
+  exportToCSV() {
+    const headers = ['Nombre', 'Apellido', 'Email', 'Tipo de Usuario', 'Estado', 'ID'];
+    const data = this.users.map(user => [
+      user.firstName,
+      user.lastName,
+      user.email,
+      user.role?.name || '',
+      user.state,
+      user.idNumber
+    ]);
+
+    let csvContent = 'data:text/csv;charset=utf-8,';
+    csvContent += headers.join(',') + '\r\n';
+    data.forEach(row => csvContent += row.join(',') + '\r\n');
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', 'usuarios.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   setPageSizeToTotal() {
     this.pageSize = this.users.length;
   }
 
-  sortData(data: string) {
-    const keys = data.split('.'); // Divide la cadena en partes
+  onPageChange(event: any) {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+  }
+
+  sortData(path: string) {
+    const keys = path.split('.');
     this.users.sort((a: any, b: any) => {
       let valueA = a;
       let valueB = b;
 
-      // Navega a través de las claves para obtener el valor final
       keys.forEach(key => {
         if (key.includes('[')) {
           const [arrayKey, index] = key.split(/[\[\]]/).filter(Boolean);
@@ -123,40 +212,37 @@ export class UsersListComponent {
         }
       });
 
-      if (valueA < valueB) {
-        return -1;
-      }
-      if (valueA > valueB) {
-        return 1;
-      }
-      return 0; // Los valores son iguales
+      return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
     });
   }
+
+  // ====================
+  // Acciones CRUD
+  // ====================
 
   deleteUser(user: any) {
     this.authService.editChecker().subscribe(flag => {
       if (!flag) {
         this.toastr.warning('No tienes permisos para editar');
-      } else {
-        this.dialogService.openConfirmDialog(`¿Estás seguro de desactivar al usuario ${user.firstName} ${user.lastName}?`)
-          .subscribe(result => {
-            if (result) {
-              this.userService.deleteUser(user.id).subscribe(
-                (response) => {
-                  if (response.statusCode === 200) {
-                    this.toastr.success('Usuario desactivado exitosamente', 'Éxito');
-                    this.fetchUsers();
-                  } else {
-                    this.toastr.error('Error al desactivar usuario', response.message);
-                  }
-                },
-                (error) => {
-                  this.toastr.error('Error al desactivar usuario', 'Error');
-                }
-              );
-            }
-          });
+        return;
       }
+
+      this.dialogService.openConfirmDialog(`¿Estás seguro de desactivar al usuario ${user.firstName} ${user.lastName}?`)
+        .subscribe(result => {
+          if (result) {
+            this.userService.deleteUser(user.id).subscribe(
+              (response) => {
+                if (response.statusCode === 200) {
+                  this.toastr.success('Usuario desactivado exitosamente', 'Éxito');
+                  this.fetchUsers();
+                } else {
+                  this.toastr.error('Error al desactivar usuario', response.message);
+                }
+              },
+              () => this.toastr.error('Error al desactivar usuario', 'Error')
+            );
+          }
+        });
     });
   }
 
@@ -164,26 +250,25 @@ export class UsersListComponent {
     this.authService.editChecker().subscribe(flag => {
       if (!flag) {
         this.toastr.warning('No tienes permisos para editar');
-      } else {
-        this.dialogService.openConfirmDialog(`¿Estás seguro de activar al usuario ${user.firstName} ${user.lastName}?`)
-          .subscribe(result => {
-            if (result) {
-              this.userService.activateUser(user.id).subscribe(
-                (response) => {
-                  if (response.statusCode === 200) {
-                    this.toastr.success('Usuario activado exitosamente', 'Éxito');
-                    this.fetchUsers();
-                  } else {
-                    this.toastr.error('Error al activar usuario', response.message);
-                  }
-                },
-                (error) => {
-                  this.toastr.error('Error al activar usuario', 'Error');
-                }
-              );
-            }
-          });
+        return;
       }
+
+      this.dialogService.openConfirmDialog(`¿Estás seguro de activar al usuario ${user.firstName} ${user.lastName}?`)
+        .subscribe(result => {
+          if (result) {
+            this.userService.activateUser(user.id).subscribe(
+              (response) => {
+                if (response.statusCode === 200) {
+                  this.toastr.success('Usuario activado exitosamente', 'Éxito');
+                  this.fetchUsers();
+                } else {
+                  this.toastr.error('Error al activar usuario', response.message);
+                }
+              },
+              () => this.toastr.error('Error al activar usuario', 'Error')
+            );
+          }
+        });
     });
   }
 
@@ -191,15 +276,11 @@ export class UsersListComponent {
     this.authService.writeChecker().subscribe(flag => {
       if (!flag) {
         this.toastr.warning('No tienes permisos para crear');
-      } else {
-        const dialogRef = this.dialog.open(DialogCreateUsersComponent, {
-          width: '700px',
-        });
-
-        dialogRef.afterClosed().subscribe(result => {
-          this.fetchUsers();
-        });
+        return;
       }
+
+      const dialogRef = this.dialog.open(DialogCreateUsersComponent, { width: '700px' });
+      dialogRef.afterClosed().subscribe(() => this.fetchUsers());
     });
   }
 
@@ -207,18 +288,20 @@ export class UsersListComponent {
     this.authService.editChecker().subscribe(flag => {
       if (!flag) {
         this.toastr.warning('No tienes permisos para editar');
-      } else {
-        const dialogRef = this.dialog.open(DialogEditUsersComponent, {
-          width: '600px',
-          data: { userId: user.id }
-        });
-
-        dialogRef.afterClosed().subscribe(result => {
-          this.fetchUsers();
-        });
+        return;
       }
+
+      const dialogRef = this.dialog.open(DialogEditUsersComponent, {
+        width: '600px',
+        data: { userId: user.id }
+      });
+      dialogRef.afterClosed().subscribe(() => this.fetchUsers());
     });
   }
+
+  // ====================
+  // Navegación
+  // ====================
 
   toViewUser(id: any) {
     this.router.navigate(['/hercules/usuarios/view/', this.authService.encryptData(id)]);
@@ -231,5 +314,4 @@ export class UsersListComponent {
   toRoles() {
     this.router.navigate(['/hercules/roles/list']);
   }
-
 }
