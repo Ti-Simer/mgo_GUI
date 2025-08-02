@@ -38,7 +38,11 @@
 
                 <!-- Mensaje sin localidades -->
                 <div class="text-center my-8 p-6 bg-white rounded-xl shadow" *ngIf="localities.length == 0">
-                    <p class="text-sm text-gray-500">{{'Presione Añadir para crear registros en esta sección' | translate}}</p>
+                    <p class="text-sm text-gray-500">
+                        <span (click)="toCreateLocalities()" class="text-sky-600 hover:underline cursor-pointer">
+                            {{'Presione Añadir para crear registros en esta sección' | translate}}
+                        </span>
+                    </p>
                 </div>
 
                 <div *ngIf="localities.length > 0">

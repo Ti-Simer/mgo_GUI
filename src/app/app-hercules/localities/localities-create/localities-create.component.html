@@ -1,92 +1,162 @@
-<div class="general-container">
-    <div class="container mt-2">
-        <form [formGroup]="localityForm" (ngSubmit)="onSubmit()">
-        <div class="row justify-content-center">
-            <!-- Columna 1 -->
-            <div class="col-lg-6">
-                <h1>{{'Registrar Localidad' | translate}}</h1>
-                <div class="col-12 mt-4">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">-- {{'Nombre de la localidad' | translate}}</label>
-                            <input type="text" id="name" class="form-control" formControlName="name"
-                                placeholder="{{'Escriba aquí el nombre de la localidad' | translate}}">
+<div class="w-full max-w-6xl mx-auto p-6 bg-gradient-to-br from-white to-sky-50 rounded-2xl shadow-xl">
+    <form [formGroup]="localityForm" (ngSubmit)="onSubmit()" class="space-y-8">
+        <!-- Título principal -->
+        <h1
+            class="text-3xl font-bold bg-gradient-to-r from-sky-800 to-sky-900 bg-clip-text text-transparent text-center">
+            {{'Registrar Localidad' | translate}}
+        </h1>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Columna Izquierda -->
+            <div class="space-y-6">
+                <!-- Nombre de localidad -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-600">
+                        -- {{'Nombre de la localidad' | translate}}
+                    </label>
+                    <input type="text" id="name"
+                        class="w-full rounded-xl border border-sky-200 bg-white px-4 py-3 shadow-inner focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                        formControlName="name" placeholder="{{'Escriba aquí el nombre de la localidad' | translate}}">
+                </div>
+
+                <!-- Pertenece a... (Switch) -->
+                <div class="flex items-center p-3 bg-sky-50 rounded-xl">
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" formControlName="if_parent" class="sr-only peer"
+                            [disabled]="!localityForm.value.name">
+                        <div
+                            class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-sky-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-sky-600">
+                        </div>
+                        <span class="ml-3 text-sm font-medium text-gray-700"
+                            [class.text-gray-400]="!localityForm.value.name">
+                            {{'Pertenece a ...' | translate}}
+                        </span>
+                    </label>
+                </div>
+
+                <!-- Pestañas (Solo si pertenece a otra localidad) -->
+                <div *ngIf="localityForm.value.if_parent" class="space-y-4">
+                    <!-- Navegación de pestañas -->
+                    <div class="flex border-b border-gray-200">
+                        <button type="button"
+                            class="px-4 py-2 font-medium text-center border-b-2 border-sky-600 text-sky-700 flex-1"
+                            id="map-tab" data-bs-toggle="tab" data-bs-target="#map" role="tab" aria-controls="map"
+                            aria-selected="true">
+                            Listado
+                        </button>
+                        <button type="button"
+                            class="px-4 py-2 font-medium text-center text-gray-500 hover:text-sky-700 flex-1"
+                            id="latlang-tab" data-bs-toggle="tab" data-bs-target="#latlang" role="tab"
+                            aria-controls="latlang" aria-selected="false">
+                            Ingreso manual
+                        </button>
+                    </div>
+
+                    <!-- Contenido de pestañas -->
+                    <div class="tab-content">
+                        <!-- Pestaña Listado -->
+                        <div class="space-y-3" id="map" role="tabpanel" aria-labelledby="map-tab">
+                            <label class="block text-sm font-medium text-gray-600">
+                                -- {{'Localidad padre' | translate}}
+                            </label>
+                            <div *ngIf="localities.length != 0">
+                                <select id="parent_id"
+                                    class="w-full rounded-xl border border-sky-200 bg-white px-4 py-3 shadow-inner focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                                    formControlName="parent_id">
+                                    <option value="" disabled selected class="text-gray-400">
+                                        {{'Seleccione una localidad' | translate}}
+                                    </option>
+                                    <option *ngFor="let locality of localities" [value]="locality.id"
+                                        class="text-gray-700" (ngValueChange)="onParentSelectionChange(locality.id)">
+                                        {{ locality.name }}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
 
-                        <div class="form-check form-switch" *ngIf="localityForm.value.name">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" formControlName="if_parent">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">{{'Pertenece a ...'}}</label>
+                        <!-- Pestaña Ingreso manual -->
+                        <div class="space-y-3 hidden" id="latlang" role="tabpanel" aria-labelledby="latlang-tab">
+                            <label class="block text-sm font-medium text-gray-600">
+                                -- {{'Localidad padre' | translate}}
+                            </label>
+                            <input type="text" id="parent_id"
+                                class="w-full rounded-xl border border-sky-200 bg-white px-4 py-3 shadow-inner focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                                formControlName="parent_id"
+                                placeholder="{{'Digite el nombre de la localidad' | translate}}">
                         </div>
-                        <div class="form-check form-switch" *ngIf="!localityForm.value.name">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDisabled" disabled>
-                            <label class="form-check-label" for="flexSwitchCheckDisabled">{{'Pertenece a ...'}}</label>
-                        </div>
-
-                        <ul class="nav nav-tabs" id="myTab" role="tablist" *ngIf="localityForm.value.if_parent">
-                            <li class="nav-item" role="Mapa">
-                              <button class="nav-link active" id="map-tab" data-bs-toggle="tab" data-bs-target="#map" type="button" role="tab" aria-controls="map" aria-selected="true">Listado</button>
-                            </li>
-                            <li class="nav-item" role="Latitud y Longitud">
-                              <button class="nav-link" id="latlang-tab" data-bs-toggle="tab" data-bs-target="#latlang" type="button" role="tab" aria-controls="latlang" aria-selected="false">Ingreso manual</button>
-                            </li>
-                        </ul>
-                        <div class="tab-content mt-2" id="myTabContent" *ngIf="localityForm.value.if_parent">
-                            <div class="tab-pane fade show active" id="map" role="tabpanel" aria-labelledby="map-tab">
-                                <div class="map mb-3">
-                                    <label for="department" class="form-label">-- {{'Localidad padre' | translate}}</label>
-                                    <div class="input-group" *ngIf="localities.length != 0">
-                                        <select id="parent_id" class="form-select" formControlName="parent_id" *ngIf="localities.length != 0">
-                                            <option value="" disabled selected>{{'Seleccione una localidad' | translate}}</option>
-                                            <option *ngFor="let locality of localities" [value]="locality.id"
-                                                (ngValueChange)="onParentSelectionChange(locality.id)">{{ locality.name }}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="latlang" role="tabpanel" aria-labelledby="latlang-tab">
-                                <div class="mb-3">
-                                    <label for="department" class="form-label">-- {{'Localidad padre' | translate}}</label>
-                                    <input type="text" id="parent_id" class="form-control" formControlName="parent_id"
-                                    placeholder="{{'Digite el nombre de la localidad' | translate}}">
-                                </div>
-                            </div>
-                        </div>
+                    </div>
                 </div>
             </div>
 
-
-            <!-- Columna 2 -->
-            <div class="col-lg-6">
-                <div class="form-check form-switch mb-2" *ngIf="localityForm.value.name">
-                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" formControlName="if_device">
-                    <label class="form-check-label" for="flexSwitchCheckDefault">{{'Añadir Equipo'}}</label>
-                </div>
-                <div class="form-check form-switch" *ngIf="!localityForm.value.name">
-                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDisabled" disabled>
-                    <label class="form-check-label" for="flexSwitchCheckDisabled">{{'Añadir Equipo'}}</label>
-                </div>
-
-                <div class="mb-3" *ngIf="localityForm.value.if_device">
-                    <label for="imei" class="form-label">-- {{'Imei' | translate}}</label>
-                    <input type="text" id="imei" class="form-control" formControlName="imei"
-                        placeholder="{{'Escriba aquí el Imei' | translate}}">
-                </div>
-
-                <div class="mb-3" *ngIf="localityForm.value.if_device">
-                    <label for="serial" class="form-label">-- {{'Tanque de almacenamiento' | translate}}</label>
-                    <input type="text" id="serial" class="form-control" formControlName="serial"
-                        placeholder="{{'Escriba aquí el serial' | translate}}">
+            <!-- Columna Derecha -->
+            <div class="space-y-6">
+                <!-- Añadir equipo (Switch) -->
+                <div class="flex items-center p-3 bg-sky-50 rounded-xl">
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" formControlName="if_device" class="sr-only peer"
+                            [disabled]="!localityForm.value.name">
+                        <div
+                            class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-sky-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-sky-600">
+                        </div>
+                        <span class="ml-3 text-sm font-medium text-gray-700"
+                            [class.text-gray-400]="!localityForm.value.name">
+                            {{'Añadir Equipo' | translate}}
+                        </span>
+                    </label>
                 </div>
 
-                <div class="input-group mb-3" *ngIf="localityForm.value.if_device">
-                    <label class="input-group-text" for="inputGroupFile01">*.csv</label>
-                    <input type="file" class="form-control" id="inputGroupFile01" accept=".xlsx" (change)="handleFileInput($event)">
+                <!-- Campos de equipo (solo si está activado) -->
+                <div *ngIf="localityForm.value.if_device" class="space-y-4">
+                    <!-- IMEI -->
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-600">
+                            -- {{'Imei' | translate}}
+                        </label>
+                        <input type="text" id="imei"
+                            class="w-full rounded-xl border border-sky-200 bg-white px-4 py-3 shadow-inner focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                            formControlName="imei" placeholder="{{'Escriba aquí el Imei' | translate}}">
+                    </div>
+
+                    <!-- Tanque de almacenamiento -->
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-600">
+                            -- {{'Tanque de almacenamiento' | translate}}
+                        </label>
+                        <input type="text" id="serial"
+                            class="w-full rounded-xl border border-sky-200 bg-white px-4 py-3 shadow-inner focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                            formControlName="serial" placeholder="{{'Escriba aquí el serial' | translate}}">
+                    </div>
+
+                    <!-- Carga de archivo -->
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-600">
+                            {{'Cargar archivo' | translate}}
+                        </label>
+                        <div class="flex items-center">
+                            <span
+                                class="inline-flex items-center px-4 py-3 bg-sky-100 text-sky-800 rounded-l-xl border border-r-0 border-sky-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="mr-2">
+                                    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z">
+                                    </path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                </svg>
+                                .xlsx
+                            </span>
+                            <input type="file"
+                                class="block w-full text-sm text-gray-500 file:mr-4 file:py-3 file:px-4 file:rounded-r-xl file:border-0 file:bg-sky-600 file:text-white hover:file:bg-sky-700 cursor-pointer"
+                                accept=".xlsx" (change)="handleFileInput($event)">
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Puedes agregar más campos aquí según los atributos de la entidad Roles -->
-                <button type="submit" class="btn btn-success m-1">{{'Registrar localidad' | translate}}</button>
-
+                <!-- Botón de registro -->
+                <button type="submit"
+                    class="w-full rounded-xl bg-gradient-to-r from-green-600 to-green-700 px-4 py-3.5 text-lg font-semibold text-white shadow-lg hover:shadow-xl transition-all mt-4">
+                    {{'Registrar localidad' | translate}}
+                </button>
             </div>
         </div>
     </form>
-    </div>
 </div>

@@ -33,6 +33,7 @@ export class HomeHerculesComponent implements OnInit {
           return new Date(b.data.create).getTime() - new Date(a.data.create).getTime();
         });
       }
+      console.log('Latest data:', this.data);
     });
     
   }
